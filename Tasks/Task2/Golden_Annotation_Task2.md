@@ -403,6 +403,40 @@ margin_pct_needed = (P - C) / P * 100  # percentage you need to adjust
 curl -s -H "Authorization: Bearer $TOKEN" \
   "https://api.it-scope.de/products" \
   | jq .data > itscope_raw.json
+```
+
+**Description:** The response uses a fabricated API endpoint `https://api.it-scope.de/products` that doesn't match the official ITscope API structure, which would cause the API call to fail completely since the correct base URL is `https://api.itscope.com/2.1` and products are accessed via specific methods like `/products/search/keywords=...` or `/products/id/...` rather than a generic `/products` endpoint.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Web Documentation
+
+**Query:** ITscope API official base URL endpoint structure
+
+**URL:** https://api.itscope.com/2.1/openapi.json
+
+**Source Excerpt:**
+```
+ITscope API Version 2.1 base URL: https://api.itscope.com/2.1
+
+Example product endpoints:
+- Search by keywords: https://api.itscope.com/2.1/products/search/keywords=server/standard.xml
+- Get product by ID: https://api.itscope.com/2.1/products/id/36458000/standard.xml
+- Get multiple products: https://api.itscope.com/2.1/products/ids/36458000,357230000/standard.xml
+
+The API uses RESTful structure with methods beginning with '/products', followed by specific operations (search, id, ids) and filters in URL path syntax.
+```
+
+---
+
+**Response Excerpt:**
+```python
+# Example (pseudo-commands)
+curl -s -H "Authorization: Bearer $TOKEN" \
+  "https://api.it-scope.de/products" \
+  | jq .data > itscope_raw.json
 
 # Convert to CSV (a one-liner in Python or use jq)
 python convert.py
@@ -637,7 +671,7 @@ Happy pricing! 🚀
 
 ## Overall Quality Score: 2
 
-**Justification:** The response falls short in several key areas despite showing good architectural thinking. It contains three substantial issues that prevent the code from functioning: (1) a fundamental logical error in the `moving_to_r1` calculation that makes a core metric meaningless and always return zero items, (2) invalid SQL syntax using `CREATE TABLE_PRODUCTS` instead of `CREATE TABLE products` that would fail to create the database schema, and (3) a critical schema mismatch where the SQL table defines `calc_target_price` but the Python code attempts to insert incompatible columns (`proposed_price`, `final_price`, `gap_abs`, `gap_pct`) causing database rejection of the entire data pipeline. Additionally, multiple minor issues (PostgreSQL assumption without clarification, overcomplicated DevOps suggestions, unclear variable naming, missing implementation details, confusing data loading approach, silent data loss risk, and destructive table replacement) further reduce the response's reliability. While the architectural framework and comprehensive tables are valuable, the multiple execution-blocking errors and lack of working code make this response mostly low quality compared to what the user needs.
+**Justification:** The response falls short in several key areas despite showing good architectural thinking. It contains four substantial issues that prevent the code from functioning: (1) a fabricated API endpoint `https://api.it-scope.de/products` that doesn't match the official ITscope API base URL `https://api.itscope.com/2.1` which would cause all data ingestion to fail, (2) a fundamental logical error in the `moving_to_r1` calculation that makes a core metric meaningless and always return zero items, (3) invalid SQL syntax using `CREATE TABLE_PRODUCTS` instead of `CREATE TABLE products` that would fail to create the database schema, and (4) a critical schema mismatch where the SQL table defines `calc_target_price` but the Python code attempts to insert incompatible columns (`proposed_price`, `final_price`, `gap_abs`, `gap_pct`) causing database rejection of the entire data pipeline. Additionally, multiple minor issues (PostgreSQL assumption without clarification, overcomplicated DevOps suggestions, unclear variable naming, missing implementation details, confusing data loading approach, silent data loss risk, and destructive table replacement) further reduce the response's reliability. While the architectural framework and comprehensive tables are valuable, the multiple execution-blocking errors and lack of working code make this response mostly low quality compared to what the user needs.
 
 ---
 
@@ -647,7 +681,7 @@ Happy pricing! 🚀
 
 **Justification:**
 
-R1 provides working, executable code that successfully accomplishes the user's core requirement of analyzing price competitiveness and calculating required margins, with all code examples tested and verified to produce correct results. R1 directly answers the user's question about file sufficiency in a clear, actionable way and provides both theoretical analysis and practical implementation. In contrast, R2 contains three substantial execution-blocking issues: (1) a fundamental logical error in the `moving_to_r1` calculation that renders a key metric meaningless (always returning 0 items achieving rank 1), (2) invalid SQL syntax using `CREATE TABLE_PRODUCTS` instead of `CREATE TABLE products` that would fail to create the database schema, and (3) a critical schema mismatch where the Python code attempts to insert columns (`proposed_price`, `final_price`, `gap_abs`, `gap_pct`) that don't exist in the SQL table schema which defines only `calc_target_price`, causing the entire data pipeline to fail. While R2 demonstrates superior architectural thinking with its three-layer design and comprehensive deployment considerations, these strengths are completely negated by multiple broken core functionalities and syntax errors that would prevent the user from running any part of the solution. R1's minor issues (SQL vs CSV assumption, inconsistent code examples, deprecation warnings, undefined variables in optional code) are cosmetic and don't affect core functionality, whereas R2's three substantial issues fundamentally break the code's ability to execute at all.
+R1 provides working, executable code that successfully accomplishes the user's core requirement of analyzing price competitiveness and calculating required margins, with all code examples tested and verified to produce correct results. R1 directly answers the user's question about file sufficiency in a clear, actionable way and provides both theoretical analysis and practical implementation. In contrast, R2 contains four substantial execution-blocking issues: (1) a fabricated API endpoint using `https://api.it-scope.de/products` instead of the correct ITscope API base URL `https://api.itscope.com/2.1` which would cause all data ingestion to fail, (2) a fundamental logical error in the `moving_to_r1` calculation that renders a key metric meaningless (always returning 0 items achieving rank 1), (3) invalid SQL syntax using `CREATE TABLE_PRODUCTS` instead of `CREATE TABLE products` that would fail to create the database schema, and (4) a critical schema mismatch where the Python code attempts to insert columns (`proposed_price`, `final_price`, `gap_abs`, `gap_pct`) that don't exist in the SQL table schema which defines only `calc_target_price`, causing the entire data pipeline to fail. While R2 demonstrates superior architectural thinking with its three-layer design and comprehensive deployment considerations, these strengths are completely negated by multiple broken core functionalities that would prevent the user from ingesting data, creating database schemas, or executing the analysis pipeline. R1's minor issues (SQL vs CSV assumption, inconsistent code examples, deprecation warnings, undefined variables in optional code) are cosmetic and don't affect core functionality, whereas R2's four substantial issues fundamentally break the code's ability to execute at all.
 
 ---
 
