@@ -80,7 +80,7 @@ The response validates that two CSV files can serve as a starting point for the 
 
 The response organizes complex information into digestible sections with clear headings, tables, and bullet points that guide the user smoothly from understanding data requirements through calculations to implementation steps.
 
-The response delivers a straightforward pandas-based Python script that the pricing analyst can run directly on local CSV files containing their fabric inventory, eliminating the need for database configuration or complex environment setup and enabling quick hands-on testing of the competitive analysis logic.
+The response delivers a straightforward pandas-based Python script that the pricing analyst can run directly on local CSV files (fabrics), eliminating the need for database configuration or complex environment setup and enabling quick hands-on testing of the competitive analysis logic.
 
 The response lays out specific formulas for critical business metrics such as required margin calculations and cost-versus-rank-one comparisons, giving the pricing analyst concrete mathematical tools to flag items where competitiveness is impossible without losses.
 
