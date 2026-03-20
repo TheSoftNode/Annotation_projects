@@ -660,10 +660,20 @@ Feel free to ask for any of the code snippets in more detail, or for help wiring
 
 **Response Excerpt:**
 ```
-Happy pricing! 🚀
+## 1️⃣ Data ingestion & schema design
+
+## 2️⃣ Python-based price-gap analysis
+
+# 1️⃣ Cost file (our web shop)
+# 2️⃣ IT-Scope file (rank 1 snapshot)
+# 3️⃣ Read in SQL (snapshot view)
+
+## 3️⃣ Turning it into a dynamic-pricing engine
+
+## 4️⃣ Do two CSV files suffice?
 ```
 
-**Description:** The response includes an emoji at the end, which is unnecessary for a technical business context.
+**Description:** The response uses numbered emojis (1️⃣, 2️⃣, 3️⃣, 4️⃣) as section headers and inline markers throughout the technical documentation, which may be considered unprofessional or distracting for a business analysis context where clear numerical formatting would be more appropriate.
 
 **Severity:** Minor
 
