@@ -677,7 +677,7 @@ Happy pricing! 🚀
 
 **Justification:**
 
-R1 provides working, tested code that successfully performs the core pricing analysis. R2 contains four execution-blocking errors: fabricated API endpoint, invalid SQL syntax, schema mismatch, and broken rank-1 logic. While R2 shows better architecture, it cannot execute, whereas R1 delivers functional code the user can immediately use.
+R1 directly answers the user's question with correct code that calculates rank-1 prices, merges datasets, and determines required margins. R2 contains four substantial errors: fabricated API endpoint, invalid SQL syntax, schema mismatch between tables and code, and broken rank-1 logic that always returns zero. While R2 offers superior architectural design, its multiple critical errors prevent it from accomplishing the user's core analytical task.
 
 ---
 
