@@ -518,11 +518,11 @@ merged = cost_df.merge(itscp_snapshot, on='sku', how='inner')
 
 **Tool Type:** Web Documentation
 
-**Query:** pandas merge inner join data loss best practices
+**Query:** pandas merge inner join behavior intersection keys
 
-**URL:** https://pandas.pydata.org/docs/user_guide/merging.html#brief-primer-on-merge-methods-relational-algebra
+**URL:** https://pandas.pydata.org/docs/user_guide/merging.html
 
-**Source Excerpt:** "Inner join: Use intersection of keys from both frames, similar to a SQL inner join; preserve only those keys that appear in both DataFrames. This will result in the loss of data from both DataFrames that do not have a matching key."
+**Source Excerpt:** "An inner join uses the intersection of keys from both frames, similar to a SQL inner join. Only the keys appearing in left and right are present (the intersection), since how='inner'. This means rows that exist in one DataFrame but not in the other will be excluded from the result. For tracking excluded rows, pandas provides the indicator parameter which adds a '_merge' column showing the source of each row."
 
 ---
 
