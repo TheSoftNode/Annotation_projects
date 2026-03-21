@@ -156,6 +156,30 @@ widget->set_size_request(width, height)
 
 **Severity:** Minor
 
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:**
+```bash
+git clone https://github.com/polluxsynth/xtor.git /tmp/xtor_search_verify
+grep -n "gtk_widget" /tmp/xtor_search_verify/xtor.c | head -5
+```
+
+**URL:**
+
+**Source Excerpt:**
+```c
+xtor.c:194:    widget = gtk_widget_get_parent(widget);
+xtor.c:199:             gtk_widget_get_name(widget),
+xtor.c:285:  gtk_widget_show(about_window);
+xtor.c:294:  gtk_widget_hide(widget);
+
+✓ xtor uses C function syntax: gtk_widget_*(widget, ...)
+✗ Response 1 suggests C++ method syntax: widget->set_size_request(width, height)
+✗ Searching for C++ syntax will not locate C function calls in the codebase
+```
+
 ---
 
 **[AOI #4 - Minor]**
@@ -467,7 +491,7 @@ introduced with GTK version 3.14
 **Check for legacy GTK 2 code**: If XTor uses GTK 2 (unlikely but possible), replace `gtk_fixed_new()` with `gtk_table_new()` or `gtk_vbox_new()`
 ```
 
-**Description:** The response states "If XTor uses GTK 2 (unlikely but possible)" when xtor actually does use GTK 2.16, revealing the responder did not verify the actual xtor repository before providing advice and made an incorrect assumption about the GTK version.
+**Description:** The response states "If XTor uses GTK 2 (unlikely but possible)" when xtor actually does use GTK 2.16, showing the response did not account for the actual xtor repository version and made an incorrect assumption about the GTK version.
 
 **Severity:** Minor
 
@@ -649,7 +673,7 @@ gtk_widget_set_hexpand(text_view, TRUE);
 gtk_widget_set_hexpand(text_view, TRUE);
 ```
 
-**Description:** The response shows separate code blocks labeled "For GTK 4" and "For GTK 3" but provides identical code in both sections, which is confusing and suggests the responder didn't understand the API differences between these versions or didn't verify what changes between them.
+**Description:** The response shows separate code blocks labeled "For GTK 4" and "For GTK 3" but provides identical code in both sections, which is confusing and suggests the response does not reflect the API differences between these versions.
 
 **Severity:** Minor
 
@@ -659,11 +683,11 @@ gtk_widget_set_hexpand(text_view, TRUE);
 
 # Preference Ranking
 
-**Ranking:** Response 1 is better than Response 2
+**Ranking:** Neither response is better
 
 **Justification:**
 
-R1 provides structured guidance using gtkmm (C++) when xtor needs GTK C, while R2 uses incompatible GTK4 API for an GTK 2.16 codebase. R2's version mismatch is more severe as GTK2 functions are deprecated and harder to translate than R1's language binding differences which share similar patterns.
+Both responses have critical flaws. Each fails to verify xtor's GTK 2.16 environment and provides GTK 3+ solutions. Response 1 uses C++ syntax for a C project, while Response 2 uses GTK 4 APIs. Neither informs users about incompatibilities or upgrade requirements.
 
 ---
 

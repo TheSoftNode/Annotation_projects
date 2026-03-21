@@ -5,11 +5,11 @@
 ### Annotator 2 Strength #1
 **Description:** "The response correctly identifies GtkFixed containers as the primary suspect for fixed-size widget issues and provides specific search terms (gtk_fixed_new, gtk_widget_set_size_request) to locate problematic code in the codebase."
 
-**Agreement:** ✅ AGREE
+**Agreement:** ❌ DISAGREE - OVERSTATES WHAT RESPONSE DOES
 
-**My Golden Annotation:** Already captured in multiple strengths:
-- Strength #1: "exceptionally detailed diagnostic approach starting with identifying root causes like GtkFixed containers and hardcoded size requests"
-- Strength #5: "correctly identifies that GtkFixed is the likely culprit"
+**Justification:** The response provides search terms for GtkFixed and gtk_widget_set_size_request, but it does not establish that GtkFixed is the primary culprit in xtor. It only suggests checking for these patterns ("Search the source for: gtk_fixed_new()"). This is diagnostic advice, not verified identification. The xtor repository is a C GTK 2.16-era project using Glade UI files; the Makefile links against libglade-2.0. The response presents these as primary suspects without verification. The claim "correctly identifies" is inaccurate when the pattern remains unverified in the specific codebase.
+
+**My Golden Annotation:** We removed this from strengths - it overstates diagnosis without verification.
 
 ---
 
@@ -18,21 +18,20 @@
 
 **Agreement:** ✅ AGREE
 
-**My Golden Annotation:** Already captured in diagnostic and solution strengths (Strength #1 covers diagnostic approach including identifying and removing hardcoded sizes)
+**Justification:** The response suggests removing hardcoded widget size requests and recommending a default window size smaller than 1024×768 when a default is needed. This is reasonable GTK layout guidance for this kind of resizing problem.
+
+**My Golden Annotation:** This concept is present in our diagnostic approach strengths.
 
 ---
 
 ### Annotator 2 Strength #3
 **Description:** "The response acknowledges the Glade UI file approach and suggests checking widget properties like 'Width Request' and expansion flags, which are relevant concepts even if the file extension terminology is slightly off."
 
-**Agreement:** ✅ AGREE with caveat
+**Agreement:** ✅ AGREE
 
-**My Analysis:**
-- ✅ Glade advice is valid strength
-- ⚠️ "File extension terminology is slightly off" - this is actually an AOI, not just slightly off
-- .ui vs .glade is a separate issue
+**Justification:** The xtor repository includes .glade UI files (xtor.glade and blofeld.glade), and xtor.glade requires GTK+ 2.16, so advice about checking widget properties in Glade is relevant even though the response loosely says ".ui file" when it should be ".glade file."
 
-**My Golden Annotation:** Already captured in Strength #6 - "provides detailed Glade GUI builder instructions explaining how to check container types and widget properties"
+**My Golden Annotation:** Captured in our Glade guidance strength (though we acknowledge the .ui vs .glade file format issue as a separate minor AOI).
 
 ---
 

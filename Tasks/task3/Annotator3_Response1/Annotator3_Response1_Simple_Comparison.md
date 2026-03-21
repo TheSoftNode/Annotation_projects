@@ -53,11 +53,11 @@
 
 **Severity:** Substantial
 
-**Agreement:** ✅ AGREE
+**Agreement:** ✅ AGREE - VALID SUBSTANTIAL ISSUE
 
-**My Golden Annotation:** [AOI #1 - Substantial] - "The response uses gtkmm (C++) syntax with namespace notation `Gtk::`, pointer semantics, and object methods like `box->add()`, when the xtor repository actually uses GTK C API"
+**Justification:** The description contains a grammatical error: "The response the code examples use incorrect gtkmm API calls" is incomplete. The phrase "the code examples use" appears to be a relative clause modifying "response," but then "use incorrect" creates confusion. It should read "The code examples use incorrect gtkmm API calls" or "The response's code examples use incorrect gtkmm API calls." The technical observation about C++ vs C mismatch is valid.
 
-**Severity Assessment:** ✅ CORRECT - Substantial
+**My Golden Annotation:** AOI #1 (Substantial - C++ syntax including Gtk:: namespace, -> operator, and lambda for C codebase)
 
 ---
 
@@ -68,11 +68,11 @@
 
 **Severity:** Minor
 
-**Agreement:** ✅ AGREE
+**Agreement:** ✅ AGREE - VALID MINOR ISSUE
 
-**My Golden Annotation:** [AOI #2 - Minor] - "The response continues using `set_size_request()` in multiple code examples throughout the explanation, which contradicts the core advice to avoid fixed sizes"
+**Justification:** The response emphasizes manual pixel-based scaling with percentage calculations (0.3 for 30% width, 0.2 for 20% height) and continues using set_size_request() in multiple code examples. This contradicts the core advice to use flexible layout managers and avoid fixed sizes. The severity is correctly assessed as Minor since this is contradictory advice rather than broken code.
 
-**Severity Assessment:** ✅ CORRECT - Minor
+**My Golden Annotation:** AOI #4 (Minor - contradicts flexible layout advice with percentage calculations)
 
 ---
 

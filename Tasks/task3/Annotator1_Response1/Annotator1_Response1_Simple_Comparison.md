@@ -7,25 +7,29 @@
 
 **Agreement:** ✅ AGREE
 
-**My equivalent:** Golden Annotation Strength #1
+**My equivalent:** Golden Annotation Strength #3 (investigates existing UI code before changes)
 
 ---
 
 ### Annotator 1 Strength #2
 **Description:** "The response has suggested swapping out fixed dimensions for flexible layout managers like "Gtk::Box" which points the user toward the core changes needed to stop the window from being forced into an oversized layout."
 
-**Agreement:** ✅ AGREE
+**Agreement:** ❌ DISAGREE - THIS IS ACTUALLY AN AOI
 
-**My equivalent:** Golden Annotation Strength #2
+**Justification:** The response suggests checking for layout managers such as Gtk::Box or Gtk::Grid, but that is not especially helpful for this user's question. The user asked how to modify the existing xtor software to fit a 1024×768 screen, so the answer should focus on the actual widget definitions and sizing logic already used in that codebase, rather than point to generic examples from a different GTK style.
+
+**My equivalent:** This is covered in Golden Annotation AOI #1 (Substantial - C++ vs C syntax)
 
 ---
 
 ### Annotator 1 Strength #3
 **Description:** "The response has highlighted how to use the "size_allocate" signal which shows the user exactly which GTK tool to use if they need the interface to react to changes in widget size."
 
-**Agreement:** ✅ AGREE
+**Agreement:** ❌ DISAGREE - THIS IS ACTUALLY AN AOI
 
-**My equivalent:** Golden Annotation Strength #4
+**Justification:** The response suggests using the size_allocate signal with window->signal_connect() and lambda syntax, but that is not especially helpful for this user's question. The user asked how to modify the existing xtor software to fit a 1024×768 screen, so the answer should focus on the actual signal connection patterns already used in that codebase (g_signal_connect with C callback functions), rather than point to generic examples from a different GTK style that will not compile in C.
+
+**My equivalent:** This is covered in Golden Annotation AOI #2 (Substantial - signal connection syntax error)
 
 ---
 
@@ -36,11 +40,11 @@
 
 **Severity:** Substantial
 
-**Agreement:** ❌ DISAGREE - FACTUAL ERROR
+**Agreement:** ❌ COMPLETELY DISAGREE - CRITICAL FACTUAL ERROR
 
-**Reason:** The prompt NEVER mentions Python. The actual issue is C++ vs C (xtor uses GTK C API).
+**Justification:** The response uses gtkmm/C++ syntax (Gtk::Box, box->add, window->signal_connect with lambda), but the prompt did not ask for Python. The prompt only asked how to modify xtor, which is a C project using GTK C API. The real issue is C++ vs C language mismatch, not failure to use Python.
 
-**My equivalent:** Golden Annotation AOI #1 (C++ vs C, not Python)
+**My equivalent:** Golden Annotation AOI #1 (Substantial - C++ syntax including Gtk:: namespace, -> operator, and lambda for C codebase)
 
 ---
 
@@ -49,11 +53,11 @@
 
 **Severity:** Substantial
 
-**Agreement:** ✅ AGREE (issue exists) but ❌ DISAGREE (severity)
+**Agreement:** ✅ AGREE - DIRECTIONALLY CORRECT, ❌ DISAGREE ON SEVERITY
 
-**Reason:** This is Minor, not Substantial. It's contradictory advice, not broken code.
+**Justification:** This criticism is directionally correct. GTK's own documentation warns that gtk_widget_set_size_request() forces a minimum size, and they explicitly note the danger of fixed sizes and say gtk_window_set_default_size() is often better for toplevel windows. The response's recommendation to calculate percentage-based sizes with set_size_request() contradicts GTK best practices for flexible layouts. However, the severity assessment is overstated—this is contradictory advice rather than code that won't compile or fundamentally breaks the solution.
 
-**My equivalent:** Golden Annotation AOI #2 (Minor severity)
+**My equivalent:** Golden Annotation AOI #4 (Minor - contradicts flexible layout advice with percentage calculations)
 
 ---
 
@@ -66,7 +70,7 @@
 
 **Reason:** This is Minor, not Substantial. CSS is one suggestion in "Additional Tips", not core code.
 
-**My equivalent:** Golden Annotation AOI #4 (Minor severity)
+**My equivalent:** Golden Annotation AOI #7 (Minor severity)
 
 ---
 
@@ -124,34 +128,35 @@
 
 ### Strengths Annotator 1 Missed:
 
-1. **Golden Annotation Strength #3:** Concrete code examples with percentage calculations (0.3, 0.2)
-2. **Golden Annotation Strength #5:** Diagnostic methodology with specific search patterns
-3. **Golden Annotation Strength #6:** Before/after code contrasts
-4. **Golden Annotation Strength #7:** Modularization recommendations
-5. **Golden Annotation Strength #8:** Community resources and follow-up offers
+1. **Golden Annotation Strength #1:** Testing on actual 1024x768 resolution
+2. **Golden Annotation Strength #2:** Checking GTK version for compatibility
 
-**Total:** Annotator 1 missed 5 out of 8 strengths
+**Note:** Annotator 1's Strength #2 and #3 are actually AOIs, not strengths
+
+**Total:** Annotator 1 only correctly identified 1 out of 3 strengths (and incorrectly called 2 AOIs as strengths)
 
 ---
 
 ### AOIs Annotator 1 Missed:
 
-1. **Golden Annotation AOI #3:** Suggests GTK 3.20+ when xtor uses GTK 2.16 (Minor)
+1. **Golden Annotation AOI #3:** Wrong search pattern syntax (C++ method syntax instead of C function syntax) - Minor
+2. **Golden Annotation AOI #5:** GtkGrid recommendation (GTK 3.0+ widget for GTK 2.16 project) - Minor
+3. **Golden Annotation AOI #6:** Suggests GTK 3.20+ when xtor uses GTK 2.16 - Minor
 
-**Note:** Annotator 1 captured AOI #1, #2, and #4 (though with wrong severities on #2 and #4)
+**Note:** Annotator 1 captured AOI #1 (C++ vs C), AOI #4 (set_size_request contradiction), AOI #2 (signal syntax), and AOI #7 (CSS) but had wrong severities on several
 
-**Total:** Annotator 1 missed 1 Minor AOI and had wrong severities on 2 AOIs
+**Total:** Annotator 1 missed 3 Minor AOIs and had wrong severities on 2 AOIs
 
 ---
 
 ## SUMMARY TABLE
 
-| Category | Annotator 1 Total | My Golden Annotation | Match | Annotator 1 Missed |
-|----------|------------------|---------------------|-------|-------------------|
-| Strengths | 3 | 8 | 3 ✅ | 5 items |
-| Substantial AOIs | 6 (claimed) | 1 (actual) | 1 ✅ | 0 items |
-| Minor AOIs | 0 | 3 | 0 | 3 items |
-| **Total AOIs** | **6** | **4** | **1 correct** | **Missed 1, wrong severity on 2** |
+| Category | Annotator 1 Total | My Golden Annotation | Match | Major Issues |
+|----------|------------------|---------------------|-------|--------------|
+| Strengths | 3 (2 are wrong) | 3 | 1 ✅ | Called 2 AOIs as strengths |
+| Substantial AOIs | 6 (claimed) | 2 (actual) | 2 ✅ | Inflated severity on others |
+| Minor AOIs | 0 | 5 | 2 captured | Missed 3, wrong severity on 2 |
+| **Total AOIs** | **6** | **7** | **4 overlap** | **Missed 3, contradicted self** |
 
 ---
 
@@ -159,12 +164,14 @@
 
 ### Annotator 1 Errors:
 1. ❌ **Critical factual error:** Said prompt asked for Python (never did)
-2. ❌ **Severity overestimation:** Called 3 Minor issues as Substantial
-3. ❌ **Invalid AOI:** GtkScrolledWindow claim
-4. ❌ **Incomplete:** Only captured 3 out of 8 strengths
+2. ❌ **Severity overestimation:** Called Minor issues as Substantial
+3. ❌ **Invalid AOI:** GtkScrolledWindow claim (not mentioning alternative ≠ AOI)
+4. ❌ **Self-contradiction:** Listed signal_connect as BOTH a strength (#3) AND substantial AOI (#4)
+5. ❌ **Misidentified strengths:** Called C++ syntax issues "strengths" when they're AOIs
 
 ### My Golden Annotation Advantages:
 1. ✅ **Correct factual basis:** C++ vs C (not Python)
-2. ✅ **Accurate severities:** 1 Substantial, 3 Minor
-3. ✅ **Comprehensive:** 8 strengths covering all aspects
-4. ✅ **Verified:** All claims backed by actual xtor repository inspection
+2. ✅ **Accurate severities:** 2 Substantial, 5 Minor
+3. ✅ **Consistent:** No contradictions between strengths and AOIs
+4. ✅ **Complete:** Captured all API version mismatches (GTK 2.16 vs 3.x/4.x)
+5. ✅ **Verified:** All claims backed by actual xtor repository inspection
