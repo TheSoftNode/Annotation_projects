@@ -170,14 +170,17 @@ grep -n "gtk_widget" /tmp/xtor_search_verify/xtor.c | head -5
 
 **Source Excerpt:**
 ```c
-xtor.c:194:    widget = gtk_widget_get_parent(widget);
-xtor.c:199:             gtk_widget_get_name(widget),
-xtor.c:285:  gtk_widget_show(about_window);
-xtor.c:294:  gtk_widget_hide(widget);
+Response 1: "Search for lines like widget->set_size_request(width, height)"
 
-✓ xtor uses C function syntax: gtk_widget_*(widget, ...)
-✗ Response 1 suggests C++ method syntax: widget->set_size_request(width, height)
-✗ Searching for C++ syntax will not locate C function calls in the codebase
+https://github.com/polluxsynth/xtor/blob/e5d42d2/xtor.c:
+widget = gtk_widget_get_parent(widget);
+gtk_widget_get_name(widget);
+gtk_widget_show(about_window);
+gtk_widget_hide(widget);
+
+✓ Response 1 suggests C++ method syntax: widget->set_size_request(width, height)
+✓ xtor uses C function syntax pattern: gtk_widget_*(widget, ...)
+✗ Searching for "widget->set_size_request" will not find "gtk_widget_set_size_request" calls
 ```
 
 ---
