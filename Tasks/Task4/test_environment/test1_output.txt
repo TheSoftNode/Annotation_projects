@@ -1,0 +1,45 @@
+Welcome to Hangman!
+
+----------------------------
+Lives remaining: 6
+Current word: _ _ _ _ _ 
+Guess a letter: Sorry, 'p' is not there.
+
+----------------------------
+Lives remaining: 5
+Current word: _ _ _ _ _ 
+Guess a letter: Good job! 'r' is in the word.
+
+----------------------------
+Lives remaining: 5
+Current word: _ _ _ _ _ 
+Guess a letter: Sorry, 'o' is not there.
+
+----------------------------
+Lives remaining: 4
+Current word: _ _ _ _ _ 
+Guess a letter: Sorry, 'g' is not there.
+
+----------------------------
+Lives remaining: 3
+Current word: _ _ _ _ _ 
+Guess a letter: Good job! 'a' is in the word.
+
+----------------------------
+Lives remaining: 3
+Current word: _ _ _ _ _ 
+Guess a letter: Sorry, 'm' is not there.
+
+----------------------------
+Lives remaining: 2
+Current word: _ _ _ _ _ 
+Guess a letter: Sorry, 'i' is not there.
+
+----------------------------
+Lives remaining: 1
+Current word: _ _ _ _ _ 
+Guess a letter: Sorry, 'n' is not there.
+
+----------------------------
+GAME OVER! You ran out of lives.
+The word was: array

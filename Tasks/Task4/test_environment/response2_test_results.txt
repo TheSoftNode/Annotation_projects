@@ -1,0 +1,300 @@
+================================================================================
+RESPONSE 2 HANGMAN GAME - TEST RESULTS AND BUG ANALYSIS
+================================================================================
+Date: 2026-03-21
+File: response2_hangman.c
+Compiler: gcc with -Wall -Wextra -std=c11
+
+================================================================================
+1. COMPILATION STATUS
+================================================================================
+
+STATUS: SUCCESS (with warnings)
+
+WARNINGS:
+---------
+response2_hangman.c:19:23: warning: comparison of integers of different signs:
+'int' and 'unsigned long' [-Wsign-compare]
+    for (int i = 0; i < strlen(secret); i++) {
+                    ~ ^ ~~~~~~~~~~~~~~
+
+ANALYSIS:
+The warning is caused by comparing a signed int (i) with unsigned long
+(return type of strlen). This is a minor issue but should be fixed by either:
+- Casting strlen to int
+- Changing i to size_t
+
+However, this warning does NOT affect functionality for normal word lengths.
+
+================================================================================
+2. RUNTIME TESTING
+================================================================================
+
+Test 1: Word "array" with guesses p,r,o,g,a,m,i,n
+Result: GAME OVER - ran out of lives
+Correct letters guessed: 'r' (found), 'a' (found)
+
+Test 2: Word "array" with alphabet sequence
+Result: GAME OVER - ran out of lives after 6 wrong guesses
+
+Test 3: Repeated letter testing
+Result: Repeated letter detection WORKS correctly
+        Shows "You already guessed 'a'. Try again."
+
+================================================================================
+3. CRITICAL BUG FOUND: INCORRECT WORD DISPLAY LOGIC
+================================================================================
+
+BUG TYPE: Logic Error (Conceptual Misunderstanding)
+SEVERITY: CRITICAL - Makes the game unplayable
+LOCATION: printWord() function (lines 15-35) and main() function call (line 69)
+
+DESCRIPTION:
+------------
+The printWord() function has a fundamental design flaw. It attempts to use
+the guessedLetters array (which is a 256-element ASCII tracking array) as if
+it were a position-based array for the word.
+
+CODE ANALYSIS:
+--------------
+
+Line 15-35 (printWord function):
+    void printWord(const char *secret, const char *guessed) {
+        printf("Current word: ");
+        for (int i = 0; i < strlen(secret); i++) {
+            if (guessed[i] == 1) {  // <-- BUG IS HERE
+                printf("%c ", secret[i]);
+            } else {
+                printf("_ ");
+            }
+        }
+        printf("\n");
+    }
+
+Line 69 (function call):
+    printWord(secretWord, (const char*)guessedLetters);
+
+THE PROBLEM:
+------------
+1. guessedLetters[256] is indexed by ASCII values of characters (e.g.,
+   guessedLetters[97] = 1 means 'a' was guessed)
+
+2. The printWord function treats guessedLetters[i] as if i represents the
+   POSITION in the word (0, 1, 2, 3, 4 for a 5-letter word)
+
+3. For word "array" (5 letters), the loop checks:
+   - guessedLetters[0] (should check if 'a' at position 0 was revealed)
+   - guessedLetters[1] (should check if 'r' at position 1 was revealed)
+   - guessedLetters[2] (should check if 'r' at position 2 was revealed)
+   - guessedLetters[3] (should check if 'a' at position 3 was revealed)
+   - guessedLetters[4] (should check if 'y' at position 4 was revealed)
+
+4. But guessedLetters[0-4] are always 0 (non-printable ASCII chars were not guessed)
+   while the actual guess data is stored at indices like:
+   - guessedLetters[97] = 1 (for 'a')
+   - guessedLetters[114] = 1 (for 'r')
+
+EVIDENCE FROM TEST OUTPUT:
+---------------------------
+Test 1 output shows:
+- "Good job! 'r' is in the word." (line 11)
+- But word display remains: "_ _ _ _ _" (line 15)
+- "Good job! 'a' is in the word." (line 26)
+- But word display remains: "_ _ _ _ _" (line 30)
+
+This proves that correctly guessed letters are NEVER displayed to the user.
+
+================================================================================
+4. SECONDARY BUG: DUPLICATE LETTER COUNTING
+================================================================================
+
+BUG TYPE: Logic Error
+SEVERITY: CRITICAL - Affects win condition
+LOCATION: Lines 97-105 (guess checking loop in main)
+
+CODE:
+    for (int i = 0; i < wordLength; i++) {
+        if (secretWord[i] == guess) {
+            found = 1;
+            correctCount++;  // <-- BUG: increments for EACH occurrence
+        }
+    }
+
+THE PROBLEM:
+------------
+If a word has duplicate letters (e.g., "programming" has 3 'r's), guessing
+'r' increments correctCount by 3, not 1.
+
+IMPACT:
+-------
+For word "programming" (11 letters):
+- Unique letters needed: p, r, o, g, a, m, i, n (8 letters)
+- But correctCount target is 11 (wordLength)
+- If player guesses 'r' (appears 3 times): correctCount += 3
+- If player guesses 'g' (appears 2 times): correctCount += 2
+- If player guesses 'm' (appears 2 times): correctCount += 2
+- Plus single-letter guesses: p(1), o(1), a(1), i(1), n(1)
+- Total: 3 + 2 + 2 + 1 + 1 + 1 + 1 + 1 = 12
+
+This means:
+- The win condition (correctCount == wordLength) can be reached even with
+  correct gameplay
+- BUT the logic is conceptually wrong and could cause issues with different words
+
+Actually, upon deeper analysis: This might be INTENTIONAL design. The
+correctCount represents the total number of POSITIONS filled, not unique
+letters guessed. This is actually CORRECT for determining when the word is
+complete.
+
+VERDICT: NOT A BUG - This is correct logic. Each position must be filled.
+
+================================================================================
+5. GAME PLAYABILITY ASSESSMENT
+================================================================================
+
+CAN THE GAME BE PLAYED? NO
+
+Why not:
+--------
+1. The word display never shows guessed letters (Bug #1)
+2. Players have NO FEEDBACK about which letters are in which positions
+3. The game becomes pure guessing with no visual progress
+4. Win condition can technically be reached, but player has no way to know
+   they're making progress
+
+Example from Test 1:
+Player correctly guesses 'r' and 'a' in word "array", gets positive feedback
+"Good job!", but the display still shows "_ _ _ _ _" with no letters revealed.
+
+This is similar to playing a game with your eyes closed - technically functional
+but completely unusable.
+
+================================================================================
+6. COMPARISON WITH RESPONSE 1
+================================================================================
+
+Response 1 uses a different approach:
+- Has a `guessed` array that's the same length as the target word
+- Each position in guessed[] corresponds to the same position in target[]
+- Initially filled with underscores: guessed[0]='_', guessed[1]='_', etc.
+- When a letter is guessed correctly, that position is updated:
+  guessed[i] = target[i]
+
+Response 2's bug stems from attempting to use a single array for TWO purposes:
+1. Tracking which ASCII characters have been guessed (correct usage)
+2. Tracking which positions in the word have been revealed (incorrect usage)
+
+================================================================================
+7. CORRECT IMPLEMENTATION APPROACH
+================================================================================
+
+To fix Response 2, you would need BOTH arrays:
+
+1. guessedLetters[256] - to track which characters have been tried (already present)
+2. revealed[wordLength] - to track which positions have been revealed (MISSING)
+
+The printWord function should be:
+
+    void printWord(const char *secret, const int *guessedLetters) {
+        printf("Current word: ");
+        for (int i = 0; i < strlen(secret); i++) {
+            // Check if the CHARACTER at this position has been guessed
+            if (guessedLetters[(unsigned char)secret[i]] == 1) {
+                printf("%c ", secret[i]);
+            } else {
+                printf("_ ");
+            }
+        }
+        printf("\n");
+    }
+
+This checks: "Has the character that appears at position i been guessed?"
+Not: "Has position i been revealed?" (which is what the buggy code tries to do)
+
+================================================================================
+8. SUMMARY
+================================================================================
+
+COMPILATION: SUCCESS with 1 minor warning
+RUNTIME: Executes without crashes
+LOGIC BUGS: 1 CRITICAL bug - word display never shows guessed letters
+PLAYABILITY: UNPLAYABLE - game provides no visual feedback of progress
+
+The bug is a conceptual error in understanding how to map between:
+- ASCII character tracking (256-element array indexed by character values)
+- Word position tracking (word-length array indexed by position)
+
+This is similar to the "moving_to_r1" bug in Task 2 - a logic error that
+compiles successfully but produces incorrect behavior at runtime.
+
+RECOMMENDATION: Response 2 should be rejected or require significant revision.
+
+================================================================================
+9. DETAILED TEST LOGS
+================================================================================
+
+Test 1 Log (test1_output.txt):
+-------------------------------
+Word: "array"
+Guesses: p, r, o, g, a, m, i, n
+Results:
+- p: not in word (lives: 6→5)
+- r: FOUND but not displayed (lives: 5, display: "_ _ _ _ _")
+- o: not in word (lives: 5→4)
+- g: not in word (lives: 4→3)
+- a: FOUND but not displayed (lives: 3, display: "_ _ _ _ _")
+- m: not in word (lives: 3→2)
+- i: not in word (lives: 2→1)
+- n: not in word (lives: 1→0)
+Final: GAME OVER
+
+Expected correct display after guessing 'r' and 'a': "a r r a _"
+Actual display: "_ _ _ _ _"
+
+Test 2 Log (test2_output.txt):
+-------------------------------
+Word: "array"
+Alphabetical guessing: a, b, c, d, e, f, g...
+'a' found but not displayed
+Lost after 6 wrong guesses
+Display never changed from "_ _ _ _ _"
+
+Test 3 Log (test3_output.txt):
+-------------------------------
+Word: "array"
+Repeated 'a' guesses correctly detected and rejected
+Message: "You already guessed 'a'. Try again."
+This feature WORKS correctly
+But still, word display never shows the guessed letters
+
+================================================================================
+END OF REPORT
+================================================================================
+=== DEMONSTRATION OF THE BUG ===
+
+Word to guess: array
+
+Player has guessed: 'a' and 'r'
+guessedLetters[97] (a) = 1
+guessedLetters[114] (r) = 1
+
+Checking what indices the BUGGY version looks at:
+Position 0 (char 'a'): checking guessedLetters[0] = 0
+Position 1 (char 'r'): checking guessedLetters[1] = 0
+Position 2 (char 'r'): checking guessedLetters[2] = 0
+Position 3 (char 'a'): checking guessedLetters[3] = 0
+Position 4 (char 'y'): checking guessedLetters[4] = 0
+
+BUGGY VERSION OUTPUT:
+Current word: _ _ _ _ _ 
+
+CORRECT VERSION OUTPUT:
+Current word: a r r a _ 
+
+=== EXPLANATION ===
+The buggy version checks guessedLetters[0], [1], [2], [3], [4]
+But the actual guessed characters are stored at indices 97 and 114!
+So it never finds any guessed letters and displays all underscores.
+
+
+=== Debug demonstration added above ===
