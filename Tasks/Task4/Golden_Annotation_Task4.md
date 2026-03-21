@@ -29,10 +29,8 @@ how to write basic hangman game in C?
 
 **Query:**
 ```bash
-cd /Users/apple/Desktop/Applyloop-project3/Tasks/Task4/test_environment
 gcc -Wall -Wextra -std=c11 response1_hangman.c -o response1_hangman
 echo $?
-./test_response1.sh
 ```
 
 **URL:**
@@ -44,22 +42,8 @@ Exit code: 0
 
 Warnings: 1
 response1_hangman.c:133:45: warning: unused parameter 'misses' [-Wunused-parameter]
-
-Test 1 (Complete Gameplay): PASSED
-✓ Game initializes correctly
-✓ Word selection works
-✓ ASCII hangman displays through all 7 stages
-✓ Letter guessing and revealing works
-✓ Win/loss detection accurate
-✓ Play again feature functions
-
-Test 2 (EOF Handling): PASSED
-✓ Gracefully exits with "Good-bye!" message
-✓ No crashes
-
-Test 3 (Duplicate Detection): PASSED
-✓ Correctly identifies previously guessed letters
-✓ No penalty for duplicates
+static int processGuess(char guess, const char *target,
+                        char *guessed, int *misses, char *used)
 ```
 
 ## Strengths
@@ -79,6 +63,8 @@ The response includes practical build and run instructions with example output d
 The response uses proper C11 standards with `-Wall -Wextra` compilation flags documented in the code comments, demonstrating attention to code quality and best practices.
 
 The response implements multi-language support in the yes/no prompt accepting 'y', 'c', 's' for yes and 'n', 'o' for no, showing thoughtfulness for international users.
+
+The response includes a TL;DR section at the end providing a concise summary for users who need quick instructions, improving accessibility for time-constrained readers of the lengthy explanation.
 
 ## Areas of Improvement
 
@@ -200,11 +186,24 @@ if (processGuess(guess, target, guessed, &misses, used)) {
 
 ---
 
+**[AOI #4 - Minor]**
+
+**Response Excerpt:**
+```
+Enjoy coding, and have fun playing your own Hangman game! 🎉
+```
+
+**Description:** The response includes an emoji (🎉) in the closing message, which is unnecessary embellishment in technical documentation.
+
+**Severity:** Minor
+
+---
+
 ## Overall Quality Score: 4
 
 **Justification:**
 
-The response provides a fully functional, well-structured Hangman implementation that compiles and runs correctly. The code demonstrates solid C programming practices with proper memory safety, comprehensive input handling, and clear documentation. Three minor issues exist: an unused parameter warning, a logic bug in whitespace skipping that doesn't affect typical use, and slightly misleading feedback for duplicate guesses. These issues don't materially impact the program's core functionality or educational value.
+The response provides a fully functional, well-structured Hangman implementation that compiles and runs correctly. The code demonstrates solid C programming practices with proper memory safety, comprehensive input handling, and clear documentation. Four minor issues exist: an unused parameter warning, a logic bug in whitespace skipping that doesn't affect typical use, slightly misleading feedback for duplicate guesses, and an emoji in the documentation. These issues don't materially impact the program's core functionality or educational value.
 
 ---
 
@@ -216,37 +215,21 @@ The response provides a fully functional, well-structured Hangman implementation
 
 **Query:**
 ```bash
-cd /Users/apple/Desktop/Applyloop-project3/Tasks/Task4/test_environment
 gcc -Wall -Wextra -std=c11 response2_hangman.c -o response2_hangman
 echo $?
-./test_response2.sh
 ```
 
 **URL:**
 
 **Source Excerpt:**
 ```
-Compilation: SUCCESS (with warnings)
+Compilation: SUCCESS
 Exit code: 0
 
 Warnings: 1
 response2_hangman.c:19:23: warning: comparison of integers of different signs:
 'int' and 'unsigned long' [-Wsign-compare]
-
-Test 1 (Word "array" with valid guesses): FAILED
-✓ Correctly identifies 'r' is in the word
-✓ Correctly identifies 'a' is in the word
-✗ CRITICAL BUG: Word display always shows "_ _ _ _ _"
-✗ Guessed letters are NEVER displayed to player
-✗ Game is completely unplayable
-
-Test 2 (Alphabet sequence): FAILED
-✗ Player guesses 'a', 'r', 'y' (all correct letters)
-✗ Display never updates from "_ _ _ _ _"
-✗ Player loses without any visual feedback
-
-Test 3 (Duplicate detection): PASSED
-✓ Correctly detects previously guessed letters
+    for (int i = 0; i < strlen(secret); i++) {
 ```
 
 ## Strengths
@@ -428,4 +411,4 @@ R1 provides a fully functional Hangman game with only minor issues that don't af
 ---
 
 **Document Created:** 2026-03-21
-**Annotator Notes:** Both response code examples were extracted exactly as provided (with only markdown escapes removed to create valid C syntax) and tested through compilation and execution. Response 1 compiles with one warning and runs successfully through all test scenarios. Response 2 compiles with one warning but fails all gameplay tests due to a critical display bug. All test results are documented in `/Users/apple/Desktop/Applyloop-project3/Tasks/Task4/test_environment/`.
+**Annotator Notes:** Both response code examples were compiled and tested. Response 1 compiles with one warning. Response 2 compiles with one warning and contains a critical logic bug in the printWord function that makes the game unplayable.
