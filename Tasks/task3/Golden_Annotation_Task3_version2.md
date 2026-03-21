@@ -152,7 +152,7 @@ xtor.c:1567:  g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked),
 widget->set_size_request(width, height)
 ```
 
-**Description:** The response suggests searching for C++ method call syntax `widget->set_size_request()` when diagnosing the layout issues, but xtor uses C function syntax `gtk_widget_set_size_request(widget, width, height)`, which means following this diagnostic guidance will fail to locate the actual size request calls in the codebase.
+**Description:** The response suggests searching for C++ method call syntax `widget->set_size_request()` when diagnosing the layout issues, but xtor is a C project that would use C function syntax like `gtk_widget_set_size_request(widget, width, height)` if such calls existed, which means following this C++ diagnostic guidance will fail to locate any actual function calls in the C codebase.
 
 **Severity:** Minor
 
@@ -178,9 +178,9 @@ gtk_widget_get_name(widget);
 gtk_widget_show(about_window);
 gtk_widget_hide(widget);
 
-✓ Response 1 suggests C++ method syntax: widget->set_size_request(width, height)
-✓ xtor uses C function syntax pattern: gtk_widget_*(widget, ...)
-✗ Searching for "widget->set_size_request" will not find "gtk_widget_set_size_request" calls
+✓ Response 1 suggests C++ method syntax: widget->set_size_request()
+✓ xtor is a C project using C function call pattern: gtk_widget_*(widget, ...)
+✗ Searching for C++ method syntax will not find C function calls in a C codebase
 ```
 
 ---
