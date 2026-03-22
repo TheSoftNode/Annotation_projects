@@ -74,30 +74,6 @@ The response includes a TL;DR section at the end providing a concise summary for
 ```c
 static int processGuess(char guess, const char *target,
                         char *guessed, int *misses, char *used)
-{
-    int correct = 0;
-
-    /* If the player already used this letter, tell them and don't penalize */
-    if (strchr(used, guess) != NULL) {
-        printf("You already guessed '%c'. Try another letter.\n", guess);
-        return 1;           /* treat as "no change" - not a miss */
-    }
-
-    /* Record the used letter */
-    int usedIdx = (int)strlen(used);
-    used[usedIdx] = guess;
-    used[usedIdx + 1] = '\0';
-
-    /* Check each position in the word */
-    for (int i = 0; target[i] != '\0'; ++i) {
-        if (tolower(target[i]) == guess && guessed[i] == '_') {
-            guessed[i] = target[i];   /* reveal the letter */
-            correct = 1;
-        }
-    }
-
-    return correct;
-}
 ```
 
 **Description:** The response declares an unused parameter `misses` in the processGuess function that is never read or modified within the function body, triggering a compiler warning when compiled with `-Wunused-parameter`.
@@ -140,20 +116,11 @@ static int yesNoPrompt(const char *msg)
         /* Accept only the first non-space character */
         char c = answer[0];
         while (c != '\0' && isspace((unsigned char)c))
-            ++c;
+            ++c;  // BUG: increments character value, not pointer
         c = tolower((unsigned char)c);
-
-        if (c == 'y' || c == 'c' || c == 's')   /* yes, continue, si */
-            return 1;
-        if (c == 'n' || c == 'o')               /* no */
-            return 0;
-
-        printf("Please answer with 'y' (yes) or 'n' (no).\n");
-    }
-}
 ```
 
-**Description:** The response increments the character value `c` instead of using a pointer or index to skip whitespace in the yesNoPrompt function, causing the code to increment the ASCII value of the character rather than advancing through the string.
+**Description:** The response increments the character value `c` instead of using a pointer or index to skip whitespace in the yesNoPrompt function, which will not properly advance through the string but will instead increment the ASCII value of the character.
 
 **Severity:** Minor
 
@@ -162,7 +129,8 @@ static int yesNoPrompt(const char *msg)
 **Tool Type:** Code Executor
 
 **Query:**
-```c
+```bash
+cat > /tmp/test_yesno.c << 'EOF'
 #include <stdio.h>
 #include <ctype.h>
 
@@ -175,7 +143,7 @@ int main() {
     while (c != '\0' && isspace((unsigned char)c))
         ++c;
     printf("After ++c: c = '%c' (ASCII %d)\n", c, c);
-    printf("Expected 'y' but got '%c'\n", c);
+    printf("This should be 'y' but is '%c'\n", c);
 
     // Correct version
     int i = 0;
@@ -184,6 +152,8 @@ int main() {
     printf("Correct approach gets: '%c'\n", answer[i]);
     return 0;
 }
+EOF
+gcc /tmp/test_yesno.c -o /tmp/test_yesno && /tmp/test_yesno
 ```
 
 **URL:**
@@ -192,7 +162,7 @@ int main() {
 ```
 Initial c = ' ' (ASCII 32)
 After ++c: c = '!' (ASCII 33)
-Expected 'y' but got '!'
+This should be 'y' but is '!'
 Correct approach gets: 'y'
 ```
 
@@ -202,14 +172,6 @@ Correct approach gets: 'y'
 
 **Response Excerpt:**
 ```c
-/* If the player already used this letter, tell them and don't penalize */
-if (strchr(used, guess) != NULL) {
-    printf("You already guessed '%c'. Try another letter.\n", guess);
-    return 1;           /* treat as "no change" - not a miss */
-}
-```
-
-```c
 if (processGuess(guess, target, guessed, &misses, used)) {
     printf("Good guess!\n");
 } else {
@@ -218,28 +180,9 @@ if (processGuess(guess, target, guessed, &misses, used)) {
 }
 ```
 
-**Description:** The response returns 1 from processGuess when a duplicate letter is entered, causing the main loop to print "Good guess!" immediately after the duplicate warning message, which creates misleading feedback since it wasn't a new correct guess.
+**Description:** The response returns 1 from processGuess when a duplicate letter is entered, causing the main loop to print "Good guess!" for duplicates, which is misleading feedback since it wasn't a new correct guess.
 
 **Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:**
-```bash
-echo -e "a\na\nn" | ./response1_hangman
-```
-
-**URL:**
-
-**Source Excerpt:**
-```
-Enter a letter: Sorry, wrong guess.
-...
-Enter a letter: You already guessed 'a'. Try another letter.
-Good guess!
-```
 
 ---
 
@@ -255,6 +198,7 @@ Enjoy coding, and have fun playing your own Hangman game! 🎉
 **Severity:** Minor
 
 ---
+
 
 **[AOI #5 - Minor]**
 
@@ -282,19 +226,18 @@ guess = (char)tolower(ch);
 
 **Query:**
 ```bash
-echo -e "1\n2\n3\na\nn" | ./response1_hangman
+# Test with number input
+echo -e "1\n2\n3\na\n" | ./response1_hangman
 ```
 
 **URL:**
 
 **Source Excerpt:**
 ```
-Enter a letter: Sorry, wrong guess.
-Guessed letters: 1
-Enter a letter: Sorry, wrong guess.
-Guessed letters: 12
-Enter a letter: Sorry, wrong guess.
-Guessed letters: 123
+Enter a letter: 1
+Sorry, wrong guess.
+Enter a letter: 2
+Sorry, wrong guess.
 ```
 
 ---
@@ -303,16 +246,7 @@ Guessed letters: 123
 
 **Response Excerpt:**
 ```
-The game state is stored in just a few arrays of characters:
-
 * `target[]` – the word to be guessed (read-only).
-* `guessed[]` – what the player has discovered so far (filled with `_` initially).
-* `used[]` – letters the player has already tried (to avoid duplicate guesses).
-```
-
-```c
-static int  processGuess(char guess, const char *target,
-                         char *guessed, int *misses, char *used);
 ```
 
 **Description:** The response describes the parameter as `target[]` (array syntax) in the documentation, but in the actual function signature it is declared as `const char *target` (pointer syntax), creating a mismatch between documentation and implementation.
@@ -325,17 +259,10 @@ static int  processGuess(char guess, const char *target,
 
 **Response Excerpt:**
 ```
-| Component | Responsibility |
-| ----- | ----- |
 | `processGuess(char guess, const char *target, char *guessed, int *misses)` | Update the `guessed` string and the miss counter. |
 ```
 
-```c
-static int  processGuess(char guess, const char *target,
-                         char *guessed, int *misses, char *used);
-```
-
-**Description:** The response omits the `char *used` parameter from the processGuess function signature in the high-level design table and incorrectly states the function updates the miss counter, when the actual implementation never modifies the misses parameter and instead returns a success flag that allows the caller to update the miss counter.
+**Description:** The response omits the `char *used` parameter from the processGuess function signature in the high-level design table and incorrectly states the function updates the miss counter, when the actual implementation returns a success flag and leaves the miss counter update to the caller.
 
 **Severity:** Minor
 
@@ -412,7 +339,8 @@ void printWord(const char *secret, const char *guessed) {
 **Tool Type:** Code Executor
 
 **Query:**
-```c
+```bash
+cat > /tmp/debug_test.c << 'EOF'
 #include <stdio.h>
 #include <string.h>
 
@@ -456,6 +384,8 @@ int main() {
 
     return 0;
 }
+EOF
+gcc /tmp/debug_test.c -o /tmp/debug_test && /tmp/debug_test
 ```
 
 **URL:**
@@ -531,46 +461,11 @@ Once you have this working, try adding these features to learn more:
 
 ---
 
-**[AOI #5 - Minor]**
-
-**Response Excerpt:**
-```c
-scanf(" %c", &guess); // Space before %c skips any leftover newline characters
-```
-
-**Description:** The response processes each character from multi-character input as a separate guess without clearing the input buffer, causing the game to consume all characters when the user types multiple letters (e.g., typing "ate" results in three consecutive guesses of 'a', 't', and 'e'), which wastes the player's guesses.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:**
-```bash
-echo "ate" | ./response2_hangman 2>&1 | grep -A2 "Guess a letter" | head -12
-```
-
-**URL:**
-
-**Source Excerpt:**
-```
-Guess a letter: Sorry, 'a' is not there.
-
-----------------------------
-Guess a letter: Good job! 't' is in the word.
-
-----------------------------
-Guess a letter: Good job! 'e' is in the word.
-```
-
----
-
 ## Overall Quality Score: 2
 
 **Justification:**
 
-The response contains a critical logic bug in the printWord function that makes the game completely unplayable - guessed letters are never displayed to the player. While the code compiles and runs without crashing, this fundamental flaw undermines the entire purpose of the program. The bug demonstrates a conceptual misunderstanding of array indexing, confusing character-indexed arrays (ASCII lookup) with position-indexed arrays. Five minor issues also exist: sign comparison warning, type cast from int array to char pointer, misleading expansion advice about scanf, and multi-character input not being flushed from the buffer. Despite clean code structure and good explanatory content, the substantial issue drops the quality to 2.
+The response contains a critical logic bug in the printWord function that makes the game completely unplayable - guessed letters are never displayed to the player. While the code compiles and runs without crashing, this fundamental flaw undermines the entire purpose of the program. The bug demonstrates a conceptual misunderstanding of array indexing, confusing character-indexed arrays (ASCII lookup) with position-indexed arrays. Despite clean code structure and good explanatory content, the substantial issue drops the quality to 2.
 
 ---
 
@@ -584,5 +479,5 @@ R1 provides a fully functional Hangman game with only minor issues that don't af
 
 ---
 
-**Document Created:** 2026-03-22
-**Annotator Notes:** Both response code examples were compiled and tested. Response 1 compiles with one warning and is fully functional. Response 2 compiles with one warning but contains a critical logic bug in the printWord function that makes the game unplayable.
+**Document Created:** 2026-03-21
+**Annotator Notes:** Both response code examples were compiled and tested. Response 1 compiles with one warning. Response 2 compiles with one warning and contains a critical logic bug in the printWord function that makes the game unplayable.
