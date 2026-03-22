@@ -78,33 +78,42 @@ Additionally, the function has misleading logic where if a French user types "ou
 
 ## AREAS OF IMPROVEMENT
 
+**Annotator 2 identified:** 2 AOIs
+
 ### Annotator 2 AOI #1
-**Description:** "The response the function documentation incorrectly states that processGuess updates the miss counter, when in fact it only returns whether the guess was correct and the caller is responsible for incrementing misses."
+**Response Excerpt:**
+```
+| processGuess(char guess, const char *target, char *guessed, int *misses) | Update the guessed string and the miss counter. |
+```
+
+**Description:** The response the function documentation incorrectly states that processGuess updates the miss counter, when in fact it only returns whether the guess was correct and the caller is responsible for incrementing misses.
 
 **Severity:** Minor
 
 **Agreement:** ✅ AGREE
 
-**My equivalent:** Golden Annotation AOI #7 (design table errors - includes this issue)
+**My equivalent:** Golden Annotation AOI #6 (design table errors)
 
 ---
 
 ### Annotator 2 AOI #2
-**Description:** "The response in the yesNoPrompt function, the code attempts to increment a char variable c as if it were a pointer, which is a type error; the variable should have been declared as a pointer to properly traverse the string."
+**Response Excerpt:**
+```c
+/* Accept only the first non-space character */
+char c = answer[0];
+while (c != '\0' && isspace((unsigned char)c))
+    ++c;
+```
+
+**Description:** The response in the yesNoPrompt function, the code attempts to increment a char variable c as if it were a pointer, which is a type error; the variable should have been declared as a pointer to properly traverse the string.
 
 **Severity:** Substantial
 
-**Agreement:** ⚠️ AGREE bug exists, ❌ DISAGREE on severity
+**Agreement:** ❌ DISAGREE
 
-**Justification:** The bug is real and verified - `++c` increments the ASCII value instead of traversing the string. However, this is Minor not Substantial because:
-- Game remains fully functional - users can play by typing "yes" without leading spaces
-- Only breaks when users add leading spaces (edge case UX issue)
-- Doesn't crash or prevent core gameplay
-- Substantial should be reserved for issues that materially undermine core functionality
+**Justification:** The description is technically incorrect. Using `++c` on a char variable is not a "type error" in C - it's valid integer arithmetic. The compiler accepts this without type errors. The actual issue is a logic bug where the code increments the ASCII character value instead of advancing through the string.
 
-**My equivalent:** Golden Annotation AOI #2 (labeled Minor, not Substantial)
-
-**Note:** Both Annotator 1 QC Miss and Annotator 2 labeled this Substantial, but after verification, it's a UX annoyance not a showstopper.
+**My equivalent:** Golden Annotation AOI #2 (yesNoPrompt ++c bug)
 
 ---
 
@@ -192,13 +201,13 @@ While Annotator 2's reasoning is better than Annotator 1's (acknowledges it can'
 
 **Annotator 2 AOIs:**
 - Total: 2
-- Verified: 2/2 (100%)
+- Agreed: 1/2 (50%)
+- Disagreed: 1/2 (50%) - AOI #2 description calls it a "type error" when it's a logic bug
 - Already in Golden: 2/2 (100%)
-- Severity disagreement: 1 (yesNoPrompt bug - Substantial vs Minor)
 
 **Annotator 2 QC Miss:**
 - Strengths: 2/2 already covered
 - AOIs: 3/4 already covered
 - Rejected: 1 (bounds check - cannot overflow)
 
-**Overall:** Annotator 2's feedback has quality issues with 2 overstated strengths that claim "functional" and "thoughtful user experience improvements" despite documented bugs. The AOI identification is accurate, though severity assessment differs for one issue.
+**Overall:** Annotator 2's feedback has quality issues with 2 overstated strengths that claim "functional" and "thoughtful user experience improvements" despite documented bugs. One AOI description is technically incorrect (calls a logic bug a "type error"), though the underlying bug identification is valid.
