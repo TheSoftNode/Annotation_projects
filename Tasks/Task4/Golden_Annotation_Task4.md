@@ -48,23 +48,21 @@ static int processGuess(char guess, const char *target,
 
 ## Strengths
 
-The response provides a complete, working C program that compiles successfully and implements all core Hangman functionality including word selection, guess processing, win/loss detection, and ASCII art display.
+The response delivers a complete Hangman game that successfully compiles and covers the full gameplay cycle from selecting a word to displaying game outcomes and ASCII hangman graphics.
 
-The response organizes the solution with clear high-level design documentation including a component responsibility table that maps each function to its specific role, helping readers understand the program architecture before diving into code.
+The response presents an upfront design overview with a table that clearly defines what each function does, making the program structure easy to grasp before examining the code itself.
 
-The response includes a 30-word dictionary organized into five semantic categories (fruits, animals, nature, computers, subjects), providing variety for gameplay while keeping the implementation simple and self-contained.
+The response uses a built-in 30-word dictionary across five different categories (fruits, animals, nature, computers, subjects), giving the game sufficient variety while avoiding external file dependencies.
 
-The response implements comprehensive input validation that handles EOF gracefully with a goodbye message, skips whitespace automatically, converts input to lowercase, and detects duplicate guesses without penalizing the player.
+The response applies lowercase normalization with tolower() to all letter guesses, ensuring consistent behavior regardless of whether players type uppercase or lowercase.
 
-The response provides detailed step-by-step explanation tables showing how the program works from RNG seeding through the main loop to end-game logic, making it accessible for learning purposes.
+The response catches end-of-file input gracefully, exiting the program cleanly while printing a polite goodbye message to the user.
 
-The response includes practical build and run instructions with example output demonstrating what users should expect when playing the game, along with extension ideas organized in a table for future enhancements.
+The response walks through the program logic step by step with explanatory breakdowns covering everything from random number setup through the main game loop to the replay mechanism.
 
-The response uses proper C11 standards with `-Wall -Wextra` compilation flags documented in the code comments, demonstrating attention to code quality and best practices.
+The response supplies clear compilation and execution commands that make it straightforward for users to build and test the code on their systems.
 
-The response implements multi-language support in the yes/no prompt accepting 'y', 'c', 's' for yes and 'n', 'o' for no, showing thoughtfulness for international users.
-
-The response includes a TL;DR section at the end providing a concise summary for users who need quick instructions, improving accessibility for time-constrained readers of the lengthy explanation.
+The response wraps up with a TL;DR summary section that gives time-pressed readers a quick guide to getting the solution running without reading the full explanation.
 
 ## Areas of Improvement
 
