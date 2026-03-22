@@ -133,9 +133,9 @@ The code checks position indices `guessed[0]`, `guessed[1]`, `guessed[2]`, etc.,
 
 **Severity:** Substantial (Annotator's assessment)
 
-**Agreement:** ⚠️ AGREE bug exists, ❌ DISAGREE on severity
+**Agreement:** ❌ DISAGREE on severity
 
-**Justification:** The bug is real - typing "ate" results in three consecutive guesses. However, this is Minor not Substantial because the game remains fully playable if users type single letters. It's an annoying UX issue, not game-breaking. Substantial should be reserved for issues that materially undermine core functionality, like the printWord bug that makes the game unplayable.
+**Justification:** While the bug exists (typing "ate" processes three consecutive guesses), rating this as Substantial is incorrect. The game remains fully functional - players can complete the game successfully by typing single letters as intended. This is an annoying UX issue that wastes guesses, not a game-breaking bug. Substantial severity should be reserved for issues that materially undermine core functionality, like the printWord bug that renders the game unplayable.
 
 **My equivalent:** Golden Annotation AOI #5 (labeled Minor, not Substantial)
 
@@ -146,9 +146,11 @@ The code checks position indices `guessed[0]`, `guessed[1]`, `guessed[2]`, etc.,
 
 **Severity:** Minor
 
-**Agreement:** ✅ AGREE
+**Agreement:** ❌ DISAGREE
 
-**My equivalent:** Noted in Golden Annotation context of type-cast issue (AOI #3)
+**Justification:** The memory difference between int[256] (1024 bytes) and a more specialized approach is about 1KB, which is trivial in modern systems. Direct ASCII indexing is a common, simple approach that prioritizes code clarity over minimal memory usage. The trade-off is reasonable for a small game application.
+
+**My equivalent:** Not in Golden Annotation (memory difference is trivial)
 
 ---
 
@@ -162,8 +164,8 @@ The code checks position indices `guessed[0]`, `guessed[1]`, `guessed[2]`, etc.,
 
 **Annotator 1 AOIs:**
 - Total: 3
-- Verified: 3/3 (100%)
-- Already in Golden: 3/3 (100%)
-- Severity disagreement: 1 (input buffer - Substantial vs Minor)
+- Agreed: 1/3 (33%)
+- Disagreed: 2/3 (67%) - AOI #2 severity wrong (Substantial vs Minor), AOI #3 not a meaningful issue (trivial memory difference)
+- Already in Golden: 1/3
 
 **Overall:** Annotator 1's feedback has quality issues with 2 strengths that incorrectly claim the game is "playable" and that the explanation is "correct" when the explanation factually misrepresents how the printWord display logic works. The AOI identification is accurate, though severity assessment differs for the input buffer issue.

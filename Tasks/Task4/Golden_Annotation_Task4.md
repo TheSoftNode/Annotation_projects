@@ -457,66 +457,6 @@ CORRECT version: a r r a _
 
 **Response Excerpt:**
 ```c
-for (int i = 0; i < strlen(secret); i++) {
-```
-
-**Description:** The response compares a signed int with the unsigned long return type of strlen() triggering a sign-comparison warning, though this doesn't affect functionality for normal word lengths.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:**
-```bash
-gcc -Wall -Wextra -std=c11 response2_hangman.c -o response2_hangman 2>&1 | grep "sign"
-```
-
-**URL:**
-
-**Source Excerpt:**
-```
-response2_hangman.c:19:23: warning: comparison of integers of different signs: 'int' and 'unsigned long' [-Wsign-compare]
-    for (int i = 0; i < strlen(secret); i++) {
-```
-
----
-
-**[AOI #3 - Minor]**
-
-**Response Excerpt:**
-```c
-printWord(secretWord, (const char*)guessedLetters);
-```
-
-**Description:** The response casts the integer array guessedLetters to `const char*` when calling printWord, which is a type mismatch that happens to work on typical platforms but is conceptually incorrect and could cause issues on systems where int and char have different sizes.
-
-**Severity:** Minor
-
----
-
-**[AOI #4 - Minor]**
-
-**Response Excerpt:**
-```
-### **Ideas for Expansion**
-
-Once you have this working, try adding these features to learn more:
-
-* **Input Buffer Clearing:** If a user types a whole word instead of a letter, `scanf` might glitch. Try looking up how to use `fgets` to read a whole line.
-```
-
-**Description:** The response suggests that scanf "might glitch" with multi-character input and recommends using fgets as an expansion idea, when the actual code already has a flaw (the space before %c in `scanf(" %c", &guess)`) that does clear the buffer but this advice should be part of the main implementation explanation rather than an expansion idea.
-
-**Severity:** Minor
-
----
-
-**[AOI #5 - Minor]**
-
-**Response Excerpt:**
-```c
 scanf(" %c", &guess); // Space before %c skips any leftover newline characters
 ```
 
@@ -548,11 +488,24 @@ Guess a letter: Good job! 'e' is in the word.
 
 ---
 
+**[AOI #3 - Minor]**
+
+**Response Excerpt:**
+```
+**Display:** We show the user the "masked" word (e.g., `p r o _ r a _ _ n _`). We look at the `guessedLetters` array; if the letter corresponding to the character in the secret word has been marked as guessed (1), we print it. Otherwise, we print `_`.
+```
+
+**Description:** The response's explanation describes correct display logic (checking ASCII indices in guessedLetters), but the actual printWord implementation checks word positions instead, making the walkthrough inconsistent with what the code actually does.
+
+**Severity:** Minor
+
+---
+
 ## Overall Quality Score: 2
 
 **Justification:**
 
-The response contains a critical logic bug in the printWord function that makes the game completely unplayable - guessed letters are never displayed to the player. While the code compiles and runs without crashing, this fundamental flaw undermines the entire purpose of the program. The bug demonstrates a conceptual misunderstanding of array indexing, confusing character-indexed arrays (ASCII lookup) with position-indexed arrays. Five minor issues also exist: sign comparison warning, type cast from int array to char pointer, misleading expansion advice about scanf, and multi-character input not being flushed from the buffer. Despite clean code structure and good explanatory content, the substantial issue drops the quality to 2.
+The response contains a critical logic bug in the printWord function that makes the game completely unplayable - guessed letters are never displayed to the player. While the code compiles and runs without crashing, this fundamental flaw undermines the entire purpose of the program. The bug demonstrates a conceptual misunderstanding of array indexing, confusing character-indexed arrays (ASCII lookup) with position-indexed arrays. Two minor issues also exist: multi-character input not being flushed from the buffer, and the explanation describing correct logic that doesn't match the actual buggy implementation. Despite clean code structure and good explanatory content, the substantial issue drops the quality to 2.
 
 ---
 

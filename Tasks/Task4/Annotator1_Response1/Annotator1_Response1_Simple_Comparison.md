@@ -270,7 +270,7 @@ used[usedIdx + 1] = '\0';
 
 **Agreement:** ❌ DISAGREE
 
-**Justification:** Buffer overflow is mathematically impossible in this implementation. The longest word is "strawberry" (10 characters), game ends after 6 wrong guesses, and duplicate detection prevents re-guessing. Worst case: 6 wrong + 10 correct = 16 guesses maximum. Array size is 50, so maximum index 17 is far below limit. No bug exists to fix.
+**Justification:** Overflow is impossible under current game constraints. The longest word is 10 characters, maximum wrong guesses is 6, and duplicate detection prevents re-guessing. Maximum possible index is 17, far below the array size of 50.
 
 **My equivalent:** Not in Golden Annotation (rejected - cannot overflow)
 
