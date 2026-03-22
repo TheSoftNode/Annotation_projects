@@ -584,7 +584,7 @@ The response contains a critical logic bug in the printWord function that makes 
 
 **Justification:**
 
-R1 provides a fully functional Hangman game with only minor issues that don't affect playability, while R2 contains a critical logic bug that renders the game completely unplayable - guessed letters are never displayed to the player. R1 demonstrates solid C programming with proper memory safety and comprehensive features, whereas R2's fundamental array indexing error shows a conceptual misunderstanding. R1 scores 4 (mostly high quality) while R2 scores 2 (mostly low quality) due to the game-breaking bug.
+R1 provides a fully functional Hangman game with only minor issues that don't affect playability, while R2 contains a critical logic bug that renders the game completely unplayable - guessed letters are never displayed. R1 scores 4 (mostly high quality) while R2 scores 2 (mostly low quality) due to the game-breaking bug.
 
 ---
 
