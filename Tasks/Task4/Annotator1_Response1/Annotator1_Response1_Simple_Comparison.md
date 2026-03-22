@@ -222,18 +222,112 @@ These are accurate and appropriate.
 
 ## AREAS OF IMPROVEMENT
 
-**Annotator 1 identified:** 0 AOIs
+**Annotator 1 identified:** 6 AOIs
 
-**This is a significant oversight.** The code has 7 Minor issues including:
-1. Unused parameter warning
-2. yesNoPrompt ++c bug
-3. Duplicate guess misleading message
-4. Unnecessary emoji
-5. Missing isalpha() validation
-6. Documentation inconsistency
-7. Incomplete function signature in table
+### Annotator 1 AOI #1
+**Response Excerpt:**
+```c
+static int processGuess(char guess, const char *target, char *guessed, int *misses, char *used)
+```
 
-Annotator 1 failed to identify any of these issues.
+**Description:** The compilation of the program results in a warning. In the function processGuess, the parameter misses has been declared, but it has never been used inside the function
+
+**Severity:** Minor
+
+**Agreement:** ✅ AGREE
+
+**My equivalent:** Golden Annotation AOI #1
+
+---
+
+### Annotator 1 AOI #2
+**Response Excerpt:**
+```
+target[] - the word to be guessed (read-only).
+```
+
+**Description:** The response describes target as an array target[] but in the code it is actually declared as a pointer const char *target.
+
+**Severity:** Minor
+
+**Agreement:** ❌ DISAGREE
+
+**Justification:** In C function parameters, `target[]` and `const char *target` are completely equivalent - arrays decay to pointers when passed to functions. Using `target[]` in documentation and `const char *target` in code is standard C practice, not a mismatch.
+
+**My equivalent:** Not in Golden Annotation (not a valid issue)
+
+---
+
+### Annotator 1 AOI #3
+**Response Excerpt:**
+```c
+used[usedIdx + 1] = '\0';
+```
+
+**Description:** The response assigns a value in usedIdx+1 without checking if that index is within bounds. If usedIdx+1 is equal to 50 or more (the length of used), this will cause a segmentation fault. Although this case would never occur in the code as we do not have any word that has more than 50 characters, therefore used also would never exceed 50 characters, but this check is necessary to avoid future errors.
+
+**Severity:** Substantial
+
+**Agreement:** ❌ DISAGREE
+
+**Justification:** Buffer overflow is mathematically impossible in this implementation. The longest word is "strawberry" (10 characters), game ends after 6 wrong guesses, and duplicate detection prevents re-guessing. Worst case: 6 wrong + 10 correct = 16 guesses maximum. Array size is 50, so maximum index 17 is far below limit. No bug exists to fix.
+
+**My equivalent:** Not in Golden Annotation (rejected - cannot overflow)
+
+---
+
+### Annotator 1 AOI #4
+**Response Excerpt:**
+```c
+while ((ch = getchar()) != EOF && isspace(ch)) ; /* skip spaces / newlines */
+if (ch == EOF) {
+    printf("\nGood-bye!\n");
+    return 0;
+}
+guess = (char)tolower(ch);
+```
+
+**Description:** The response provides a code that accepts any input by the user. A Hangman game only accepts alphabetical characters as inputs. In this case we can provide numbers too, which is not ideal. There should have been an isalpha() check to accept only alphabets.
+
+**Severity:** Minor
+
+**Agreement:** ✅ AGREE
+
+**My equivalent:** Golden Annotation AOI #5
+
+---
+
+### Annotator 1 AOI #5
+**Response Excerpt:**
+```
+Below is a complete, easy-to-read Hangman implementation in C that you can compile with any standard C compiler (gcc, clang, MSVC, etc.)......Enjoy coding, and have fun playing your own Hangman game! 🎉
+```
+
+**Description:** The response contains multiple instances of usage of emojis. This adds no meaningful value and can be removed.
+
+**Severity:** Minor
+
+**Agreement:** ✅ AGREE
+
+**My equivalent:** Golden Annotation AOI #4
+
+---
+
+### Annotator 1 AOI #6
+**Response Excerpt:**
+```
+5️⃣ Extending the game...Use wchar_t and the wide-character I/O functions (getwchar, fwprintf).
+```
+
+**Description:** The response provides a table that has not been formatted correctly. The left column should have been top-aligned which is a standard way of formatting tables.
+
+**Severity:** Minor
+
+**Agreement:** ❌ DISAGREE
+
+**Justification:** Standard Markdown does not support vertical alignment for table cells. Markdown only supports horizontal alignment (`:---` for left, `:---:` for center, `---:` for right). There is no syntax for top-aligning, middle-aligning, or bottom-aligning cells vertically. The table is formatted correctly according to standard Markdown.
+
+**My equivalent:** Not in Golden Annotation (not a valid issue)
 
 ---
 
@@ -255,25 +349,17 @@ Annotator 1 failed to identify any of these issues.
 
 ---
 
-## SUMMARY TABLE
+## SUMMARY
 
-| Category | Annotator 1 | Golden | Agreement |
-|----------|-------------|---------|-----------|
-| **Total Strengths** | 11 | 8 | 6 ✅ / 5 ❌ |
-| **Valid Strengths** | 6 | 8 | 6 overlap |
-| **Overstated/Wrong** | 5 (#1,#2,#4,#5,#7) | 0 | - |
-| **AOIs Found** | 0 | 7 | 0 |
-| **Format Violations** | 1 (#2) | 0 | - |
+**Annotator 1 Strengths:**
+- Total: 11
+- Agreed: 6/11 (55%)
+- Disagreed: 5/11 (45%) - Strengths #1, #2, #4, #5, #7 are overstated/incorrect
 
----
+**Annotator 1 AOIs:**
+- Total: 6
+- Agreed: 3/6 (50%)
+- Disagreed: 3/6 (50%) - AOIs #2, #3, #6 are invalid or incorrect severity
+- Missed: 3 major AOIs (yesNoPrompt ++c bug, duplicate guess issue, table signature error)
 
-## KEY ISSUES WITH ANNOTATOR 1'S ASSESSMENT
-
-1. ❌ **Claims "logically correct"** despite multiple logic bugs
-2. ❌ **Wrong format** on Strength #2 (starts with "The code" not "The response")
-3. ❌ **Factual error** in Strength #4 (wrong function updates misses)
-4. ❌ **Overstates input handling** without acknowledging missing validation and bugs
-5. ❌ **Praises buggy replay feature** without noting implementation flaws
-6. ❌ **Identified ZERO AOIs** - complete miss on code quality assessment
-
-**Annotator 1's analysis is overly positive and misses critical details that would help improve the code.**
+**Overall:** Annotator 1's feedback is overly positive with multiple overstated strengths and missed half of the valid AOI issues. The assessment lacks critical analysis and identifies several invalid AOIs while missing real code quality issues.

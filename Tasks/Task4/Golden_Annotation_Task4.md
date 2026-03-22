@@ -307,28 +307,6 @@ Guessed letters: 123
 
 **Response Excerpt:**
 ```
-The game state is stored in just a few arrays of characters:
-
-* `target[]` – the word to be guessed (read-only).
-* `guessed[]` – what the player has discovered so far (filled with `_` initially).
-* `used[]` – letters the player has already tried (to avoid duplicate guesses).
-```
-
-```c
-static int  processGuess(char guess, const char *target,
-                         char *guessed, int *misses, char *used);
-```
-
-**Description:** The response describes the parameter as `target[]` (array syntax) in the documentation, but in the actual function signature it is declared as `const char *target` (pointer syntax), creating a mismatch between documentation and implementation.
-
-**Severity:** Minor
-
----
-
-**[AOI #7 - Minor]**
-
-**Response Excerpt:**
-```
 | Component | Responsibility |
 | ----- | ----- |
 | `processGuess(char guess, const char *target, char *guessed, int *misses)` | Update the `guessed` string and the miss counter. |
