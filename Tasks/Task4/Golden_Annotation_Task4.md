@@ -245,10 +245,16 @@ Good guess!
 
 **Response Excerpt:**
 ```
+## **1️⃣ High-level design**
+## **2️⃣ Full source code**
+## **3️⃣ How the code works (step-by-step)**
+## **4️⃣ Building & Running**
+## **5️⃣ Extending the game**
+...
 Enjoy coding, and have fun playing your own Hangman game! 🎉
 ```
 
-**Description:** The response includes an emoji (🎉) in the closing message, which is unnecessary embellishment in technical documentation.
+**Description:** The response includes multiple emojis (1️⃣, 2️⃣, 3️⃣, 4️⃣, 5️⃣ in section headings and 🎉 in the closing message), which are unnecessary embellishments in technical documentation.
 
 **Severity:** Minor
 
