@@ -48,7 +48,7 @@ static int processGuess(char guess, const char *target,
 
 ## Strengths
 
-The response delivers a complete Hangman game that successfully compiles and covers the full gameplay cycle from selecting a word to displaying game outcomes and ASCII hangman graphics.
+The response provides a complete, working Hangman implementation that successfully compiles and runs the full game.
 
 The response presents an upfront design overview with a table that clearly defines what each function does, making the program structure easy to grasp before examining the code itself.
 
