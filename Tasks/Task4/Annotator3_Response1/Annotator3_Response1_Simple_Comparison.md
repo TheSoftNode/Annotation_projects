@@ -32,9 +32,37 @@
 ### Annotator 3 Strength #4
 **Description:** "The response implements play-again functionality allowing multiple game sessions without restarting"
 
-**Agreement:** ✅ AGREE
+**Agreement:** ❌ DISAGREE
 
-**My equivalent:** Golden Annotation Strength #8 (multi-language yes/no for play-again)
+**Justification:** The play-again functionality cannot be considered a strength because the yesNoPrompt() function has a bug where it increments the character value instead of advancing through the string:
+
+```c
+static int yesNoPrompt(const char *prompt)
+{
+    char answer[16];
+    while (1) {
+        printf("%s ", prompt);
+        if (!fgets(answer, sizeof answer, stdin))
+            return 0;
+
+        char c = answer[0];
+        while (c != '\0' && isspace((unsigned char)c))
+            ++c;  // BUG: Increments ASCII value, not string position
+        c = tolower((unsigned char)c);
+
+        if (c == 'y' || c == 'c' || c == 's')
+            return 1;
+        if (c == 'n' || c == 'o')
+            return 0;
+
+        printf("Please answer with 'y' (yes) or 'n' (no).\n");
+    }
+}
+```
+
+This bug breaks the whitespace handling. Additionally, the function has misleading logic where if a French user types "oui" (yes), it reads 'o' and interprets it as "no" instead, which is counterintuitive. These issues make it inappropriate to highlight this as a strength.
+
+**My equivalent:** None - Golden annotation doesn't praise the replay feature
 
 ---
 
@@ -137,8 +165,9 @@
 
 **Annotator 3 Strengths:**
 - Total: 5
-- Verified: 5/5 (100%)
-- Already in Golden: 5/5 (100%)
+- Agreed: 4/5 (80%)
+- Disagreed: 1/5 (20%) - Strength #4 praises buggy replay feature
+- Already in Golden: 4/5
 
 **Annotator 3 AOIs:**
 - Total: 2
@@ -149,4 +178,4 @@
 - Strength: 1/1 already covered
 - AOIs: 3/4 already covered, 1 rejected (bounds check)
 
-**Overall:** All valid items from Annotator 3 are already in the Golden Annotation. No changes needed.
+**Overall:** Annotator 3's feedback is mostly accurate but praises the play-again functionality despite it relying on the buggy yesNoPrompt() function. The AOI identification is solid.
