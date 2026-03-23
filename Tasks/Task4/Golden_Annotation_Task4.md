@@ -515,7 +515,7 @@ The response contains a critical logic bug in the printWord function that makes 
 
 **Justification:**
 
-R1 provides a fully functional Hangman game with only minor issues that don't affect playability, while R2 contains a critical logic bug that renders the game completely unplayable - guessed letters are never displayed. R1 scores 4 (mostly high quality) while R2 scores 2 (mostly low quality) due to the game-breaking bug.
+R1 provides a fully functional Hangman game with only minor issues that don't affect playability, while R2 contains a critical logic bug in the printWord function that renders the game completely unplayable by preventing guessed letters from ever being displayed to the player.
 
 ---
 

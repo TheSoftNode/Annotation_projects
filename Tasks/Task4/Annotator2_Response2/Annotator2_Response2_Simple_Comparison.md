@@ -76,17 +76,15 @@ This type cast from `int*` to `const char*` causes printWord to read the wrong b
 **Annotator 2 identified:** 2 AOIs (but disagreed with 1)
 
 ### Annotator 2 AOI #1
-**Description:** "The correctCount logic with duplicate letters is incorrect"
+**Description:** "The game logic incorrectly counts total character matches rather than tracking which positions have been revealed, causing words with duplicate letters to potentially register multiple correct guesses for a single letter input and leading to incorrect win condition detection"
 
 **Severity:** Substantial (proposed by initial reviewer, but Annotator disagreed)
 
-**Agreement:** ✅ AGREE with Annotator's DISAGREEMENT - Not a bug
+**Agreement:** ✅ AGREE with Annotator's DISAGREEMENT
 
-**Justification:** The annotator correctly disagreed with this AOI, stating: "The logic is actually correct. Because the code prevents duplicate guesses, guessing a letter that appears multiple times correctly increments correctCount by the number of occurrences. The win condition correctCount == wordLength will be met exactly when all unique letters have been guessed."
+**Justification:** The claim that this causes "incorrect win condition detection" is false. Incrementing correctCount for each matching position is the correct behavior for Hangman. The win condition is based on revealing all letter positions, not just unique letters. For "array" (5 positions), guessing 'a' should reveal both 'a' positions and increment correctCount twice. Since duplicate guesses are blocked, correctCount will equal wordLength exactly when all positions are revealed, making the win condition work correctly.
 
-This is accurate. For the word "programming" (11 letters), when the user guesses 'r' (appears twice), correctCount increments by 2. After guessing all 8 unique letters, correctCount equals 11, matching wordLength, and the win condition is met correctly.
-
-**My equivalent:** Not in Golden Annotation (correctly identified as not a bug)
+**My equivalent:** Not in Golden Annotation (invalid claim)
 
 ---
 
@@ -95,11 +93,11 @@ This is accurate. For the word "programming" (11 letters), when the user guesses
 
 **Severity:** Substantial
 
-**Agreement:** ✅ AGREE
+**Agreement:** ❌ DISAGREE
 
-**Justification:** The type cast from `int*` to `const char*` is indeed type-unsafe and contributes to the game-breaking display bug.
+**Justification:** While the cast is type-unsafe, it's not the root cause of why printWord reads the guessed-state data incorrectly. The real bug is the indexing logic: the function checks `guessed[i]` (word positions 0-4) instead of `guessed[secret[i]]` (ASCII values 97, 114, etc.). Fixing only the cast to `const int*` would not fix the game - the function would still check the wrong indices. The cast is a symptom of misunderstanding the data structure, not the primary cause of the broken display logic.
 
-**My equivalent:** Golden Annotation AOI #3
+**My equivalent:** Not in Golden Annotation (misidentifies root cause)
 
 ---
 
@@ -113,8 +111,8 @@ This is accurate. For the word "programming" (11 letters), when the user guesses
 
 **Annotator 2 AOIs:**
 - Total: 2 (but annotator disagreed with 1)
-- Verified: 1/1 valid AOI (100%)
-- Already in Golden: 1/1 (100%)
+- Agreed: 0/1 (0%) - AOI #2 is redundant with the main bug
+- Disagreed: 1/1 (100%) - AOI #2 is not an independent issue
 - Correctly rejected: 1 (correctCount logic)
 
-**Overall:** Annotator 2's feedback has quality issues with 2 overstated strengths that claim "clean implementation" and "space-efficient" despite the game-breaking printWord bug and memory inefficiency. However, the annotator showed excellent judgment by correctly disagreeing with a false AOI about correctCount logic. The valid AOI identification is accurate.
+**Overall:** Annotator 2's feedback has quality issues with 2 overstated strengths that claim "clean implementation" and "space-efficient" despite the game-breaking printWord bug and memory inefficiency. The annotator showed excellent judgment by correctly rejecting the false correctCount AOI, but the type cast AOI is redundant with the main display bug and should not be listed as a separate substantial issue.

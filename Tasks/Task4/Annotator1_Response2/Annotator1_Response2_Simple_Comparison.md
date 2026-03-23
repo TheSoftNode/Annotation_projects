@@ -133,11 +133,11 @@ The code checks position indices `guessed[0]`, `guessed[1]`, `guessed[2]`, etc.,
 
 **Severity:** Substantial (Annotator's assessment)
 
-**Agreement:** ❌ DISAGREE on severity
+**Agreement:** ✅ AGREE (but disagree on severity)
 
-**Justification:** While the bug exists (typing "ate" processes three consecutive guesses), rating this as Substantial is incorrect. The game remains fully functional - players can complete the game successfully by typing single letters as intended. This is an annoying UX issue that wastes guesses, not a game-breaking bug. Substantial severity should be reserved for issues that materially undermine core functionality, like the printWord bug that renders the game unplayable.
+**Justification:** The bug is valid - typing "ate" processes three consecutive guesses, wasting the player's attempts. However, rating this as Substantial is incorrect. The game remains fully functional when players type single letters as intended. This is a UX issue, not a game-breaking bug. Substantial severity should be reserved for issues that materially undermine core functionality, like the printWord bug that renders the game unplayable. The correct severity is Minor.
 
-**My equivalent:** Golden Annotation AOI #5 (labeled Minor, not Substantial)
+**My equivalent:** Golden Annotation AOI #2 (labeled Minor, not Substantial)
 
 ---
 
@@ -164,8 +164,9 @@ The code checks position indices `guessed[0]`, `guessed[1]`, `guessed[2]`, etc.,
 
 **Annotator 1 AOIs:**
 - Total: 3
-- Agreed: 1/3 (33%)
-- Disagreed: 2/3 (67%) - AOI #2 severity wrong (Substantial vs Minor), AOI #3 not a meaningful issue (trivial memory difference)
-- Already in Golden: 1/3
+- Agreed: 2/3 (67%) - AOI #1 and #2 are valid bugs
+- Disagreed: 1/3 (33%) - AOI #3 not a meaningful issue (trivial memory difference)
+- Severity disagreement: AOI #2 marked Substantial but should be Minor
+- Already in Golden: 2/3
 
 **Overall:** Annotator 1's feedback has quality issues with 2 strengths that incorrectly claim the game is "playable" and that the explanation is "correct" when the explanation factually misrepresents how the printWord display logic works. The AOI identification is accurate, though severity assessment differs for the input buffer issue.

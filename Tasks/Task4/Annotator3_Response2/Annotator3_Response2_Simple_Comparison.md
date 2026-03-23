@@ -72,41 +72,41 @@ When a player guesses 'p', the code stores it at `guessedLetters[112]` (ASCII va
 **Annotator 3 identified:** 3 AOIs (but disagreed with 1)
 
 ### Annotator 3 AOI #1
-**Description:** "The printWord function accesses the guessed array by position index instead of ASCII value"
+**Description:** "The printWord function has a critical bug where it accesses guessedLetters by word position instead of character ASCII value, preventing correctly guessed letters from displaying"
 
 **Severity:** Substantial
 
 **Agreement:** ✅ AGREE
 
-**Justification:** The printWord bug makes the game completely unplayable by preventing guessed letters from ever displaying.
+**Justification:** The guessedLetters array is indexed by ASCII values (like 97 for 'a'), but printWord checks guessed[i] by word position (0, 1, 2...), preventing correctly guessed letters from displaying.
 
 **My equivalent:** Golden Annotation AOI #1
 
 ---
 
 ### Annotator 3 AOI #2
-**Description:** "Win condition broken with repeating letters"
+**Description:** "The win condition logic is broken because correctCount increments for each letter occurrence, making words with repeated characters impossible to win"
 
 **Severity:** Substantial (proposed by initial reviewer, but Annotator disagreed)
 
-**Agreement:** ✅ AGREE with Annotator's DISAGREEMENT - Not a bug
+**Agreement:** ✅ AGREE with Annotator's DISAGREEMENT
 
-**Justification:** The annotator correctly disagreed with this AOI. The correctCount logic is actually correct - when a letter appears multiple times, correctCount increments by the number of occurrences, so the win condition `correctCount == wordLength` works correctly.
+**Justification:** Incrementing correctCount for every matching position is the correct behavior for Hangman. The win condition is based on revealing all letter positions, not unique letters. For "array", guessing 'a' should increment correctCount by 2, making the total equal wordLength when all positions are revealed.
 
-**My equivalent:** Not in Golden Annotation (correctly identified as not a bug)
+**My equivalent:** Not in Golden Annotation (invalid claim)
 
 ---
 
 ### Annotator 3 AOI #3
-**Description:** "The response lacks visual hangman drawing and play-again functionality"
+**Description:** "The code lacks visual hangman drawing and play-again functionality, making it less complete as a game implementation"
 
 **Severity:** Minor
 
-**Agreement:** ✅ AGREE
+**Agreement:** ❌ DISAGREE
 
-**Justification:** The response doesn't include visual hangman ASCII art or play-again loop functionality.
+**Justification:** Visual hangman drawing and play-again functionality are optional features, not required for a "basic" Hangman game. The response explicitly lists ASCII art in its "Ideas for Expansion" section. Lacking these features is not a correctness issue.
 
-**My equivalent:** To be added to Golden Annotation
+**My equivalent:** Not in Golden Annotation (invalid - penalizes optional features)
 
 ---
 
@@ -120,8 +120,9 @@ When a player guesses 'p', the code stores it at `guessedLetters[112]` (ASCII va
 
 **Annotator 3 AOIs:**
 - Total: 3 (but annotator disagreed with 1)
-- Verified: 2/2 valid AOIs (100%)
-- Already in Golden: 1/2 (50%)
+- Agreed: 1/2 (50%) - Only AOI #1 is valid
+- Disagreed: 1/2 (50%) - AOI #3 penalizes optional features
 - Correctly rejected: 1 (win condition logic)
+- Already in Golden: 1/2 (50%)
 
-**Overall:** Annotator 3's feedback is mostly accurate but overstates one strength by calling the ASCII tracking array "clever" despite it being misused in the implementation. The annotator showed good judgment by correctly disagreeing with a false AOI about win condition logic. The valid AOI identification is accurate.
+**Overall:** Annotator 3's feedback shows good judgment by correctly rejecting the false win condition claim, but includes an invalid area of improvement that penalizes the response for lacking optional features (ASCII art, play-again) that go beyond a "basic" game. One strength overstates the ASCII array as "clever" despite its misuse in the implementation.
