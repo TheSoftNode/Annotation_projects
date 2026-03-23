@@ -388,7 +388,7 @@ The response provides multi-distribution support with specific package installat
 
 The response includes proper verification steps using hackrf_info to check device detection before testing the Python package, following a logical troubleshooting sequence that helps users identify whether problems are with hardware, drivers, or Python bindings.
 
-The response correctly identifies libhackrf-dev as the development headers package and explains why build-essential is needed despite pyhackrf being described as pure Python, showing understanding of the C extension compilation dependency chain and the practical requirements for installing Python packages with native dependencies.
+The response correctly identifies libhackrf-dev as the development headers package and explains why build-essential is needed for the installation process, showing understanding of the C extension compilation dependency chain and the practical requirements for installing Python packages with native dependencies.
 
 ## Areas of Improvement
 
