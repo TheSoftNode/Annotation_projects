@@ -465,7 +465,7 @@ sudo apt install -y \
 
 **Query:** Ubuntu package repositories search for hackrf
 
-**URL:** https://packages.ubuntu.com/search?keywords=hackrf
+**URL:** https://packages.ubuntu.com/focal/hackrf
 
 **Source Excerpt:**
 ```
