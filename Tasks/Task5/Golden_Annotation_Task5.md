@@ -41,11 +41,11 @@ HTTP 404 - Repository Not Found
 
 ## Strengths
 
-The response provides comprehensive OS coverage for Linux, macOS, and Windows with specific installation instructions and accurate system dependencies for each platform.
-
 The response emphasizes that HackRF driver/libraries must be installed first before PyHackRF, correctly explaining that PyHackRF is a Python wrapper that depends on the underlying libhackrf system library.
 
-The response suggests using virtual environments to avoid system Python conflicts and provides the complete workflow from environment creation through installation.
+The response includes a verification checkpoint using hackrf_info to confirm the HackRF driver installation is functional before proceeding to the Python package installation.
+
+The response organizes the installation into distinct numbered steps with dedicated sections for verification and troubleshooting, creating a clear workflow structure.
 
 ## Areas of Improvement
 
@@ -358,7 +358,7 @@ Let me know if you hit specific errors – I'll help debug! 🛠️
 
 **Justification:**
 
-The response contains two substantial errors that prevent successful installation: wrong PyHackRF repository URL (404) and incorrect HackRF build system (autotools instead of CMake). Four additional minor AOIs cover: outdated prebuilt wheels URL (301 redirect), incorrect version number (0.6 vs 0.2.0), post-installation guidance for unreachable stages, and excessive emoji usage. The response has only 3 valid strengths regarding OS-specific dependencies, architectural understanding, and virtual environment best practices. With 6 total AOIs (2 Substantial, 4 Minor) and limited genuine strengths, the critical errors at Step 2 and Step 3 make the installation workflow completely non-functional.
+The response contains two substantial errors that prevent successful installation: wrong PyHackRF repository URL (404) and incorrect HackRF build system (autotools instead of CMake). Four additional minor AOIs cover: outdated prebuilt wheels URL (301 redirect), incorrect version number (0.6 vs 0.2.0), post-installation guidance for unreachable stages, and excessive emoji usage. The response has 3 valid strengths regarding dependency chain understanding, verification checkpoints, and workflow structure. With 6 total AOIs (2 Substantial, 4 Minor), the critical errors at Step 2 and Step 3 make the installation workflow completely non-functional despite the organizational strengths.
 
 ---
 
@@ -471,7 +471,12 @@ sudo apt install -y \
 ```
 Package: hackrf
 Description: Software defined radio peripheral - utilities
-Contains: hackrf_info, hackrf_transfer, hackrf_spiflash, etc.
+
+This package contains command line utilities:
+- hackrf_cpldjtag: program CLPD
+- hackrf_info: probe device and show configuration
+- hackrf_spiflash: read and write flash data from file
+- hackrf_transfer: file based transmit and receive
 
 ✓ Correct package name is "hackrf"
 ✗ Response uses "hackrf-tools" (package does not exist)
@@ -568,17 +573,18 @@ pyhackrf requires libhackrf ≥ 2017.08.05.
 
 **Source Excerpt:**
 ```
-HackRF Release Format: YYYY.MM.RELEASE_NUMBER
-Examples:
+HackRF Release Format: vYYYY.MM.PATCH (CalVer)
+Examples from GitHub releases:
+- v2026.01.2
 - v2024.02.1
 - v2023.01.1
-- v2021.03.1
 - v2018.01.1
 - v2017.02.1
 
-✓ HackRF uses YYYY.MM.RELEASE_NUMBER format
-✗ Response uses YYYY.MM.DD format (2017.08.05)
+✓ HackRF uses vYYYY.MM.PATCH format (year.month.patch)
+✗ Response uses YYYY.MM.DD format (2017.08.05 appears to be year.month.day)
 ✗ No release "2017.08.05" exists in HackRF history
+✗ The only 2017 release is v2017.02.1
 ```
 
 ---
