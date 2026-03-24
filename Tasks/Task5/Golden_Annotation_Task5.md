@@ -188,7 +188,7 @@ sudo ldconfig
 
 **Response Excerpt:**
 ```
-use prebuilt PyHackRF wheels (https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyhackrf)
+⚠️ **Strongly advise against this** – use [prebuilt PyHackRF wheels](https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyhackrf) instead.
 ```
 
 **Description:** The response references a URL for prebuilt PyHackRF wheels that has moved permanently (HTTP 301 redirect), with the new site no longer hosting pyhackrf wheels, providing users with an outdated and non-functional link for an alternative Windows installation method when they might need it.
@@ -348,7 +348,7 @@ These are post-installation instructions for an installation that never complete
 Let me know if you hit specific errors – I'll help debug! 🛠️
 ```
 
-**Description:** The response uses multiple emojis (⚠️, 🔧, 💡, 📦, 🐍, ✅, ❌, 🛠️, 🌐, 📌) throughout the technical documentation as section markers and in the closing message, which may be considered unprofessional for technical guidance and could be distracting in a programming context.
+**Description:** The response uses multiple emojis (⚠️, 🔧, 💡, 📦, 🐍, ✅, ❌, 🛠️, 🌐, 📌) throughout the technical documentation as section markers and in the closing message, reducing the professional tone of the technical guidance and distracting from the instructional content.
 
 **Severity:** Minor
 
