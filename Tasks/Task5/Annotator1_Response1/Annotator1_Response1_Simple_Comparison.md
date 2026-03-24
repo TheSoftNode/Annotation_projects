@@ -5,22 +5,22 @@
 ### Annotator 1 Strength #1
 **Description:** "The response provides a complete installation workflow by including both the HackRF driver build and the PyHackRF installation, while emphasizing the dependency on libhackrf and building it as a prerequisite, ensuring the process works from a clean system."
 
-**Agreement:** ✅ AGREE - PARTIALLY
+**Agreement:** ❌ DISAGREE
 
-**Justification:** The response emphasizes the critical libhackrf dependency and explains the architectural relationship correctly, which helps users understand why the HackRF driver must be installed first. However, the workflow contains blocking errors (wrong repository URLs and incorrect build system commands) that prevent it from working on a clean system.
+**Justification:** The response claims to provide a complete workflow that "ensures the process works from a clean system," which is false because the workflow contains blocking errors that prevent successful installation, making this an overclaim of reliability rather than a genuine strength.
 
-**My equivalent:** Golden Annotation Strength #2
+**My equivalent:** None - this overclaims the workflow's completeness and reliability
 
 ---
 
 ### Annotator 1 Strength #2
 **Description:** "The response includes verification and troubleshooting steps, which improve usability by helping users validate installation and diagnose common issues."
 
-**Agreement:** ❌ DISAGREE - THIS IS ACTUALLY AN AOI
+**Agreement:** ✅ AGREE - PARTIALLY
 
-**Justification:** The response provides verification and troubleshooting guidance for stages that users cannot reach due to earlier blocking errors in the workflow, making this guidance theoretical rather than practically useful for completing the installation.
+**Justification:** The response includes hackrf_info as a verification checkpoint to confirm the HackRF driver installation is functional before proceeding, which is a valid intermediate validation step that improves usability. However, some later verification steps address stages users cannot reach due to blocking errors.
 
-**My equivalent:** None - this is actually problematic (Golden AOI #5)
+**My equivalent:** Golden Annotation Strength #2 (hackrf_info verification checkpoint)
 
 ---
 
@@ -57,33 +57,33 @@
 ### QC Miss Strength #1
 **Description:** "The response correctly identifies the prerequisite of installing the C library libhackrf before installing PyHackRF, and the apt and brew commands to install dependencies are accurate and work perfectly."
 
-**Agreement:** ✅ AGREE
+**Agreement:** ✅ AGREE - PARTIALLY
 
-**Justification:** The response provides accurate system dependencies and package manager commands for each platform, which helps users correctly install the prerequisite libraries before attempting the PyHackRF installation.
+**Justification:** The response correctly emphasizes the libhackrf prerequisite and provides accurate commands for installing system dependencies, which aligns with the architectural understanding strength in the Golden Annotation.
 
-**My equivalent:** Golden Annotation Strength #1
+**My equivalent:** Golden Annotation Strength #1 (dependency chain understanding)
 
 ---
 
 ### QC Miss Strength #2
 **Description:** "The response provides comprehensive multi-platform coverage including Linux, macOS, and Windows with OS-specific instructions."
 
-**Agreement:** ✅ AGREE
+**Agreement:** ❌ DISAGREE
 
-**Justification:** The response covers Linux, macOS, and Windows with platform-specific commands and dependencies, providing users with installation guidance regardless of their operating system.
+**Justification:** The response explicitly discourages Windows installation, stating it is "not recommended" and users should "strongly advise against this," which contradicts the claim of providing comprehensive multi-platform support with equal flexibility across operating systems.
 
-**My equivalent:** Golden Annotation Strength #1
+**My equivalent:** None - this overclaims the Windows support
 
 ---
 
 ### QC Miss Strength #3
 **Description:** "The response includes thorough verification steps at multiple stages (driver test, Python import, device communication)."
 
-**Agreement:** ❌ DISAGREE
+**Agreement:** ✅ AGREE - PARTIALLY
 
-**Justification:** The response provides verification steps for installation stages that users cannot reach due to earlier blocking errors, which makes this guidance theoretical rather than practically applicable to completing the installation.
+**Justification:** The response includes a verification checkpoint using hackrf_info to confirm the HackRF driver installation is functional before proceeding to the Python installation steps, which provides a useful intermediate validation point.
 
-**My equivalent:** None - this is problematic guidance (Golden AOI #5)
+**My equivalent:** Golden Annotation Strength #2 (hackrf_info verification checkpoint)
 
 ---
 
@@ -122,11 +122,11 @@
 ## WHAT ANNOTATOR 1 MISSED
 
 ### Strengths Annotator 1 Missed:
-1. **Golden Annotation Strength #3:** Virtual environment suggestion (Python best practices)
+1. **Golden Annotation Strength #3:** Workflow structure organization (step-by-step with dedicated sections for verification and troubleshooting)
 
-**Note:** Annotator 1 correctly captured the prerequisite emphasis and multi-OS coverage, but missed the virtual environment best practice.
+**Note:** Annotator 1 captured the prerequisite emphasis and verification checkpoints, but missed explicitly noting the organized workflow structure as a distinct strength.
 
-**Total:** Annotator 1 identified 2 out of 3 valid strengths (and incorrectly called 2 non-strengths as strengths)
+**Total:** Annotator 1 identified 2 out of 3 valid strengths (and incorrectly called multi-OS coverage as a strength when Windows is explicitly discouraged)
 
 ---
 
@@ -168,7 +168,7 @@
 1. ✅ **Complete AOI coverage:** All 6 AOIs identified (2 Substantial, 4 Minor)
 2. ✅ **Accurate severities:** Correct assessment of what's blocking (Substantial) vs. problematic (Minor)
 3. ✅ **Critical analysis:** Recognized that troubleshooting/verification for unreachable stages is an AOI, not a strength
-4. ✅ **Consistency:** Removed 5 invalid "strengths" through critical analysis of what users can actually reach
+4. ✅ **Focused strengths:** Identified 3 valid strengths based on actual capabilities without overclaiming (rejected OS coverage that contradicts Windows discouragement, rejected virtual env that contradicts sudo install)
 5. ✅ **Verified externally:** All claims tested with curl, GitHub API, PyPI API
 
 ---

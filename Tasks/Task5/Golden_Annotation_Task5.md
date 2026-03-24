@@ -463,20 +463,19 @@ sudo apt install -y \
 
 **Tool Type:** Web Documentation
 
-**Query:** Ubuntu package repositories search for hackrf
+**Query:** Ubuntu package information for hackrf
 
-**URL:** https://packages.ubuntu.com/focal/hackrf
+**URL:** https://launchpad.net/ubuntu/+source/hackrf
 
 **Source Excerpt:**
 ```
 Package: hackrf
 Description: Software defined radio peripheral - utilities
 
-This package contains command line utilities:
-- hackrf_cpldjtag: program CLPD
-- hackrf_info: probe device and show configuration
-- hackrf_spiflash: read and write flash data from file
-- hackrf_transfer: file based transmit and receive
+HackRF is an open source Software Defined Radio that can receive and transmit
+between 30 MHz and 6 GHz. This package contains command line utilities including
+hackrf_info (probe device and show configuration), hackrf_transfer (file based
+transmit and receive), hackrf_cpldjtag, and hackrf_spiflash.
 
 ✓ Correct package name is "hackrf"
 ✗ Response uses "hackrf-tools" (package does not exist)
@@ -488,9 +487,16 @@ This package contains command line utilities:
 **[AOI #3 - Minor]**
 
 **Response Excerpt:**
-```markdown
+```
+### 📚 Official Resources
+
 * [pyhackrf GitHub Repository](https://github.com/atech/pyhackrf)
-* [pyhackrf issues page](https://github.com/atech/pyhackrf/issues)
+* [HackRF One Installation Guide](https://github.com/mossmann/hackrf)
+
+This method ensures `pyhackrf` is installed without `pip`, using the system's
+package manager for dependencies and manual source compilation. If issues arise,
+check the [pyhackrf issues page](https://github.com/atech/pyhackrf/issues) for
+troubleshooting.
 ```
 
 **Description:** The response provides two broken links in the Official Resources section pointing to the non-existent atech/pyhackrf repository, leaving users without valid reference documentation or support channels when they encounter problems.
