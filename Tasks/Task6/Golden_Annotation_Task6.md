@@ -214,7 +214,7 @@ The response correctly identifies this is not a standard shortest path problem a
 
 The response includes complexity analysis `O(n² * k * d * log(n² * k * d))` with explanation of state space size and provides feasibility context (n ≤ 100, d ≤ 10, k ≤ 10), characterizing the algorithm's performance properties.
 
-The response suggests A* optimization with an admissible heuristic (minimum distance to next destination ignoring constraints) and explains why it never overestimates, demonstrating advanced algorithmic knowledge and addressing the bonus challenge.
+The response suggests A* optimization with an admissible heuristic (minimum distance to next destination ignoring constraints) and explains why it never overestimates, demonstrating advanced algorithmic knowledge.
 
 ## Areas of Improvement
 
