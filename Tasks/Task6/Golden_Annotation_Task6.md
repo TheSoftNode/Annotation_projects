@@ -138,13 +138,19 @@ The response includes working Python code with an example test case, making it e
 
 **[AOI #1 - Minor]**
 
-**Response Excerpt:**
+**Prompt Excerpt:**
 ```
-Running the code above with the provided example produces:
-[1, 2, 3, 4, 5]
+### **Bonus Challenge:**
+
+Can you implement this using **A*** search where the heuristic prioritizes reaching higher-priority destinations faster?
 ```
 
-**Description:** The response does not address the Bonus Challenge regarding A* search implementation with a heuristic for optimization, leaving this optional enhancement unaddressed when it could demonstrate advanced algorithmic knowledge.
+**Response Excerpt:**
+```
+[The response provides a Dijkstra implementation but does not mention or address the Bonus Challenge, A* search, or heuristic optimization]
+```
+
+**Description:** The response does not address the prompt's Bonus Challenge regarding A* search implementation with a heuristic for optimization, leaving this optional enhancement unaddressed when it could demonstrate advanced algorithmic knowledge beyond the basic Dijkstra approach provided.
 
 **Severity:** Minor
 
