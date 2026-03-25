@@ -335,11 +335,33 @@ Match: False
 
 ---
 
+**[AOI #2 - Minor]**
+
+**Response Excerpt:**
+```
+## **✅ Solution Strategy**
+### **🔧 Key Observations:**
+✅ **Important**: Higher priority = must be visited **earlier**.
+## **✅ Step-by-Step Algorithm**
+✅ **Why Dijkstra?**
+## **✅ Implementation (Python Pseudocode)**
+## **✅ Trace Through Example**
+✅ **Answer: [1, 2, 3, 4, 5, 4, 3, 2]**
+✅ **Algorithm**: State-space Dijkstra
+⚠️ This heuristic is **admissible**
+```
+
+**Description:** The response uses multiple emojis (✅, 🔧, ⚠️) throughout the technical documentation as section headers and emphasis markers, reducing the professional tone of the technical guidance and distracting from the algorithmic content.
+
+**Severity:** Minor
+
+---
+
 ## Overall Quality Score: 3
 
 **Justification:**
 
-The response contains one substantial error: validating and claiming the answer is `[1,2,3,4,5,4,3,2]` when this path uses three non-existent edges and violates the Alternate Routes Rule. The response's code correctly produces `[1, 2, 3, 4, 5]`, but the text contradicts this by manually validating an impossible path. Despite five strong qualities (correct code, comprehensive explanation, complexity analysis, A* suggestion, problem understanding), the substantial error of validating a mathematically impossible path while contradicting the code's output warrants a score of 3.
+The response contains one substantial error: validating and claiming the answer is `[1,2,3,4,5,4,3,2]` when this path uses three non-existent edges and violates the Alternate Routes Rule. The response's code correctly produces `[1, 2, 3, 4, 5]`, but the text contradicts this by manually validating an impossible path. One minor issue exists: excessive emoji usage throughout the technical documentation (✅, 🔧, ⚠️). Despite five strong qualities (organized sections, problem identification, state definition, complexity discussion, A* suggestion), the substantial error of validating a mathematically impossible path while contradicting the code's output warrants a score of 3.
 
 ---
 
