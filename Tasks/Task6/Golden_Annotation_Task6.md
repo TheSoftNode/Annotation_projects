@@ -204,15 +204,15 @@ Path [1,2,3,4,5] is VALID
 
 ## Strengths
 
-The response implements a correct state-space Dijkstra algorithm with proper state representation that produces a valid path `[1, 2, 3, 4, 5]` when executed, delivering a working solution that correctly handles all constraints.
+The response structures its explanation into distinct labeled sections (Solution Strategy, Key Observations, State Representation, State Transitions, Search Algorithm) that separate different aspects of the approach, making the solution easier to follow.
 
-The response provides comprehensive algorithmic explanation organized into clear sections (Solution Strategy, State Representation, State Transitions, Search Algorithm) that methodically break down the problem-solving approach, making the complex algorithm understandable.
+The response recognizes that standard shortest path algorithms are insufficient here and explains that the state must track path history rather than just current location, identifying the core challenge that necessitates state-space search.
 
-The response correctly identifies this is not a standard shortest path problem and explains why state must encode multiple variables beyond current position, clarifying the fundamental challenge that requires state-space search.
+The response specifies a four-component state tuple (current node, previous node, charge streak, next destination index) that directly encodes the information needed to enforce each constraint during the search.
 
-The response includes complexity analysis `O(n² * k * d * log(n² * k * d))` with explanation of state space size and provides feasibility context (n ≤ 100, d ≤ 10, k ≤ 10), characterizing the algorithm's performance properties.
+The response discusses computational complexity with state-space size analysis, giving insight into how the algorithm scales with problem parameters.
 
-The response suggests A* optimization with an admissible heuristic (minimum distance to next destination ignoring constraints) and explains why it never overestimates, demonstrating advanced algorithmic knowledge.
+The response proposes using A* with a distance-based heuristic for the bonus challenge, showing awareness of optimization techniques beyond the basic Dijkstra approach.
 
 ## Areas of Improvement
 
