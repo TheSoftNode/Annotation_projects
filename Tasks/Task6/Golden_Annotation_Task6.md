@@ -151,7 +151,7 @@ and
 1. **Priority Ordering**: The destinations are `(5, 1)` and `(2, 2)`. Assuming higher number = higher priority (as the example visits 2 before 5), we target node 2 first.
 ```
 
-**Description:** The response assumes larger numeric priority values indicate higher priority by stating "Assuming higher number = higher priority" and interpreting the example accordingly, treating Priority 2 as higher than Priority 1, when the prompt never explicitly defines the mapping between numeric priority values and priority levels, making this assumption questionable without clearer justification.
+**Description:** The response assumes larger numeric priority values indicate higher priority by stating "Assuming higher number = higher priority" and uses the example path to justify this interpretation, when the prompt never explicitly defines how numeric priority values map to priority levels, making this assumption insufficiently justified given the ambiguity.
 
 **Severity:** Minor
 
