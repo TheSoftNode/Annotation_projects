@@ -136,7 +136,7 @@ The response includes working Python code with an example test case, making it e
 
 ## Areas of Improvement
 
-**[AOI #1 - Substantial]**
+**[AOI #1 - Minor]**
 
 **Response Excerpt:**
 ```python
@@ -151,7 +151,7 @@ and
 1. **Priority Ordering**: The destinations are `(5, 1)` and `(2, 2)`. Assuming higher number = higher priority (as the example visits 2 before 5), we target node 2 first.
 ```
 
-**Description:** The response interprets the priority ordering by inferring from the example path that "higher number = higher priority," treating Priority 2 as higher than Priority 1, when the prompt never explicitly defines how numeric priority values map to priority levels and standard conventions suggest Priority 1 typically indicates the highest priority, resulting in an output that may have inverted the intended delivery order.
+**Description:** The response assumes larger numeric priority values indicate higher priority by stating "Assuming higher number = higher priority" and interpreting the example accordingly, treating Priority 2 as higher than Priority 1, when the prompt never explicitly defines the mapping between numeric priority values and priority levels, making this assumption questionable without clearer justification.
 
 **Severity:** Minor
 
