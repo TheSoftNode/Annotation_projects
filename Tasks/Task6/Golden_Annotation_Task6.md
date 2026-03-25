@@ -138,7 +138,28 @@ The response includes working Python code with an example test case, making it e
 
 **[AOI #1 - Minor]**
 
-**Description:** The prompt includes a Bonus Challenge asking "Can you implement this using A* search where the heuristic prioritizes reaching higher-priority destinations faster?" but the response does not address this optional enhancement, leaving the A* implementation and heuristic optimization unaddressed when it could demonstrate advanced algorithmic knowledge beyond the basic Dijkstra approach provided.
+**Response Excerpt:**
+```
+**Algorithm: Dijkstra's Algorithm with State Augmentation**
+```
+
+**Description:** The response implements Dijkstra's algorithm but does not address the prompt's Bonus Challenge about implementing an A* version with a heuristic tailored to the state-space formulation, leaving this optional enhancement unaddressed when it could demonstrate advanced algorithmic optimization knowledge.
+
+**Severity:** Minor
+
+---
+
+**[AOI #2 - Minor]**
+
+**Response Excerpt:**
+```
+We process the deliveries in **phases** based on priority (higher priority numbers first, as inferred from the example).
+For each priority level (a set of nodes):
+...
+4. Once the optimal path for the current priority level is found, we append it to the overall route and set up the starting state for the next priority level.
+```
+
+**Description:** The response solves the problem by processing deliveries in separate phases for each priority level rather than searching the full constrained state space across all deliveries simultaneously, which can miss valid global solutions or produce locally optimal segments that prevent completion of later deliveries, making the approach not fully reliable for all problem instances.
 
 **Severity:** Minor
 
@@ -148,7 +169,7 @@ The response includes working Python code with an example test case, making it e
 
 **Justification:**
 
-The response provides a correct state-space Dijkstra implementation producing a valid path `[1, 2, 3, 4, 5]` with all constraints satisfied. The code is executable, well-documented, and uses sophisticated bitmask optimization. The response demonstrates critical thinking by recognizing its output differs from the prompt's example. One minor issue exists: not addressing the optional Bonus Challenge for A* implementation, though this doesn't affect the completeness of the core solution.
+The response provides a correct state-space Dijkstra implementation producing a valid path `[1, 2, 3, 4, 5]` with all constraints satisfied. The code is executable, well-documented, and uses sophisticated bitmask optimization. The response demonstrates critical thinking by recognizing its output differs from the prompt's example. Two minor issues exist: not addressing the optional Bonus Challenge for A* implementation, and using a greedy phase-by-phase approach that processes priority levels sequentially rather than searching the full state space simultaneously, which may not be fully reliable for all problem instances.
 
 ---
 
