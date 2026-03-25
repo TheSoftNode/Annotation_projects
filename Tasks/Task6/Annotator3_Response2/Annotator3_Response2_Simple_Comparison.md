@@ -70,7 +70,7 @@
 
 **Agreement:** ❌ DISAGREE
 
-**Justification:** The claim that the output "visits node 5 before node 2" is factually incorrect because the path visits node 2 first, then node 5 later, matching the stated algorithm. There is no logical inconsistency between the algorithm description and the claimed output regarding visit order.
+**Justification:** The claim that the output visits destinations in wrong order is inaccurate because the path visits the higher priority destination before the lower priority one, matching the stated algorithm without logical inconsistency.
 
 **My equivalent:** Golden Annotation AOI #1 (part of the comprehensive Substantial AOI)
 
@@ -85,7 +85,7 @@
 
 **Agreement:** ❌ DISAGREE
 
-**Justification:** The claim that the trace "incorrectly" validates priority ordering is inaccurate because the trace correctly states "visited 2 then 5" which matches the actual first-visit order in the path. The trace's validation of priority ordering is accurate, not incorrect.
+**Justification:** The claim that the trace "incorrectly" validates priority ordering is inaccurate because the trace accurately reflects the visit order with destinations visited in correct priority sequence.
 
 **My equivalent:** Golden Annotation AOI #1 (part of the comprehensive Substantial AOI)
 
@@ -100,7 +100,7 @@
 
 **Agreement:** ❌ DISAGREE
 
-**Justification:** The claim that the priority sorting logic would prevent this output is incorrect because the sorting correctly orders destinations for visiting node 2 before node 5, which the path does. The code wouldn't produce this path due to non-existent edges and rule violations, not the sorting logic.
+**Justification:** The claim that priority sorting logic prevents the output is inaccurate because the sorting properly handles priority order and the path visits destinations in correct priority sequence.
 
 **My equivalent:** Golden Annotation AOI #1 (part of the comprehensive Substantial AOI)
 
@@ -117,7 +117,7 @@
 
 **Agreement:** ✅ AGREE
 
-**Justification:** The initialization sets `next_dest_idx = 0` regardless of whether the starting node is a destination, and only advances the index when moving to a neighbor that matches the required destination. If the robot starts on a required destination, the algorithm cannot mark it as delivered since the delivery check only occurs during neighbor transitions, causing the algorithm to fail for such scenarios.
+**Justification:** The initialization always starts with the first destination index regardless of whether the starting position is itself a destination. The algorithm only marks destinations as delivered during transitions to neighbors, so starting on a destination causes the algorithm to fail since it cannot mark the current position as already delivered.
 
 **My equivalent:** None
 
@@ -132,7 +132,7 @@
 
 **Agreement:** ✅ AGREE
 
-**Justification:** The response validates and claims the answer is `[1,2,3,4,5,4,3,2]` when this path uses three edges that do not exist in the directed graph (5→4, 4→3, 3→2). The response fabricates edge weights for non-existent edges.
+**Justification:** The response validates a path using multiple edges that do not exist in the directed graph and fabricates edge weights for these non-existent edges during the validation process.
 
 **My equivalent:** Golden Annotation AOI #1 (part of the comprehensive Substantial AOI)
 
@@ -147,7 +147,7 @@
 
 **Agreement:** ✅ AGREE
 
-**Justification:** The path segment 4→5→4 violates the Alternate Routes Rule which states "cannot immediately traverse a street that leads back to node A," yet the response incorrectly validates this as satisfying the rule with flawed logic.
+**Justification:** The path contains a segment that returns immediately to the previous node, violating the Alternate Routes Rule, yet the response incorrectly validates this as satisfying the constraint.
 
 **My equivalent:** Golden Annotation AOI #1 (part of the comprehensive Substantial AOI)
 
