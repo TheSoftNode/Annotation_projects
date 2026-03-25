@@ -184,7 +184,7 @@ The path `[1, 2, 3, 4, 5]` satisfies all traffic rules and priority requirements
 
 ```bash
 cd test_environment
-python3 -c "from response1_solution import solve_robo_courier; result = solve_robo_courier(6, 7, [(1,2,3),(2,3,2),(3,1,4),(3,4,1),(4,5,2),(5,6,1),(6,3,2)], [1, 4], 3, [(5, 1), (2, 2)], 1); print('Response 1 Output:', result); print('Prompt Example Output: [1, 2, 3, 4, 5, 4, 3, 2]')"
+python3 -c "from response1_solution import solve_robocourier; result = solve_robocourier(6, 7, [(1,2,3),(2,3,2),(3,1,4),(3,4,1),(4,5,2),(5,6,1),(6,3,2)], [1, 4], 3, [(5, 1), (2, 2)], 1); print('Response 1 Output:', result); print('Prompt Example Output: [1, 2, 3, 4, 5, 4, 3, 2]')"
 ```
 
 **URL:**
