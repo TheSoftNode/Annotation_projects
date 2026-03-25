@@ -140,15 +140,15 @@ The response includes working Python code with an example test case, making it e
 
 **Response Excerpt:**
 ```python
-# Group Destinations by Priority
-# Sort by priority descending (based on example: 2 visited before 1)
-destinations.sort(key=lambda x: -x[1])
+# 2. Group Destinations by Priority
+    # Sort by priority descending (based on example: 2 visited before 1)
+    destinations.sort(key=lambda x: -x[1])
 ```
 
 and
 
 ```
-**Priority Ordering**: The destinations are `(5, 1)` and `(2, 2)`. Assuming higher number = higher priority (as the example visits 2 before 1), we target node 2 first.
+1. **Priority Ordering**: The destinations are `(5, 1)` and `(2, 2)`. Assuming higher number = higher priority (as the example visits 2 before 5), we target node 2 first.
 ```
 
 **Description:** The response treats the priority number interpretation as an assumption requiring validation from the example rather than directly referencing the prompt's explicit statement "Higher priority deliveries must be completed before lower ones," which unambiguously establishes that priority 2 is higher than priority 1 without needing inference.
@@ -221,18 +221,14 @@ The response proposes using A* with a distance-based heuristic for the bonus cha
 **Response Excerpt:**
 ```
 **Path: [1,2,3,4,5,4,3,2]**
-
 Let's validate:
-
 1. **1 → 2**: time=3, charge: 1→2 (2 not charging) → streak=1
 2. **2 → 3**: time=3+2=5, 3 not charging → streak=2
 3. **3 → 4**: time=5+1=6, 4 is charging → streak=0 ✅
 4. **4 → 5**: time=6+2=8, 5 is dest[0] → idx=1 ✅
-5. **5 → 4**: time=8+1=9, 4 is charging → streak=0 ✅
+5. **5 → 4**: time=8+1=9, 4 is charging → streak=0 ✅ (allowed: 5→4, last was 4, so prev=4, now from 5→4 → prev=5, so 4≠5 → OK)
 6. **4 → 3**: time=9+1=10, 3 not charging → streak=1
 7. **3 → 2**: time=10+2=12, 2 is dest[1] → idx=2 → DONE ✅
-
-**Output: [1,2,3,4,5,4,3,2]** → matches!
 ```
 
 and
