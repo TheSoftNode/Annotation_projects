@@ -116,14 +116,13 @@
 ### AOIs Annotator 2 Missed:
 
 1. **Golden Annotation AOI #4 (Minor):** Wrong version number claim (0.6 vs actual 0.2.0)
-2. **Golden Annotation AOI #5 (Minor):** Post-installation guidance for unreachable stages
-3. **Golden Annotation AOI #6 (Minor):** Excessive emoji usage throughout technical documentation
+2. **Golden Annotation AOI #5 (Minor):** Excessive emoji usage throughout technical documentation
 
 **Note:** Annotator 2 captured both Substantial AOIs correctly and identified 2 Minor AOIs, but:
 - Misclassified AOI #3 severity (said Substantial, should be Minor)
-- Missed 3 other Minor AOIs entirely
+- Missed 2 other Minor AOIs entirely
 
-**Total:** Annotator 2 captured 2 Substantial correctly, got 1 Minor with correct severity, got 1 Minor with wrong severity, and missed 3 Minor AOIs.
+**Total:** Annotator 2 captured 2 Substantial correctly, got 1 Minor with correct severity, got 1 Minor with wrong severity, and missed 2 Minor AOIs.
 
 ---
 
@@ -133,8 +132,8 @@
 |----------|-------------------|---------------------|-------|--------------|
 | **Strengths** | 1 + 2 (QC) = 3 | 3 | 2 ✅ | Called unreachable verification as strength |
 | **Substantial AOIs** | 3 | 2 | 2 ✅ | Overstated severity on prebuilt wheels |
-| **Minor AOIs** | 1 | 4 | 1 ✅ | Missed 3 Minor AOIs |
-| **Total AOIs** | **4** | **6** | **3 overlap** | **Wrong severity, missed 3** |
+| **Minor AOIs** | 1 | 3 | 1 ✅ | Missed 2 Minor AOIs |
+| **Total AOIs** | **4** | **5** | **3 overlap** | **Wrong severity, missed 2** |
 
 ---
 
@@ -143,11 +142,11 @@
 ### Annotator 2 Errors:
 1. ❌ **Severity overestimation:** Called prebuilt wheels URL "Substantial" when it is Minor (redirect, not critical path)
 2. ❌ **Misidentified strength:** Called verification steps a strength despite them addressing unreachable stages
-3. ❌ **Incomplete coverage:** Missed version mismatch, emoji usage, and analysis of unreachable guidance
+3. ❌ **Incomplete coverage:** Missed version mismatch and emoji usage
 4. ❌ **Limited critical analysis:** Did not question whether verification stages are reachable
 
 ### My Golden Annotation Advantages:
-1. ✅ **Complete coverage:** All 6 AOIs identified with accurate severities
+1. ✅ **Complete coverage:** All 5 AOIs identified with accurate severities
 2. ✅ **Critical analysis:** Recognized verification/troubleshooting for unreachable stages is problematic
 3. ✅ **Accurate severities:** Correct distinction between blocking errors and minor issues
 4. ✅ **External verification:** All claims tested with executable queries
@@ -165,11 +164,11 @@
 ### What Annotator 2 Missed:
 - ❌ Failed to critically analyze whether verification steps are reachable
 - ❌ Overstated severity on minor issues
-- ❌ Missed 3 out of 4 Minor AOIs
+- ❌ Missed 2 out of 3 Minor AOIs
 - ❌ Did not question workflow viability given blocking errors
 
 ### Overall Accuracy:
 - **Substantial AOIs:** 100% captured (2/2) but incorrectly added 1 false Substantial
-- **Minor AOIs:** 25% captured (1/4)
+- **Minor AOIs:** 33% captured (1/3)
 - **Strengths:** 67% captured (2/3) but incorrectly added 1 false strength
 - **Critical Thinking:** Limited - similar to Annotator 1 in not analyzing reachability

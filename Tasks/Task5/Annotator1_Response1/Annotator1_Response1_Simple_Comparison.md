@@ -133,15 +133,13 @@
 ### AOIs Annotator 1 Missed:
 
 1. **Golden Annotation AOI #4 (Minor):** Wrong version number (claims 0.6, actual 0.2.0)
-2. **Golden Annotation AOI #5 (Minor):** Post-installation guidance for unreachable stages (partially recognized but called a "strength")
-3. **Golden Annotation AOI #6 (Minor):** Excessive emoji usage (11+ emojis throughout)
+2. **Golden Annotation AOI #5 (Minor):** Excessive emoji usage (11+ emojis throughout)
 
 **Note:** Annotator 1 captured the two Substantial AOIs (#1 and #2) correctly but:
 - Misclassified AOI #3 severity (said Substantial, should be Minor)
-- Missed 3 Minor AOIs entirely
-- Called post-installation guidance a "strength" instead of an AOI
+- Missed 2 Minor AOIs entirely
 
-**Total:** Annotator 1 captured 2 Substantial correctly, got 1 Minor with wrong severity, and missed 3 Minor AOIs
+**Total:** Annotator 1 captured 2 Substantial correctly, got 1 Minor with wrong severity, and missed 2 Minor AOIs
 
 ---
 
@@ -151,8 +149,8 @@
 |----------|-------------------|---------------------|-------|--------------|
 | **Strengths** | 2 + 3 (QC) = 5 | 3 | 2 ✅ | Called AOI as strength (verification steps) |
 | **Substantial AOIs** | 3 | 2 | 2 ✅ | Overstated severity on prebuilt wheels |
-| **Minor AOIs** | 1 | 4 | 1 ✅ | Missed 3 Minor AOIs |
-| **Total AOIs** | **4** | **6** | **3 overlap** | **Wrong severity, missed 3** |
+| **Minor AOIs** | 1 | 3 | 1 ✅ | Missed 2 Minor AOIs |
+| **Total AOIs** | **4** | **5** | **3 overlap** | **Wrong severity, missed 2** |
 
 ---
 
@@ -160,14 +158,14 @@
 
 ### Annotator 1 Errors:
 1. ❌ **Severity overestimation:** Called prebuilt wheels URL "Substantial" when it's Minor (301 redirect, not critical path)
-2. ❌ **Misidentified strength:** Called verification/troubleshooting steps a "strength" when they address unreachable stages (AOI #5)
-3. ❌ **Incomplete AOI coverage:** Missed version mismatch (AOI #4), missed emoji usage (AOI #6)
+2. ❌ **Misidentified strength:** Called verification/troubleshooting steps a "strength" despite blocking errors
+3. ❌ **Incomplete AOI coverage:** Missed version mismatch (AOI #4), missed emoji usage (AOI #5)
 4. ❌ **Contradictory assessment:** Listed verification as both a strength AND implicitly acknowledged in QC Miss that these are unreachable
 
 ### My Golden Annotation Advantages:
-1. ✅ **Complete AOI coverage:** All 6 AOIs identified (2 Substantial, 4 Minor)
+1. ✅ **Complete AOI coverage:** All 5 AOIs identified (2 Substantial, 3 Minor)
 2. ✅ **Accurate severities:** Correct assessment of what's blocking (Substantial) vs. problematic (Minor)
-3. ✅ **Critical analysis:** Recognized that troubleshooting/verification for unreachable stages is an AOI, not a strength
+3. ✅ **Critical analysis:** Recognized that troubleshooting/verification for unreachable stages is problematic
 4. ✅ **Focused strengths:** Identified 3 valid strengths based on actual capabilities without overclaiming (rejected OS coverage that contradicts Windows discouragement, rejected virtual env that contradicts sudo install)
 5. ✅ **Verified externally:** All claims tested with curl, GitHub API, PyPI API
 
@@ -181,13 +179,13 @@
 - ✅ Acknowledged multi-OS coverage and dependency emphasis
 
 ### What Annotator 1 Missed:
-- ❌ Failed to recognize that verification/troubleshooting is an AOI (unreachable guidance)
+- ❌ Failed to recognize that verification/troubleshooting is problematic given blocking errors
 - ❌ Overstated severity on minor issues (prebuilt wheels URL)
-- ❌ Missed 3 Minor AOIs (version mismatch, post-install guidance analysis, emoji usage)
+- ❌ Missed 2 Minor AOIs (version mismatch, emoji usage)
 - ❌ Didn't critically analyze which "strengths" users can actually benefit from
 
 ### Overall Accuracy:
 - **Substantial AOIs:** 100% captured (2/2) but added 1 false Substantial
-- **Minor AOIs:** 25% captured (1/4)
+- **Minor AOIs:** 33% captured (1/3)
 - **Strengths:** 67% captured (2/3) but added 2 false strengths
 - **Critical Thinking:** Limited - didn't question whether users can reach the stages being described

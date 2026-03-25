@@ -144,14 +144,13 @@ None - Annotator 3 captured all valid strengths but also incorrectly identified 
 ### AOIs Annotator 3 Missed:
 
 1. **Golden Annotation AOI #4 (Minor):** Wrong version number claim (0.6 vs actual 0.2.0)
-2. **Golden Annotation AOI #5 (Minor):** Post-installation guidance for unreachable stages (partially recognized but called "strengths")
-3. **Golden Annotation AOI #6 (Minor):** Excessive emoji usage throughout technical documentation
+2. **Golden Annotation AOI #5 (Minor):** Excessive emoji usage throughout technical documentation
 
 **Note:** Annotator 3 captured both Substantial AOIs correctly and identified 2 Minor AOIs with correct severities, but:
-- Called post-installation guidance "strengths" instead of recognizing them as problematic
-- Missed 3 other Minor AOIs entirely
+- Called troubleshooting/verification guidance "strengths" despite blocking errors
+- Missed 2 other Minor AOIs entirely
 
-**Total:** Annotator 3 captured 2 Substantial correctly, got 2 Minor with correct severities, but missed 3 Minor AOIs and misidentified post-installation guidance.
+**Total:** Annotator 3 captured 2 Substantial correctly, got 2 Minor with correct severities, but missed 2 Minor AOIs and misidentified troubleshooting/verification guidance.
 
 ---
 
@@ -161,8 +160,8 @@ None - Annotator 3 captured all valid strengths but also incorrectly identified 
 |----------|-------------------|---------------------|-------|--------------|
 | **Strengths** | 5 + 1 (QC) = 6 | 3 | 3 ✅ | Called unreachable guidance as strengths |
 | **Substantial AOIs** | 2 | 2 | 2 ✅ | Perfect match |
-| **Minor AOIs** | 2 | 4 | 2 ✅ | Missed 2 Minor AOIs |
-| **Total AOIs** | **4** | **6** | **4 overlap** | **Missed 2** |
+| **Minor AOIs** | 2 | 3 | 2 ✅ | Missed 1 Minor AOI |
+| **Total AOIs** | **4** | **5** | **4 overlap** | **Missed 1** |
 
 ---
 
@@ -170,11 +169,11 @@ None - Annotator 3 captured all valid strengths but also incorrectly identified 
 
 ### Annotator 3 Errors:
 1. ❌ **Misidentified strengths:** Called troubleshooting/verification steps "strengths" despite them addressing unreachable stages
-2. ❌ **Incomplete coverage:** Missed version mismatch, emoji usage
+2. ❌ **Incomplete coverage:** Missed version mismatch and emoji usage
 3. ❌ **Limited critical analysis:** Did not question whether troubleshooting/verification stages are reachable
 
 ### My Golden Annotation Advantages:
-1. ✅ **Complete coverage:** All 6 AOIs identified with accurate severities
+1. ✅ **Complete coverage:** All 5 AOIs identified with accurate severities
 2. ✅ **Critical analysis:** Recognized troubleshooting/verification for unreachable stages is problematic, not beneficial
 3. ✅ **Accurate severities:** Perfect match with Annotator 3 on all identified issues
 4. ✅ **External verification:** All claims tested with executable queries
@@ -192,11 +191,11 @@ None - Annotator 3 captured all valid strengths but also incorrectly identified 
 
 ### What Annotator 3 Missed:
 - ❌ Failed to critically analyze whether troubleshooting/verification steps are reachable
-- ❌ Missed 3 out of 6 Minor AOIs (but best Minor AOI coverage among annotators so far)
+- ❌ Missed 2 out of 5 Minor AOIs (but best Minor AOI coverage among annotators so far)
 - ❌ Did not question workflow viability given blocking errors
 
 ### Overall Accuracy:
 - **Substantial AOIs:** 100% captured (2/2) with perfect severity ✅
-- **Minor AOIs:** 50% captured (2/4) - best among annotators
+- **Minor AOIs:** 67% captured (2/3) - best among annotators
 - **Strengths:** 100% captured (3/3) but incorrectly added 2 false strengths
 - **Severity Accuracy:** 100% on all identified issues - **BEST PERFORMANCE**

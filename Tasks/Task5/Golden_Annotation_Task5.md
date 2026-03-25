@@ -258,81 +258,6 @@ Current PyPI Version: 0.2.0
 
 **Response Excerpt:**
 ```
-### **🛠️ Troubleshooting Tips**
-
-| Issue | Solution |
-| ----- | ----- |
-| `ImportError: libhackrf.so.0` | Run `sudo ldconfig` (Linux) or check `DYLD_LIBRARY_PATH` (macOS). |
-| `hackrf_info: No devices found` | Add user to `plugdev` group: `sudo usermod -aG plugdev $USER` → **REBOOT**. |
-| Compilation errors in PyHackRF | Ensure `python3-dev` is installed. Clean build: `rm -rf build/ && python3 setup.py build`. |
-| macOS: `Library not loaded` | Set `export DYLD_FALLBACK_LIBRARY_PATH=/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH` |
-```
-
-and
-
-```bash
-python3 -c "import pyhackrf; print(pyhackrf.__version__)"
-```
-
-and
-
-```python
-import pyhackrf
-sdr = pyhackrf.HackRF()
-print('Device opened:', sdr.board_id)
-sdr.close()
-```
-
-and
-
-```bash
-# macOS - library symlinking
-ln -s /usr/local/lib/libhackrf.0.dylib /usr/local/lib/libhackrf.dylib
-```
-
-**Description:** The response provides extensive troubleshooting guidance, verification tests, device permission configuration, and macOS library symlinking instructions for post-installation stages that users cannot reach because the installation fails at Step 2 (wrong build system with ./bootstrap and ./configure commands that don't exist) and Step 3 (wrong repository URL returning 404), creating false expectations that the workflow could succeed if minor issues are addressed when the core instructions are fundamentally broken.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Logic Analysis
-
-**Query:** Can users reach troubleshooting/testing stages when core installation fails?
-
-**URL:**
-
-**Source Excerpt:**
-```
-Step 2 failure:
-- User runs ./bootstrap → Command not found (HackRF uses CMake, not autotools)
-- User runs ./configure → Command not found
-- User runs make → Fails (no Makefile generated)
-- Result: libhackrf never installed, hackrf_info never available
-
-Step 3 failure:
-- User runs git clone https://github.com/mossmann/pyhackrf.git → HTTP 404
-- Result: No pyhackrf directory, no setup.py, cannot run tests
-
-Troubleshooting table addresses:
-- ImportError: libhackrf.so.0 → Cannot occur (libhackrf build failed)
-- hackrf_info: No devices found → Cannot occur (hackrf_info not installed)
-- Compilation errors in PyHackRF → Cannot occur (repo clone failed)
-- macOS library loading → Cannot occur (libraries never built)
-
-Verification tests assume:
-- import pyhackrf → Will fail with ModuleNotFoundError (package never installed)
-- HackRF() device opening → Cannot occur (module doesn't exist)
-
-These are post-installation instructions for an installation that never completes.
-```
-
----
-
-**[AOI #6 - Minor]**
-
-**Response Excerpt:**
-```
 ### **⚠️ Important Notes Before Starting**
 ### **🔧 Step 1: Install System Dependencies**
 💡 **Why these?**
@@ -358,7 +283,7 @@ Let me know if you hit specific errors – I'll help debug! 🛠️
 
 **Justification:**
 
-The response contains two substantial errors that prevent successful installation: wrong PyHackRF repository URL (404) and incorrect HackRF build system (autotools instead of CMake). Four additional minor AOIs cover: outdated prebuilt wheels URL (301 redirect), incorrect version number (0.6 vs 0.2.0), post-installation guidance for unreachable stages, and excessive emoji usage. The response has 3 valid strengths regarding dependency chain understanding, verification checkpoints, and workflow structure. With 6 total AOIs (2 Substantial, 4 Minor), the critical errors at Step 2 and Step 3 make the installation workflow completely non-functional despite the organizational strengths.
+The response contains two substantial errors that prevent successful installation: wrong PyHackRF repository URL (404) and incorrect HackRF build system (autotools instead of CMake). Three additional minor AOIs cover: outdated prebuilt wheels URL (301 redirect), incorrect version number (0.6 vs 0.2.0), and excessive emoji usage. The response has 3 valid strengths regarding dependency chain understanding, verification checkpoints, and workflow structure. With 5 total AOIs (2 Substantial, 3 Minor), the critical errors at Step 2 and Step 3 make the installation workflow completely non-functional despite the organizational strengths.
 
 ---
 
