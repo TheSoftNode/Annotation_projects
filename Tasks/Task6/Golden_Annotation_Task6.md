@@ -124,7 +124,7 @@ Path is VALID
 
 ## Strengths
 
-The response builds a state-space search approach using four key variables (current node, previous node, charge distance, visited destinations mask) to properly represent all the constraints in the problem.
+The response builds a state-space search approach using four key variables (current node, previous node, charge distance, visited destinations mask) that capture the information needed to enforce the routing rules.
 
 The response recognizes its output differs from the prompt's example and discusses why that might be the case, rather than ignoring the mismatch.
 
