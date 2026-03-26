@@ -394,7 +394,7 @@ ERROR: No matching distribution found for neptune-new
 
 ## Strengths
 
-The response immediately identifies and corrects the user's typo by explicitly stating Neptune.ai is "the service you probably meant by 'Netune.ai'" preventing pursuit of a non-existent service.
+The response immediately identifies and corrects the user's typo by explicitly stating Neptune.ai is "the service you probably meant by 'Netune.ai'" and provides the correct integration.
 
 The response builds seamlessly on the conversation history by referencing "same as in the previous answer" when showing the FCClassifier module structure, demonstrating continuity with established code.
 
@@ -402,7 +402,7 @@ The response provides the correct import statement `from lightning.pytorch.logge
 
 The response accurately explains both authentication methods (explicit parameters vs environment variables) with correct variable names `NEPTUNE_API_TOKEN` and `NEPTUNE_PROJECT` matching official conventions.
 
-The response delivers a complete, production-ready code example integrating NeptuneLogger with the Trainer and demonstrating `self.log` usage within training and validation steps.
+The response demonstrates advanced Neptune logging capabilities by showing how to use `self.logger.experiment` to log hyperparameters, tags, and artifacts beyond basic scalar metrics.
 
 ## Areas of Improvement
 
