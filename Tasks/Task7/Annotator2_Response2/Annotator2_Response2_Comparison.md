@@ -7,7 +7,7 @@
 
 **Agreement:** ❌ DISAGREE
 
-**Justification:** The claim that the response provides a solution that will work "out of the box" is inaccurate because the install guidance is outdated and the synthetic demo script is missing `import torch.nn as nn` while using `nn.Linear`, `nn.ReLU`, `nn.Dropout`, `nn.Sequential`, and `nn.CrossEntropyLoss`, causing it to fail when run as written.
+**Justification:** The claim that the response provides a "complete, copy-and-paste ready guide" is inaccurate because the install guidance is not aligned with current Lightning docs and the synthetic demo script is missing `import torch.nn as nn`, causing it to fail when copied and run.
 
 **My equivalent:** Golden Strength #1 (but without claiming "copy-and-paste ready")
 
@@ -18,7 +18,7 @@
 
 **Agreement:** ✅ AGREE
 
-**Justification:** The response provides a complete step-by-step workflow from installation through testing and deployment.
+**Justification:** The response provides an end-to-end workflow covering installation, authentication, attaching NeptuneLogger to the Trainer, using `self.log()`, running training, and viewing results, which matches Lightning's documented logging flow.
 
 **My equivalent:** Golden Strength #5
 
@@ -29,7 +29,7 @@
 
 **Agreement:** ❌ DISAGREE
 
-**Justification:** The claim that the response includes "working snippets" and fully "copy-pasteable" examples is inaccurate because the synthetic demo script is missing `import torch.nn as nn` while the code uses `nn.Linear`, `nn.ReLU`, `nn.Dropout`, `nn.Sequential`, and `nn.CrossEntropyLoss`, causing it to fail when pasted and run as written.
+**Justification:** The claim that the examples are "working" and "copy-pasteable" overstates things because the synthetic demo script is not fully copy-paste safe as written, missing `import torch.nn as nn`, and the install guidance is not aligned with current Lightning docs.
 
 **My equivalent:** None (we don't claim it's copy-pasteable or self-contained)
 
@@ -40,7 +40,7 @@
 
 **Agreement:** ❌ DISAGREE
 
-**Justification:** The claim that the response "demonstrates logging with a real dataset" is inaccurate because the main training example uses `get_dataloaders(cfg)` which is the dummy dataset from conversation history, not an actual real dataset pipeline, and the synthetic example uses `RandomDataset` with generated data.
+**Justification:** The claim that the response "demonstrates logging with a real dataset" is inaccurate because the main example depends on the earlier conversation's dummy `get_dataloaders(cfg)` setup rather than a genuine real-dataset pipeline.
 
 **My equivalent:** None (we don't claim it shows real data integration)
 
@@ -51,7 +51,7 @@
 
 **Agreement:** ✅ AGREE
 
-**Justification:** The response includes a comprehensive FAQ addressing common follow-up scenarios proactively.
+**Justification:** The response proactively covers multiple loggers, epoch-only logging, debug mode, artifact uploads, and old import styles in a follow-up section, all of which align with documented capabilities.
 
 **My equivalent:** Part of Golden Strength #5
 

@@ -104,7 +104,7 @@ The response demonstrates the proper Lightning workflow by showing logger initia
 To log your training with **Netune.ai** using `self.log` from PyTorch Lightning, you'll need to integrate Netune.ai's logging SDK with Lightning's built-in logging system.
 ```
 
-**Description:** The response treats "Netune.ai" as if it were a real service throughout the entire response without ever identifying or correcting the user's typo, despite "Netune.ai" not existing as a service (the user likely meant "Neptune.ai" which is a well-known ML experiment tracking platform).
+**Description:** The response fails to resolve the ambiguity of "Netune.ai" and instead proceeds to fabricate an entire integration path (package names, imports, API endpoints) for it, rather than clarifying with the user or identifying that Neptune.ai has an official Lightning integration via NeptuneLogger.
 
 **Severity:** Substantial
 
