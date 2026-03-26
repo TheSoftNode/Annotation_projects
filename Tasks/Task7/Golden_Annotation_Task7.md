@@ -223,7 +223,7 @@ class NetuneAILogger(pl.loggers.Logger):
             "project_id": self.project_id,
 ```
 
-**Description:** The response fabricates a specific API endpoint URL `https://api.netune.ai/v1/logs` and authentication pattern for a non-existent service, providing detailed implementation code that would fail to connect to any real API.
+**Description:** The response fabricates an unsupported API endpoint `https://api.netune.ai/v1/logs` and custom REST integration pattern that is not documented by Lightning or Neptune, bypassing the real documented integration through NeptuneLogger.
 
 **Severity:** Substantial
 
@@ -397,8 +397,6 @@ ERROR: No matching distribution found for neptune-new
 The response identifies that 'Netune.ai' refers to Neptune.ai and structures the entire answer around Neptune's official PyTorch Lightning logger integration.
 
 The response maintains consistency with the user's established import convention by continuing to use `import lightning as L` throughout all code examples.
-
-The response shows practical integration by extending the existing FCClassifier from earlier conversation exchanges to demonstrate where Neptune logging fits within the user's current codebase.
 
 The response provides the correct import statement `from lightning.pytorch.loggers import NeptuneLogger` which matches the official PyTorch Lightning 2.x API as verified by documentation.
 
