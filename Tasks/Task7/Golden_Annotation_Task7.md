@@ -418,7 +418,7 @@ pip install neptune neptune-new[lightning]   # the extra `[lightning]` pulls in 
 The `neptune` package (v1) is the legacy client; the newer `neptune-new` (v2) is the one that ships the `NeptuneLogger` used by Lightning.
 ```
 
-**Description:** The response suggests installing a package called "neptune-new[lightning]" and explains it as the "v2" client that ships NeptuneLogger, but this package does not exist on PyPI and the explanation is outdated - NeptuneLogger is actually built directly into PyTorch Lightning 2.x core package and doesn't require any separate neptune package installation.
+**Description:** The response recommends installing "neptune-new[lightning]" which is an invalid package name not available on PyPI. Additionally, while NeptuneLogger is included in PyTorch Lightning's core, the integration requires the Neptune client package to be installed separately to function.
 
 **Severity:** Minor
 
