@@ -98,6 +98,8 @@ The response provides implementation details for a custom Lightning logger class
 
 ## Areas of Improvement
 
+**[AOI #1 - Substantial]**
+
 **Response Excerpt:**
 
 ```
@@ -147,6 +149,8 @@ HTTP Status: 308  (exists, redirects)
 
 ---
 
+**[AOI #2 - Substantial]**
+
 **Response Excerpt:**
 
 ```python
@@ -160,6 +164,8 @@ pip install netune-ai  # Example package name
 **Verification of Issue:** (Same verification as above - package does not exist on PyPI)
 
 ---
+
+**[AOI #3 - Substantial]**
 
 **Response Excerpt:**
 
@@ -180,6 +186,8 @@ logger = NetuneAILogger(
 **Verification of Issue:** (Same verification as above - the package and module do not exist)
 
 ---
+
+**[AOI #4 - Substantial]**
 
 **Response Excerpt:**
 
@@ -223,6 +231,8 @@ curl: (6) Could not resolve host: api.netune.ai
 **Result:** DNS resolution fails - API endpoint does not exist
 
 ---
+
+**[AOI #5 - Substantial]**
 
 **Response Excerpt:**
 
@@ -332,6 +342,8 @@ ERROR: log_metrics() missing 1 required positional argument: 'value'
 **Conclusion:** The custom logger's `log_metrics()` method signature is incompatible with PyTorch Lightning's Logger base class interface. When the Trainer calls `log_metrics(metrics_dict, step)`, the method receives wrong parameter types and throws a TypeError, making this logger completely unusable.
 
 ---
+
+**[AOI #6 - Minor]**
 
 **Response Excerpt:**
 
@@ -457,6 +469,8 @@ The response delivers a complete, production-ready code example integrating Nept
 
 ## Areas of Improvement
 
+**[AOI #1 - Minor]**
+
 **Response Excerpt:**
 
 ```
@@ -500,6 +514,8 @@ The logger is maintained in the PyTorch Lightning repository
 ```
 
 ---
+
+**[AOI #2 - Minor]**
 
 **Response Excerpt:**
 
