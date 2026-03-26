@@ -90,11 +90,9 @@ The response provides a structured step-by-step guide with numbered sections pro
 
 The response correctly explains that PyTorch Lightning's `self.log` automatically sends metrics to any logger passed to the Trainer, demonstrating understanding of the fundamental integration pattern.
 
-The response demonstrates awareness of multiple scenarios by providing guidance for both pre-built SDK loggers and custom logger implementation from scratch.
-
 The response includes concrete code examples showing how to use `self.log` within `training_step` with parameters like `prog_bar=True` that the user can directly apply.
 
-The response provides implementation details for a custom Lightning logger class with proper `pl.loggers.Logger` inheritance and `log_metrics` method structure.
+The response demonstrates the proper Lightning workflow by showing logger initialization before Trainer creation, then passing the logger instance to the Trainer constructor.
 
 ## Areas of Improvement
 
