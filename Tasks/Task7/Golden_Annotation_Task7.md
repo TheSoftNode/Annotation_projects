@@ -142,7 +142,7 @@ HTTP Status: 308
 pip install netune-ai  # Example package name
 ```
 
-**Description:** The response provides a specific installation command for a non-existent package "netune-ai" that would fail if the user attempted to run it, as verified by PyPI package search showing no matching distribution exists.
+**Description:** The response provides a specific installation command for a non-existent package that will fail with an error when the user attempts to execute it.
 
 **Severity:** Substantial
 
@@ -180,7 +180,7 @@ logger = NetuneAILogger(
 )
 ```
 
-**Description:** The response fabricates a specific import statement `from netune_ai import NetuneAILogger` and class instantiation pattern for a non-existent SDK, presenting it as example code that the user might attempt to copy and run despite it being completely fictional.
+**Description:** The response fabricates a specific import statement and class instantiation pattern for a non-existent SDK, presenting fictional code that will result in a ModuleNotFoundError if the user attempts to run it.
 
 **Severity:** Substantial
 
@@ -318,7 +318,7 @@ ERROR: log_metrics() missing 1 required positional argument: 'value'
 from pytorch_lightning import Trainer
 ```
 
-**Description:** The response uses `from pytorch_lightning import Trainer` which does not follow the import convention established in the conversation history. The user explicitly asked: "Can you use import lightning as L, not import pytorch_lightning as pl?" and the assistant agreed to use `import lightning as L` for all Lightning imports. However, Response 1 violates this agreed-upon convention by using the old `from pytorch_lightning import` pattern instead of the requested `import lightning as L` style.
+**Description:** The response violates the import convention established in the conversation history. While the user explicitly requests the modern Lightning alias, and the assistant agrees to use it, the response reverts to generating code using the older PyTorch Lightning import structure.
 
 **Severity:** Minor
 
@@ -503,6 +503,6 @@ Response 2 demonstrates exceptional quality by immediately identifying and corre
 
 **Justification (50 words):**
 
-R2 identifies the user typo (Netune→Neptune) and provides working integration with correct imports, while R1 treats Netune.ai as real and fabricates non-existent packages, imports, and APIs. R2 functions; R1 fails completely.
+R2 recognizes "Netune.ai" as Neptune.ai and provides working integration with official NeptuneLogger, while R1 treats Netune.ai as a real service and creates fictional package names, import statements, API endpoints, and custom logger implementation with wrong method signatures.
 
 ---
