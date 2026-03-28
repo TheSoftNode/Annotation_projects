@@ -23,7 +23,7 @@ The response provides a scenario-based recommendation table matching three diffe
 
 ### Areas of Improvement
 
-#### AOI 1: Incorrect mixing of SDL_Renderer with SDL_GL_SwapWindow
+#### AOI 1: Incorrect use of SDL_GL_SwapWindow with SDL_Renderer in GtkGLArea context
 **Response Excerpt:**
 ```c
 // Create SDL2 renderer (uses the *existing* GL context from GTK)
@@ -38,18 +38,19 @@ if (!sdl_renderer) {
 SDL_GL_SwapWindow(sdl_window);
 ```
 
-**Description:** The response creates an SDL_Renderer and then uses SDL_GL_SwapWindow to present the frame. SDL_Renderer and SDL_GL_SwapWindow belong to two mutually exclusive rendering pipelines in SDL2. When using SDL_Renderer (SDL's 2D rendering API), the correct function to present the frame is SDL_RenderPresent. SDL_GL_SwapWindow is only for raw OpenGL rendering contexts created with SDL_GL_CreateContext, not for SDL_Renderer-based rendering.
+**Description:** The response has two separate issues with SDL_GL_SwapWindow usage: (1) It mixes SDL_Renderer with SDL_GL_SwapWindow, which belong to two mutually exclusive rendering pipelines. When using SDL_Renderer, the correct function is SDL_RenderPresent, not SDL_GL_SwapWindow. (2) The code calls SDL_GL_SwapWindow inside the GtkGLArea render callback, but GtkGLArea manages its own framebuffer and automatically swaps buffers when the render signal terminates. Calling SDL_GL_SwapWindow causes a double-swap or undefined behavior.
 
 **Severity:** Substantial
 
 **Verification:**
 From SDL2 documentation for SDL_RenderPresent (https://wiki.libsdl.org/SDL2/SDL_RenderPresent):
 > "SDL's rendering functions operate on a backbuffer... when using SDL's rendering API... calls this function once per frame to present the final drawing to the user."
-> See Also: SDL_CreateRenderer, SDL_RenderClear, SDL_RenderDrawLine
 
 From SDL2 documentation for SDL_GL_SwapWindow (https://wiki.libsdl.org/SDL2/SDL_GL_SwapWindow):
 > "Update a window with OpenGL rendering."
 > "This is used with double-buffered OpenGL contexts, which are the default."
+
+Additionally, GtkGLArea documentation notes that the widget manages buffer swapping automatically after the render signal completes. Manual buffer swapping interferes with this mechanism.
 
 The correct code should use `SDL_RenderPresent(sdl_renderer);` instead of `SDL_GL_SwapWindow(sdl_window);`.
 
@@ -101,8 +102,162 @@ HTTP/1.1 404 Not Found
 
 ---
 
-### Quality Score: 3
-**Justification:** The response provides solid technical guidance with detailed implementation steps and useful troubleshooting information, but contains a substantial API usage error (mixing SDL_Renderer with SDL_GL_SwapWindow) that would prevent the code from working correctly, along with misleading guidance about SDL_INIT_VIDEO and one broken URL.
+#### AOI 4: Non-existent function gdk_window_get_xid
+**Response Excerpt:**
+```c
+// Create SDL2 window from GTK's native window handle
+GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(glarea));
+SDL_Window *sdl_window = SDL_CreateWindowFrom(gdk_window_get_xid(gdk_window));
+```
+
+**Description:** The response uses `gdk_window_get_xid()`, which does not exist in the GDK API. The correct function is `gdk_x11_window_get_xid()`. This would cause a compilation error (implicit function declaration).
+
+**Severity:** Substantial
+
+**Verification:**
+The GDK API requires the platform-specific function `gdk_x11_window_get_xid()` for X11, not `gdk_window_get_xid()`. From GDK documentation (https://docs.gtk.org/gdk3-x11/method.X11Window.get_xid.html), the correct function is:
+```c
+Window gdk_x11_window_get_xid(GdkWindow *window)
+```
+
+Using the incorrect function name would cause: `error: implicit declaration of function 'gdk_window_get_xid'`
+
+---
+
+#### AOI 5: Type mismatch in gdk_pixbuf_get_from_surface
+**Response Excerpt:**
+```c
+SDL_Surface *sdl_surface = /* your SDL surface */;
+// Convert the surface to a Cairo image surface
+gdk_cairo_set_source_pixbuf(cr,
+    gdk_pixbuf_get_from_surface(sdl_surface, 0, 0, width, height),
+    0, 0);
+```
+
+**Description:** The response passes an `SDL_Surface*` to `gdk_pixbuf_get_from_surface()`, but this function expects a `cairo_surface_t*`. These are different struct types from different libraries (SDL vs Cairo), causing incompatible pointer type errors. The response mentions "Convert the surface to a Cairo image surface" but never shows the actual conversion code.
+
+**Severity:** Substantial
+
+**Verification:**
+From GDK-PixBuf documentation, `gdk_pixbuf_get_from_surface()` signature is:
+```c
+GdkPixbuf* gdk_pixbuf_get_from_surface(cairo_surface_t *surface, ...)
+```
+
+Passing `SDL_Surface*` to a function expecting `cairo_surface_t*` results in: `error: incompatible pointer types passing 'SDL_Surface *' to parameter of type 'cairo_surface_t *'`
+
+---
+
+#### AOI 6: Undefined variables in on_glarea_render callback
+**Response Excerpt:**
+```c
+static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpointer data) {
+    gtk_gl_area_make_current(glarea);
+
+    SDL_SetRenderDrawColor(sdl_renderer, 30, 30, 30, 255);
+    SDL_RenderClear(sdl_renderer);
+
+    SDL_RenderCopy(sdl_renderer, your_texture, NULL, &dst_rect);
+
+    SDL_GL_SwapWindow(sdl_window);
+    return TRUE;
+}
+```
+
+**Description:** The `on_glarea_render` function uses variables `sdl_renderer`, `your_texture`, `dst_rect`, and `sdl_window` without declaring them or retrieving them from storage. Earlier code stores `sdl_renderer` with `g_object_set_data_full()`, but the render function doesn't retrieve it with `g_object_get_data()`. This would cause compilation errors for undeclared identifiers.
+
+**Severity:** Substantial
+
+**Verification:**
+The variables should be retrieved from the GtkGLArea object:
+```c
+SDL_Renderer *sdl_renderer = g_object_get_data(G_OBJECT(glarea), "sdl-renderer");
+```
+
+Without this, the compiler produces: `error: use of undeclared identifier 'sdl_renderer'`
+
+---
+
+#### AOI 7: Undefined variables in on_draw callback
+**Response Excerpt:**
+```c
+static gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data) {
+    GdkWindow *gdk_window = gtk_widget_get_window(widget);
+    gdk_cairo_set_source_pixbuf(cr,
+        gdk_pixbuf_get_from_surface(sdl_surface, 0, 0, width, height),
+        0, 0);
+    cairo_paint(cr);
+    return TRUE;
+}
+```
+
+**Description:** The `on_draw` callback function uses `sdl_surface`, `width`, and `height` without declaring them or retrieving them from storage. These variables are not defined in the function scope and would cause compilation errors.
+
+**Severity:** Substantial
+
+**Verification:**
+Compiler produces: `error: use of undeclared identifier 'sdl_surface'`, `error: use of undeclared identifier 'width'`, `error: use of undeclared identifier 'height'`
+
+---
+
+#### AOI 8: Incorrect Wayland compatibility claim
+**Response Excerpt:**
+```
+| **Wayland/X11 Compatibility** | Works on both, but test thoroughly. On Wayland, ensure GTK/SDL2 are built with Wayland support. |
+```
+
+**Description:** The response incorrectly claims the approach "works on both" Wayland and X11. However, the code uses `gdk_x11_window_get_xid()` (or the incorrect `gdk_window_get_xid()`), which is explicitly X11-specific. On native Wayland, there is no XID concept—XIDs only exist in X11. The approach shown would only work on X11 or XWayland (X11 compatibility layer), not native Wayland.
+
+**Severity:** Substantial
+
+**Verification:**
+The function name `gdk_x11_window_get_xid()` explicitly includes "x11", indicating it's X11-specific. From real-world projects using this approach (e.g., hairy-ninja on GitHub), developers add assertions like:
+```c
+g_assert(GDK_IS_X11_WINDOW(gdk_window)); // fail if we're not on X11
+```
+with comments: "as SDL2 does not support anything else (aka Wayland) on Linux AFAIK"
+
+---
+
+#### AOI 9: Misleading testgles2.c reference
+**Response Excerpt:**
+```
+* [SDL2 GTK3 Integration Example](https://github.com/libsdl-org/SDL/blob/main/test/testgles2.c) (SDL's official test for GL embedding)
+```
+
+**Description:** The response links to SDL's `testgles2.c` file and labels it as "SDL's official test for GL embedding," implying it's an example of GTK integration. However, this file is purely about OpenGL ES 2.0 testing with SDL and contains no GTK references whatsoever. This is misleading for users seeking GTK+SDL2 integration examples.
+
+**Severity:** Minor
+
+**Verification:**
+Checking the file content confirms it contains no mentions of GTK, GDK, or any GTK-related APIs. It's a standalone SDL OpenGL ES test.
+
+---
+
+#### AOI 10: Excessive emoji usage
+**Response Excerpt:**
+```
+### ✅ **Key Feasibility Notes**
+### 🛠️ **Recommended Method: OpenGL Context Sharing (GTK + SDL2 via GtkGLArea)**
+### ⚠️ **Critical Caveats & Fixes**
+### 🔄 **Alternative: Software Rendering (Simpler but Slower)**
+### 📌 **When to Use Which Method**
+### 📚 **Resources & Existing Projects**
+### 💡 **Final Advice**
+...and I'll refine the solution! 🎮
+```
+
+**Description:** The response uses emojis extensively in section headings (✅, 🛠️, ⚠️, 🔄, 📌, 📚, 💡) and the closing line (🎮). Emojis are unnecessary in technical documentation.
+
+**Severity:** Minor
+
+**Verification:**
+Multiple section headers and the closing pleasantry contain emojis.
+
+---
+
+### Quality Score: 2
+**Justification:** The response provides solid conceptual understanding and architectural guidance for SDL2/GTK integration with comprehensive coverage of approaches and trade-offs. However, the implementation contains multiple critical compilation-blocking errors: non-existent function `gdk_window_get_xid()`, type mismatches, undeclared variables in callback functions, incorrect SDL rendering pipeline mixing, and false Wayland compatibility claims. The code examples would not compile or run as written, requiring substantial corrections before being usable. While the overall approach and explanations are sound, the broken implementation significantly undermines the response's practical value.
 
 ---
 
@@ -212,28 +367,135 @@ HTTP/1.1 404 Not Found
 
 ---
 
-#### AOI 5: Broken SDL wiki URL - SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS
+#### AOI 5: Non-existent SDL hint constant SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS
 **Response Excerpt:**
+```c
+SDL_SetHint(SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS, "1");
+```
+
+and
+
 ```
 * [SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS](https://wiki.libsdl.org/SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS)
 ```
 
-**Description:** The response includes a URL to SDL hint documentation that returns HTTP 404.
+**Description:** The response references `SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS` both in code and as a documentation link, but this hint constant does not exist in SDL2. There is no such constant defined in `SDL_hints.h`. A user would get an undefined identifier compilation error, and the documentation URL returns HTTP 404.
 
-**Severity:** Minor
+**Severity:** Substantial (changed from Minor due to compilation error)
 
 **Verification:**
+Testing for the constant in SDL2 headers:
+```bash
+$ grep -r "SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS" /usr/include/SDL2/
+# (empty output - constant doesn't exist)
 ```
+
+URL verification:
+```bash
 $ curl -IL "https://wiki.libsdl.org/SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS"
 HTTP/1.1 404 Not Found
 ```
 
-The correct URL is: https://wiki.libsdl.org/SDL2/SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS
+Compiler error: `error: use of undeclared identifier 'SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS'`
 
 ---
 
-### Quality Score: 3
-**Justification:** The response provides practical guidance with clear implementation steps and addresses important integration challenges, but contains a substantial error in the SDL_CreateWindowFrom parameter type, uses deprecated GTK macros, includes incorrect GTK4 function reference for GTK3 context, and has three broken documentation URLs.
+#### AOI 6: Incorrect SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT usage
+**Response Excerpt:**
+```c
+SDL_SetHint(SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT, "1");
+```
+
+**Description:** The response sets `SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT` to "1", but this hint expects a hex-formatted address of another SDL_Window (formatted with '%p'), not a boolean string. Setting it to "1" causes SDL to silently fail to share the pixel format, which would prevent OpenGL rendering on the created window and leave the user debugging a black screen with no clear error message.
+
+**Severity:** Substantial
+
+**Verification:**
+From SDL2 documentation (https://wiki.libsdl.org/SDL2/SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT):
+> "A variable that is the address of another SDL_Window* (as a hex string formatted with '%p')."
+
+The correct usage would be something like:
+```c
+char hint_value[32];
+snprintf(hint_value, sizeof(hint_value), "%p", (void*)source_window);
+SDL_SetHint(SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT, hint_value);
+```
+
+---
+
+#### AOI 7: Missing variable declarations in code example
+**Response Excerpt:**
+```c
+// After the widget is realized (i.e., has a window), retrieve its XID:
+gdk_window = gtk_widget_get_window(drawing_area);
+gdk_x11_window_get_xid(gdk_window); // X11-specific
+```
+
+**Description:** The response shows incomplete code with missing variable declarations. The `gdk_window` variable is not declared with its type, and the return value of `gdk_x11_window_get_xid()` is not captured. The correct code should be `GdkWindow *gdk_window = gtk_widget_get_window(drawing_area);` and `Window xid = gdk_x11_window_get_xid(gdk_window);`. Additionally, the X11 GDK code requires `#include <gdk/gdkx.h>` which is not mentioned.
+
+**Severity:** Substantial
+
+**Verification:**
+Attempting to compile this code produces:
+```
+error: use of undeclared identifier 'gdk_window'
+error: implicit declaration of function 'gdk_x11_window_get_xid'
+```
+
+---
+
+#### AOI 8: No mention of Wayland limitations
+**Response Excerpt:**
+(Absence of any Wayland discussion in the response)
+
+**Description:** The response uses X11-specific code (`gdk_x11_window_get_xid()`) but never warns that this approach only works on X11, not native Wayland. Users on Wayland systems would attempt the code and encounter failures without understanding why. The response should mention that this method is X11-specific and may require modifications or SDL3 for Wayland support.
+
+**Severity:** Substantial
+
+**Verification:**
+The function `gdk_x11_window_get_xid()` is explicitly X11-specific (indicated by "x11" in the function name). On Wayland, this function is not available, and XIDs don't exist. Real-world projects using this approach include X11 assertions to prevent runtime errors on Wayland systems.
+
+---
+
+#### AOI 9: Misleading TIC-80 example
+**Response Excerpt:**
+```
+* **TIC-80** – Fantasy computer with embedded UI (not GTK, but similar concept).
+```
+
+**Description:** The response lists TIC-80 as an example project under "Example Projects," but TIC-80 does not embed SDL2 inside a GUI toolkit. It uses SDL2 as its own standalone renderer. Listing it as an example of the SDL-in-GTK embedding pattern is misleading for users seeking real-world GTK+SDL2 integration examples.
+
+**Severity:** Minor
+
+**Verification:**
+TIC-80's architecture uses SDL2 as the primary rendering system, not embedded within another GUI framework like GTK or Qt.
+
+---
+
+#### AOI 10: Excessive emoji usage
+**Response Excerpt:**
+```
+### ✅ How It Works
+## 🔧 Step-by-Step Overview (Linux/X11 Example)
+## 🌐 Cross-Platform Considerations
+## ⚠️ Challenges & Tips
+## ✅ Alternatives & Modern Approaches
+## 🛠️ Example Projects
+## ✅ Summary
+## 🔗 Useful Links
+```
+
+**Description:** The response uses emojis in multiple section headings (✅, 🔧, 🌐, ⚠️, 🛠️, 🔗). Emojis are unnecessary in technical documentation and detract from professional presentation.
+
+**Severity:** Minor
+
+**Verification:**
+Multiple section headers contain emojis throughout the response.
+
+---
+
+### Quality Score: 2
+**Justification:** The response provides practical guidance with clear implementation steps and cross-platform considerations for SDL2/GTK integration. However, the code examples contain multiple critical compilation-blocking errors: incorrect SDL_CreateWindowFrom parameter type (passing string instead of void pointer), non-existent SDL hint constant, missing variable declarations, incorrect hint usage that causes silent failures, and no warning about X11-only compatibility. The response also uses deprecated GTK macros and includes broken documentation URLs. While the conceptual approach is sound, the implementation errors would prevent the code from compiling or functioning correctly without substantial corrections.
 
 ---
 
@@ -242,4 +504,4 @@ The correct URL is: https://wiki.libsdl.org/SDL2/SDL_HINT_WINDOW_FRAME_USABLE_BO
 **Preferred Response:** Response 2
 
 **Justification (50 words max):**
-Response 2 provides more practical guidance for basic embedding with clearer cross-platform considerations. While both have substantial errors, Response 2's incorrect parameter type is easier to identify and fix than Response 1's fundamental API pipeline confusion mixing SDL_Renderer with SDL_GL_SwapWindow, which indicates deeper misunderstanding of SDL2 rendering architecture.
+Both responses score 2 and contain multiple compilation-blocking errors. Response 2 is marginally better due to simpler, more focused approach with clearer cross-platform guidance and fewer total substantial errors (5 vs 7). Response 2's errors are primarily missing declarations and incorrect parameters, while Response 1 has additional architectural confusion (SDL rendering pipeline mixing) and more undeclared variable issues across multiple callbacks.
