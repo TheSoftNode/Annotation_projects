@@ -17,7 +17,7 @@ The response provides a scenario-based recommendation table matching three use c
 
 ### Areas of Improvement
 
-#### AOI 1: Incorrect use of SDL_GL_SwapWindow with SDL_Renderer in GtkGLArea context
+#### AOI 1: Mixing SDL_Renderer with SDL_GL_SwapWindow
 **Response Excerpt:**
 ```c
 // Create SDL2 renderer (uses the *existing* GL context from GTK)
@@ -32,7 +32,7 @@ if (!sdl_renderer) {
 SDL_GL_SwapWindow(sdl_window);
 ```
 
-**Description:** The response has two separate issues with SDL_GL_SwapWindow usage: (1) It mixes SDL_Renderer with SDL_GL_SwapWindow, which belong to two mutually exclusive rendering pipelines. When using SDL_Renderer, the correct function is SDL_RenderPresent, not SDL_GL_SwapWindow. (2) The code calls SDL_GL_SwapWindow inside the GtkGLArea render callback, but GtkGLArea manages its own framebuffer and automatically swaps buffers when the render signal terminates. Calling SDL_GL_SwapWindow causes a double-swap or undefined behavior.
+**Description:** The response mixes SDL_Renderer with SDL_GL_SwapWindow, which belong to two mutually exclusive rendering pipelines. When using SDL_Renderer, the correct function is SDL_RenderPresent, not SDL_GL_SwapWindow. SDL_GL_SwapWindow is for raw OpenGL rendering, while SDL_RenderPresent is for SDL's 2D rendering API.
 
 **Severity:** Substantial
 
@@ -53,11 +53,45 @@ From SDL_GL_SwapWindow documentation:
 > "Update a window with OpenGL rendering."
 > "This is used with double-buffered OpenGL contexts, which are the default."
 
-GtkGLArea manages buffer swapping automatically after the render signal completes. The correct code should use `SDL_RenderPresent(sdl_renderer);` instead of `SDL_GL_SwapWindow(sdl_window);`.
+The correct code should use `SDL_RenderPresent(sdl_renderer);` instead of `SDL_GL_SwapWindow(sdl_window);`.
 
 ---
 
-#### AOI 2: Misleading guidance about avoiding SDL_INIT_VIDEO
+#### AOI 2: Manual buffer swap inside GtkGLArea render callback
+**Response Excerpt:**
+```c
+static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpointer data) {
+    gtk_gl_area_make_current(glarea);
+
+    SDL_SetRenderDrawColor(sdl_renderer, 30, 30, 30, 255);
+    SDL_RenderClear(sdl_renderer);
+
+    SDL_RenderCopy(sdl_renderer, your_texture, NULL, &dst_rect);
+
+    SDL_GL_SwapWindow(sdl_window);
+    return TRUE;
+}
+```
+
+**Description:** The code calls SDL_GL_SwapWindow inside the GtkGLArea render callback, but GtkGLArea manages its own framebuffer and automatically swaps buffers when the render signal terminates. Manually calling SDL_GL_SwapWindow causes a double-swap or undefined behavior.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** API Documentation
+
+**Query:** GtkGLArea buffer swapping behavior
+
+**URL:**
+
+**Source Excerpt:**
+
+GtkGLArea documentation notes that the widget manages buffer swapping automatically after the render signal completes. Manual buffer swapping interferes with this mechanism.
+
+---
+
+#### AOI 3: Misleading guidance about avoiding SDL_INIT_VIDEO
 **Response Excerpt:**
 ```c
 // Initialize SDL2 subsystems EXCEPT video (GTK handles window/context)
@@ -94,7 +128,7 @@ The response's own code uses SDL_CreateWindowFrom and SDL_CreateRenderer, which 
 
 ---
 
-#### AOI 3: Broken community example URL
+#### AOI 4: Broken community example URL
 **Response Excerpt:**
 ```
 * [SDL2 + GTK3 Level Editor Tutorial](https://github.com/edubart/sdl2-gtk-example) (community example)
@@ -124,7 +158,7 @@ HTTP/1.1 404 Not Found
 
 ---
 
-#### AOI 4: Non-existent function gdk_window_get_xid
+#### AOI 5: Non-existent function gdk_window_get_xid
 **Response Excerpt:**
 ```c
 // Create SDL2 window from GTK's native window handle
@@ -155,7 +189,7 @@ Using the incorrect function name would cause: `error: implicit declaration of f
 
 ---
 
-#### AOI 5: Type mismatch in gdk_pixbuf_get_from_surface
+#### AOI 6: Type mismatch in gdk_pixbuf_get_from_surface
 **Response Excerpt:**
 ```c
 SDL_Surface *sdl_surface = /* your SDL surface */;
@@ -188,7 +222,7 @@ Passing `SDL_Surface*` to a function expecting `cairo_surface_t*` results in: `e
 
 ---
 
-#### AOI 6: Undefined variables in on_glarea_render callback
+#### AOI 7: Undefined variables in on_glarea_render callback
 **Response Excerpt:**
 ```c
 static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpointer data) {
@@ -227,7 +261,7 @@ Without this, the compiler produces: `error: use of undeclared identifier 'sdl_r
 
 ---
 
-#### AOI 7: Undefined variables in on_draw callback
+#### AOI 8: Undefined variables in on_draw callback
 **Response Excerpt:**
 ```c
 static gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data) {
@@ -258,7 +292,7 @@ Compiler produces: `error: use of undeclared identifier 'sdl_surface'`, `error: 
 
 ---
 
-#### AOI 8: SDL_CreateRenderer can hang on X11 with SDL_CreateWindowFrom
+#### AOI 9: SDL_CreateRenderer can hang on X11 with SDL_CreateWindowFrom
 **Response Excerpt:**
 ```c
 SDL_Renderer *sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
@@ -292,7 +326,7 @@ This is a documented issue when embedding SDL windows inside GUI toolkits like G
 
 ---
 
-#### AOI 9: Incorrect Wayland compatibility claim
+#### AOI 10: Incorrect Wayland compatibility claim
 **Response Excerpt:**
 ```
 | **Wayland/X11 Compatibility** | Works on both, but test thoroughly. On Wayland, ensure GTK/SDL2 are built with Wayland support. |
@@ -320,7 +354,7 @@ with comments: "as SDL2 does not support anything else (aka Wayland) on Linux AF
 
 ---
 
-#### AOI 10: Misleading testgles2.c reference
+#### AOI 11: Misleading testgles2.c reference
 **Response Excerpt:**
 ```
 * [SDL2 GTK3 Integration Example](https://github.com/libsdl-org/SDL/blob/main/test/testgles2.c) (SDL's official test for GL embedding)
@@ -344,7 +378,7 @@ Checking the file content confirms it contains no mentions of GTK, GDK, or any G
 
 ---
 
-#### AOI 11: Excessive emoji usage
+#### AOI 12: Excessive emoji usage
 **Response Excerpt:**
 ```
 ### ✅ **Key Feasibility Notes**
@@ -376,7 +410,7 @@ Multiple section headers and the closing pleasantry contain emojis.
 ---
 
 ### Quality Score: 2
-**Justification:** The response provides solid conceptual understanding and architectural guidance for SDL2/GTK integration with comprehensive coverage of approaches and trade-offs. However, the implementation contains multiple critical compilation-blocking errors: non-existent function `gdk_window_get_xid()`, type mismatches, undeclared variables in callback functions, incorrect SDL rendering pipeline mixing, SDL_CreateRenderer hanging on X11 due to event consumption conflicts, and false Wayland compatibility claims. The code examples would not compile or run as written, and even if compilation errors were fixed, the SDL_CreateRenderer call would cause the application to freeze indefinitely. While the overall approach and explanations are sound, the broken implementation significantly undermines the response's practical value.
+**Justification:** The response provides solid conceptual understanding and architectural guidance for SDL2/GTK integration with comprehensive coverage of approaches and trade-offs. However, the implementation contains multiple critical compilation-blocking errors: mixing SDL_Renderer with SDL_GL_SwapWindow, manual buffer swapping interfering with GtkGLArea, non-existent function `gdk_window_get_xid()`, type mismatches, undeclared variables in callback functions, SDL_CreateRenderer hanging on X11 due to event consumption conflicts, and false Wayland compatibility claims. The code examples would not compile or run as written, and even if compilation errors were fixed, the SDL_CreateRenderer call would cause the application to freeze indefinitely. While the overall approach and explanations are sound, the broken implementation significantly undermines the response's practical value.
 
 ---
 
