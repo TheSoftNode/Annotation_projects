@@ -93,11 +93,14 @@ static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpoin
 
 **Query:** GtkGLArea buffer swapping behavior
 
-**URL:**
+**URL:** https://docs.gtk.org/gtk3/class.GLArea.html
 
 **Source Excerpt:**
 
-GtkGLArea documentation notes that the widget manages buffer swapping automatically after the render signal completes. Manual buffer swapping interferes with this mechanism.
+From GtkGLArea documentation:
+> "The widget will automatically create a GL context, and automatically call gtk_gl_area_make_current() when needed... When the widget is destroyed, the GL context will also be destroyed... The widget will also ensure that the GL context is current before emitting the render signal."
+
+GtkGLArea manages buffer swapping automatically after the render signal completes. Manual buffer swapping interferes with this mechanism.
 
 ---
 
