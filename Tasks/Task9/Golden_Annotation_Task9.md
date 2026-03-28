@@ -36,17 +36,24 @@ SDL_GL_SwapWindow(sdl_window);
 
 **Severity:** Substantial
 
-**Verification:**
-From SDL2 documentation for SDL_RenderPresent (https://wiki.libsdl.org/SDL2/SDL_RenderPresent):
+**Verification of Issue:**
+
+**Tool Type:** API Documentation
+
+**Query:** SDL_RenderPresent vs SDL_GL_SwapWindow documentation
+
+**URL:** https://wiki.libsdl.org/SDL2/SDL_RenderPresent and https://wiki.libsdl.org/SDL2/SDL_GL_SwapWindow
+
+**Source Excerpt:**
+
+From SDL_RenderPresent documentation:
 > "SDL's rendering functions operate on a backbuffer... when using SDL's rendering API... calls this function once per frame to present the final drawing to the user."
 
-From SDL2 documentation for SDL_GL_SwapWindow (https://wiki.libsdl.org/SDL2/SDL_GL_SwapWindow):
+From SDL_GL_SwapWindow documentation:
 > "Update a window with OpenGL rendering."
 > "This is used with double-buffered OpenGL contexts, which are the default."
 
-Additionally, GtkGLArea documentation notes that the widget manages buffer swapping automatically after the render signal completes. Manual buffer swapping interferes with this mechanism.
-
-The correct code should use `SDL_RenderPresent(sdl_renderer);` instead of `SDL_GL_SwapWindow(sdl_window);`.
+GtkGLArea manages buffer swapping automatically after the render signal completes. The correct code should use `SDL_RenderPresent(sdl_renderer);` instead of `SDL_GL_SwapWindow(sdl_window);`.
 
 ---
 
@@ -70,8 +77,17 @@ and from the caveats table:
 
 **Severity:** Minor
 
-**Verification:**
-From SDL2 documentation for SDL_Init (https://wiki.libsdl.org/SDL2/SDL_Init):
+**Verification of Issue:**
+
+**Tool Type:** API Documentation
+
+**Query:** SDL_Init SDL_INIT_VIDEO documentation
+
+**URL:** https://wiki.libsdl.org/SDL2/SDL_Init
+
+**Source Excerpt:**
+
+From SDL_Init documentation:
 > "SDL_INIT_VIDEO: video subsystem; automatically initializes the events subsystem"
 
 The response's own code uses SDL_CreateWindowFrom and SDL_CreateRenderer, which are part of SDL's video subsystem API. Initializing SDL_INIT_VIDEO does not interfere with GTK's GDK initialization.
@@ -88,9 +104,21 @@ The response's own code uses SDL_CreateWindowFrom and SDL_CreateRenderer, which 
 
 **Severity:** Minor
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Web Verification
+
+**Query:**
+
+```bash
+curl -IL "https://github.com/edubart/sdl2-gtk-example"
 ```
-$ curl -IL "https://github.com/edubart/sdl2-gtk-example"
+
+**URL:** https://github.com/edubart/sdl2-gtk-example
+
+**Source Excerpt:**
+
+```
 HTTP/1.1 404 Not Found
 ```
 
@@ -108,8 +136,17 @@ SDL_Window *sdl_window = SDL_CreateWindowFrom(gdk_window_get_xid(gdk_window));
 
 **Severity:** Substantial
 
-**Verification:**
-The GDK API requires the platform-specific function `gdk_x11_window_get_xid()` for X11, not `gdk_window_get_xid()`. From GDK documentation (https://docs.gtk.org/gdk3-x11/method.X11Window.get_xid.html), the correct function is:
+**Verification of Issue:**
+
+**Tool Type:** API Documentation & Compilation Testing
+
+**Query:** gdk_window_get_xid vs gdk_x11_window_get_xid
+
+**URL:** https://docs.gtk.org/gdk3-x11/method.X11Window.get_xid.html
+
+**Source Excerpt:**
+
+The GDK API requires the platform-specific function `gdk_x11_window_get_xid()` for X11, not `gdk_window_get_xid()`. From GDK documentation, the correct function is:
 ```c
 Window gdk_x11_window_get_xid(GdkWindow *window)
 ```
@@ -132,7 +169,16 @@ gdk_cairo_set_source_pixbuf(cr,
 
 **Severity:** Substantial
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** API Documentation & Compilation Testing
+
+**Query:** gdk_pixbuf_get_from_surface function signature
+
+**URL:**
+
+**Source Excerpt:**
+
 From GDK-PixBuf documentation, `gdk_pixbuf_get_from_surface()` signature is:
 ```c
 GdkPixbuf* gdk_pixbuf_get_from_surface(cairo_surface_t *surface, ...)
@@ -162,7 +208,16 @@ static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpoin
 
 **Severity:** Substantial
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Compilation Testing
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 The variables should be retrieved from the GtkGLArea object:
 ```c
 SDL_Renderer *sdl_renderer = g_object_get_data(G_OBJECT(glarea), "sdl-renderer");
@@ -189,7 +244,16 @@ static gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data) {
 
 **Severity:** Substantial
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Compilation Testing
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 Compiler produces: `error: use of undeclared identifier 'sdl_surface'`, `error: use of undeclared identifier 'width'`, `error: use of undeclared identifier 'height'`
 
 ---
@@ -209,8 +273,17 @@ if (!sdl_renderer) {
 
 **Severity:** Substantial
 
-**Verification:**
-From SDL Discourse discussion (https://discourse.libsdl.org/t/sdl-createwindowfrom-and-blocking-sdl-createrenderer/20859):
+**Verification of Issue:**
+
+**Tool Type:** Forum Discussion
+
+**Query:**
+
+**URL:** https://discourse.libsdl.org/t/sdl-createwindowfrom-and-blocking-sdl-createrenderer/20859
+
+**Source Excerpt:**
+
+From SDL Discourse discussion:
 > "However, calling SDL_CreateRenderer() just hangs. I've stepped through SDL_CreateRenderer() and it appears to block here: SDL_x11window.c:X11_HideWindow: ... /* Blocking wait for 'UnmapNotify' event */ X11_XIfEvent(display, &event, &isUnmapNotify, (XPointer)&data->xwindow); //<--- hangs here"
 >
 > "I have a suspicion that the X11 events are being consumed by the application toolkit (FLTK) and not are not reaching SDL2."
@@ -229,7 +302,16 @@ This is a documented issue when embedding SDL windows inside GUI toolkits like G
 
 **Severity:** Substantial
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** API Analysis
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 The function name `gdk_x11_window_get_xid()` explicitly includes "x11", indicating it's X11-specific. From real-world projects using this approach (e.g., hairy-ninja on GitHub), developers add assertions like:
 ```c
 g_assert(GDK_IS_X11_WINDOW(gdk_window)); // fail if we're not on X11
@@ -248,7 +330,16 @@ with comments: "as SDL2 does not support anything else (aka Wayland) on Linux AF
 
 **Severity:** Minor
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Code Search
+
+**Query:**
+
+**URL:** https://github.com/libsdl-org/SDL/blob/main/test/testgles2.c
+
+**Source Excerpt:**
+
 Checking the file content confirms it contains no mentions of GTK, GDK, or any GTK-related APIs. It's a standalone SDL OpenGL ES test.
 
 ---
@@ -270,7 +361,16 @@ Checking the file content confirms it contains no mentions of GTK, GDK, or any G
 
 **Severity:** Minor
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Code Search
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 Multiple section headers and the closing pleasantry contain emojis.
 
 ---
@@ -314,8 +414,17 @@ SDL_Window *sdl_window = SDL_CreateWindowFrom(window_id_str);
 
 **Severity:** Substantial
 
-**Verification:**
-From SDL2 documentation for SDL_CreateWindowFrom (https://wiki.libsdl.org/SDL2/SDL_CreateWindowFrom), the function signature is:
+**Verification of Issue:**
+
+**Tool Type:** API Documentation
+
+**Query:** SDL_CreateWindowFrom function signature
+
+**URL:** https://wiki.libsdl.org/SDL2/SDL_CreateWindowFrom
+
+**Source Excerpt:**
+
+From SDL2 documentation, the function signature is:
 ```c
 SDL_Window* SDL_CreateWindowFrom(const void* data)
 ```
@@ -340,7 +449,16 @@ SDL_Window *sdl_window = SDL_CreateWindowFrom((void*)(uintptr_t)xid);
 
 **Severity:** Minor
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** API Documentation
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 GTK3 documentation recommends function forms over macros. The function `gtk_widget_get_native()` is GTK4 API, not GTK3. For GTK3 on macOS, obtaining NSView requires using gdk_quartz_window_get_nsview (when using Quartz backend).
 
 ---
@@ -355,9 +473,21 @@ GTK3 documentation recommends function forms over macros. The function `gtk_widg
 
 **Severity:** Minor
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Web Verification
+
+**Query:**
+
+```bash
+curl -IL "https://wiki.libsdl.org/SDL_CreateWindowFrom"
 ```
-$ curl -IL "https://wiki.libsdl.org/SDL_CreateWindowFrom"
+
+**URL:** https://wiki.libsdl.org/SDL_CreateWindowFrom
+
+**Source Excerpt:**
+
+```
 HTTP/1.1 404 Not Found
 ```
 
@@ -375,9 +505,21 @@ The correct URL is: https://wiki.libsdl.org/SDL2/SDL_CreateWindowFrom
 
 **Severity:** Minor
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Web Verification
+
+**Query:**
+
+```bash
+curl -IL "https://docs.gtk.org/gdk3/x11.html"
 ```
-$ curl -IL "https://docs.gtk.org/gdk3/x11.html"
+
+**URL:** https://docs.gtk.org/gdk3/x11.html
+
+**Source Excerpt:**
+
+```
 HTTP/1.1 404 Not Found
 ```
 
@@ -397,18 +539,30 @@ and
 
 **Description:** The response references `SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS` both in code and as a documentation link, but this hint constant does not exist in SDL2. There is no such constant defined in `SDL_hints.h`. A user would get an undefined identifier compilation error, and the documentation URL returns HTTP 404.
 
-**Severity:** Substantial (changed from Minor due to compilation error)
+**Severity:** Substantial
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Header Search & Web Verification & Compilation Testing
+
+**Query:**
+
+```bash
+grep -r "SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS" /usr/include/SDL2/
+curl -IL "https://wiki.libsdl.org/SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS"
+```
+
+**URL:** https://wiki.libsdl.org/SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS
+
+**Source Excerpt:**
+
 Testing for the constant in SDL2 headers:
 ```bash
-$ grep -r "SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS" /usr/include/SDL2/
 # (empty output - constant doesn't exist)
 ```
 
 URL verification:
-```bash
-$ curl -IL "https://wiki.libsdl.org/SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS"
+```
 HTTP/1.1 404 Not Found
 ```
 
@@ -426,8 +580,17 @@ SDL_SetHint(SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT, "1");
 
 **Severity:** Substantial
 
-**Verification:**
-From SDL2 documentation (https://wiki.libsdl.org/SDL2/SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT):
+**Verification of Issue:**
+
+**Tool Type:** API Documentation
+
+**Query:** SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT documentation
+
+**URL:** https://wiki.libsdl.org/SDL2/SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT
+
+**Source Excerpt:**
+
+From SDL2 documentation:
 > "A variable that is the address of another SDL_Window* (as a hex string formatted with '%p')."
 
 The correct usage would be something like:
@@ -451,7 +614,16 @@ gdk_x11_window_get_xid(gdk_window); // X11-specific
 
 **Severity:** Substantial
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Compilation Testing
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 Attempting to compile this code produces:
 ```
 error: use of undeclared identifier 'gdk_window'
@@ -471,7 +643,16 @@ gdk_x11_window_get_xid(gdk_window);  // X11-specific
 
 **Severity:** Substantial
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** API Analysis
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 The function `gdk_x11_window_get_xid()` is explicitly X11-specific (indicated by "x11" in the function name). On Wayland, this function is not available, and XIDs don't exist. Real-world projects using this approach include X11 assertions to prevent runtime errors on Wayland systems.
 
 ---
@@ -486,7 +667,16 @@ The function `gdk_x11_window_get_xid()` is explicitly X11-specific (indicated by
 
 **Severity:** Minor
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Architecture Analysis
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 TIC-80's architecture uses SDL2 as the primary rendering system, not embedded within another GUI framework like GTK or Qt.
 
 ---
@@ -508,7 +698,16 @@ TIC-80's architecture uses SDL2 as the primary rendering system, not embedded wi
 
 **Severity:** Minor
 
-**Verification:**
+**Verification of Issue:**
+
+**Tool Type:** Code Search
+
+**Query:**
+
+**URL:**
+
+**Source Excerpt:**
+
 Multiple section headers contain emojis throughout the response.
 
 ---
