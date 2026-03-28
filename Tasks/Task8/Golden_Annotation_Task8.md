@@ -563,6 +563,6 @@ Response 2 provides accurate, working code that correctly demonstrates how to re
 
 **Justification (50 words):**
 
-R2 provides working code with no syntax errors, while R1 contains four substantial bugs (duplicate headers parameter, symbolize_keys without ActiveSupport, incorrect return type handling, variable naming error) that prevent the CsvImporterService from functioning. R2's code executes successfully and demonstrates correct Rails patterns.
+R2 provides functional, executable code with correct Rails patterns, while R1's CsvImporterService class contains multiple execution-blocking errors. R2 successfully demonstrates CSV reading from db/data with working examples, whereas R1's CsvImporterService implementation fails when executed.
 
 ---
