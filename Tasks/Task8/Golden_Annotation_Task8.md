@@ -528,9 +528,9 @@ The response provides a working CsvImportService implementation that follows Rai
 
 The response includes practical troubleshooting guidance covering common issues like file-not-found errors, encoding problems, and header mismatches with actionable solutions.
 
-The response demonstrates the injectable file path pattern in the testing section, showing how to make services testable by allowing custom paths via default parameters.
+The response includes a TL;DR summary section with a complete code example and five best practices, allowing users to quickly reference the essential implementation steps.
 
-The response demonstrates how to use find_or_create_by! to prevent duplicate records during CSV imports, providing a safer approach for idempotent data loading.
+The response demonstrates how to use find_or_create_by! to avoid duplicate records during CSV imports, showing a pattern for safer data loading.
 
 ## Areas of Improvement
 
