@@ -288,7 +288,7 @@ Multiple section headers and the closing pleasantry contain emojis.
 The response explains that SDL2 can render to an arbitrary native window handle on different platforms (HWND on Windows, XID on X11, NSView on macOS), establishing the technical approach for embedding.
 
 #### Strength 2
-The response addresses four challenges with solutions: event handling conflicts with recommendation to let GTK manage events, threading concerns about main thread restrictions, rendering loop implementation using g_timeout_add, and redraw synchronization using the draw signal.
+The response addresses integration challenges with solutions for event handling, threading, rendering loop timing, and redraw synchronization.
 
 #### Strength 3
 The response explains that GTK widgets expose the native window handles needed for SDL2 embedding.
