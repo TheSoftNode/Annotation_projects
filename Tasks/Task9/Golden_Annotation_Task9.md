@@ -11,12 +11,6 @@ The response explains the OpenGL context sharing approach using GtkGLArea, detai
 The response provides a detailed step-by-step implementation with five numbered phases (GTK window setup, SDL2 initialization, attaching SDL2 to GTK's GL context, rendering in GTK's draw loop, and input handling via GTK), showing the complete integration workflow.
 
 #### Strength 3
-The response includes a caveats table addressing five critical integration issues (OpenGL context conflicts, event loop conflicts, window resizing, Wayland/X11 compatibility, and SDL2 initialization), with specific solutions for each problem.
-
-#### Strength 4
-The response explains an alternative software rendering approach for performance-insensitive use cases, including pros and cons comparison and code example using SDL_Surface with Cairo.
-
-#### Strength 5
 The response provides a scenario-based recommendation table matching three different use cases (3D/2D with shaders, simple 2D editor, input/audio only) to the appropriate integration method.
 
 ---
@@ -200,7 +194,32 @@ Compiler produces: `error: use of undeclared identifier 'sdl_surface'`, `error: 
 
 ---
 
-#### AOI 8: Incorrect Wayland compatibility claim
+#### AOI 8: SDL_CreateRenderer can hang on X11 with SDL_CreateWindowFrom
+**Response Excerpt:**
+```c
+SDL_Renderer *sdl_renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
+
+if (!sdl_renderer) {
+    fprintf(stderr, "SDL_CreateRenderer failed: %s\n", SDL_GetError());
+    exit(1);
+}
+```
+
+**Description:** The response treats creating an SDL_Renderer on a window from SDL_CreateWindowFrom as straightforward, but SDL_CreateRenderer can hang on X11 because SDL internally tries to hide and unmap the window, then waits for an UnmapNotify event that never arrives. The UnmapNotify event is consumed by the GTK toolkit before SDL receives it, causing SDL to block indefinitely in X11_XIfEvent. A user following this code would encounter a frozen, unresponsive application with no indication of what went wrong.
+
+**Severity:** Substantial
+
+**Verification:**
+From SDL Discourse discussion (https://discourse.libsdl.org/t/sdl-createwindowfrom-and-blocking-sdl-createrenderer/20859):
+> "However, calling SDL_CreateRenderer() just hangs. I've stepped through SDL_CreateRenderer() and it appears to block here: SDL_x11window.c:X11_HideWindow: ... /* Blocking wait for 'UnmapNotify' event */ X11_XIfEvent(display, &event, &isUnmapNotify, (XPointer)&data->xwindow); //<--- hangs here"
+>
+> "I have a suspicion that the X11 events are being consumed by the application toolkit (FLTK) and not are not reaching SDL2."
+
+This is a documented issue when embedding SDL windows inside GUI toolkits like GTK or FLTK on X11.
+
+---
+
+#### AOI 9: Incorrect Wayland compatibility claim
 **Response Excerpt:**
 ```
 | **Wayland/X11 Compatibility** | Works on both, but test thoroughly. On Wayland, ensure GTK/SDL2 are built with Wayland support. |
@@ -219,7 +238,7 @@ with comments: "as SDL2 does not support anything else (aka Wayland) on Linux AF
 
 ---
 
-#### AOI 9: Misleading testgles2.c reference
+#### AOI 10: Misleading testgles2.c reference
 **Response Excerpt:**
 ```
 * [SDL2 GTK3 Integration Example](https://github.com/libsdl-org/SDL/blob/main/test/testgles2.c) (SDL's official test for GL embedding)
@@ -234,7 +253,7 @@ Checking the file content confirms it contains no mentions of GTK, GDK, or any G
 
 ---
 
-#### AOI 10: Excessive emoji usage
+#### AOI 11: Excessive emoji usage
 **Response Excerpt:**
 ```
 ### ✅ **Key Feasibility Notes**
@@ -257,7 +276,7 @@ Multiple section headers and the closing pleasantry contain emojis.
 ---
 
 ### Quality Score: 2
-**Justification:** The response provides solid conceptual understanding and architectural guidance for SDL2/GTK integration with comprehensive coverage of approaches and trade-offs. However, the implementation contains multiple critical compilation-blocking errors: non-existent function `gdk_window_get_xid()`, type mismatches, undeclared variables in callback functions, incorrect SDL rendering pipeline mixing, and false Wayland compatibility claims. The code examples would not compile or run as written, requiring substantial corrections before being usable. While the overall approach and explanations are sound, the broken implementation significantly undermines the response's practical value.
+**Justification:** The response provides solid conceptual understanding and architectural guidance for SDL2/GTK integration with comprehensive coverage of approaches and trade-offs. However, the implementation contains multiple critical compilation-blocking errors: non-existent function `gdk_window_get_xid()`, type mismatches, undeclared variables in callback functions, incorrect SDL rendering pipeline mixing, SDL_CreateRenderer hanging on X11 due to event consumption conflicts, and false Wayland compatibility claims. The code examples would not compile or run as written, and even if compilation errors were fixed, the SDL_CreateRenderer call would cause the application to freeze indefinitely. While the overall approach and explanations are sound, the broken implementation significantly undermines the response's practical value.
 
 ---
 
@@ -272,12 +291,9 @@ The response explains that SDL2 can render to an arbitrary native window handle 
 The response provides a four-step implementation overview covering the complete workflow: using GtkDrawingArea as the render target, retrieving the X11 Window ID after widget realization, passing the window ID to SDL2 via SDL_CreateWindowFrom, and using SDL_Renderer or OpenGL for rendering.
 
 #### Strength 3
-The response includes a cross-platform considerations table showing the different methods for three platforms (Linux X11, Windows, macOS), acknowledging platform-specific implementation differences.
-
-#### Strength 4
 The response addresses four critical challenges with specific solutions: event handling conflicts with recommendation to let GTK manage events, threading concerns about main thread restrictions, rendering loop implementation using g_timeout_add, and redraw synchronization using the draw signal.
 
-#### Strength 5
+#### Strength 4
 The response provides a clear summary section with four bullet points and a concrete use case description (left panel for GTK widgets, main view for SDL2 rendering) that helps visualize the practical application architecture.
 
 ---
@@ -446,9 +462,12 @@ error: implicit declaration of function 'gdk_x11_window_get_xid'
 
 #### AOI 8: No mention of Wayland limitations
 **Response Excerpt:**
-(Absence of any Wayland discussion in the response)
+```c
+gdk_window = gtk_widget_get_window(drawing_area);
+gdk_x11_window_get_xid(gdk_window);  // X11-specific
+```
 
-**Description:** The response uses X11-specific code (`gdk_x11_window_get_xid()`) but never warns that this approach only works on X11, not native Wayland. Users on Wayland systems would attempt the code and encounter failures without understanding why. The response should mention that this method is X11-specific and may require modifications or SDL3 for Wayland support.
+**Description:** The response uses X11-specific code (`gdk_x11_window_get_xid()`) throughout the implementation but never warns that this approach only works on X11, not native Wayland. Users on Wayland systems would attempt the code and encounter failures without understanding why. The response should mention that this method is X11-specific and may require modifications or SDL3 for Wayland support. Despite the explicit "X11-specific" comment in the code, the response provides no discussion of Wayland compatibility or limitations.
 
 **Severity:** Substantial
 
@@ -503,5 +522,5 @@ Multiple section headers contain emojis throughout the response.
 
 **Preferred Response:** Response 2
 
-**Justification (50 words max):**
-Both responses score 2 and contain multiple compilation-blocking errors. Response 2 is marginally better due to simpler, more focused approach with clearer cross-platform guidance and fewer total substantial errors (5 vs 7). Response 2's errors are primarily missing declarations and incorrect parameters, while Response 1 has additional architectural confusion (SDL rendering pipeline mixing) and more undeclared variable issues across multiple callbacks.
+**Justification:**
+Both responses provide conceptually sound architectural guidance for SDL2/GTK integration but contain multiple critical implementation errors that prevent compilation or cause runtime failures. Response 1 demonstrates deeper technical knowledge by explaining dual approaches (OpenGL context sharing via GtkGLArea and software rendering alternatives) with a comprehensive caveats table addressing integration challenges. However, it contains 8 substantial errors including non-existent API functions (gdk_window_get_xid), incompatible type mismatches (SDL_Surface vs cairo_surface_t), undefined variables across multiple callback functions, incorrect SDL rendering pipeline mixing (SDL_Renderer with SDL_GL_SwapWindow), SDL_CreateRenderer hanging on X11 due to event consumption conflicts with GTK, and false Wayland compatibility claims. Response 2 takes a more focused approach with clearer cross-platform considerations and practical event handling guidance, containing 5 substantial errors primarily involving incorrect parameter types (passing XID as string instead of pointer), non-existent SDL hint constants, missing variable declarations, and omission of Wayland limitations. While both responses fail to provide working code examples, Response 2's simpler implementation with fewer substantial errors and more straightforward debugging path makes it marginally more useful despite lacking Response 1's comprehensive coverage.
