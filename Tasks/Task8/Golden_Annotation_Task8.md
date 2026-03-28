@@ -331,9 +331,9 @@ ArgumentError: :skip_lines has to respond to #match: 1
 
 **Query:** Ruby CSV skip_lines option documentation
 
-**URL:** https://ruby-doc.org/stdlib/libdoc/csv/rdoc/CSV.html
+**URL:** https://ruby-doc.org/stdlib-3.0.0/libdoc/csv/rdoc/CSV.html
 
-**Source Excerpt:** "skip_lines: When set to an object responding to match, every line matching it is considered a comment and ignored during parsing."
+**Source Excerpt:** "skip_lines: Specifies how comments lines are to be recognized."
 
 ---
 
@@ -543,7 +543,7 @@ Instead, **use `Rails.root`** — it's a constant that points to the root of you
 
 **URL:** https://apidock.com/rails/v6.0.0/Rails/root/class
 
-**Source Excerpt:** "Method: Rails.root - Returns a Pathname object representing the root directory of the Rails application."
+**Source Excerpt:** "This method returns a Pathname object which handles paths starting with a / as absolute (starting from the root of the filesystem)."
 
 ---
 
