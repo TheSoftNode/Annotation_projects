@@ -164,7 +164,7 @@ def parse_csv
 end
 ```
 
-**Description:** The response defines a parse_csv method that uses CSV.foreach with a block but does not collect or return the transformed row data, causing parse_csv to return nil (the implicit return value), which makes the call method fail when attempting to call .each on nil.
+**Description:** The response defines a parse_csv method that uses CSV.foreach with a block but does not collect or return the transformed row data. The method returns the result of CSV.foreach (an integer representing the number of rows processed), which cannot be iterated with .each, causing the call method to fail when attempting to iterate over the return value.
 
 **Severity:** Substantial
 
