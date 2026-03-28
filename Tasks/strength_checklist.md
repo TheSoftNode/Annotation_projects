@@ -9,3 +9,7 @@ CHECK LIST
 ☐ Your strengths are in the present tense.
 
 If a response is very poor, there may be no strengths to note. Most middle-of-the-road responses will have 2–4 strengths, while particularly strong responses may have five. You do not need to go beyond five.
+
+format for writing a strength
+
+'The response [what it does well], [why it delivers meaningful value to the user]'"
