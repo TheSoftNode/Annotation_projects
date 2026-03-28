@@ -401,7 +401,7 @@ ArgumentError: :skip_lines has to respond to #match: 1
 [Rails guide – Background Jobs & Seed Data](https://guides.rubyonrails.org/background_jobs.html)
 ```
 
-**Description:** The response includes a URL to a Rails guide about background jobs that redirects and results in a 404 error, making the reference link non-functional.
+**Description:** The response includes a URL to a Rails guide about background jobs that results in a 404 error after following redirects, making the reference link non-functional.
 
 **Severity:** Minor
 
@@ -412,7 +412,7 @@ ArgumentError: :skip_lines has to respond to #match: 1
 **Query:**
 
 ```bash
-curl -I "https://guides.rubyonrails.org/background_jobs.html"
+curl -IL "https://guides.rubyonrails.org/background_jobs.html"
 ```
 
 **URL:** https://guides.rubyonrails.org/background_jobs.html
@@ -421,21 +421,8 @@ curl -I "https://guides.rubyonrails.org/background_jobs.html"
 
 ```
 HTTP/1.1 302 Moved Temporarily
-Location: http://edgeguides.rubyonrails.org/background_jobs.html
-[Following redirect results in HTTP 404]
-```
-
-**Tool Type:** Web Request
-
-**Query:** Verify correct Rails guide URL
-
-**URL:** https://guides.rubyonrails.org/active_job_basics.html
-
-**Source Excerpt:**
-
-```
-HTTP Status: 200
-[Correct guide is "Active Job Basics"]
+HTTP/1.1 301 Moved Permanently
+HTTP/1.1 404 Not Found
 ```
 
 ---
@@ -448,7 +435,7 @@ HTTP Status: 200
 [Ruby CSV documentation](https://ruby-doc.org/stdlib/libruby/csv.html)
 ```
 
-**Description:** The response includes a URL to Ruby CSV documentation that redirects and results in a 404 error, making the reference link non-functional.
+**Description:** The response includes a URL to Ruby CSV documentation that results in a 404 error after following redirects, making the reference link non-functional.
 
 **Severity:** Minor
 
@@ -459,7 +446,7 @@ HTTP Status: 200
 **Query:**
 
 ```bash
-curl -I "https://ruby-doc.org/stdlib/libruby/csv.html"
+curl -IL "https://ruby-doc.org/stdlib/libruby/csv.html"
 ```
 
 **URL:** https://ruby-doc.org/stdlib/libruby/csv.html
@@ -468,21 +455,7 @@ curl -I "https://ruby-doc.org/stdlib/libruby/csv.html"
 
 ```
 HTTP/1.1 302 Found
-Location: https://ruby-doc.org/3.4.1/libruby/csv.html
-[Following redirect results in HTTP 404]
-```
-
-**Tool Type:** Web Request
-
-**Query:** Verify correct Ruby CSV documentation URL
-
-**URL:** https://ruby-doc.org/3.3.0/stdlibs/csv/CSV.html
-
-**Source Excerpt:**
-
-```
-HTTP Status: 200
-[Correct documentation path uses version-specific URL]
+HTTP/1.1 404 Not Found
 ```
 
 ---
@@ -577,15 +550,23 @@ Multiple instances throughout the response including: "✅ Goal", "🧭 The Righ
 
 **Response Excerpt:**
 
-Main service example (line 67):
+Main service example:
 ```ruby
-def initialize(filename, model)
-  @file_path = Rails.root.join('db', 'data', filename)
-  @model     = model
+class CsvImportService
+  def initialize(filename, model)
+    @file_path = Rails.root.join('db', 'data', filename)
+    @model     = model
+  end
+
+  def call
+    CSV.foreach(@file_path, headers: true) do |row|
+      @model.create!(row.to_hash)
+    end
+  end
 end
 ```
 
-Testing section (line 164):
+Testing section:
 ```ruby
 def initialize(file_path: Rails.root.join('db', 'data', 'users.csv'))
   @file_path = file_path
