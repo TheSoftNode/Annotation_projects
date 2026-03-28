@@ -149,58 +149,6 @@ warning: key :headers is duplicated and overwritten on line 1
 **Response Excerpt:**
 
 ```ruby
-def parse_csv
-  CSV.foreach(csv_path, headers: true, headers: @headers) do |row|
-    # Convert CSV::Row → Hash with indifferent access
-    row.to_hash.symbolize_keys
-  end
-end
-```
-
-**Description:** The response calls symbolize_keys on a Hash object returned by CSV::Row#to_hash, but this method does not exist in Ruby's standard library and requires Rails' ActiveSupport, causing a NoMethodError when run in plain Ruby.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Code Execution
-
-**Query:**
-
-```ruby
-require 'csv'
-CSV.foreach('test.csv', headers: true) do |row|
-  hash = row.to_hash
-  puts "Has symbolize_keys?: #{hash.respond_to?(:symbolize_keys)}"
-  hash.symbolize_keys
-  break
-end
-```
-
-**URL:** N/A
-
-**Source Excerpt:**
-
-```
-Has symbolize_keys?: false
-NoMethodError: undefined method `symbolize_keys' for Hash
-```
-
-**Tool Type:** Web Documentation
-
-**Query:** Ruby CSV::Row to_hash symbolize_keys method
-
-**URL:** https://ruby-doc.org/stdlib-2.6.1/libdoc/csv/rdoc/CSV/Row.html
-
-**Source Excerpt:** "to_hash → Hash - Returns the row as a Hash. Note that modifications to the returned Hash do not modify the row. The symbolize_keys method is an ActiveSupport (Rails) extension, not part of Ruby's standard library."
-
----
-
-**[AOI #3 - Substantial]**
-
-**Response Excerpt:**
-
-```ruby
 def call
   parse_csv.each do |row_hash|
     @model.create!(row_hash)
@@ -216,7 +164,7 @@ def parse_csv
 end
 ```
 
-**Description:** The response uses CSV.foreach within parse_csv and attempts to call .each on its return value in the call method, but CSV.foreach returns an integer (the number of lines processed) rather than an enumerable collection, causing a NoMethodError.
+**Description:** The response defines a parse_csv method that uses CSV.foreach with a block but does not collect or return the transformed row data, causing parse_csv to return nil (the implicit return value), which makes the call method fail when attempting to call .each on nil.
 
 **Severity:** Substantial
 
@@ -227,11 +175,14 @@ end
 **Query:**
 
 ```ruby
-require 'csv'
-result = CSV.foreach('test.csv', headers: true) do |row|
-  # Processing
+def parse_csv
+  CSV.foreach('test.csv', headers: true) do |row|
+    row.to_hash
+  end
 end
-puts "Return type: #{result.class}"
+
+result = parse_csv
+puts "Result: #{result.inspect}"
 puts "Can call .each?: #{result.respond_to?(:each)}"
 ```
 
@@ -240,21 +191,14 @@ puts "Can call .each?: #{result.respond_to?(:each)}"
 **Source Excerpt:**
 
 ```
-Return type: Integer
+Result: 113
 Can call .each?: false
+NoMethodError: undefined method `each' for 113:Integer
 ```
-
-**Tool Type:** Web Documentation
-
-**Query:** Ruby CSV.foreach return value
-
-**URL:** https://www.rubydoc.info/stdlib/csv/CSV.foreach
-
-**Source Excerpt:** "foreach(path_or_io, mode='r', **options) {|row| ... } → integer - Calls the block with each row read from the source. Returns the number of rows read."
 
 ---
 
-**[AOI #4 - Substantial]**
+**[AOI #3 - Substantial]**
 
 **Response Excerpt:**
 
@@ -308,7 +252,7 @@ Did you mean?  @csv_path
 
 ---
 
-**[AOI #5 - Minor]**
+**[AOI #4 - Minor]**
 
 **Response Excerpt:**
 
@@ -320,7 +264,7 @@ Multiple instances throughout the response including section headers marked with
 
 ---
 
-**[AOI #6 - Minor]**
+**[AOI #5 - Minor]**
 
 **Response Excerpt:**
 
@@ -352,7 +296,7 @@ HTTP Status: 404
 
 ---
 
-**[AOI #7 - Substantial]**
+**[AOI #6 - Substantial]**
 
 **Response Excerpt:**
 
@@ -393,7 +337,7 @@ ArgumentError: :skip_lines has to respond to #match: 1
 
 ---
 
-**[AOI #8 - Minor]**
+**[AOI #7 - Minor]**
 
 **Response Excerpt:**
 
@@ -427,7 +371,7 @@ HTTP/1.1 404 Not Found
 
 ---
 
-**[AOI #9 - Minor]**
+**[AOI #8 - Minor]**
 
 **Response Excerpt:**
 
