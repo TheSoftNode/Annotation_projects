@@ -530,7 +530,7 @@ The response includes practical troubleshooting guidance covering common issues 
 
 The response includes a TL;DR summary section with a complete code example and five best practices, allowing users to quickly reference the essential implementation steps.
 
-The response demonstrates how to use find_or_create_by! to avoid duplicate records during CSV imports, showing a pattern for safer data loading.
+The response demonstrates how to use find_or_create_by! to reduce the risk of duplicate records during CSV imports, showing a pattern for safer data loading.
 
 ## Areas of Improvement
 
