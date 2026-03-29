@@ -425,14 +425,8 @@ SDL_Window *sdl_window = SDL_CreateWindowFrom(window_id_str);
 
 **Source Excerpt:**
 
-From SDL2 documentation, the function signature is:
 ```c
 SDL_Window* SDL_CreateWindowFrom(const void* data)
-```
-
-The parameter is `const void*`, not a string. The correct usage on X11 is:
-```c
-SDL_Window *sdl_window = SDL_CreateWindowFrom((void*)(uintptr_t)xid);
 ```
 
 ---
@@ -480,19 +474,15 @@ SDL_Window *sdl_window = SDL_CreateWindowFrom((void*)(uintptr_t)xid);
 
 **Query:**
 
-```bash
-curl -IL "https://wiki.libsdl.org/SDL_CreateWindowFrom"
-```
-
 **URL:** https://wiki.libsdl.org/SDL_CreateWindowFrom
 
 **Source Excerpt:**
 
 ```
-HTTP/1.1 404 Not Found
-```
+404
 
-The correct URL is: https://wiki.libsdl.org/SDL2/SDL_CreateWindowFrom
+This is not the web page you are looking for.
+```
 
 ---
 
@@ -513,16 +503,14 @@ The correct URL is: https://wiki.libsdl.org/SDL2/SDL_CreateWindowFrom
 
 **Query:**
 
-```bash
-curl -IL "https://docs.gtk.org/gdk3/x11.html"
-```
-
 **URL:** https://docs.gtk.org/gdk3/x11.html
 
 **Source Excerpt:**
 
 ```
-HTTP/1.1 404 Not Found
+404
+
+This is not the web page you are looking for.
 ```
 
 ---
@@ -610,7 +598,6 @@ gdk_x11_window_get_xid(gdk_window); // X11-specific
 
 **Source Excerpt:**
 
-Attempting to compile this code produces:
 ```
 error: use of undeclared identifier 'gdk_window'
 error: implicit declaration of function 'gdk_x11_window_get_xid'
@@ -640,8 +627,6 @@ gdk_x11_window_get_xid(gdk_window);  // X11-specific
 
 **Source Excerpt:**
 
-The function `gdk_x11_window_get_xid()` is explicitly X11-specific (indicated by "x11" in the function name). On Wayland, this function is not available, and XIDs don't exist. Real-world projects using this approach include X11 assertions to prevent runtime errors on Wayland systems.
-
 ---
 
 **[AOI #9 - Minor]**
@@ -664,8 +649,6 @@ The function `gdk_x11_window_get_xid()` is explicitly X11-specific (indicated by
 **URL:**
 
 **Source Excerpt:**
-
-TIC-80's architecture uses SDL2 as the primary rendering system, not embedded within another GUI framework like GTK or Qt.
 
 ---
 
@@ -696,8 +679,6 @@ TIC-80's architecture uses SDL2 as the primary rendering system, not embedded wi
 **URL:**
 
 **Source Excerpt:**
-
-Multiple section headers contain emojis throughout the response.
 
 ---
 
