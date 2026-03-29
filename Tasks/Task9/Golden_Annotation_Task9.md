@@ -121,17 +121,11 @@ The response's own code uses SDL_CreateWindowFrom and SDL_CreateRenderer, which 
 
 **Query:**
 
-```bash
-curl -IL "https://github.com/edubart/sdl2-gtk-example"
-```
-
 **URL:** https://github.com/edubart/sdl2-gtk-example
 
 **Source Excerpt:**
 
-```
-HTTP/1.1 404 Not Found
-```
+The page displays: **404**
 
 ---
 
