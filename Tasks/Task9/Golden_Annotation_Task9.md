@@ -320,12 +320,6 @@ if (!sdl_renderer) {
 
 **Source Excerpt:**
 
-The function name `gdk_x11_window_get_xid()` explicitly includes "x11", indicating it's X11-specific. From real-world projects using this approach (e.g., hairy-ninja on GitHub), developers add assertions like:
-```c
-g_assert(GDK_IS_X11_WINDOW(gdk_window)); // fail if we're not on X11
-```
-with comments: "as SDL2 does not support anything else (aka Wayland) on Linux AFAIK"
-
 ---
 
 **[AOI #10 - Minor]**
@@ -348,8 +342,6 @@ with comments: "as SDL2 does not support anything else (aka Wayland) on Linux AF
 **URL:** https://github.com/libsdl-org/SDL/blob/main/test/testgles2.c
 
 **Source Excerpt:**
-
-Checking the file content confirms it contains no mentions of GTK, GDK, or any GTK-related APIs. It's a standalone SDL OpenGL ES test.
 
 ---
 
@@ -380,8 +372,6 @@ Checking the file content confirms it contains no mentions of GTK, GDK, or any G
 **URL:**
 
 **Source Excerpt:**
-
-Multiple section headers and the closing pleasantry contain emojis.
 
 ---
 
@@ -471,8 +461,6 @@ SDL_Window *sdl_window = SDL_CreateWindowFrom((void*)(uintptr_t)xid);
 
 **Source Excerpt:**
 
-GTK3 documentation recommends function forms over macros. The function `gtk_widget_get_native()` is GTK4 API, not GTK3. For GTK3 on macOS, obtaining NSView requires using gdk_quartz_window_get_nsview (when using Quartz backend).
-
 ---
 
 **[AOI #3 - Minor]**
@@ -558,30 +546,19 @@ and
 
 **Verification of Issue:**
 
-**Tool Type:** Header Search & Web Verification & Compilation Testing
+**Tool Type:** Web Verification
 
 **Query:**
-
-```bash
-grep -r "SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS" /usr/include/SDL2/
-curl -IL "https://wiki.libsdl.org/SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS"
-```
 
 **URL:** https://wiki.libsdl.org/SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS
 
 **Source Excerpt:**
 
-Testing for the constant in SDL2 headers:
-```bash
-# (empty output - constant doesn't exist)
 ```
+404
 
-URL verification:
+This is not the web page you are looking for.
 ```
-HTTP/1.1 404 Not Found
-```
-
-Compiler error: `error: use of undeclared identifier 'SDL_HINT_WINDOW_FRAME_USABLE_BOUNDS'`
 
 ---
 
@@ -606,15 +583,7 @@ SDL_SetHint(SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT, "1");
 
 **Source Excerpt:**
 
-From SDL2 documentation:
 > "A variable that is the address of another SDL_Window* (as a hex string formatted with '%p')."
-
-The correct usage would be something like:
-```c
-char hint_value[32];
-snprintf(hint_value, sizeof(hint_value), "%p", (void*)source_window);
-SDL_SetHint(SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT, hint_value);
-```
 
 ---
 
