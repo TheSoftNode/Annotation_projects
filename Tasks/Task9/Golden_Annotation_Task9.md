@@ -629,9 +629,11 @@ gdk_x11_window_get_xid(gdk_window);  // X11-specific
 
 **Query:**
 
-**URL:**
+**URL:** https://github.com/nesbox/TIC-80
 
 **Source Excerpt:**
+
+> "TIC-80 is a fantasy computer for making, playing and sharing tiny games. There are built-in tools for development: code, sprites, maps, sound editors and the command line, which is enough to create a mini retro game."
 
 ---
 
