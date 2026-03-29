@@ -62,8 +62,6 @@ SDL_GL_SwapWindow(sdl_window);
 > "Update a window with OpenGL rendering."
 > "This is used with double-buffered OpenGL contexts, which are the default."
 
-The correct code should use `SDL_RenderPresent(sdl_renderer);` instead of `SDL_GL_SwapWindow(sdl_window);`.
-
 ---
 
 **[AOI #2 - Minor]**
@@ -97,10 +95,7 @@ and from the caveats table:
 
 **Source Excerpt:**
 
-From SDL_Init documentation:
 > "SDL_INIT_VIDEO: video subsystem; automatically initializes the events subsystem"
-
-The response's own code uses SDL_CreateWindowFrom and SDL_CreateRenderer, which are part of SDL's video subsystem API. Initializing SDL_INIT_VIDEO does not interfere with GTK's GDK initialization.
 
 ---
 
@@ -190,12 +185,9 @@ gdk_cairo_set_source_pixbuf(cr,
 
 **Source Excerpt:**
 
-From GDK-PixBuf documentation, `gdk_pixbuf_get_from_surface()` signature is:
 ```c
 GdkPixbuf* gdk_pixbuf_get_from_surface(cairo_surface_t *surface, ...)
 ```
-
-Passing `SDL_Surface*` to a function expecting `cairo_surface_t*` results in: `error: incompatible pointer types passing 'SDL_Surface *' to parameter of type 'cairo_surface_t *'`
 
 ---
 
@@ -230,12 +222,12 @@ static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpoin
 
 **Source Excerpt:**
 
-The variables should be retrieved from the GtkGLArea object:
-```c
-SDL_Renderer *sdl_renderer = g_object_get_data(G_OBJECT(glarea), "sdl-renderer");
 ```
-
-Without this, the compiler produces: `error: use of undeclared identifier 'sdl_renderer'`
+error: use of undeclared identifier 'sdl_renderer'
+error: use of undeclared identifier 'your_texture'
+error: use of undeclared identifier 'dst_rect'
+error: use of undeclared identifier 'sdl_window'
+```
 
 ---
 
@@ -267,7 +259,11 @@ static gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data) {
 
 **Source Excerpt:**
 
-Compiler produces: `error: use of undeclared identifier 'sdl_surface'`, `error: use of undeclared identifier 'width'`, `error: use of undeclared identifier 'height'`
+```
+error: use of undeclared identifier 'sdl_surface'
+error: use of undeclared identifier 'width'
+error: use of undeclared identifier 'height'
+```
 
 ---
 
@@ -297,12 +293,9 @@ if (!sdl_renderer) {
 
 **Source Excerpt:**
 
-From SDL Discourse discussion:
 > "However, calling SDL_CreateRenderer() just hangs. I've stepped through SDL_CreateRenderer() and it appears to block here: SDL_x11window.c:X11_HideWindow: ... /* Blocking wait for 'UnmapNotify' event */ X11_XIfEvent(display, &event, &isUnmapNotify, (XPointer)&data->xwindow); //<--- hangs here"
 >
 > "I have a suspicion that the X11 events are being consumed by the application toolkit (FLTK) and not are not reaching SDL2."
-
-This is a documented issue when embedding SDL windows inside GUI toolkits like GTK or FLTK on X11.
 
 ---
 
