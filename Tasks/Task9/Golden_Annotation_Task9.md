@@ -111,7 +111,7 @@ The response's own code uses SDL_CreateWindowFrom and SDL_CreateRenderer, which 
 * [SDL2 + GTK3 Level Editor Tutorial](https://github.com/edubart/sdl2-gtk-example) (community example)
 ```
 
-**Description:** The response includes a URL to a community example repository that returns HTTP 404.
+**Description:** The response provides a link to a community example repository labeled as "SDL2 + GTK3 Level Editor Tutorial" to help users see real-world integration examples. However, this GitHub repository does not exist and returns a 404 error, making the reference unhelpful and potentially frustrating for users attempting to learn from working examples.
 
 **Severity:** Minor
 
@@ -125,7 +125,11 @@ The response's own code uses SDL_CreateWindowFrom and SDL_CreateRenderer, which 
 
 **Source Excerpt:**
 
-The page displays: **404**
+```
+404
+
+This is not the web page you are looking for.
+```
 
 ---
 
