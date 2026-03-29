@@ -181,20 +181,9 @@ gdk_cairo_set_source_pixbuf(cr,
 
 **Query:**
 
-**URL:** https://docs.gtk.org/gdk-pixbuf/method.Pixbuf.get_from_surface.html
+**URL:**
 
 **Source Excerpt:**
-
-```c
-GdkPixbuf*
-gdk_pixbuf_get_from_surface (
-  cairo_surface_t* surface,
-  gint src_x,
-  gint src_y,
-  gint width,
-  gint height
-)
-```
 
 ---
 
@@ -221,20 +210,13 @@ static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpoin
 
 **Verification of Issue:**
 
-**Tool Type:** Compilation Testing
+**Tool Type:** Code Analysis
 
 **Query:**
 
 **URL:**
 
 **Source Excerpt:**
-
-```
-error: use of undeclared identifier 'sdl_renderer'
-error: use of undeclared identifier 'your_texture'
-error: use of undeclared identifier 'dst_rect'
-error: use of undeclared identifier 'sdl_window'
-```
 
 ---
 
@@ -258,19 +240,13 @@ static gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data) {
 
 **Verification of Issue:**
 
-**Tool Type:** Compilation Testing
+**Tool Type:** Code Analysis
 
 **Query:**
 
 **URL:**
 
 **Source Excerpt:**
-
-```
-error: use of undeclared identifier 'sdl_surface'
-error: use of undeclared identifier 'width'
-error: use of undeclared identifier 'height'
-```
 
 ---
 
