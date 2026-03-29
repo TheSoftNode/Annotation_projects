@@ -66,45 +66,7 @@ The correct code should use `SDL_RenderPresent(sdl_renderer);` instead of `SDL_G
 
 ---
 
-**[AOI #2 - Substantial]**
-
-**Response Excerpt:**
-```c
-static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpointer data) {
-    gtk_gl_area_make_current(glarea);
-
-    SDL_SetRenderDrawColor(sdl_renderer, 30, 30, 30, 255);
-    SDL_RenderClear(sdl_renderer);
-
-    SDL_RenderCopy(sdl_renderer, your_texture, NULL, &dst_rect);
-
-    SDL_GL_SwapWindow(sdl_window);
-    return TRUE;
-}
-```
-
-**Description:** The code calls SDL_GL_SwapWindow inside the GtkGLArea render callback, but GtkGLArea manages its own framebuffer and automatically swaps buffers when the render signal terminates. Manually calling SDL_GL_SwapWindow causes a double-swap or undefined behavior.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** API Documentation
-
-**Query:** GtkGLArea buffer swapping behavior
-
-**URL:** https://docs.gtk.org/gtk3/class.GLArea.html
-
-**Source Excerpt:**
-
-From GtkGLArea documentation:
-> "The widget will automatically create a GL context, and automatically call gtk_gl_area_make_current() when needed... When the widget is destroyed, the GL context will also be destroyed... The widget will also ensure that the GL context is current before emitting the render signal."
-
-GtkGLArea manages buffer swapping automatically after the render signal completes. Manual buffer swapping interferes with this mechanism.
-
----
-
-**[AOI #3 - Minor]**
+**[AOI #2 - Minor]**
 
 **Response Excerpt:**
 ```c
@@ -142,7 +104,7 @@ The response's own code uses SDL_CreateWindowFrom and SDL_CreateRenderer, which 
 
 ---
 
-**[AOI #4 - Minor]**
+**[AOI #3 - Minor]**
 
 **Response Excerpt:**
 ```
@@ -173,7 +135,7 @@ HTTP/1.1 404 Not Found
 
 ---
 
-**[AOI #5 - Substantial]**
+**[AOI #4 - Substantial]**
 
 **Response Excerpt:**
 ```c
@@ -205,7 +167,7 @@ Using the incorrect function name would cause: `error: implicit declaration of f
 
 ---
 
-**[AOI #6 - Substantial]**
+**[AOI #5 - Substantial]**
 
 **Response Excerpt:**
 ```c
@@ -239,7 +201,7 @@ Passing `SDL_Surface*` to a function expecting `cairo_surface_t*` results in: `e
 
 ---
 
-**[AOI #7 - Substantial]**
+**[AOI #6 - Substantial]**
 
 **Response Excerpt:**
 ```c
@@ -279,7 +241,7 @@ Without this, the compiler produces: `error: use of undeclared identifier 'sdl_r
 
 ---
 
-**[AOI #8 - Substantial]**
+**[AOI #7 - Substantial]**
 
 **Response Excerpt:**
 ```c
@@ -311,7 +273,7 @@ Compiler produces: `error: use of undeclared identifier 'sdl_surface'`, `error: 
 
 ---
 
-**[AOI #9 - Substantial]**
+**[AOI #8 - Substantial]**
 
 **Response Excerpt:**
 ```c
@@ -346,7 +308,7 @@ This is a documented issue when embedding SDL windows inside GUI toolkits like G
 
 ---
 
-**[AOI #10 - Substantial]**
+**[AOI #9 - Substantial]**
 
 **Response Excerpt:**
 ```
@@ -375,7 +337,7 @@ with comments: "as SDL2 does not support anything else (aka Wayland) on Linux AF
 
 ---
 
-**[AOI #11 - Minor]**
+**[AOI #10 - Minor]**
 
 **Response Excerpt:**
 ```
@@ -400,7 +362,7 @@ Checking the file content confirms it contains no mentions of GTK, GDK, or any G
 
 ---
 
-**[AOI #12 - Minor]**
+**[AOI #11 - Minor]**
 
 **Response Excerpt:**
 ```
