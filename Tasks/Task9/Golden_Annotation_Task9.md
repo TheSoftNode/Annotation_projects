@@ -142,26 +142,26 @@ GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(glarea));
 SDL_Window *sdl_window = SDL_CreateWindowFrom(gdk_window_get_xid(gdk_window));
 ```
 
-**Description:** The response uses `gdk_window_get_xid()`, which does not exist in the GDK API. The correct function is `gdk_x11_window_get_xid()`. This would cause a compilation error (implicit function declaration).
+**Description:** The response uses `gdk_window_get_xid()`, which does not exist in the GDK API. The correct function is `gdk_x11_window_get_xid()`. This would cause a compilation error with an implicit function declaration, preventing the code from compiling successfully.
 
 **Severity:** Substantial
 
 **Verification of Issue:**
 
-**Tool Type:** API Documentation & Compilation Testing
+**Tool Type:** API Documentation
 
-**Query:** gdk_window_get_xid vs gdk_x11_window_get_xid
+**Query:**
 
 **URL:** https://docs.gtk.org/gdk3-x11/method.X11Window.get_xid.html
 
 **Source Excerpt:**
 
-The GDK API requires the platform-specific function `gdk_x11_window_get_xid()` for X11, not `gdk_window_get_xid()`. From GDK documentation, the correct function is:
 ```c
-Window gdk_x11_window_get_xid(GdkWindow *window)
+Window
+gdk_x11_window_get_xid (
+  GdkWindow* window
+)
 ```
-
-Using the incorrect function name would cause: `error: implicit declaration of function 'gdk_window_get_xid'`
 
 ---
 
