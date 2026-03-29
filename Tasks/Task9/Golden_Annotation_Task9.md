@@ -208,7 +208,7 @@ static gboolean on_glarea_render(GtkGLArea *glarea, GdkGLContext *context, gpoin
 }
 ```
 
-**Description:** The `on_glarea_render` function uses variables `sdl_renderer`, `your_texture`, `dst_rect`, and `sdl_window` without declaring them or retrieving them from storage. Earlier code stores `sdl_renderer` with `g_object_set_data_full()`, but the render function doesn't retrieve it with `g_object_get_data()`. This would cause compilation errors for undeclared identifiers.
+**Description:** The response provides an `on_glarea_render` callback function that uses variables `sdl_renderer`, `your_texture`, `dst_rect`, and `sdl_window` without declaring them or retrieving them from storage. Earlier code stores `sdl_renderer` with `g_object_set_data_full()`, but the render function doesn't retrieve it with `g_object_get_data()`. This would cause compilation errors for undeclared identifiers.
 
 **Severity:** Substantial
 
@@ -245,7 +245,7 @@ static gboolean on_draw(GtkWidget *widget, cairo_t *cr, gpointer data) {
 }
 ```
 
-**Description:** The `on_draw` callback function uses `sdl_surface`, `width`, and `height` without declaring them or retrieving them from storage. These variables are not defined in the function scope and would cause compilation errors.
+**Description:** The response provides an `on_draw` callback function that uses `sdl_surface`, `width`, and `height` without declaring them or retrieving them from storage. These variables are not defined in the function scope and would cause compilation errors.
 
 **Severity:** Substantial
 
@@ -464,7 +464,7 @@ SDL_Window* SDL_CreateWindowFrom(const void* data)
 * [SDL_CreateWindowFrom](https://wiki.libsdl.org/SDL_CreateWindowFrom)
 ```
 
-**Description:** The response includes a URL to SDL_CreateWindowFrom documentation that returns HTTP 404.
+**Description:** The response provides a link to SDL_CreateWindowFrom documentation to help users understand the function. However, this URL is outdated and returns a 404 error because the SDL Wiki was restructured to include version numbers in paths. Users following the broken link would be unable to access the documentation they need to properly use the function.
 
 **Severity:** Minor
 
