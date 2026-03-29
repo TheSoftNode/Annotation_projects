@@ -476,7 +476,7 @@ This is not the web page you are looking for.
 * [GDK X11 Functions](https://docs.gtk.org/gdk3/x11.html)
 ```
 
-**Description:** The response includes a URL to GDK X11 functions documentation that returns HTTP 404.
+**Description:** The response provides a link to GDK X11 functions documentation to help users understand platform-specific window handle retrieval. However, this URL returns a 404 error, leaving users unable to access the documentation needed to understand X11-specific GDK functions like `gdk_x11_window_get_xid()`.
 
 **Severity:** Minor
 
@@ -629,11 +629,9 @@ gdk_x11_window_get_xid(gdk_window);  // X11-specific
 
 **Query:**
 
-**URL:** https://github.com/nesbox/TIC-80
+**URL:**
 
 **Source Excerpt:**
-
-> "TIC-80 is a fantasy computer for making, playing and sharing tiny games. There are built-in tools for development: code, sprites, maps, sound editors and the command line, which is enough to create a mini retro game."
 
 ---
 
@@ -676,5 +674,6 @@ gdk_x11_window_get_xid(gdk_window);  // X11-specific
 
 **Preferred Response:** Response 2
 
-**Justification:**
-Both responses provide conceptually sound architectural guidance for SDL2/GTK integration but contain multiple critical implementation errors that prevent compilation or cause runtime failures. Response 1 demonstrates deeper technical knowledge by explaining dual approaches (OpenGL context sharing via GtkGLArea and software rendering alternatives) with a comprehensive caveats table addressing integration challenges. However, it contains 8 substantial errors including non-existent API functions (gdk_window_get_xid), incompatible type mismatches (SDL_Surface vs cairo_surface_t), undefined variables across multiple callback functions, incorrect SDL rendering pipeline mixing (SDL_Renderer with SDL_GL_SwapWindow), SDL_CreateRenderer hanging on X11 due to event consumption conflicts with GTK, and false Wayland compatibility claims. Response 2 takes a more focused approach with clearer cross-platform considerations and practical event handling guidance, containing 5 substantial errors primarily involving incorrect parameter types (passing XID as string instead of pointer), non-existent SDL hint constants, missing variable declarations, and omission of Wayland limitations. While both responses fail to provide working code examples, Response 2's simpler implementation with fewer substantial errors and more straightforward debugging path makes it marginally more useful despite lacking Response 1's comprehensive coverage.
+**Justification (50 words):**
+
+Both responses contain critical implementation errors preventing compilation. Response 2 has fewer substantial errors (5 vs 8) with simpler debugging paths, making it marginally more useful despite Response 1's more comprehensive architectural coverage.
