@@ -394,9 +394,9 @@ SDL_SetHint(SDL_HINT_VIDEO_WINDOW_SHARE_PIXEL_FORMAT, "1");
 SDL_Window *sdl_window = SDL_CreateWindowFrom(window_id_str);
 ```
 
-**Description:** The response converts the X11 Window ID (XID) to a string and passes it to SDL_CreateWindowFrom. SDL_CreateWindowFrom accepts a parameter of type const void pointer, not a string. The correct approach is to cast the XID directly to void pointer. The response does mention the correct approach later as an "alternative," but presenting the incorrect string conversion method first and as the primary example is misleading.
+**Description:** The response presents converting the XID to a string and passing it to SDL_CreateWindowFrom as the primary example, then mentions the correct approach (casting XID directly to void pointer) only as an "alternative." While SDL_CreateWindowFrom accepts `const void* data` and SDL documentation describes this as "typically your native window cast to a void*," the response prioritizes the string conversion method, which is inconsistent with SDL's documented typical usage and may not work reliably across all platforms.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 **Verification of Issue:**
 
@@ -424,7 +424,7 @@ SDL_Window* SDL_CreateWindowFrom(const void* data)
 | **macOS** | More complex; use `NSView` from `gtk_widget_get_native()` and embed via Cocoa. SDL supports `NSView` embedding. |
 ```
 
-**Description:** The response recommends using GDK_WINDOW_XID and GDK_WINDOW_HWND macros for obtaining native window handles. These macros are deprecated in GTK3, and the recommended approach is to use the function forms gdk_x11_window_get_xid and gdk_win32_window_get_handle instead. Additionally, the macOS guidance mentions gtk_widget_get_native which is a GTK4 function that returns a GtkNative interface, not an NSView directly, making the guidance inaccurate for GTK3 integration.
+**Description:** The response provides a cross-platform table mixing different GTK versions. The macOS row mentions `gtk_widget_get_native()` which is a GTK4 function that returns a `GtkNative*` interface, not an `NSView*` directly. This makes the macOS guidance inaccurate for GTK3 integration, which is the version used throughout the rest of the response. The table presents inconsistent API versions across platforms.
 
 **Severity:** Minor
 
