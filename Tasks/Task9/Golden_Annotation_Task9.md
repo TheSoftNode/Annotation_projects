@@ -177,16 +177,23 @@ gdk_cairo_set_source_pixbuf(cr,
 
 **Verification of Issue:**
 
-**Tool Type:** API Documentation & Compilation Testing
+**Tool Type:** API Documentation
 
-**Query:** gdk_pixbuf_get_from_surface function signature
+**Query:**
 
-**URL:**
+**URL:** https://docs.gtk.org/gdk-pixbuf/method.Pixbuf.get_from_surface.html
 
 **Source Excerpt:**
 
 ```c
-GdkPixbuf* gdk_pixbuf_get_from_surface(cairo_surface_t *surface, ...)
+GdkPixbuf*
+gdk_pixbuf_get_from_surface (
+  cairo_surface_t* surface,
+  gint src_x,
+  gint src_y,
+  gint width,
+  gint height
+)
 ```
 
 ---
