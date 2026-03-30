@@ -244,7 +244,7 @@ if "kernel32.dll" in sb.modules:
         print(f"ExitProcess is at: {hex(kernel32.export['ExitProcess'])}")
 ```
 
-**Description:** The response accesses sb.modules to check for loaded DLLs, but the Sandbox class uses the name2module attribute, not modules. The source code shows OS_Win.__init__ sets self.name2module = {} on the instance, not a modules attribute.
+**Description:** The response accesses sb.modules to check for loaded DLLs, but the Sandbox class uses the name2module attribute, not modules. The OS_Win class __init__ method sets self.name2module = {} on the instance, not a modules attribute.
 
 **Severity:** Substantial
 
@@ -329,7 +329,7 @@ class OS_Win(OS):
             self.name2module[fname_basename] = self.pe
 ```
 
-The source code shows OS_Win.__init__ directly assigns self.name2module = {} (line 316) and later populates it with self.name2module[fname_basename] = self.pe (line 329). The attribute is named name2module, not modules.
+The OS_Win class __init__ method directly assigns self.name2module = {} and later populates it with self.name2module[fname_basename] = self.pe. The attribute is named name2module, not modules.
 
 ---
 
