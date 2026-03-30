@@ -205,24 +205,27 @@ sb = Sandbox_Win_x86_32(loc_db, filename, {}, globals(), None)
 
 **Query:** miasm Sandbox __init__ constructor signature
 
-**URL:** https://github.com/cea-sec/miasm/blob/master/miasm/analysis/sandbox.py
+**URL:** https://raw.githubusercontent.com/cea-sec/miasm/master/miasm/analysis/sandbox.py
 
 **Source Excerpt:**
 
-```
-The Sandbox __init__ constructor signature is:
-def __init__(self, loc_db, fname, options, custom_methods=None, **kwargs)
+```python
+def __init__(self, loc_db, fname, options, custom_methods=None, **kwargs):
+    """
+    Initialize a sandbox
+    @fname: str file name
+    @options: namespace instance of specific options
+    @custom_methods: { str => func } for custom API implementations
+    """
 
-Parameters:
-- loc_db: A LocationDB instance
-- fname: String filename
-- options: A namespace instance of specific options
-- custom_methods: Optional parameter (defaults to None)
-- **kwargs: Additional keyword arguments
-
-Correct usage:
-sb = Sandbox_Win_x86_32(loc_db, options.filename, options, globals())
+    # Initialize
+    assert isinstance(fname, basestring)
+    self.fname = fname
+    self.options = options
+    self.loc_db = loc_db
 ```
+
+The constructor signature shows it expects 4-5 arguments (self, loc_db, fname, options, optional custom_methods), not the 6 arguments (including None) provided in Response 1.
 
 ---
 
