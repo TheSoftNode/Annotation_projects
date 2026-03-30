@@ -132,7 +132,7 @@ with open(filename, "rb") as f:
     container = Container.from_stream(f)
 ```
 
-**Description:** The response omits the required loc_db parameter when calling Container.from_stream(). The function signature requires Container.from_stream(fdesc, loc_db), taking both a file descriptor and a LocationDB instance, causing a TypeError when the missing parameter is not provided.
+**Description:** The response omits the loc_db parameter when calling Container.from_stream(). While the public signature shows Container.from_stream(cls, stream, *args, **kwargs), Miasm examples commonly provide loc_db as the second positional argument, and in the tested environment this omission raised TypeError: Container.from_stream() missing 1 required positional argument: 'loc_db'.
 
 **Severity:** Substantial
 
@@ -172,7 +172,7 @@ def from_stream(cls, stream, loc_db, *args, **kwargs):
     return Container.from_string(stream.read(), loc_db, *args, **kwargs)
 ```
 
-The function signature clearly shows two required positional parameters: `stream` and `loc_db`. Response 1 only provides the stream parameter, missing the required `loc_db` parameter.
+The implementation shows from_stream calls Container.from_string(stream.read(), loc_db, *args, **kwargs), passing loc_db as a required positional argument to from_string. The response omits this parameter, which in practice causes the TypeError shown in the code execution test.
 
 ---
 
@@ -244,7 +244,7 @@ if "kernel32.dll" in sb.modules:
         print(f"ExitProcess is at: {hex(kernel32.export['ExitProcess'])}")
 ```
 
-**Description:** The response accesses sb.modules to check for loaded DLLs, but the Sandbox class uses the name2module attribute, not modules. This causes an AttributeError when attempting to access the non-existent modules attribute.
+**Description:** The response accesses sb.modules to check for loaded DLLs, but the Sandbox class uses the name2module attribute, not modules. The source code shows OS_Win.__init__ sets self.name2module = {} on the instance, not a modules attribute.
 
 **Severity:** Substantial
 
@@ -329,7 +329,7 @@ class OS_Win(OS):
             self.name2module[fname_basename] = self.pe
 ```
 
-The Sandbox class initializes and uses self.name2module as a dictionary mapping module names to PE objects. The attribute is named name2module, not modules.
+The source code shows OS_Win.__init__ directly assigns self.name2module = {} (line 316) and later populates it with self.name2module[fname_basename] = self.pe (line 329). The attribute is named name2module, not modules.
 
 ---
 
@@ -342,7 +342,7 @@ The Sandbox class initializes and uses self.name2module as a dictionary mapping 
 4. **`custom_load`** (optional): A dictionary to map specific DLL names to custom implementations or fake binaries.
 ```
 
-**Description:** The response claims that load_libs and custom_load are optional parameters that can be passed to vm_load_pe_and_dependencies, but these parameters are not documented in the function signature or docstring. The response provides no verification that these parameters exist or are supported by the function.
+**Description:** The response presents load_libs and custom_load as optional parameters for vm_load_pe_and_dependencies without evidence from the function's documented signature or docstring. The documented signature is vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib, lib_path_base, **kwargs), and its docstring does not document load_libs or custom_load as supported options.
 
 **Severity:** Substantial
 
@@ -372,7 +372,7 @@ def vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib,
     """
 ```
 
-The function signature shows only vm, fname, name2module, runtime_lib, lib_path_base as documented parameters. No mention of load_libs or custom_load in the docstring.
+The function signature and docstring document vm, fname, name2module, runtime_lib, and lib_path_base parameters. Despite the presence of **kwargs, there is no documentation of load_libs or custom_load as supported options in the function's docstring.
 
 ---
 
@@ -490,7 +490,7 @@ if "kernel32.dll" in sb.modules:
         print(f"ExitProcess is at: {hex(kernel32.export['ExitProcess'])}")
 ```
 
-**Description:** The response accesses exports via kernel32.export dictionary, but PE objects in Miasm do not have a simple .export attribute. Exports are accessed through the DirExport structure or the get_export_name_addr_list() function.
+**Description:** The response accesses exports via kernel32.export['ExitProcess'], but the cited Miasm PE-loading documentation shows export handling through DirExport structure and get_export_name_addr_list() function, not through the response's kernel32.export[...] dictionary access pattern.
 
 **Severity:** Substantial
 
@@ -528,7 +528,7 @@ def get_export_name_addr_list(e):
         f_name = force_str(n.name.name)
 ```
 
-PE objects use DirExport structure and get_export_name_addr_list() function to access exports. There is no .export dictionary attribute.
+The source code shows export access through e.DirExport.f_names and the get_export_name_addr_list() helper function, which returns a list of tuples. The documentation demonstrates this pattern rather than dictionary-style export attribute access.
 
 ---
 
