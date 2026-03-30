@@ -252,7 +252,7 @@ if "kernel32.dll" in sb.modules:
 
 **Tool Type:** Code Executor
 
-**Query:** python verify_modules_attribute.py
+**Query:** python verify_name2module_instance.py
 
 **URL:**
 
@@ -260,22 +260,47 @@ if "kernel32.dll" in sb.modules:
 
 ```
 ============================================================
-Checking Sandbox attributes: 'modules' vs 'name2module'
+Verifying 'name2module' vs 'modules' in Sandbox
 ============================================================
 
---- Checking if 'modules' attribute exists ---
+--- Source Code Inspection ---
+Examining OS_Win.__init__ source code:
+
+Lines containing 'name2module' or 'modules':
+  Line 15:         self.name2module = {}
+  Line 28:             self.name2module[fname_basename] = self.pe
+  Line 34:             self.name2module.update(
+  Line 39:                     self.modules_path,
+  Line 46:             for pe in viewvalues(self.name2module):
+  Line 53:                 self.name2module,
+  Line 55:                 self.modules_path,
+  Line 73:             win_api_x86_32_seh.name2module = self.name2module
+
+Key assignments found:
+  ✓ self.name2module = {}  (creates instance attribute)
+  ✓ self.name2module[fname_basename] = self.pe  (populates it)
+  ✗ NO 'self.modules' assignment found
+
+============================================================
+Instance vs Class Attribute Check
+============================================================
+
+--- Checking CLASS attributes ---
   hasattr(Sandbox_Win_x86_32, 'modules') = False
+  hasattr(Sandbox_Win_x86_32, 'name2module') = False
 
---- Checking if 'name2module' attribute exists ---
-  hasattr(Sandbox_Win_x86_32, 'name2module') = True
-
---- Listing all attributes containing 'module' ---
+--- Attributes containing 'module' ---
+  __module__
   modules_path
-  name2module
 
+============================================================
 CONCLUSION
-✓ Sandbox uses 'name2module', NOT 'modules'
-✓ Response 1's code: if "kernel32.dll" in sb.modules:
+============================================================
+✓ Source code shows: self.name2module = {} (instance attribute)
+✓ Source code shows: self.name2module[...] = self.pe (usage)
+✗ NO 'modules' attribute exists (neither class nor instance)
+
+Response 1's code: if 'kernel32.dll' in sb.modules:
   would cause: AttributeError: 'Sandbox_Win_x86_32' object has no attribute 'modules'
 ```
 
