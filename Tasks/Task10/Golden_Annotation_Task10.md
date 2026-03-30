@@ -831,7 +831,7 @@ The function signature shows vm, fname, name2module, runtime_lib, lib_path_base 
 
 ---
 
-**[AOI #5 - Substantial]**
+**[AOI #6 - Substantial]**
 
 **Response Excerpt:**
 
@@ -845,7 +845,7 @@ createfile_addr = pe.get_export("kernel32.dll", "CreateFileA")
 
 ---
 
-**[AOI #6 - Minor]**
+**[AOI #7 - Minor]**
 
 **Response Excerpt:**
 
@@ -904,7 +904,7 @@ The latest version on PyPI is 0.1.5. All releases are in the 0.1.x series, not 0
 
 ---
 
-**[AOI #8 - Substantial]**
+**[AOI #9 - Substantial]**
 
 **Response Excerpt:**
 
