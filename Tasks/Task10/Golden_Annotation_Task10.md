@@ -153,21 +153,22 @@ with open(filename, "rb") as f:
 
 **Query:** miasm Container.from_stream signature parameters
 
-**URL:** https://github.com/cea-sec/miasm
+**URL:** https://raw.githubusercontent.com/cea-sec/miasm/master/miasm/analysis/binary.py
 
 **Source Excerpt:**
 
+```python
+def from_stream(cls, stream, loc_db, *args, **kwargs):
+    """Instantiate a container and parse the binary
+    @stream: stream to use as binary
+    @vm: (optional) VmMngr instance to link with the executable
+    @addr: (optional) Base address of the parsed binary. If set,
+           force the unknown format
+    """
+    return Container.from_string(stream.read(), loc_db, *args, **kwargs)
 ```
-The signature shows Container.from_stream(fdesc, loc_db) where fdesc is a file descriptor and loc_db is a LocationDB instance.
 
-Example usage:
-from miasm.analysis.binary import Container
-from miasm.core.locationdb import LocationDB
-
-loc_db = LocationDB()
-with open("binary_file.bin", "rb") as fdesc:
-    cont = Container.from_stream(fdesc, loc_db)
-```
+The function signature clearly shows two required positional parameters: `stream` and `loc_db`. Response 1 only provides the stream parameter, missing the required `loc_db` parameter.
 
 ---
 
