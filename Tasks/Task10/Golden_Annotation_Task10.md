@@ -783,6 +783,54 @@ createfile_addr = pe.get_export("kernel32.dll", "CreateFileA")
 
 **Severity:** Substantial
 
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** miasm vm_load_pe_and_dependencies return value
+
+**URL:** https://raw.githubusercontent.com/cea-sec/miasm/master/miasm/jitter/loader/pe.py
+
+**Source Excerpt:**
+
+```python
+def vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib,
+                                lib_path_base, **kwargs):
+    """Load a binary and all its dependencies. Returns a dictionary containing
+    the association between binaries names and it's pe object
+
+    @vm: virtual memory manager instance
+    @fname: full path of the binary
+    @name2module: dict containing association between name and pe
+    object. Updated.
+    @runtime_lib: libimp instance
+    @lib_path_base: directory of the libraries containing dependencies
+
+    """
+
+    todo = [(fname, fname, 0)]
+    weight2name = {}
+    done = set()
+
+    # Walk dependencies recursively
+    while todo:
+        name, fname, weight = todo.pop()
+        if name in done:
+            continue
+        done.add(name)
+        weight2name.setdefault(weight, set()).add(name)
+        if name in name2module:
+            pe_obj = name2module[name]
+        else:
+            try:
+                with open(fname, "rb") as fstream:
+                    log.info('Loading module name %r', fname)
+                    pe_obj = vm_load_pe(
+                        vm, fstream.read(), name=fname, **kwargs)
+```
+
+The function returns a dictionary by updating the name2module parameter (which is passed by reference), not a single pe object. The response's usage of `pe.get_export("kernel32.dll", "CreateFileA")` assumes a single pe object is returned, which is incorrect.
+
 ---
 
 **[AOI #5 - Minor]**
