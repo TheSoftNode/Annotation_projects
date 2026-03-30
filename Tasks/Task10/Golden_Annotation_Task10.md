@@ -561,7 +561,15 @@ The response provides multiple code examples showing different scenarios (basic 
 from miasm.extras.execution_vm import vm_load_pe_and_dependencies
 ```
 
-**Description:** The response instructs users to import from miasm.extras.execution_vm, but this module does not exist in Miasm. The extras package is not part of the Miasm codebase, causing an immediate ModuleNotFoundError when users attempt to run the import statement.
+```
+**Location**:
+It's **not** in the core Miasm package. You must import it from:
+from miasm.extras.execution_vm import vm_load_pe_and_dependencies
+
+*(Part of `miasm.extras` – install via `pip install miasm[extras]` if needed)*
+```
+
+**Description:** The response instructs users to import from miasm.extras.execution_vm and claims it requires pip install miasm[extras], but this module does not exist in Miasm. The extras package is not part of the Miasm codebase, and Miasm does not have an [extras] optional dependency group. The function is actually in miasm.jitter.loader.pe and is included in the standard miasm installation.
 
 **Severity:** Substantial
 
@@ -637,41 +645,6 @@ from miasm.extras.execution_vm import vm_load_pe_and_dependencies
 
 No "extras" directory exists in the miasm package structure.
 
----
-
-**[AOI #2 - Substantial]**
-
-**Response Excerpt:**
-
-```
-**Location**:
-It's **not** in the core Miasm package. You must import it from:
-from miasm.extras.execution_vm import vm_load_pe_and_dependencies
-
-*(Part of `miasm.extras` – install via `pip install miasm[extras]` if needed)*
-```
-
-**Description:** The response claims vm_load_pe_and_dependencies is part of miasm.extras and requires pip install miasm[extras], but Miasm does not have an [extras] optional dependency group in its setup configuration. The function is in miasm.jitter.loader.pe and is included in the standard miasm installation.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** python run_tests.py
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-[ERROR] Line 1: from miasm.extras.execution_vm import vm_load_pe_and_dependencies
-         --> ModuleNotFoundError: No module named 'miasm.extras'
-```
-
----
-
 **Tool Type:** Google
 
 **Query:** miasm.extras.execution_vm module pip install miasm extras
@@ -693,65 +666,7 @@ The PyPI package metadata shows no optional dependency groups or extras availabl
 
 ---
 
-**[AOI #3 - Substantial]**
-
-**Response Excerpt:**
-
-```python
-jitter, pe = vm_load_pe_and_dependencies(
-    "target.exe",
-    use_stubs=True,
-    dll_dir=None,
-    load_tls=True
-)
-```
-
-**Description:** The response provides incorrect parameters for vm_load_pe_and_dependencies. The function signature is vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib, lib_path_base, **kwargs), requiring a VM instance, filename, dictionary, runtime library, and library path. The response's parameters (use_stubs, dll_dir, load_tls) do not match the actual API.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** python run_tests.py
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-[ERROR] Line 5: jitter, pe = vm_load_pe_and_dependencies(...)
-         --> NameError: name 'vm_load_pe_and_dependencies' is not defined
-```
-
----
-
-**Tool Type:** Google
-
-**Query:** miasm vm_load_pe_and_dependencies function location module
-
-**URL:** https://raw.githubusercontent.com/cea-sec/miasm/master/miasm/jitter/loader/pe.py
-
-**Source Excerpt:**
-
-```python
-def vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib,
-                                lib_path_base, **kwargs):
-    """Load a binary and all its dependencies. Returns a dictionary containing
-    the association between binaries names and it's pe object
-
-    @vm: virtual memory manager instance
-    @fname: full path of the binary
-    @name2module: dict containing association between name and pe object. Updated.
-    @runtime_lib: libimp instance
-    @lib_path_base: directory of the libraries containing dependencies
-    """
-```
-
----
-
-**[AOI #4 - Substantial]**
+**[AOI #2 - Substantial]**
 
 **Response Excerpt:**
 
@@ -786,7 +701,7 @@ def vm_load_pe_and_dependencies(vm, fname, name2module, runtime_lib,
 
 ---
 
-**[AOI #5 - Substantial]**
+**[AOI #3 - Substantial]**
 
 **Response Excerpt:**
 
@@ -831,7 +746,7 @@ The function signature shows vm, fname, name2module, runtime_lib, lib_path_base 
 
 ---
 
-**[AOI #6 - Substantial]**
+**[AOI #4 - Substantial]**
 
 **Response Excerpt:**
 
@@ -845,7 +760,7 @@ createfile_addr = pe.get_export("kernel32.dll", "CreateFileA")
 
 ---
 
-**[AOI #7 - Minor]**
+**[AOI #5 - Minor]**
 
 **Response Excerpt:**
 
@@ -885,7 +800,7 @@ The latest version on PyPI is 0.1.5. All releases are in the 0.1.x series, not 0
 
 ---
 
-**[AOI #8 - Minor]**
+**[AOI #6 - Minor]**
 
 **Response Excerpt:**
 
@@ -904,7 +819,7 @@ The latest version on PyPI is 0.1.5. All releases are in the 0.1.x series, not 0
 
 ---
 
-**[AOI #9 - Substantial]**
+**[AOI #7 - Substantial]**
 
 **Response Excerpt:**
 
