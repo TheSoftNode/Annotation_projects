@@ -386,7 +386,7 @@ The function signature shows only vm, fname, name2module, runtime_lib, lib_path_
 # It then starts execution at the Entry Point.
 ```
 
-**Description:** The response's comment claims that sb.run() internally calls sb.vm_load_pe_and_dependencies(), but since vm_load_pe_and_dependencies is not a Sandbox method, this comment is misleading about the internal implementation.
+**Description:** The response's comment claims that sb.run() "internally, this calls sb.vm_load_pe_and_dependencies(sb.jitter, sb.parsed_binaries[0])", but this is false. The run() method implementation shows it either initializes debugging (dbg.init_run, gdbserver, or DebugCmd) or calls jitter methods (self.jitter.init_run() and self.jitter.continue_run()). There is no call to vm_load_pe_and_dependencies anywhere in the run() method's execution path.
 
 **Severity:** Minor
 
