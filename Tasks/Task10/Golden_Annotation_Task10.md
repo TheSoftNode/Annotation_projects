@@ -445,7 +445,7 @@ The run() method implementation shows it either initializes debugging (dbg.init_
 sb.run(container)
 ```
 
-**Description:** The response passes a Container object to sb.run(), but the run() method expects an optional integer address parameter, not a Container object. This causes TypeError when run() attempts to use the Container as an integer address.
+**Description:** The response passes a Container object to sb.run(), but the run() method expects an optional integer address parameter, not a Container object. The method signature documents the parameter as "@addr: (int) start address", indicating Container objects are not valid arguments.
 
 **Severity:** Substantial
 
@@ -490,7 +490,7 @@ if "kernel32.dll" in sb.modules:
         print(f"ExitProcess is at: {hex(kernel32.export['ExitProcess'])}")
 ```
 
-**Description:** The response accesses exports via kernel32.export dictionary, but PE objects in Miasm do not have a simple .export attribute. Exports are accessed through the DirExport structure or the get_export_name_addr_list() function. This causes AttributeError when attempting to access the non-existent export attribute.
+**Description:** The response accesses exports via kernel32.export dictionary, but PE objects in Miasm do not have a simple .export attribute. Exports are accessed through the DirExport structure or the get_export_name_addr_list() function.
 
 **Severity:** Substantial
 
