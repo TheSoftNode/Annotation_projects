@@ -411,13 +411,15 @@ Position	Gene
 100		    ABC
 250		    DEF
 400		    GHI
-550		    JKL---
+550		    JKL
+---
 Positions
 50
 120
 200
 300
-500---
+500
+---
 ✅ Clean integer output written to: positions-dd-filtered.tsv
    (View with: head -5 positions-dd-filtered.tsv | cat -A to verify no quotes)
 0
@@ -472,7 +474,7 @@ Positions\\t\\n50\\t\\n200\\t\\n300\\t\\n500\\n
 **Actual file contents** (verified with `hexdump -C` or `cat -A`):
 ```
 
-**Description:** The response suggests using `cat -A` to verify file contents, but this command is invalid on BSD-based systems including macOS, FreeBSD, and OpenBSD. The `-A` flag is a GNU extension that only works on Linux systems with GNU coreutils, causing the command to fail with "illegal option" error on BSD systems where the equivalent is `cat -e` or `cat -v`.
+**Description:** The response suggests using `hexdump -C` or `cat -A` as equivalent alternatives to verify file contents, but `cat -A` is invalid on BSD-based systems including macOS, FreeBSD, and OpenBSD. The `-A` flag is a GNU extension that only works on Linux, causing the command to fail with "illegal option" error on BSD systems. The response should either specify that `cat -A` is Linux-only or suggest BSD-compatible alternatives like `cat -e` or `cat -v` for macOS users.
 
 **Severity:** Minor
 
