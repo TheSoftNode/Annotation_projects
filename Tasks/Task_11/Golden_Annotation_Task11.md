@@ -728,7 +728,7 @@ Output:
 
 **Tool Type:** Code Executor
 
-**Query:** python3 -c "import pandas as pd; import bisect; derivative_df = pd.read_csv('derivative-filtered.tsv', sep='\t'); positions_df = pd.read_csv('positions.tsv', sep='\t'); ref_positions = sorted(positions_df['Positions'].dropna().unique()); upstream = []; [upstream.append(ref_positions[bisect.bisect_right(ref_positions, q) - 1] if bisect.bisect_right(ref_positions, q) - 1 >= 0 else pd.NA) for q in derivative_df['Position']]; result = pd.Series(upstream, dtype='Int64'); result.to_csv('test_no_header.tsv', sep='\t', header=False, index=False, quoting=3)" && cat test_no_header.tsv
+**Query:** python3 test_r2_header_false.py && cat test_no_header.tsv
 
 **URL:**
 
