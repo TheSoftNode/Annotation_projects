@@ -119,22 +119,28 @@ The response directly asks the user to specify which additional factor they want
 I'm happy to refine the recommendation, but I need to know what additional factor you'd like me to consider.
 ```
 
-**Description:** This response doesn't explicitly acknowledge that the user's prompt appears to be incomplete or cut off mid-sentence. Best practices for handling incomplete input recommend explicitly stating when input appears truncated.
+**Description:** The response doesn't explicitly acknowledge that the user's prompt is incomplete (ends mid-sentence with "considering that:"). According to chatbot conversation design best practices for handling unexpected user responses, when users enter incomplete information, the response should use contextual fallbacks that acknowledge the incompleteness (e.g., "Your prompt appears cut off" or "Did you mean to continue that sentence?") before offering options, rather than generic or assumption-based prompts that skip over recognizing the truncated input.
 
 **Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** None (editorial assessment)
+**Tool Type:** Web Search
 
-**Query:**
+**Query:** chatbot best practices handling incomplete user input
 
-**URL:**
+**URL:** https://rasa.com/blog/how-to-design-chatbot-conversation
 
 **Source Excerpt:**
 
 ```
-Best practice for handling incomplete or truncated user input is to explicitly acknowledge the incompleteness before providing options. When a prompt ends mid-sentence (e.g., "considering that:"), explicitly stating "Your prompt appears incomplete" helps users recognize the issue and provides better UX than immediately jumping to alternative suggestions without acknowledging the truncation.
+Handling Unexpected User Responses and Fallback Scenarios
+Users often phrase requests unpredictably, stray off-topic, or enter incomplete information. A chatbot without robust fallback strategies will quickly reach a dead end.
+
+How to address it:
+
+Implement conversation repair: CALM keeps conversations on track by guiding users back to their task or adapting if their intent shifts within scope.
+Use contextual fallbacks: Avoid generic messages like "I didn't get that." Instead, offer prompts like "Do you want to continue where we left off or start something new?"
 ```
 
 ---
@@ -150,20 +156,6 @@ I'm happy to refine the recommendation, but I need to know what additional facto
 
 **Severity:** Minor
 
-**Verification of Issue:**
-
-**Tool Type:** None (editorial assessment)
-
-**Query:**
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-The response uses singular "factor" rather than plural "factors" or "constraints", which may signal to users they should provide only one constraint even when multiple constraints are relevant to their use case.
-```
-
 ---
 
 **[AOI #3 - Minor]**
@@ -177,20 +169,6 @@ Could you please share the constraint or context you have in mind (e.g., memory 
 
 **Severity:** Minor
 
-**Verification of Issue:**
-
-**Tool Type:** None (editorial assessment)
-
-**Query:**
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-The response lists constraint examples ("memory limits, need for immutability, integration with a C extension, real‑time move‑generation requirements") without explaining why each matters or how it would affect the solution choice. This format provides less guidance than showing conditional relationships between constraints and recommendations.
-```
-
 ---
 
 **[AOI #4 - Minor]**
@@ -200,26 +178,9 @@ The response lists constraint examples ("memory limits, need for immutability, i
 I'm happy to refine the recommendation, but I need to know what additional factor you'd like me to consider.
 ```
 
-**Description:** The response doesn't reference or summarize the prior recommendation before asking for modifications. Since the user asked "would your solution change", the response should establish the baseline (what the original solution was) before discussing potential changes.
+**Description:** The response uses the phrase "additional factor" without clarifying what the base recommendation was. Since the user asked "would your solution change considering that:", the response should reference the original recommendation to establish the baseline before discussing modifications. The conversation history concluded with "Ruby's idiomatic way is the 2‑D array; the 'fast' way (flat or bitboard) is also perfectly Ruby‑legal and often required for serious chess programming. Choose the representation that matches your performance goal and the mental model of the people who will read the code." The response should have reminded the user of this specific recommendation framework (2D arrays for clarity/teaching vs flat arrays for performance/chess engines) before asking what additional factor to consider.
 
 **Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** Review conversation history for original recommendation
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-Original recommendation from conversation history:
-"Ruby's idiomatic way is the 2‑D array; the "fast" way (flat or bitboard) is also perfectly Ruby‑legal and often required for serious chess programming. Choose the representation that matches your performance goal and the mental model of the people who will read the code."
-
-The response doesn't reference this baseline before asking what would change it.
-```
 
 ---
 
