@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response 2 - CSS Class Based on Data Attribute</title>
+    <style>
+        /* Define colour classes */
+        .red   { fill: #e74c3c; }
+        .green { fill: #27ae60; }
+    </style>
+</head>
+<body>
+    <h1>Response 2 - CSS Class Based on Data Attribute</h1>
+    <p>Click the text to change its color</p>
+
+    <svg width="400" height="120" xmlns="http://www.w3.org/2000/svg">
+        <text id="myText" data-colour="red" x="20" y="60" font-size="24">Click me</text>
+    </svg>
+
+    <script>
+        const txt = document.getElementById('myText');
+
+        txt.addEventListener('click', () => {
+          const col = txt.dataset.colour;          // "red" or "green"
+          txt.className.baseVal = col;            // `baseVal` is the SVG class attribute
+        });
+    </script>
+</body>
+</html>

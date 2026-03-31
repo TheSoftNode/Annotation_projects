@@ -531,7 +531,7 @@ usage: cat [-belnstuv] [file ...]
 
 **Tool Type:** Web Search
 
-**Query:** BSD macOS cat command available flags
+**Query:** FreeBSD cat man page synopsis
 
 **URL:** https://man.freebsd.org/cgi/man.cgi?query=cat
 
@@ -539,6 +539,34 @@ usage: cat [-belnstuv] [file ...]
 
 ```
 cat [-belnstuv] [file ...]
+```
+
+---
+
+**Tool Type:** Web Search
+
+**Query:** OpenBSD cat man page synopsis
+
+**URL:** https://man.openbsd.org/cat
+
+**Source Excerpt:**
+
+```
+cat [-benstuv] [file ...]
+```
+
+---
+
+**Tool Type:** Web Search
+
+**Query:** macOS cat command synopsis
+
+**URL:** https://ss64.com/mac/cat.html
+
+**Source Excerpt:**
+
+```
+cat [-benstuv] [file ...]
 ```
 
 ---

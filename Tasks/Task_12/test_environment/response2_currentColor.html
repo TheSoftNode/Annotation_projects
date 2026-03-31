@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response 2 - currentColor</title>
+    <style>
+        /* Set colour on a regular HTML element */
+        .container { color: darkorange; }
+
+        /* SVG text uses that colour */
+        svg text { fill: currentColor; }
+    </style>
+</head>
+<body>
+    <h1>Response 2 - currentColor</h1>
+
+    <div class="container">
+      <svg width="200" height="40">
+        <text x="10" y="30">Inherited colour</text>
+      </svg>
+    </div>
+</body>
+</html>

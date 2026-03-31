@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conversation History Example - Set SVG Text Value</title>
+</head>
+<body>
+    <h1>Conversation History Example</h1>
+
+    <svg width="200" height="50" xmlns="http://www.w3.org/2000/svg">
+      <!-- The SVG text element we want to update -->
+      <text id="mySvgText" x="10" y="30" font-family="Arial" font-size="20" fill="black">
+        Original Text
+      </text>
+    </svg>
+
+    <button onclick="updateSvgText()">Update Text</button>
+
+    <script>
+      function updateSvgText() {
+        const svgText = document.getElementById("mySvgText");
+        svgText.textContent = "Updated Value!"; // ✅ Correct way
+      }
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response 1 - Full Working Example</title>
+</head>
+<body>
+    <h1>Response 1 - Full Working Example</h1>
+
+    <svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Target this <text> element -->
+      <text id="myText" x="50" y="50" font-size="24" font-family="Arial">
+        Hello SVG
+      </text>
+    </svg>
+
+    <button onclick="changeToRed()">Red</button>
+    <button onclick="changeToBlue()">Blue</button>
+    <button onclick="changeToGreen()">Green</button>
+
+    <script>
+      const svgText = document.getElementById("myText");
+
+      function changeToRed() {
+        svgText.style.fill = "#ff0000"; // ✅ Correct: using style.fill
+      }
+
+      function changeToBlue() {
+        svgText.setAttribute("fill", "#0000ff"); // ✅ Also correct
+      }
+
+      function changeToGreen() {
+        svgText.style.fill = "green"; // Named colors work too!
+      }
+    </script>
+</body>
+</html>

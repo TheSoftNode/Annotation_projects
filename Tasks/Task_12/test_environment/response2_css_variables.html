@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response 2 - CSS Variables</title>
+    <style>
+        :root {
+          --txt-colour: teal;           /* default */
+        }
+
+        /* Use the variable in the SVG */
+        svg text {
+          fill: var(--txt-colour);
+        }
+    </style>
+</head>
+<body>
+    <h1>Response 2 - CSS Variables</h1>
+
+    <svg width="300" height="100" xmlns="http://www.w3.org/2000/svg">
+        <text x="20" y="60" font-size="24">Hello SVG!</text>
+    </svg>
+
+    <button onclick="changeColor()">Change to Red</button>
+
+    <script>
+        /* Switch the colour programmatically */
+        function changeColor() {
+            document.documentElement.style.setProperty('--txt-colour', '#c0392b');
+        }
+    </script>
+</body>
+</html>

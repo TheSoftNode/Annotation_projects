@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response 2 - CSS Animation</title>
+    <style>
+        @keyframes pulseColor {
+          0%   { fill: #ff4d4d; }
+          50%  { fill: #4dff4d; }
+          100% { fill: #ff4d4d; }
+        }
+
+        svg text.pulse {
+          animation: pulseColor 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <h1>Response 2 - CSS Animation</h1>
+
+    <svg width="400" height="100" xmlns="http://www.w3.org/2000/svg">
+        <text class="pulse" x="20" y="60" font-size="32">Animated colour</text>
+    </svg>
+</body>
+</html>

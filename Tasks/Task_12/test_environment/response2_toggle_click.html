@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Response 2 - Toggle Between Two Colors on Click</title>
+</head>
+<body>
+    <h1>Response 2 - Toggle Between Two Colors on Click</h1>
+    <p>Click the text to toggle between orange and steelblue</p>
+
+    <svg width="400" height="120" xmlns="http://www.w3.org/2000/svg">
+        <text id="myText" x="20" y="60" font-size="32">Click me</text>
+    </svg>
+
+    <script>
+        const txt = document.getElementById('myText');
+
+        txt.addEventListener('click', () => {
+          txt.style.fill = txt.style.fill === 'orange' ? 'steelblue' : 'orange';
+        });
+    </script>
+</body>
+</html>

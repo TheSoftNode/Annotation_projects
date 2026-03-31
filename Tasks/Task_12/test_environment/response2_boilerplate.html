@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SVG Text Colour Demo</title>
+  <style>
+    /* You'll see how to override these later */
+    .red   { fill: red;   }
+    .green { fill: green; }
+    .blue  { fill: blue;  }
+  </style>
+</head>
+<body>
+
+<svg id="demoSvg"
+     width="400" height="120"
+     viewBox="0 0 400 120"
+     xmlns="http://www.w3.org/2000/svg">
+  <!-- Plain text, no styling yet -->
+  <text id="myText"
+        x="20" y="60"
+        font-family="Arial,Helvetica,sans-serif"
+        font-size="40">
+    Hello SVG!
+  </text>
+</svg>
+
+<script src="demo.js"></script>
+
+</body>
+</html>
