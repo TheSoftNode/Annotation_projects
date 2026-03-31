@@ -750,7 +750,7 @@ Output:
 500
 ```
 
-**Description:** The response fails to match the example output when showing the `header=False` version as an alternative solution. The example suggests that for derivative positions 100, 250, 400, and 550 and reference positions 50, 120, 200, 300, and 500, the output should be 50, 200, 300, and 500. But when the headerless version was run with that same input, it returned 500, 500, 500, and 500. This is a significant error, as the actual output does not match what the response describes.
+**Description:** The response fails to match the example output when showing the `header=False` version as an alternative solution. The example suggests that for derivative positions 100, 250, 400, and 550 and reference positions 50, 120, 200, 300, and 500, the output should be 50, 200, 300, and 500. But when the headerless version was run with that same input (with the derivative file containing Position column [100, 250, 400, 550] and Gene column [ABC, DEF, GHI, JKL]), it returned 500, 500, 500, and 500. This is a significant error, as the actual output does not match what the response describes.
 
 **Severity:** Substantial
 
