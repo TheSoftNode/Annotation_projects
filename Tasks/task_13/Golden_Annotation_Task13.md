@@ -30,22 +30,28 @@ I'm happy to refine the recommendation, but I need to know what additional facto
 For example, are you concerned about any of the following?
 ```
 
-**Description:** The response doesn't explicitly acknowledge that the user's prompt is incomplete (ends mid-sentence with "considering that:"). According to chatbot best practices for handling incomplete input, the response should have explicitly stated "Your prompt appears to be cut off" or "Did you mean to continue that sentence?" before providing options.
+**Description:** The response doesn't explicitly acknowledge that the user's prompt is incomplete (ends mid-sentence with "considering that:"). According to chatbot conversation design best practices for handling unexpected user responses, when users enter incomplete information, the response should use contextual fallbacks that acknowledge the incompleteness (e.g., "Your prompt appears cut off" or "Did you mean to continue that sentence?") before offering options, rather than generic or assumption-based prompts that skip over recognizing the truncated input.
 
 **Severity:** Minor
 
+**Verification of Issue:**
+
 **Tool Type:** Web Search
 
-**Query:** chatbot handling incomplete user input best practices clarification
+**Query:** chatbot best practices handling incomplete user input
 
-**URL:** https://www.nngroup.com/articles/prompt-controls-genai/
+**URL:** https://rasa.com/blog/how-to-design-chatbot-conversation
 
 **Source Excerpt:**
 
 ```
-When user input is unclear, ask clarifying questions and avoid assumptions, providing multiple options where necessary.
+Handling Unexpected User Responses and Fallback Scenarios
+Users often phrase requests unpredictably, stray off-topic, or enter incomplete information. A chatbot without robust fallback strategies will quickly reach a dead end.
 
-Effective error handling includes acknowledging the misunderstanding and asking for clarification.
+How to address it:
+
+Implement conversation repair: CALM keeps conversations on track by guiding users back to their task or adapting if their intent shifts within scope.
+Use contextual fallbacks: Avoid generic messages like "I didn't get that." Instead, offer prompts like "Do you want to continue where we left off or start something new?"
 ```
 
 ---
@@ -130,24 +136,22 @@ The response directly asks the user to specify which additional factor they want
 I'm happy to refine the recommendation, but I need to know what additional factor you'd like me to consider.
 ```
 
-**Description:** Like Response 1, this response doesn't explicitly acknowledge that the user's prompt appears to be incomplete or cut off mid-sentence. Best practices for handling incomplete input recommend explicitly stating when input appears truncated.
+**Description:** This response doesn't explicitly acknowledge that the user's prompt appears to be incomplete or cut off mid-sentence. Best practices for handling incomplete input recommend explicitly stating when input appears truncated.
 
 **Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** Web Search
+**Tool Type:** None (editorial assessment)
 
-**Query:** chatbot handling incomplete user input best practices clarification
+**Query:**
 
-**URL:** https://www.nngroup.com/articles/prompt-controls-genai/
+**URL:**
 
 **Source Excerpt:**
 
 ```
-When user input is unclear, ask clarifying questions and avoid assumptions, providing multiple options where necessary.
-
-A simple solution is to ask the user to rephrase their question, which can be very effective.
+Best practice for handling incomplete or truncated user input is to explicitly acknowledge the incompleteness before providing options. When a prompt ends mid-sentence (e.g., "considering that:"), explicitly stating "Your prompt appears incomplete" helps users recognize the issue and provides better UX than immediately jumping to alternative suggestions without acknowledging the truncation.
 ```
 
 ---
