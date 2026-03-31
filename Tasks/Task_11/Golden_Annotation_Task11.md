@@ -411,15 +411,15 @@ Position	Gene
 100		    ABC
 250		    DEF
 400		    GHI
-550		    JKL
----
+550		    JKL---
 Positions
 50
 120
 200
 300
-500
----
+500---
+✅ Clean integer output written to: positions-dd-filtered.tsv
+   (View with: head -5 positions-dd-filtered.tsv | cat -A to verify no quotes)
 0
 500
 500
@@ -480,13 +480,50 @@ Positions\\t\\n50\\t\\n200\\t\\n300\\t\\n500\\n
 
 **Query:** cat -A positions-dd-filtered.tsv
 
-**URL:** https://www.gnu.org/software/coreutils/cat, https://ss64.com/mac/cat.html
+**URL:**
 
 **Source Excerpt:**
 
 ```
 cat: illegal option -- A
 usage: cat [-belnstuv] [file ...]
+```
+
+---
+
+**Tool Type:** Code Executor
+
+**Query:** cat -v positions-dd-filtered.tsv && echo "---" && cat -e positions-dd-filtered.tsv
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+500
+500
+500
+500
+---
+500$
+500$
+500$
+500$
+```
+
+---
+
+**Tool Type:** Web Search
+
+**Query:** cat -A flag GNU coreutils BSD macOS
+
+**URL:** https://www.gnu.org/software/coreutils/cat, https://ss64.com/mac/cat.html
+
+**Source Excerpt:**
+
+```
+GNU cat: -A, --show-all - equivalent to -vET
+BSD cat (macOS): usage: cat [-belnstuv] [file ...]
 ```
 
 ---
