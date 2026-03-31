@@ -517,15 +517,28 @@ usage: cat [-belnstuv] [file ...]
 
 **Tool Type:** Web Search
 
-**Query:** cat -A flag GNU coreutils BSD macOS
+**Query:** GNU cat -A --show-all option documentation
 
-**URL:** https://www.gnu.org/software/coreutils/cat, https://ss64.com/mac/cat.html
+**URL:** https://cgit.git.savannah.gnu.org/cgit/coreutils.git/plain/src/cat.c
 
 **Source Excerpt:**
 
 ```
-GNU cat: -A, --show-all - equivalent to -vET
-BSD cat (macOS): usage: cat [-belnstuv] [file ...]
+-A, --show-all           equivalent to -vET
+```
+
+---
+
+**Tool Type:** Web Search
+
+**Query:** BSD macOS cat command available flags
+
+**URL:** https://man.freebsd.org/cgi/man.cgi?query=cat
+
+**Source Excerpt:**
+
+```
+cat [-belnstuv] [file ...]
 ```
 
 ---
