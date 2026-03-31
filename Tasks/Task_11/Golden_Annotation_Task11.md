@@ -290,69 +290,28 @@ result.to_csv(
 )
 ```
 
-And in the explanation table:
-
 ```
 | `header=True` | Outputs column name `Positions` | Standard TSV header (remove if you want **no header at all**) |
 ```
 
-**Description:** The response claims that header=True outputs the column name "Positions", but the code creates an unnamed Series without setting the name attribute. When pandas writes an unnamed Series with header=True, it uses a default column name (typically "0") rather than "Positions". The actual output shows "0" as the first line instead of the claimed "Positions" header.
+**Description:** The response claims that header=True outputs the column name "Positions", but the code creates an unnamed Series without setting the name attribute, causing pandas to output "0" as the default header instead of "Positions".
 
 **Severity:** Substantial
 
-**Verification of Issue:**
-
 **Tool Type:** Code Executor
 
-**Query:** python3 response2_code.py
+**Query:** python3 response2_code.py && cat positions-dd-filtered.tsv
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
-$ cat positions-dd-filtered.tsv
 0
 50
 200
 300
 ```
-
-The output shows "0" as the header, not "Positions" as claimed.
-
----
-
-**Tool Type:** Code Executor
-
-**Query:** Test unnamed vs named Series with header=True
-
-**URL:**
-
-**Source Excerpt:**
-
-```python
-import pandas as pd
-
-# Unnamed Series with header=True
-s1 = pd.Series([1, 2, 3])
-s1.to_csv('test.csv', header=True, index=False)
-# Output:
-# 0
-# 1
-# 2
-# 3
-
-# Named Series with header=True
-s2 = pd.Series([1, 2, 3], name='MyColumn')
-s2.to_csv('test.csv', header=True, index=False)
-# Output:
-# MyColumn
-# 1
-# 2
-# 3
-```
-
-When a Series has no name attribute (name=None), pandas uses "0" as the default header. When a Series has a name attribute, that name is used as the header.
 
 ---
 
@@ -371,11 +330,9 @@ Positions\\t\\n50\\t\\n200\\t\\n300\\t\\n500\\n
   * `\n` \= newline
 ```
 
-**Description:** The response provides a hexdump showing tabs (09) between values and "Positions" as the header, but the actual hexdump of the output file shows no tabs and "0" as the header. The hexdump the response provides shows "50 54 6f 73 69 74 69 6f 6e 73" (which decodes to "Positions") and "09" (tab character) after each value, but the actual output contains only "30" ("0") as the header and "0a" (newlines) between values with no tabs.
+**Description:** The response provides a hexdump showing "50 54 6f 73 69 74 69 6f 6e 73" (which decodes to "Positions") as the header and "09" (tab characters) after each value, but the actual hexdump shows only "30" ("0") as the header and "0a" (newlines) between values with no tab characters present.
 
 **Severity:** Substantial
-
-**Verification of Issue:**
 
 **Tool Type:** Code Executor
 
@@ -386,18 +343,9 @@ Positions\\t\\n50\\t\\n200\\t\\n300\\t\\n500\\n
 **Source Excerpt:**
 
 ```
-$ hexdump -C positions-dd-filtered.tsv
 00000000  30 0a 35 30 0a 32 30 30  0a 33 30 30 0a           |0.50.200.300.|
 0000000d
 ```
-
-Analysis:
-- `30` = '0' (not "Positions")
-- `0a` = '\n' (newline)
-- `35 30` = '50'
-- `0a` = '\n' (newline)
-- NO `09` (tab characters) present
-- Header is "0", not "Positions"
 
 ---
 
@@ -411,11 +359,9 @@ Analysis:
 hexdump \-C positions-dd-filtered.tsv | grep \-q '22' && echo "QUOTES FOUND\!" || echo "NO QUOTES ✅"
 ```
 
-**Description:** The response provides a verification command using grep to search for '22' in hexdump output, but this pattern matches the two-character sequence "22" in memory addresses and unrelated hex values. The pattern '22' will match addresses like "00000022" or data bytes that contain "22", causing false positives unrelated to quote characters.
+**Description:** The response provides a verification command using grep to search for '22' in hexdump output, but this pattern matches the two-character sequence "22" anywhere in the output including memory addresses and unrelated hex values, causing false positives unrelated to actual quote characters.
 
 **Severity:** Minor
-
-**Verification of Issue:**
 
 **Tool Type:** Code Executor
 
@@ -425,15 +371,8 @@ hexdump \-C positions-dd-filtered.tsv | grep \-q '22' && echo "QUOTES FOUND\!" |
 
 **Source Excerpt:**
 
-```bash
-$ echo "Test data at address 00000022: ab" | grep -q '22' && echo "FOUND"
-FOUND
 ```
-
-The grep command matches '22' in the address, not quote characters. A more reliable approach searches the file directly:
-
-```bash
-grep -q '"' positions-dd-filtered.tsv && echo "QUOTES FOUND!" || echo "NO QUOTES ✅"
+FOUND
 ```
 
 ---
@@ -476,8 +415,6 @@ grep -q '"' positions-dd-filtered.tsv && echo "QUOTES FOUND!" || echo "NO QUOTES
 174:### **💡 Optional: No Header? (Just Raw Integers)**
 ```
 
-Multiple section headings use emoji including ✅, 🔑, 📝, 🛠️, and 💡.
-
 ---
 
 **[AOI #5 - Substantial]**
@@ -485,16 +422,15 @@ Multiple section headings use emoji including ✅, 🔑, 📝, 🛠️, and 💡
 **Response Excerpt:**
 
 ```python
-# Line 87: CRITICAL: Convert to nullable integer (Int64) → strips .0, handles NA cleanly
+# CRITICAL: Convert to nullable integer (Int64) → strips .0, handles NA cleanly
 result = pd.Series(upstream, dtype='Int64')
 
-# Line 107: quoting=3 # csv.QUOTE_NONE → NEVER quote anything, under any circumstance
 result.to_csv(
     args.output_file,
     sep='\t',
-    header=True,
+    header=True,          # Keep header 'Positions' (remove if you want no header)
     index=False,
-    quoting=3
+    quoting=3             # csv.QUOTE_NONE → NEVER quote anything, under any circumstance
 )
 ```
 
