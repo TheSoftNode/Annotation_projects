@@ -722,7 +722,7 @@ Output:
 500
 ```
 
-**Description:** The response provides alternative code with header=False and shows example output as "50, 200, 300, 500", but the code contains the same calculation bug and actually produces "500, 500, 500, 500" instead of the shown expected output.
+**Description:** The response provides alternative code with header=False and shows example output as "50, 200, 300, 500", but when executed with a multi-column derivative file containing Position and Gene columns with extra whitespace, pandas misreads the Position values as row indices, causing the code to output "500, 500, 500, 500" instead of the correct values shown in the example.
 
 **Severity:** Substantial
 
