@@ -370,14 +370,66 @@ result.to_csv(
 
 ```
 0
-50
-200
-300
+500
+500
+500
+500
 ```
 
 ---
 
 **[AOI #2 - Substantial]**
+
+**Response Excerpt:**
+
+```python
+result = pd.Series(upstream, dtype='Int64')
+
+result.to_csv(
+    args.output_file,
+    sep='\t',
+    header=True,
+    index=False,
+    quoting=3
+)
+```
+
+**Description:** The response produces incorrect output values, showing "500" for all derivative positions instead of the correct closest upstream matches. With input positions 100, 250, 400, 550 and reference positions 50, 120, 200, 300, 500, the expected output is 50, 200, 300, 500 but the actual output is 500, 500, 500, 500.
+
+**Severity:** Substantial
+
+**Tool Type:** Code Executor
+
+**Query:** cat derivative-filtered.tsv && echo "---" && cat positions.tsv && echo "---" && python3 response2_code.py && cat positions-dd-filtered.tsv
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+Position	Gene
+100		    ABC
+250		    DEF
+400		    GHI
+550		    JKL
+---
+Positions
+50
+120
+200
+300
+500
+---
+0
+500
+500
+500
+500
+```
+
+---
+
+**[AOI #3 - Substantial]**
 
 **Response Excerpt:**
 
@@ -392,7 +444,7 @@ Positions\\t\\n50\\t\\n200\\t\\n300\\t\\n500\\n
   * `\n` \= newline
 ```
 
-**Description:** The response provides a hexdump showing "50 54 6f 73 69 74 69 6f 6e 73" (which decodes to "Positions") as the header and "09" (tab characters) after each value, but the actual hexdump shows only "30" ("0") as the header and "0a" (newlines) between values with no tab characters present.
+**Description:** The response provides a hexdump showing "50 54 6f 73 69 74 69 6f 6e 73" (which decodes to "Positions") as the header and "09" (tab characters) after each value with correct upstream values, but the actual hexdump shows only "30" ("0") as the header, "0a" (newlines) between values with no tab characters, and all values are "500" instead of the correct upstream position matches.
 
 **Severity:** Substantial
 
@@ -405,13 +457,14 @@ Positions\\t\\n50\\t\\n200\\t\\n300\\t\\n500\\n
 **Source Excerpt:**
 
 ```
-00000000  30 0a 35 30 0a 32 30 30  0a 33 30 30 0a           |0.50.200.300.|
-0000000d
+00000000  30 0a 35 30 30 0a 35 30  30 0a 35 30 30 0a 35 30  |0.500.500.500.50|
+00000010  30 0a                                             |0.|
+00000012
 ```
 
 ---
 
-**[AOI #3 - Minor]**
+**[AOI #4 - Minor]**
 
 **Response Excerpt:**
 
@@ -438,7 +491,7 @@ zsh: bad pattern: (look for quotes  = 0x22)
 
 ---
 
-**[AOI #4 - Minor]**
+**[AOI #5 - Minor]**
 
 **Response Excerpt:**
 
@@ -464,7 +517,7 @@ FOUND
 
 ---
 
-**[AOI #5 - Minor]**
+**[AOI #6 - Minor]**
 
 **Response Excerpt:**
 
@@ -502,7 +555,7 @@ FOUND
 
 ---
 
-**[AOI #6 - Substantial]**
+**[AOI #7 - Substantial]**
 
 **Response Excerpt:**
 
@@ -565,7 +618,53 @@ be quoted.
 
 ---
 
-**[AOI #7 - Minor]**
+**[AOI #8 - Substantial]**
+
+**Response Excerpt:**
+
+```
+### **💡 Optional: No Header? (Just Raw Integers)**
+
+If you want **zero header line** (only integers, one per line):
+
+# Replace the to_csv block with:
+result.to_csv(
+    args.output_file,
+    sep='\t',
+    header=False,   # ← NO HEADER
+    index=False,
+    quoting=3       # ← STILL NO QUOTES
+)
+
+Output:
+50
+200
+300
+500
+```
+
+**Description:** The response provides alternative code with header=False and claims the output will be "50, 200, 300, 500", but the actual output is "500, 500, 500, 500" showing the same incorrect calculation issue as the main code.
+
+**Severity:** Substantial
+
+**Tool Type:** Code Executor
+
+**Query:** python3 -c "import pandas as pd; import bisect; derivative_df = pd.read_csv('derivative-filtered.tsv', sep='\t'); positions_df = pd.read_csv('positions.tsv', sep='\t'); ref_positions = sorted(positions_df['Positions'].dropna().unique()); upstream = []; [upstream.append(ref_positions[bisect.bisect_right(ref_positions, q) - 1] if bisect.bisect_right(ref_positions, q) - 1 >= 0 else pd.NA) for q in derivative_df['Position']]; result = pd.Series(upstream, dtype='Int64'); result.to_csv('test_no_header.tsv', sep='\t', header=False, index=False, quoting=3)" && cat test_no_header.tsv
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+500
+500
+500
+500
+```
+
+---
+
+**[AOI #9 - Minor]**
 
 **Response Excerpt:**
 
