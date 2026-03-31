@@ -185,6 +185,36 @@ if 'Positions' not in positions_df.columns:
 **Response Excerpt:**
 
 ```
+**Only the integers.**
+**No header.**
+**No quotes. No decimals. Just one integer per line.**
+```
+
+**Description:** The response changes the output format from a TSV file with a header column to a headerless line-by-line text file, altering the file structure beyond removing quote characters, which may break downstream processes that expect a standard TSV format with column headers.
+
+**Severity:** Minor
+
+**Tool Type:** Code Executor
+
+**Query:** grep -A 3 "What You.*Actually Want" RESPONSE_1.md
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+37:**Only the integers.**
+38:**No header.**
+39:**No quotes. No decimals. Just one integer per line.**
+```
+
+---
+
+**[AOI #5 - Minor]**
+
+**Response Excerpt:**
+
+```
 ### **🚫 Problem: Why Did You See Quotes?**
 
 ### **✅ What You *Actually* Want:**
@@ -222,7 +252,7 @@ Multiple section headings use emoji including 🚫, ✅, and 💡.
 
 ---
 
-**[AOI #5 - Minor]**
+**[AOI #6 - Minor]**
 
 **Response Excerpt:**
 
@@ -256,7 +286,7 @@ The response uses multiple emphatic descriptors including "bulletproof", "final 
 
 ---
 
-**[AOI #6 - Minor]**
+**[AOI #7 - Minor]**
 
 **Response Excerpt:**
 
