@@ -472,7 +472,7 @@ Positions\\t\\n50\\t\\n200\\t\\n300\\t\\n500\\n
 **Actual file contents** (verified with `hexdump -C` or `cat -A`):
 ```
 
-**Description:** The response suggests using `cat -A` to verify file contents, but this command is invalid on macOS/BSD systems where the correct flag is `cat -e` or `cat -v`. The `-A` flag only works on GNU cat (Linux), causing the command to fail with "illegal option" error on macOS.
+**Description:** The response suggests using `cat -A` to verify file contents, but this command is invalid on BSD-based systems including macOS, FreeBSD, and OpenBSD. The `-A` flag is a GNU extension that only works on Linux systems with GNU coreutils, causing the command to fail with "illegal option" error on BSD systems where the equivalent is `cat -e` or `cat -v`.
 
 **Severity:** Minor
 
@@ -480,7 +480,7 @@ Positions\\t\\n50\\t\\n200\\t\\n300\\t\\n500\\n
 
 **Query:** cat -A positions-dd-filtered.tsv
 
-**URL:**
+**URL:** https://www.gnu.org/software/coreutils/cat, https://ss64.com/mac/cat.html
 
 **Source Excerpt:**
 
