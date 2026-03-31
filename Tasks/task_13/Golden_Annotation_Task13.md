@@ -378,4 +378,4 @@ Response 2 doesn't reference this baseline before asking what would change it.
 
 **Justification (50 words):**
 
-Both responses handle incomplete input appropriately with only minor UX issues. R1 provides superior guidance through its structured 8-factor table explaining why each constraint matters, helping users identify applicable factors. R2's unstructured parenthetical list lacks explanations. R1's comprehensive organization outweighs potential verbosity concerns.
+Both responses handle incomplete input appropriately with only minor UX issues. R1 provides superior guidance through its structured 8-factor table explaining why each constraint matters and how they influence solution choice, helping users systematically identify applicable factors. R2's unstructured parenthetical list lacks explanations. R1's comprehensive, organized presentation outweighs verbosity concerns.
