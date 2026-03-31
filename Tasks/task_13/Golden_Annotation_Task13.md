@@ -64,26 +64,9 @@ Use contextual fallbacks: Avoid generic messages like "I didn't get that." Inste
 I'm happy to refine the recommendation, but I need to know what additional factors you'd like to take into account.
 ```
 
-**Description:** The response uses the phrase "additional factors" without clarifying what the base recommendation was. Since the user asked "would your solution change considering that:", the response should reference the original recommendation (2D arrays for clarity vs flat arrays for performance) to establish the baseline before discussing modifications.
+**Description:** The response uses the phrase "additional factors" without clarifying what the base recommendation was. Since the user asked "would your solution change considering that:", the response should reference the original recommendation to establish the baseline before discussing modifications. The conversation history concluded with "Ruby's idiomatic way is the 2‑D array; the 'fast' way (flat or bitboard) is also perfectly Ruby‑legal and often required for serious chess programming. Choose the representation that matches your performance goal and the mental model of the people who will read the code." The response should have reminded the user of this specific recommendation framework (2D arrays for clarity/teaching vs flat arrays for performance/chess engines) before asking what additional factors to consider.
 
 **Severity:** Minor
-
-**Tool Type:** Code Executor
-
-**Query:** Review conversation history to identify original recommendation
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-The conversation history provided comprehensive guidance:
-- 2D array (Array.new(8) { Array.new(8) }) for clarity, teaching, prototyping
-- Flat array (Array.new(64)) for performance, tight loops, chess engines
-- Decision depends on "performance goal and mental model of people who will read the code"
-
-Response 1 says "additional factors" but doesn't remind user of these original recommendations.
-```
 
 ---
 
