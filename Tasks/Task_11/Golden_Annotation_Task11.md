@@ -33,6 +33,12 @@ The response explains why quotes appear in viewers like Excel and LibreOffice Ca
 #### Strength 3
 The response converts float values to integer strings using str(int()), directly addressing the user's concern about decimal notation appearing in numeric output.
 
+#### Strength 4
+The response uses str(int()) conversion to remove .0 decimal representation from numeric values, ensuring integer display format in the output.
+
+#### Strength 5
+The response includes verification commands like cat to check output file contents, allowing users to inspect the file directly from the command line.
+
 ### Areas of Improvement
 
 **[AOI #1 - Substantial]**
@@ -107,14 +113,7 @@ In equality and comparison operations, NA propagates. For example:
 ✅ **No `.0`.**
 ```
 
-And:
-
-```
-**I've removed everything except raw integers, one per line — no headers, no quotes, no decimals.**
-This is the cleanest, purest output possible.
-```
-
-**Description:** The response claims to output integers and provides example output showing "50", "200", "300", but the code crashes with TypeError before creating any output file. The output format the response claims cannot be verified because the script fails during execution and produces no file.
+**Description:** The response provides example output showing "50", "200", "300", but the code crashes with TypeError before creating any output file. The output format the response shows cannot be verified because the script fails during execution and produces no file.
 
 **Severity:** Substantial
 
@@ -122,7 +121,7 @@ This is the cleanest, purest output possible.
 
 **Tool Type:** Code Executor
 
-**Query:** python3 response1_code.py && cat positions-dd-filtered.tsv
+**Query:** python3 response1_code.py
 
 **URL:**
 
@@ -137,10 +136,10 @@ Traceback (most recent call last):
 TypeError: boolean value of NA is ambiguous
 
 $ cat positions-dd-filtered.tsv
-cat: positions-dd-filtered.tsv: No such file or directory
+(empty - 0 bytes)
 ```
 
-No output file is created due to the runtime error.
+The code crashes before writing any data. The file is created but remains empty (0 bytes).
 
 ---
 
@@ -220,6 +219,40 @@ if 'Positions' not in positions_df.columns:
 ```
 
 Multiple section headings use emoji including 🚫, ✅, and 💡.
+
+---
+
+**[AOI #5 - Minor]**
+
+**Response Excerpt:**
+
+```
+Here is the final, bulletproof version that outputs pure raw integers, one per line, no header, no quotes, no ✅
+
+✅ Final Answer: I've removed everything except raw integers, one per line — no headers, no quotes, no decimals.
+This is the cleanest, purest output possible.
+```
+
+**Description:** The response uses emphatic language such as "bulletproof", "final answer", "cleanest", and "purest" in technical explanations, which introduces subjective evaluation and reduces the professional tone expected in technical documentation.
+
+**Severity:** Minor
+
+**Tool Type:** Code Executor
+
+**Query:** grep -n "bulletproof\|final answer\|cleanest\|purest" RESPONSE_1.md
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+73:Here is the final, bulletproof version that outputs pure raw integers
+191:### **✅ Final Answer:**
+194:**I've removed everything except raw integers, one per line — no headers, no quotes, no decimals.**
+195:This is the cleanest, purest output possible.
+```
+
+The response uses multiple emphatic descriptors including "bulletproof", "final answer", "cleanest", and "purest".
 
 ---
 
