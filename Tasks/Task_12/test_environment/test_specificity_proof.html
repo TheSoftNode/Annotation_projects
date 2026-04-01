@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSS Specificity Test - Proving Response 2 is Wrong</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f0f0f0;
+    }
+    .result {
+      margin: 20px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Proof: Response 2's Claim is BACKWARDS</h1>
+
+  <div class="result">
+    <h2>Response 2 Claims:</h2>
+    <blockquote style="background: #ffe6e6; padding: 10px; border-left: 4px solid red;">
+      "Attributes win over inline CSS"
+    </blockquote>
+  </div>
+
+  <div class="result">
+    <h2>Test 1: Inline style vs Attribute</h2>
+    <svg width="400" height="100">
+      <text id="test1" x="10" y="40" font-size="30" fill="red" style="fill: blue;">
+        This text has fill="red" AND style="fill: blue"
+      </text>
+    </svg>
+    <p><strong>Color shown:</strong> <span id="result1"></span></p>
+    <p><strong>Proof:</strong> If attributes won, text would be RED. But it's BLUE because inline styles override attributes.</p>
+  </div>
+
+  <div class="result">
+    <h2>Test 2: JavaScript setAttribute vs style.fill</h2>
+    <svg width="400" height="100">
+      <text id="test2" x="10" y="40" font-size="30">
+        Click buttons to test
+      </text>
+    </svg>
+    <p>
+      <button onclick="setAttributeFirst()">1. Set attribute to RED</button>
+      <button onclick="setStyleAfter()">2. Set style.fill to BLUE</button>
+    </p>
+    <p id="result2"></p>
+  </div>
+
+  <div class="result">
+    <h2>Conclusion:</h2>
+    <p style="background: #e6ffe6; padding: 10px; border-left: 4px solid green;">
+      ✅ <strong>TRUTH:</strong> Inline CSS styles (style.fill) ALWAYS override presentation attributes (fill="...")
+    </p>
+    <p style="background: #ffe6e6; padding: 10px; border-left: 4px solid red;">
+      ❌ <strong>Response 2's claim is BACKWARDS and teaches incorrect CSS fundamentals</strong>
+    </p>
+  </div>
+
+  <script>
+    // Test 1: Show what color is displayed
+    const test1 = document.getElementById('test1');
+    const computedColor = window.getComputedStyle(test1).fill;
+    document.getElementById('result1').textContent = computedColor;
+    document.getElementById('result1').style.color = computedColor;
+    document.getElementById('result1').style.fontWeight = 'bold';
+
+    // Test 2: Interactive demonstration
+    const test2 = document.getElementById('test2');
+
+    function setAttributeFirst() {
+      test2.setAttribute('fill', 'red');
+      document.getElementById('result2').innerHTML =
+        '✅ Attribute set to RED. Text is now red.';
+    }
+
+    function setStyleAfter() {
+      test2.style.fill = 'blue';
+      document.getElementById('result2').innerHTML =
+        '✅ Style.fill set to BLUE. Text is now BLUE.<br>' +
+        '<strong>This proves: style.fill OVERRIDES the fill attribute!</strong><br>' +
+        'If Response 2 was correct ("Attributes win over inline CSS"), text would stay RED. But it doesn\'t.';
+    }
+  </script>
+</body>
+</html>
