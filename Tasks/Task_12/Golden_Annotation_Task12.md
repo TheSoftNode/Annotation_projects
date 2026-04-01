@@ -23,7 +23,7 @@ The response includes a Common Mistakes table showing incorrect approaches with 
 The response provides an HTML example with three interactive buttons, allowing users to test the solution in a browser.
 
 #### Strength 5
-The response provides context about when to use each method by noting that `style.fill` is preferred for frequent updates in animations, helping users understand method selection for different use cases.
+The response provides guidance on method selection by noting that `style.fill` is preferred for frequent color updates in animations, helping users choose between `style.fill` and `setAttribute` based on their use case.
 
 ### Areas of Improvement
 
