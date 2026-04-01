@@ -368,7 +368,16 @@ Nine major section headers use numbered or celebration emojis.
 
 **Tool Type:** Code Executor
 
-**Query:** Count lines in task file: awk 'NR==210,NR==610' "_RLHF-TASK Javascript.md" | wc -l
+**Query:**
+```bash
+# Count Response 1 lines:
+awk 'NR==98,NR==209' "_RLHF-TASK Javascript.md" | wc -l
+# Result: 112
+
+# Count Response 2 lines:
+awk 'NR==210,NR==610' "_RLHF-TASK Javascript.md" | wc -l
+# Result: 401
+```
 
 **URL:**
 
@@ -376,7 +385,11 @@ Nine major section headers use numbered or celebration emojis.
 
 ```
 Response 1: 112 lines (lines 98-209 in task file)
+  Command: awk 'NR==98,NR==209' "_RLHF-TASK Javascript.md" | wc -l
+
 Response 2: 401 lines (lines 210-610 in task file)
+  Command: awk 'NR==210,NR==610' "_RLHF-TASK Javascript.md" | wc -l
+
 Ratio: 401/112 = 3.58x longer
 ```
 
