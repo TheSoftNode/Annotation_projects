@@ -177,10 +177,10 @@ The response demonstrates CSS variables for theming with concrete code examples,
 The response explains the `currentColor` keyword and its inheritance mechanism, which allows users to create SVG text that automatically synchronizes with its container's CSS color property, eliminating the need for explicit fill declarations and reducing code duplication.
 
 #### Strength 4
-The response provides three complete animation techniques (CSS transitions, SMIL, requestAnimationFrame) with working code snippets for each approach, which gives users the flexibility to choose based on their browser compatibility requirements, performance constraints, and animation complexity needs.
+The response demonstrates three distinct animation approaches (CSS animation, SMIL, requestAnimationFrame) with code examples for each technique, which gives users multiple implementation options to choose from based on their browser compatibility requirements, performance constraints, and animation complexity needs.
 
 #### Strength 5
-The response includes a "Common Gotchas & Best-Practice Checklist" table that explicitly identifies five frequent problems with their root causes and specific fixes, which equips users with troubleshooting knowledge for issues including CSS specificity conflicts, SVG embedding methods that block inheritance, accessibility contrast requirements, and tspan color inheritance behavior.
+The response includes a "Common Gotchas & Best-Practice Checklist" table that identifies five frequent problems developers encounter when styling SVG text, providing troubleshooting guidance for issues like SVG embedding methods that block CSS inheritance, accessibility contrast requirements, and tspan color inheritance behavior.
 
 ### Areas of Improvement
 
