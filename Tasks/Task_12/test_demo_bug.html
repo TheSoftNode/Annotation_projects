@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Response 2 Demo Bug Test</title>
+  <style>
+    /* You'll see how to override these later */
+    .red   { fill: red;   }
+    .green { fill: green; }
+    .blue  { fill: blue;  }
+    .big-red { fill: crimson; }
+  </style>
+</head>
+<body>
+
+<h1>Testing Response 2 Demo Bug</h1>
+<p>Watch the SVG text below. It should:</p>
+<ol>
+  <li>Start as BLUE (setAttribute)</li>
+  <li>Change to PURPLE at 1.5 seconds (style.fill)</li>
+  <li><strong>SHOULD change to GREEN at 3 seconds (classList.add) - BUT WON'T WORK!</strong></li>
+</ol>
+
+<svg id="demoSvg"
+     width="400" height="120"
+     viewBox="0 0 400 120"
+     xmlns="http://www.w3.org/2000/svg">
+  <!-- Plain text, no styling yet -->
+  <text id="myText"
+        x="20" y="60"
+        font-family="Arial,Helvetica,sans-serif"
+        font-size="40">
+    Hello SVG!
+  </text>
+</svg>
+
+<div id="log">
+  <h2>Event Log:</h2>
+  <ul id="logList"></ul>
+</div>
+
+<script>
+// demo.js - EXACT CODE FROM RESPONSE 2
+document.addEventListener('DOMContentLoaded', () => {
+  const txt = document.getElementById('myText');
+  const logList = document.getElementById('logList');
+
+  function log(message, color) {
+    const li = document.createElement('li');
+    li.textContent = message;
+    li.style.color = color || 'black';
+    logList.appendChild(li);
+  }
+
+  log('Page loaded - starting test...', 'black');
+
+  // 1️⃣ set via attribute
+  txt.setAttribute('fill', '#0066ff');
+  log('Step 1: setAttribute("fill", "#0066ff") - Text should be BLUE', 'blue');
+
+  // 2️⃣ later, replace via style property
+  setTimeout(() => {
+    txt.style.fill = 'purple';
+    log('Step 2 (1.5s): style.fill = "purple" - Text should be PURPLE', 'purple');
+  }, 1500);
+
+  // 3️⃣ finally, switch using a CSS class
+  setTimeout(() => {
+    txt.classList.remove('big-red');
+    txt.classList.add('green');   // .green defined in the stylesheet
+    log('Step 3 (3s): classList.add("green") - Text SHOULD be GREEN but will stay PURPLE (BUG!)', 'red');
+
+    // Check what actually happened
+    setTimeout(() => {
+      const computedFill = window.getComputedStyle(txt).fill;
+      const hasClass = txt.classList.contains('green');
+      const inlineStyle = txt.style.fill;
+
+      log(`\n=== VERIFICATION ===`, 'black');
+      log(`Has .green class? ${hasClass}`, hasClass ? 'green' : 'red');
+      log(`Inline style.fill: ${inlineStyle}`, inlineStyle ? 'purple' : 'green');
+      log(`Computed fill color: ${computedFill}`, 'black');
+
+      if (inlineStyle === 'purple' && hasClass) {
+        log(`\n🐛 BUG CONFIRMED: Inline style.fill overrides .green class!`, 'red');
+        log(`The text stayed PURPLE despite adding .green class`, 'red');
+      }
+    }, 500);
+  }, 3000);
+});
+</script>
+
+</body>
+</html>
