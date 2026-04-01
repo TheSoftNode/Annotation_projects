@@ -23,7 +23,7 @@ The response includes a Common Mistakes table showing incorrect approaches with 
 The response provides an HTML example with three interactive buttons, allowing users to test the solution in a browser.
 
 #### Strength 5
-The response includes a performance tip about `style.fill` being faster than `setAttribute` in loops, guiding users toward optimal implementation for animation scenarios.
+The response provides context about when to use each method by noting that `style.fill` is preferred for frequent updates in animations, helping users understand method selection for different use cases.
 
 ### Areas of Improvement
 
