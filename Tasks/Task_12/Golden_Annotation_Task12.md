@@ -17,13 +17,13 @@ The response clarifies that SVG uses `fill` instead of HTML's `color` property, 
 The response provides two methods (`style.fill` and `setAttribute`) with code examples, giving users flexibility to choose based on their coding style.
 
 #### Strength 3
-The response includes a Common Mistakes table showing incorrect approaches with explanations, helping users avoid pitfalls like using `.value` or direct property assignment.
+The response includes a Common Mistakes table that identifies incorrect approaches such as using `style.color`, direct property assignment (`fill = "red"`), and wrong attribute names (`setAttribute("color", ...)`), helping users avoid SVG-specific errors.
 
 #### Strength 4
 The response provides an HTML example with three interactive buttons, allowing users to test the solution in a browser.
 
 #### Strength 5
-The response provides guidance on method selection by noting that `style.fill` is preferred for frequent color updates in animations, helping users choose between `style.fill` and `setAttribute` based on their use case.
+The response provides practical guidance on method selection by suggesting when `style.fill` may be preferable for frequent updates, helping users understand different approaches for their use case.
 
 ### Areas of Improvement
 
