@@ -177,12 +177,9 @@ The response covers CSS variables for theming, providing a scalable solution for
 The response demonstrates `currentColor` inheritance, showing how SVG text can automatically match its container's CSS color property without explicit fill values.
 
 #### Strength 4
-The response includes multiple `<tspan>` examples with different colors, addressing the scenario where users need multi-colored text within a single SVG text element.
-
-#### Strength 5
 The response provides three animation techniques (CSS, SMIL, requestAnimationFrame) with code examples, giving users options based on browser compatibility and performance needs.
 
-#### Strength 6
+#### Strength 5
 The response includes a "Common Gotchas & Best-Practice Checklist" table that addresses five frequent problems developers encounter when styling SVG text, providing troubleshooting guidance for issues like specificity conflicts, SVG in objects not inheriting CSS, contrast problems, and tspan inheritance.
 
 ### Areas of Improvement
