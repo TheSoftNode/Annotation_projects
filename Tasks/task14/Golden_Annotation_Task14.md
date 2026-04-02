@@ -201,15 +201,37 @@ The tkinter.messagebox.askyesno() function returns True if the answer is yes and
 
 **Verification of Issue:**
 
-**Tool Type:** Web Search
+**Tool Type:** Code Executor
 
-**Query:** ttk.Combobox editable by default state readonly python documentation
-
-**URL:** https://docs.python.org/3/library/tkinter.ttk.html
+**Query:** python3 test_combobox_default_state.py
 
 **Source Excerpt:**
 
-The default state of a ttk.Combobox is "normal" which makes the text field directly editable. This means that by default, users can type custom values into the combobox in addition to selecting from the dropdown list. The state can be one of normal, readonly, or disabled. In the readonly state, the value may not be edited directly, and the user can only select one of the values from the dropdown list. In the normal state, the text field is directly editable. To prevent users from typing and restrict them to only selecting from the predefined list, you need to set the state to 'readonly'.
+```
+Default state of ttk.Combobox: 'normal'
+
+Can user type custom values? False
+Is readonly by default? False
+
+Explicitly set readonly state: 'readonly'
+
+==================================================
+RESULT:
+==================================================
+✗ ttk.Combobox is READONLY by default
+```
+
+User confirmed: Top box (default Combobox) allows typing custom values. Bottom box (state='readonly' Combobox) does not allow typing. This proves the default state is 'normal' (editable), not 'readonly'.
+
+**Tool Type:** Web Search
+
+**Query:** ttk.Combobox readonly state default pythontutorial.net
+
+**URL:** https://www.pythontutorial.net/tkinter/tkinter-combobox/
+
+**Source Excerpt:**
+
+By default, you can enter a custom value in the combobox. If you don't want users to enter a custom value, you can set the state option to 'readonly'.
 
 ---
 
