@@ -683,7 +683,7 @@ The code produces wrong data for midnight crossing - this is a FUNCTIONAL BUG.
 
 ---
 
-**[AOI #7 - Substantial]**
+**[AOI #6 - Substantial]**
 
 **Response Excerpt:**
 
@@ -698,64 +698,59 @@ The code produces wrong data for midnight crossing - this is a FUNCTIONAL BUG.
         }
 ```
 
-**Description:** The response's Date field is captured once at start_activity using `datetime.now().strftime("%Y-%m-%d")` and never updated. When a user starts an activity before midnight and stops it after midnight (e.g., starts at 23:45 on April 1st, stops at 00:30 on April 2nd), the Excel export will show April 1st for both start and end times, making the overnight record incorrect. The midnight rollover logic correctly calculates the 0:45 duration, but the date field remains stuck at the start date.
+**Description:** The response captures the Date field once at start_activity using datetime.now().strftime("%Y-%m-%d") and stores it in the current_entry dictionary. When the user later calls stop_activity, the code does not update or recalculate the Date field—it remains set to the date when the activity started. For activities that span midnight (starting before midnight and ending after midnight), the Excel export displays the start date for the entire activity record. For example, an activity starting at 23:45 on April 1st and stopping at 00:30 on April 2nd shows April 1st as the date, even though the activity actually ended on April 2nd. While the response's midnight rollover logic correctly calculates the duration as 0:45 hours, the date field does not reflect that the activity crossed into a new day, making the exported record inaccurate for overnight activities.
 
 **Severity:** Substantial
 
 **Verification of Issue:**
 
-**Tool Type:** Code Review
+**Tool Type:** Code Executor
 
-**Query:** Extract start_activity and stop_activity from RESPONSE_2.md
-
-**URL:**
-
-**Source Excerpt:**
-
-From RESPONSE_2.md line 166 (start_activity):
-```python
-            "Date": datetime.now().strftime("%Y-%m-%d"),
-```
-
-From RESPONSE_2.md lines 190-228 (stop_activity - checking for date updates):
-```python
-        end_time_str = datetime.now().strftime("%H:%M")
-```
-
-No code in stop_activity updates the Date field. It remains the date captured at start_activity.
-
----
-
-**[AOI #8 - Minor]**
-
-**Response Excerpt:**
-
-```
-This is a great start! It's functional and covers the main logic.
-```
-
-**Description:** The response opens with an unnecessary pleasantry ("This is a great start!") that does not contribute to the technical code review. While being polite is valuable, this type of opening reduces the professional tone of a technical response and adds no actionable information. Professional code reviews typically begin directly with the technical analysis.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Review
-
-**Query:** Extract opening line from RESPONSE_2.md
+**Query:** python3 test_r2_aoi6_date_not_updated.py
 
 **URL:**
 
 **Source Excerpt:**
 
-From RESPONSE_2.md line 1:
 ```
-This is a great start\! It's functional and covers the main logic.
+======================================================================
+TEST CASE: Activity crosses midnight
+======================================================================
+
+[START_ACTIVITY] Called at 2025-04-01 23:45:00
+  Date captured: 2025-04-01
+  Start Time: 23:45
+
+[STOP_ACTIVITY] Called at 2025-04-02 00:30:00
+  End Time updated: 00:30
+  Date field: 2025-04-01 (NOT UPDATED!)
+  Duration calculated: 0.75 hours
+
+======================================================================
+WHAT GETS EXPORTED TO EXCEL:
+======================================================================
+  Date: 2025-04-01
+  Place: Office
+  Activity (Overview): Late night work
+  Start Time: 23:45
+  End Time: 00:30
+  Activity (Details): Working late
+
+======================================================================
+THE PROBLEM:
+======================================================================
+✗ Activity started: 2025-04-01 23:45 (April 1st)
+✗ Activity ended: 2025-04-02 00:30 (April 2nd)
+✗ Date in export: 2025-04-01 (April 1st - WRONG!)
+✗ The Date field shows April 1st, not April 2nd when it ended
+✗ Excel record is INACCURATE for overnight activities
+✓ Duration is correct: 0.75 hours
+======================================================================
 ```
 
 ---
 
-**[AOI #9 - Minor]**
+**[AOI #7 - Minor]**
 
 **Response Excerpt:**
 
@@ -765,38 +760,9 @@ This is a great start\! It's functional and covers the main logic.
         self.export_button = tk.Button(root, text="Export to Excel", command=self.export_to_excel, bg="#ccffcc")
 ```
 
-**Description:** The response uses standard `tk.Button` widgets with hardcoded background colors (`bg="#dddddd"`, `bg="#ffcccc"`, `bg="#ccffcc"`) instead of using `ttk.Button` widgets. This approach has several drawbacks: (1) hardcoded colors may not respect system themes and don't adapt to dark mode, (2) tk.Button doesn't look native on all platforms (especially macOS), and (3) mixing tk and ttk widgets creates style inconsistencies since the response uses ttk.Combobox elsewhere.
+**Description:** The response uses standard tk.Button widgets with hardcoded background colors (bg="#dddddd", bg="#ffcccc", bg="#ccffcc") instead of using ttk.Button widgets. Hardcoded colors do not respect system themes or adapt to dark mode settings, causing the interface to appear inconsistent with the user's operating system preferences. The tk.Button widgets do not render with native platform appearance on all operating systems, particularly on macOS where they look outdated. The response mixes tk and ttk widgets in the same interface, using ttk.Combobox for dropdowns but tk.Button for buttons, creating visual inconsistencies in widget styling and appearance throughout the application.
 
 **Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Review
-
-**Query:** Extract button definitions from RESPONSE_2.md lines 114-126
-
-**URL:**
-
-**Source Excerpt:**
-
-From RESPONSE_2.md lines 114-126:
-```python
-        self.start\_button \= tk.Button(root, text="Start Activity", command=self.start\_activity, bg="\#dddddd")
-
-        self.start\_button.grid(row=3, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
-
-        self.stop\_button \= tk.Button(root, text="Stop Activity", command=self.stop\_activity, state=tk.DISABLED, bg="\#ffcccc")
-
-        self.stop\_button.grid(row=4, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
-
-        \# 5\. Export Button (New\!)
-
-        self.export\_button \= tk.Button(root, text="Export to Excel", command=self.export\_to\_excel, bg="\#ccffcc")
-
-        self.export\_button.grid(row=5, column=0, columnspan=2, sticky="ew", padx=5, pady=5)
-```
-
-All three buttons use tk.Button with hardcoded hex colors, while comboboxes use ttk widgets (line 88-89 shows state="readonly" for ttk.Combobox).
 
 ---
 
