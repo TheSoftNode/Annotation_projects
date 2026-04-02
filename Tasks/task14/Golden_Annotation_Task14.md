@@ -315,7 +315,7 @@ RESULT: SEPARATOR VALIDATION IS MISSING
         })
 ```
 
-**Description:** The response exports the Duration field as a decimal float (e.g., 4.5, 2.33) rather than a formatted time string in HH:MM format. This means the Excel file displays raw numbers like "4.5" instead of "04:30", which is less intuitive for users reading activity logs and requires manual reformatting after every export.
+**Description:** The response stores duration as a decimal float value in the Duration field when building the export data structure. The duration_hours helper function returns values like 4.5 or 0.33, which get stored directly into the entries list and subsequently exported to Excel. When users open the Excel file, they see decimal numbers like "4.5" or "0.33" in the Duration column instead of more intuitive time formats like "04:30" or "00:20". Users reading the activity log must mentally convert decimal hours to hours and minutes, or manually reformat the column after each export. For example, an activity lasting from 10:00 to 14:30 shows as "4.5" rather than "04:30", and a 20-minute activity shows as "0.33" rather than "00:20".
 
 **Severity:** Substantial
 
