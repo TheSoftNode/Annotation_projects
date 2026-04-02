@@ -482,7 +482,7 @@ root.mainloop()
 1. **Critical Bug (`NameError`):** In your current script, `on_close()` tries to use `logger`, but `logger` isn't defined until *after* the function is defined. This will crash the app when you try to close it. **Fix:** Move the function definition *after* `logger` is created, or pass `logger` as an argument.
 ```
 
-**Description:** The response incorrectly claims that the original code has a "Critical Bug (NameError)" where `on_close()` would crash because `logger` isn't defined when the function is defined. This is factually wrong. Python uses late binding for global variables - functions look up global names when they are EXECUTED, not when they are DEFINED. Since `logger` is defined before the user ever closes the window (and thus before `on_close()` executes), no NameError will occur. The original code works correctly. This is a false bug claim that misrepresents the original code's behavior.
+**Description:** The response incorrectly claims that the original code has a "Critical Bug (NameError)" where on_close would crash because logger is not defined when the function is defined. This is factually wrong. In Python, variables that are only referenced inside a function are implicitly global, meaning Python looks them up in the global namespace at execution time, not at definition time. The on_close function only references logger without assigning to it, so Python treats logger as an implicit global variable and looks it up when the function executes. Since logger is created before the user closes the window and triggers on_close, the global lookup succeeds and no NameError occurs. The original code works correctly. This is a false bug claim that misrepresents how Python's name resolution works.
 
 **Severity:** Substantial
 
@@ -490,19 +490,51 @@ root.mainloop()
 
 **Tool Type:** Code Executor
 
-**Query:** python3 test_nameerror.py (close window and click "Yes")
-
-**URL:**
+**Query:** python3 test_nameerror.py
 
 **Source Excerpt:**
 
 ```
-Exit code: 0 (SUCCESS - no error occurred)
+======================================================================
+TESTING RESPONSE 2'S FALSE NAMEERROR CLAIM
+======================================================================
 
-Dialog appeared: "No entries to export!"
+[STEP 1] Defining on_close() function...
+           (function references 'logger' which doesn't exist yet)
+
+[STEP 2] Created tk.Tk() root window
+
+[STEP 3] Created HourlyLogger instance - 'logger' NOW EXISTS in globals
+
+[STEP 4] Registered on_close() as window close handler
+
+======================================================================
+APP LAUNCHED SUCCESSFULLY - NO ERROR SO FAR
+======================================================================
+
+[INSTRUCTION] Close the window to test if NameError occurs...
+[PREDICTION] NO NameError will occur - late binding will find 'logger'
+======================================================================
+
+[User closes window and clicks "Yes"]
+
+[EXECUTION] on_close() is now executing...
+[LATE BINDING] Looking up 'logger' in global namespace...
+[LATE BINDING] Found logger: <__main__.HourlyLogger object at 0x...>
+[LATE BINDING] No NameError! Python's late binding works.
+[ACTION] User clicked 'Yes' - calling logger.export_to_excel()
+[RESULT] ✓ on_close() executed successfully with NO NameError
 ```
 
-The test runs the original code structure with `on_close()` defined before `logger`. Closing the window and clicking "Yes" executes successfully with no NameError, proving Python's late binding makes the original code work correctly.
+**Tool Type:** Web Search
+
+**Query:** Python variables only referenced inside function implicitly global docs.python.org
+
+**URL:** https://docs.python.org/3/faq/programming.html
+
+**Source Excerpt:**
+
+In Python, variables that are only referenced inside a function are implicitly global. If a variable is assigned a value anywhere within the function's body, it's assumed to be a local unless explicitly declared as global.
 
 ---
 
