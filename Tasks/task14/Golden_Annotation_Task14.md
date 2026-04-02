@@ -623,9 +623,21 @@ CONCLUSION:
 output_path = os.path.join(os.getcwd(), "weekly_protocol.xlsx")
 ```
 
-**Description:** The response hardcodes the export path using os.path.join(os.getcwd(), "weekly_protocol.xlsx"), which combines the current working directory with a fixed filename. Every time the user exports activity data, the code writes to the same file path and overwrites any previously exported data. Users who export their weekly logs multiple times throughout the month lose all previous weeks' data because each export replaces the entire file content with only the current session's activities. The response provides no file save dialog where users can choose different filenames, and the filename contains no date stamps, week numbers, or timestamps to differentiate between exports from different time periods. This design causes silent permanent data loss without warning users that their previous export will be overwritten.
+**Description:** The response hardcodes the export path using os.path.join(os.getcwd(), "weekly_protocol.xlsx"), which combines the current working directory with a fixed filename. Every time the user exports activity data, the code writes to the same file path. When DataFrame.to_excel writes to a file that already exists, it erases the contents of the existing file and replaces it with the new data. Users who export their weekly logs multiple times throughout the month lose all previous weeks' data because each export replaces the entire file content with only the current session's activities. The response provides no file save dialog where users can choose different filenames, and the filename contains no date stamps, week numbers, or timestamps to differentiate between exports from different time periods. This design causes silent permanent data loss without warning users that their previous export will be overwritten.
 
 **Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Web Search
+
+**Query:** pandas DataFrame.to_excel overwrites existing file documentation
+
+**URL:** https://pandas.pydata.org/pandas-docs/version/0.25.2/reference/api/pandas.DataFrame.to_excel.html
+
+**Source Excerpt:**
+
+Creating an ExcelWriter object with a file name that already exists will result in the contents of the existing file being erased.
 
 ---
 
