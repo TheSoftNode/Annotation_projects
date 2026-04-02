@@ -649,80 +649,25 @@ Creating an ExcelWriter object with a file name that already exists will overwri
 Midnight Rollover: Using `.seconds` on a `timedelta` breaks if a task goes past midnight (e.g., 23:00 to 01:00). **Fix:** Use `.total_seconds()`.
 ```
 
-**Description:** The response claims that using .seconds on a timedelta "breaks" for tasks crossing midnight, but this claim is misleading. The .seconds attribute does not break—it returns the seconds component of the timedelta. For the original code with midnight crossing (e.g., 23:30 to 00:30), the timedelta is -1 day, 1:00:00, and .seconds returns 3600 seconds (1 hour), which happens to be the correct answer by accident. While using .total_seconds() with appropriate negative-value handling is indeed an improvement for robustness, the justification that .seconds "breaks" is inaccurate. The .seconds approach produces the correct result for certain midnight crossings, though for the wrong reason, making the claim of it "breaking" technically false.
+**Description:** The response claims that using .seconds on a timedelta "breaks" for tasks crossing midnight. However, in some midnight-crossing cases, .seconds can still produce the numerically correct result by accident because it returns only the seconds component and ignores the negative day portion. The real issue is that .seconds is unreliable here and can hide incorrect date logic, so recommending .total_seconds() with explicit rollover handling is more accurate.
 
 **Severity:** Minor
 
----
-
-**[AOI #6 - Substantial]**
-
-**Response Excerpt:**
-
-```python
-        self.current_entry = {
-            "Date": datetime.now().strftime("%Y-%m-%d"),
-            "Place": self.place.get(),
-            "Activity (Overview)": activity,
-            "Start Time": datetime.now().strftime("%H:%M"),
-            "End Time": "",
-            "Activity (Details)": self.details.get()
-        }
-```
-
-**Description:** The response captures the Date field once at start_activity using datetime.now().strftime("%Y-%m-%d") and stores it in the current_entry dictionary. When the user later calls stop_activity, the code does not update or recalculate the Date field—it remains set to the date when the activity starts. For activities that span midnight (starting before midnight and ending after midnight), the Excel export displays the start date for the entire activity record. For example, an activity starting at 23:45 on April 1st and stopping at 00:30 on April 2nd shows April 1st as the date, even though the activity ends on April 2nd. While the response's midnight rollover logic correctly calculates the duration as 0:45 hours, the date field does not reflect that the activity crosses into a new day, making the exported record inaccurate for overnight activities.
-
-**Severity:** Substantial
-
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Web Search
 
-**Query:** python3 test_r2_aoi6_date_not_updated.py
+**Query:** Python timedelta seconds attribute documentation
 
-**URL:**
+**URL:** https://docs.python.org/3/library/datetime.html
 
 **Source Excerpt:**
 
-```
-======================================================================
-TEST CASE: Activity crosses midnight
-======================================================================
-
-[START_ACTIVITY] Called at 2025-04-01 23:45:00
-  Date captured: 2025-04-01
-  Start Time: 23:45
-
-[STOP_ACTIVITY] Called at 2025-04-02 00:30:00
-  End Time updated: 00:30
-  Date field: 2025-04-01 (NOT UPDATED!)
-  Duration calculated: 0.75 hours
-
-======================================================================
-WHAT GETS EXPORTED TO EXCEL:
-======================================================================
-  Date: 2025-04-01
-  Place: Office
-  Activity (Overview): Late night work
-  Start Time: 23:45
-  End Time: 00:30
-  Activity (Details): Working late
-
-======================================================================
-THE PROBLEM:
-======================================================================
-✗ Activity started: 2025-04-01 23:45 (April 1st)
-✗ Activity ended: 2025-04-02 00:30 (April 2nd)
-✗ Date in export: 2025-04-01 (April 1st - WRONG!)
-✗ The Date field shows April 1st, not April 2nd when it ended
-✗ Excel record is INACCURATE for overnight activities
-✓ Duration is correct: 0.75 hours
-======================================================================
-```
+Between 0 and 86399 inclusive
 
 ---
 
-**[AOI #7 - Minor]**
+**[AOI #6 - Minor]**
 
 **Response Excerpt:**
 
