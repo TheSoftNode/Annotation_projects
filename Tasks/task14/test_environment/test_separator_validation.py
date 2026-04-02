@@ -16,8 +16,18 @@ def response1_validation(activity_value):
     VERBATIM validation logic from Response 1
     Only checks: if not self.activity_overview.get()
     """
+    print(f"    [VALIDATION LOG] Checking if activity_value is empty...")
+    print(f"    [VALIDATION LOG] activity_value = '{activity_value}'")
+    print(f"    [VALIDATION LOG] bool(activity_value) = {bool(activity_value)}")
+    print(f"    [VALIDATION LOG] Evaluating: if not activity_value...")
+
     if not activity_value:
+        print(f"    [VALIDATION LOG] Condition TRUE: activity_value is empty or falsy")
+        print(f"    [VALIDATION LOG] Returning: FAILED")
         return False, "Empty selection - validation FAILED"
+
+    print(f"    [VALIDATION LOG] Condition FALSE: activity_value is NOT empty")
+    print(f"    [VALIDATION LOG] Returning: PASSED (no separator check!)")
     return True, "Non-empty string - validation PASSED"
 
 # Separator definition from RESPONSE_1.md line 64

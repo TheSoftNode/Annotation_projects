@@ -323,7 +323,7 @@ RESULT: SEPARATOR VALIDATION IS MISSING
 
 **Tool Type:** Code Executor
 
-**Query:** python3 test_response1_duration.py
+**Query:** python3 test_duration_export_format.py
 
 **URL:**
 
@@ -331,42 +331,58 @@ RESULT: SEPARATOR VALIDATION IS MISSING
 
 ```
 ======================================================================
-RESPONSE 1 DURATION CALCULATION TEST
+RESPONSE 1 - DURATION EXPORT FORMAT TEST
 ======================================================================
 
-✅ TEST 1: Same day (10:00 to 14:30)
-   Result: 4.5 hours
-   Expected: 4.5 hours
-   Status: PASS ✅
+Simulating what gets stored in Excel export:
+----------------------------------------------------------------------
 
-🌙 TEST 2: Midnight rollover (23:30 to 00:30)
-   Result: 1.0 hours
-   Expected: 1.0 hour
-   Status: PASS ✅
+[TEST] Activity: 10:00 to 14:30
+  Start: 10:00
+  End: 14:30
+  Duration (Response 1 format): 4.5 hours
+  Duration (HH:MM format would be): 04:30
+  What appears in Excel: 4.5
 
-🌙 TEST 3: Midnight rollover (23:00 to 01:00)
-   Result: 2.0 hours
-   Expected: 2.0 hours
-   Status: PASS ✅
+[TEST] Activity: 09:15 to 11:45
+  Start: 09:15
+  End: 11:45
+  Duration (Response 1 format): 2.5 hours
+  Duration (HH:MM format would be): 02:30
+  What appears in Excel: 2.5
+
+[TEST] Activity: 08:00 to 08:20
+  Start: 08:00
+  End: 08:20
+  Duration (Response 1 format): 0.33 hours
+  Duration (HH:MM format would be): 00:20
+  What appears in Excel: 0.33
 
 ======================================================================
-EXPLANATION:
+RESULT: DURATION IS EXPORTED AS DECIMAL FLOAT
+======================================================================
+✗ Response 1 exports duration as decimal float (e.g., 4.5)
+✗ Excel displays: '4.5' instead of '04:30'
+✗ Excel displays: '2.42' instead of '02:25'
+✗ Excel displays: '0.33' instead of '00:20'
+✗ Users must manually reformat to understand time durations
+✗ Less intuitive for reading activity logs
 ======================================================================
 
-Response 1's approach stores FULL datetime objects (Start DateTime, End DateTime)
-instead of just time strings. This means:
+What gets appended to self.entries (exported to Excel):
+----------------------------------------------------------------------
+  'Date': '2025-04-02'
+  'Place': 'Office'
+  'Activity (Overview)': 'Projektarbeit'
+  'Duration': 4.5
+  'Start Time': '10:00'
+  'End Time': '14:30'
+  'Activity (Details)': 'Working on project'
 
-1. start_activity() stores: self.active["Start DateTime"] = datetime.now()
-2. stop_activity() stores: self.active["End DateTime"] = datetime.now()
-3. duration_hours() calculates: (end - start).total_seconds() / 3600
-
-This correctly handles midnight crossing because the datetime objects include
-the DATE component. So 2025-04-01 23:30 - 2025-04-02 00:30 = 1 hour.
-
-Result: ✅ CORRECT - Response 1 fixes the midnight bug properly
+======================================================================
+ISSUE: Duration field contains FLOAT (4.5) not STRING ('04:30')
+======================================================================
 ```
-
-Test output confirms duration is returned as float (4.5 hours, 1.0 hours, 2.0 hours) not HH:MM format.
 
 ---
 
