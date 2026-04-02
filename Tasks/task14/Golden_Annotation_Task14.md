@@ -254,30 +254,48 @@ By default, you can enter a custom value in the combobox. If you don't want user
 
 **Verification of Issue:**
 
-**Tool Type:** Code Review
+**Tool Type:** Code Executor
 
-**Query:** Check separator definition and validation logic in RESPONSE_1.md
+**Query:** python3 test_separator_validation.py
 
 **URL:**
 
 **Source Excerpt:**
 
-From RESPONSE_1.md line 64:
-```python
-    "─" \* 20,   \# visual separator (will be shown as a disabled entry)
 ```
+======================================================================
+RESPONSE 1 - SEPARATOR VALIDATION TEST
+======================================================================
 
-From RESPONSE_1.md lines 330-340:
-```python
-        if not self.activity_overview.get():
-            messagebox.showerror(
-                "Fehlende Angabe",
-                "Bitte wähle eine Aktivität aus der Dropdown‑Liste."
-            )
-            return
+[TEST 1] Empty string
+  Value: ''
+  Validation result: FAIL
+  Message: Empty selection - validation FAILED
+  ✓ Correctly rejected
+
+[TEST 2] Valid activity
+  Value: 'Projektarbeit'
+  Validation result: PASS
+  Message: Non-empty string - validation PASSED
+  ✓ Correctly accepted
+
+[TEST 3] Separator string (THE BUG)
+  Value: '────────────────────'
+  Validation result: PASS
+  Message: Non-empty string - validation PASSED
+  ✗ INCORRECTLY ACCEPTED - This is invalid data!
+  ✗ User can select separator and create invalid Excel entries
+
+======================================================================
+RESULT: SEPARATOR VALIDATION IS MISSING
+======================================================================
+✗ Separator '────────────────────' PASSES validation
+✗ The validation only checks: if not activity_value (empty check)
+✗ Separators are NON-EMPTY strings, so they pass
+✗ User can select separator from dropdown and create invalid data
+✗ Invalid data would appear in Excel export as activity name
+======================================================================
 ```
-
-The validation only guards against empty selection. Separators like "─" * 20 are non-empty strings that pass the check.
 
 ---
 

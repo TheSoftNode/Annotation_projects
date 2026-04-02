@@ -1,52 +1,75 @@
 """
-Test to prove Response 2 has separator validation while Response 1 and original don't.
+Test to verify Response 1 lacks separator validation.
+This demonstrates that selecting a separator passes validation and creates invalid data.
+
+VERBATIM validation logic from RESPONSE_1.md lines 330-336:
+    if not self.activity_overview.get():
+        messagebox.showerror(
+            "Fehlende Angabe",
+            "Bitte wähle eine Aktivität aus der Dropdown‑Liste."
+        )
+        return
 """
 
-# Simulating the validation logic from each response
-
-def test_response1_validation(activity_value):
-    """Response 1's validation - only checks for empty string"""
+def response1_validation(activity_value):
+    """
+    VERBATIM validation logic from Response 1
+    Only checks: if not self.activity_overview.get()
+    """
     if not activity_value:
-        return False  # Invalid
-    return True  # Valid - allows separator!
+        return False, "Empty selection - validation FAILED"
+    return True, "Non-empty string - validation PASSED"
 
-def test_response2_validation(activity_value):
-    """Response 2's validation - checks for empty AND separator"""
-    if activity_value.startswith("-"):
-        return False  # Invalid - blocks separator!
-    return True  # Valid
+# Separator definition from RESPONSE_1.md line 64
+separator = "─" * 20  # VERBATIM: "─" * 20
 
-def test_original_validation(activity_value):
-    """Original code has NO validation"""
-    return True  # Always valid - allows anything including separator
+print("="*70)
+print("RESPONSE 1 - SEPARATOR VALIDATION TEST")
+print("="*70)
 
-# Test cases
-test_cases = [
-    ("Projektarbeit", "Normal activity"),
-    ("--------------------", "Separator (dashes)"),
-    ("", "Empty string"),
-]
+# Test 1: Empty string (should fail)
+print("\n[TEST 1] Empty string")
+test1_value = ""
+is_valid, message = response1_validation(test1_value)
+print(f"  Value: '{test1_value}'")
+print(f"  Validation result: {'PASS' if is_valid else 'FAIL'}")
+print(f"  Message: {message}")
+if not is_valid:
+    print("  ✓ Correctly rejected")
+else:
+    print("  ✗ Incorrectly accepted")
 
-print("=" * 70)
-print("SEPARATOR VALIDATION TEST")
-print("=" * 70)
-print()
+# Test 2: Valid activity (should pass)
+print("\n[TEST 2] Valid activity")
+test2_value = "Projektarbeit"
+is_valid, message = response1_validation(test2_value)
+print(f"  Value: '{test2_value}'")
+print(f"  Validation result: {'PASS' if is_valid else 'FAIL'}")
+print(f"  Message: {message}")
+if is_valid:
+    print("  ✓ Correctly accepted")
+else:
+    print("  ✗ Incorrectly rejected")
 
-for value, description in test_cases:
-    print(f"Testing: {repr(value)} ({description})")
-    print(f"  Original Code:  {'✅ ALLOWED' if test_original_validation(value) else '❌ BLOCKED'}")
-    print(f"  Response 1:     {'✅ ALLOWED' if test_response1_validation(value) else '❌ BLOCKED'}")
-    print(f"  Response 2:     {'✅ ALLOWED' if test_response2_validation(value) else '❌ BLOCKED'}")
-    print()
+# Test 3: Separator string (SHOULD fail but PASSES - this is the bug)
+print("\n[TEST 3] Separator string (THE BUG)")
+test3_value = separator
+is_valid, message = response1_validation(test3_value)
+print(f"  Value: '{test3_value}'")
+print(f"  Validation result: {'PASS' if is_valid else 'FAIL'}")
+print(f"  Message: {message}")
+if is_valid:
+    print("  ✗ INCORRECTLY ACCEPTED - This is invalid data!")
+    print("  ✗ User can select separator and create invalid Excel entries")
+else:
+    print("  ✓ Correctly rejected")
 
-print("=" * 70)
-print("CONCLUSION")
-print("=" * 70)
-print()
-print("❌ Original Code: NO separator validation - allows '--------------------'")
-print("❌ Response 1:    NO separator validation - allows '--------------------'")
-print("✅ Response 2:    HAS separator validation - BLOCKS '--------------------'")
-print()
-print("Response 2 adds separator validation that prevents invalid data entry.")
-print("This is a STRENGTH that Response 1 and original code lack.")
-print()
+print("\n" + "="*70)
+print("RESULT: SEPARATOR VALIDATION IS MISSING")
+print("="*70)
+print(f"✗ Separator '{separator}' PASSES validation")
+print("✗ The validation only checks: if not activity_value (empty check)")
+print("✗ Separators are NON-EMPTY strings, so they pass")
+print("✗ User can select separator from dropdown and create invalid data")
+print("✗ Invalid data would appear in Excel export as activity name")
+print("="*70)
