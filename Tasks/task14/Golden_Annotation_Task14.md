@@ -16,7 +16,7 @@ I have a Python tkinter app for logging hourly activities. The code works but I 
 The response stores full datetime objects (Start DateTime and End DateTime) instead of time-only strings, which enables accurate duration calculations for activities that cross midnight.
 
 #### Strength 2
-The response includes ISO week numbers in the default export filename (protocol_2025_W14.xlsx), which prevents users from accidentally overwriting previous weeks' data when they export multiple times.
+The response includes ISO week numbers in the default export filename, which prevents users from accidentally overwriting previous weeks' data when they export multiple times.
 
 #### Strength 3
 The response includes validation that checks for empty activity selections before starting time tracking, which prevents users from creating invalid log entries with missing activity information in the Excel export.
