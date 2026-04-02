@@ -653,7 +653,7 @@ def calculate_duration(start, end):
     return round(duration, 2)
 ```
 
-**Description:** The original code uses .seconds instead of .total_seconds() for timedelta calculations, which produces incorrect duration values for activities that cross midnight. When parsing time-only strings like "23:30" and "00:30" using strptime("%H:%M"), both datetime objects default to the same date (1900-01-01). Subtracting 00:30 from 23:30 on the same day produces a negative timedelta of -1 day, 1:00:00. The .seconds attribute returns only the seconds component (3600 seconds) and ignores the -1 day component. This gives 1.0 hours, which appears correct but only by accident. For other midnight crossing scenarios, this approach fails and produces wrong duration data.
+**Description:** The response's calculate_duration function uses .seconds instead of .total_seconds() for timedelta calculations, which produces incorrect duration values for activities that cross midnight. When parsing time-only strings like "23:30" and "00:30" using strptime("%H:%M"), both datetime objects default to the same date (1900-01-01). Subtracting 00:30 from 23:30 on the same day produces a negative timedelta of -1 day, 1:00:00. The .seconds attribute returns only the seconds component (3600 seconds) and ignores the -1 day component. This gives 1.0 hours, which appears correct but only by accident. For other midnight crossing scenarios, this approach fails and produces wrong duration data.
 
 **Severity:** Substantial
 
