@@ -547,7 +547,7 @@ In Python, variables that are only referenced inside a function are implicitly g
         diff_seconds = (end_time - start_time).total_seconds()
 ```
 
-**Description:** The response's comment claims that `.total_seconds()` "handles crossing midnight correctly" but this is misleading. When parsing "23:30" and "00:30" as "%H:%M" format, both times default to the same date (1900-01-01), so the timedelta is negative (-1 day, 1 hour), and `.total_seconds()` returns -82800 seconds. The actual fix that handles midnight is the subsequent `if diff_seconds < 0` check that adds 24 hours, not the `.total_seconds()` call itself. The comment incorrectly attributes the midnight handling to the wrong line of code.
+**Description:** The response includes a comment claiming "total_seconds() handles crossing midnight correctly" but this incorrectly attributes the midnight fix to the wrong line of code. When parsing times like "23:00" and "01:00" using strptime with "%H:%M" format, both times default to the same date (1900-01-01), making 01:00 earlier than 23:00 on that date. The resulting timedelta is negative (-1 day, 2 hours), and calling total_seconds() on this negative timedelta returns -79200 seconds (-22 hours), not a positive duration. The total_seconds() method does not handle midnight crossing—it simply returns the negative value. The actual midnight fix occurs in the subsequent lines where the code checks if diff_seconds < 0 and adds 86400 seconds (24 hours) to correct the negative value. The comment misleadingly gives credit to total_seconds() for handling midnight when the conditional check is what actually fixes the midnight crossing issue.
 
 **Severity:** Substantial
 
@@ -555,34 +555,63 @@ In Python, variables that are only referenced inside a function are implicitly g
 
 **Tool Type:** Code Executor
 
-**Query:** python3 test_midnight_detailed.py
+**Query:** python3 test_r2_aoi3_misleading_comment.py
 
 **URL:**
 
 **Source Excerpt:**
 
-(See Response 1 AOI #2 - same test output demonstrating that .total_seconds() returns -82800, not a positive value)
-
-Additional context from RESPONSE_2.md lines 242-256:
-```python
-        \# total\_seconds() handles crossing midnight correctly (e.g. 23:00 to 01:00)
-
-        diff\_seconds \= (end\_time \- start\_time).total\_seconds()
-
-
-
-        \# Handle negative diff (if end time is technically next day but date didn't change)
-
-        \# Note: Since Date column is the same, this logic assumes single-day sessions mostly.
-
-        \# For robustness, if diff \< 0, add 24 hours.
-
-        if diff\_seconds \< 0:
-
-            diff\_seconds \+= 24 \* 3600
 ```
+======================================================================
+TESTING RESPONSE 2 AOI #3: MISLEADING COMMENT
+======================================================================
 
-The comment at line 242 credits .total_seconds() with midnight handling, but lines 254-256 show the actual midnight fix is the conditional check and adding 24 hours.
+[TEST CASE] Activity from 23:00 to 01:00 (crosses midnight)
+----------------------------------------------------------------------
+
+[STEP 1] Parse times using strptime:
+  start_time: 1900-01-01 23:00:00
+  end_time:   1900-01-01 01:00:00
+  (Note: Both have same date - 1900-01-01)
+
+[STEP 2] Calculate timedelta:
+  end_time - start_time = -1 day, 2:00:00
+  delta.days = -1
+  delta.seconds = 7200
+
+[STEP 3] RESPONSE 2'S COMMENT CLAIMS:
+  '# total_seconds() handles crossing midnight correctly'
+
+[TESTING] Call total_seconds():
+  diff_seconds = (end_time - start_time).total_seconds()
+  diff_seconds = -79200.0
+
+[ANALYSIS] Does total_seconds() handle midnight correctly?
+  ✗ NO! total_seconds() returned NEGATIVE value: -79200.0
+  ✗ This is -23 hours, NOT the correct 2 hours!
+  ✗ The comment is MISLEADING
+
+[STEP 4] THE ACTUAL MIDNIGHT FIX:
+  Response 2's code AFTER the misleading comment:
+  ```
+  if diff_seconds < 0:
+      diff_seconds += 24 * 3600
+  ```
+
+[APPLYING THE FIX]:
+  Before fix: diff_seconds = -79200.0
+  After fix:  diff_seconds = 7200.0
+  Duration: 2.0 hours ✓ CORRECT
+
+======================================================================
+CONCLUSION:
+======================================================================
+✗ The comment 'total_seconds() handles crossing midnight correctly' is MISLEADING
+✗ total_seconds() returns -82800 (negative value) for midnight crossing
+✗ The ACTUAL fix is the 'if diff_seconds < 0' check that adds 24 hours
+✗ The comment incorrectly attributes midnight handling to the wrong line
+======================================================================
+```
 
 ---
 
