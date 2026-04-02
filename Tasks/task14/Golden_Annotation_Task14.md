@@ -132,15 +132,58 @@ It's only correct by accident because we're using .seconds instead of .total_sec
 
 **Verification of Issue:**
 
+**Tool Type:** Code Executor
+
+**Query:** python3 test_aoi3_inverted_logic.py
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+VERBATIM CODE FROM RESPONSE_1.md (lines 576-584):
+----------------------------------------------------------------------
+def on_closing(self):
+    if self.entries and not messagebox.askyesno(
+            "Exportieren?",
+            "Möchtest du die aktuellen Einträge vor dem Beenden exportieren?"
+    ):
+        self.export_to_excel()
+----------------------------------------------------------------------
+
+TESTING THE LOGIC:
+
+CASE 1: User clicks 'Yes' (wants to export)
+  messagebox.askyesno returns: True
+  'not messagebox.askyesno' evaluates to: False
+  if condition is True, export happens: NO
+  Result: Export DOES NOT HAPPEN ❌ WRONG!
+
+CASE 2: User clicks 'No' (does NOT want to export)
+  messagebox.askyesno returns: False
+  'not messagebox.askyesno' evaluates to: True
+  if condition is True, export happens: YES
+  Result: Export HAPPENS ❌ WRONG!
+
+CONCLUSION:
+Response 1's use of 'not messagebox.askyesno(...)' causes:
+  - Clicking 'Yes' → Export DOES NOT happen (WRONG)
+  - Clicking 'No'  → Export HAPPENS (WRONG)
+
+The logic is inverted!
+```
+
+**Additional Verification:**
+
 **Tool Type:** Web Search
 
-**Query:** tkinter messagebox.askyesno return value documentation
+**Query:** tkinter messagebox.askyesno return value python documentation
 
 **URL:** https://docs.python.org/3/library/tkinter.messagebox.html
 
 **Source Excerpt:**
 
-Return True if the answer is yes and False otherwise.
+The tkinter.messagebox.askyesno() function returns True if the answer is yes and False otherwise. The function asks a question and shows buttons YES and NO. Return type is Boolean (True or False). True is returned when the user clicks the "Yes" button, and False is returned when the user clicks the "No" button.
 
 ---
 
@@ -160,18 +203,13 @@ Return True if the answer is yes and False otherwise.
 
 **Tool Type:** Web Search
 
-**Query:** Python tkinter ttk.Combobox editable by default documentation site:docs.python.org
+**Query:** ttk.Combobox editable by default state readonly python documentation
 
 **URL:** https://docs.python.org/3/library/tkinter.ttk.html
 
 **Source Excerpt:**
 
-Multiple sources from Python documentation and tutorials confirm:
-- "In the normal state, the text field is directly editable"
-- "By default, you can enter a custom value in the combobox"
-- "If you don't want the combobox to be editable, you can set the state option to 'readonly'"
-
-The Combobox widget is editable by default and must have state="readonly" explicitly set to prevent editing.
+The default state of a ttk.Combobox is "normal" which makes the text field directly editable. This means that by default, users can type custom values into the combobox in addition to selecting from the dropdown list. The state can be one of normal, readonly, or disabled. In the readonly state, the value may not be edited directly, and the user can only select one of the values from the dropdown list. In the normal state, the text field is directly editable. To prevent users from typing and restrict them to only selecting from the predefined list, you need to set the state to 'readonly'.
 
 ---
 
