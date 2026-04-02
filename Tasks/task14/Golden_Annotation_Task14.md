@@ -468,56 +468,9 @@ root.protocol("WM_DELETE_WINDOW", safe_on_close)
 root.mainloop()
 ```
 
-**Description:** The response includes both a broken `on_close()` function and a fixed `safe_on_close()` function in the final code, but only the fixed version is used. The broken `on_close()` function (lines 328-338) serves no purpose and creates confusion since it's defined but never called. This dead code should be removed to avoid confusing users about which approach to use.
+**Description:** The response includes both a broken on_close function and a fixed safe_on_close function in the final code, but only the fixed version is used. The first on_close function is defined before logger exists and includes a check for logger in globals, demonstrating the problem the response aims to solve. Then the response defines safe_on_close after logger is created, which works correctly. However, the original broken on_close function remains in the code as dead code that serves no purpose since only safe_on_close is registered with root.protocol. This creates confusion about which approach to use and why both functions exist in the final code. The dead code should be removed entirely, leaving only the working safe_on_close implementation.
 
 **Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Code Review
-
-**Query:** Extract lines 328-358 from RESPONSE_2.md
-
-**URL:**
-
-**Source Excerpt:**
-
-From RESPONSE_2.md lines 328-358:
-```python
-def on_close():
-
-    if messagebox.askyesno("Exit", "Export data before exiting?"):
-
-        \# Check if logger exists before trying to export
-
-        if 'logger' in globals() and logger.entries:
-
-            logger.export_to_excel()
-
-    root.destroy()
-
-root \= tk.Tk()
-
-logger \= HourlyLogger(root)
-
-\# Fix the NameError by defining on_close AFTER logger exists,
-
-\# or using a lambda. Here is the safe way:
-
-def safe_on_close():
-
-    if messagebox.askyesno("Exit", "Export data before exiting?"):
-
-        logger.export_to_excel()
-
-    root.destroy()
-
-root.protocol("WM_DELETE_WINDOW", safe_on_close)
-
-root.mainloop()
-```
-
-Only `safe_on_close()` is registered with `protocol()` at line 356. The `on_close()` function defined at line 328 is never used.
 
 ---
 
