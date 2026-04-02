@@ -75,60 +75,41 @@ AFTER CLEARING - Details field content: ''
 
 **Tool Type:** Code Executor
 
-**Query:** python3 test_midnight_detailed.py
+**Query:** python3 test_aoi2_midnight_original.py
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
-======================================================================
-DETAILED TIMEDELTA ANALYSIS
-======================================================================
+VERBATIM CODE FROM ORIGINAL (lines 137-145):
+----------------------------------------------------------------------
+def calculate_duration(start, end):
 
-Start time: 23:30 → 1900-01-01 23:30:00
-End time: 00:30 → 1900-01-01 00:30:00
+    start_time = datetime.strptime(start, "%H:%M")
 
-Timedelta: -1 day, 1:00:00
-  days: -1
-  seconds: 3600
-  total_seconds(): -82800.0
+    end_time = datetime.strptime(end, "%H:%M")
 
-Using .seconds / 3600: 1.0 hours
-Using .total_seconds() / 3600: -23.0 hours
+    duration = (end_time - start_time).seconds / 3600
 
-======================================================================
-THE ISSUE:
-======================================================================
+    return round(duration, 2)
+----------------------------------------------------------------------
 
-When parsing "23:30" and "00:30" as "%H:%M", datetime assumes 1900-01-01:
-  start_time = 1900-01-01 23:30:00
-  end_time   = 1900-01-01 00:30:00
+TEST CASE 2: Midnight crossing - 23:30 to 00:30
+start_time parsed: 1900-01-01 23:30:00
+end_time parsed: 1900-01-01 00:30:00
+timedelta: -1 day, 1:00:00
+  delta.days: -1
+  delta.seconds: 3600
+  delta.total_seconds(): -82800.0
 
-Since 00:30 < 23:30 on the SAME DAY, the timedelta is NEGATIVE:
-  delta = -1 day, 3600 seconds
+Result using original code: 1.0 hours
 
-This means: -86400 + 3600 = -82800 seconds total
+The .seconds attribute returns ONLY the seconds component (ignoring days):
+  .seconds = 3600 seconds = 1.0 hours
 
-.seconds returns ONLY the seconds component (ignoring days): 3600 seconds = 1 hour
-.total_seconds() correctly calculates: -82800 seconds = -23 hours
-
-BUT WAIT! In the original user code, they DON'T handle negative durations.
-So if a user actually crosses midnight, they get:
-  - Using .seconds: 3600 / 3600 = 1.0 (LOOKS correct but for WRONG reason)
-  - Using .total_seconds(): -82800 / 3600 = -23.0 (NEGATIVE!)
-
-The REAL fix needs to:
-1. Use .total_seconds() to get accurate calculation
-2. Check if result is negative (midnight crossing)
-3. Add 24 hours to handle the rollover
-
-Without step 3, BOTH methods fail for midnight crossing!
-
-======================================================================
-CORRECT FIX:
-======================================================================
-Correct duration: 1.0 hours ✅
+This gives 1.0 hours, which LOOKS correct but for the WRONG reason!
+It's only correct by accident because we're using .seconds instead of .total_seconds()
 ```
 
 ---
