@@ -67,7 +67,7 @@ AFTER CLEARING - Details field content: ''
 | **`calculate_duration` ignores the date** | Same problem as above; it also assumes the same day for start & end. | Convert the stored strings back to `datetime` **including** the date, or keep a `datetime` object from the start. |
 ```
 
-**Description:** The response's explanation for why the midnight rollover bug occurs could be more technically precise. It states that "calculate_duration ignores the date" and duration calculation "assumes the same day", but the actual root cause is more specific: the original code parses time-only strings (e.g., "23:30", "00:30") using strptime("%H:%M"), which creates datetime objects that default to the same date (1900-01-01). When subtracting these same-date datetimes, you get a negative timedelta (-1 day, 1:00:00), and using .seconds on this negative timedelta gives misleading results.
+**Description:** The response states that "calculate_duration ignores the date" and "assumes the same day for start & end" but doesn't explain the actual mechanism. When the original code parses time-only strings like "23:30" and "00:30" using strptime("%H:%M"), both datetime objects default to 1900-01-01. Subtracting 00:30 from 23:30 on the same day produces a negative timedelta of -1 day, 1:00:00. The original code uses .seconds which returns only the seconds component (3600 seconds = 1 hour) and ignores the -1 day. This gives the correct answer of 1.0 hours but only by accident, not because the code properly handles midnight crossing. The response explanation is imprecise because it doesn't explain why using .seconds on a negative timedelta accidentally produces the right result.
 
 **Severity:** Minor
 
