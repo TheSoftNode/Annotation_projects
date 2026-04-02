@@ -443,7 +443,7 @@ The response sets the activity and place dropdown widgets to state="readonly", w
 
 ### Areas of Improvement
 
-**[AOI #1 - Substantial]**
+**[AOI #1 - Minor]**
 
 **Response Excerpt:**
 
@@ -468,9 +468,9 @@ root.protocol("WM_DELETE_WINDOW", safe_on_close)
 root.mainloop()
 ```
 
-**Description:** The response includes both a broken on_close function and a fixed safe_on_close function in the final code, but only the fixed version is used. The first on_close function is defined before logger exists and includes a check for logger in globals, demonstrating the problem the response aims to solve. Then the response defines safe_on_close after logger is created, which works correctly. However, the original broken on_close function remains in the code as dead code that serves no purpose since only safe_on_close is registered with root.protocol. This creates confusion about which approach to use and why both functions exist in the final code. The dead code should be removed entirely, leaving only the working safe_on_close implementation.
+**Description:** The response includes both an on_close function and a safe_on_close function in the final code, but only safe_on_close is registered with root.protocol. The first on_close function is defined before logger exists and includes a defensive check for logger in globals, appearing to demonstrate a pattern the response considers problematic. Then the response defines safe_on_close after logger is created and registers only that function as the window close handler. The first on_close function remains in the code as dead code that serves no purpose since it is never called or registered anywhere. This creates confusion about which approach to use and why both functions exist in the final code when only one is actually used.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 ---
 
@@ -641,17 +641,21 @@ Creating an ExcelWriter object with a file name that already exists will overwri
 
 ---
 
-**[AOI #5 - Minor]**
+**[AOI #5 - Substantial]**
 
 **Response Excerpt:**
 
-```
-This is a great start! It's functional and covers the main logic. However, there are a few **critical bugs** (like the `NameError` on exit) and some **UX/Data improvements** (handling midnight rollovers, formatting for Excel) that will make it robust.
+```python
+def calculate_duration(start, end):
+    start_time = datetime.strptime(start, "%H:%M")
+    end_time = datetime.strptime(end, "%H:%M")
+    duration = (end_time - start_time).seconds / 3600
+    return round(duration, 2)
 ```
 
-**Description:** The response categorizes handling midnight rollovers as a "UX/Data improvement" rather than a bug in its opening summary. However, the original code uses .seconds instead of .total_seconds() for timedelta calculations, which produces incorrect duration values for any activity that crosses midnight. When an activity runs from 23:30 to 00:30, the original code calculates 1.0 hours by accident (using only the seconds component and ignoring the -1 day), but this gives the right answer for the wrong reason and fails for other midnight crossing scenarios. This is a functional bug that produces wrong data, not merely a user experience or data formatting improvement. Miscategorizing functional bugs as improvements causes users to underestimate the severity of issues in their code and may lead them to defer fixing actual bugs while prioritizing cosmetic changes.
+**Description:** The original code uses .seconds instead of .total_seconds() for timedelta calculations, which produces incorrect duration values for activities that cross midnight. When parsing time-only strings like "23:30" and "00:30" using strptime("%H:%M"), both datetime objects default to the same date (1900-01-01). Subtracting 00:30 from 23:30 on the same day produces a negative timedelta of -1 day, 1:00:00. The .seconds attribute returns only the seconds component (3600 seconds) and ignores the -1 day component. This gives 1.0 hours, which appears correct but only by accident. For other midnight crossing scenarios, this approach fails and produces wrong duration data.
 
-**Severity:** Minor
+**Severity:** Substantial
 
 **Verification of Issue:**
 
