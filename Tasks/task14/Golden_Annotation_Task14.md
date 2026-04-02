@@ -633,11 +633,11 @@ output_path = os.path.join(os.getcwd(), "weekly_protocol.xlsx")
 
 **Query:** pandas DataFrame.to_excel overwrites existing file documentation
 
-**URL:** https://pandas.pydata.org/pandas-docs/version/0.25.2/reference/api/pandas.DataFrame.to_excel.html
+**URL:** https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_excel.html
 
 **Source Excerpt:**
 
-Creating an ExcelWriter object with a file name that already exists will result in the contents of the existing file being erased.
+Creating an ExcelWriter object with a file name that already exists will overwrite the existing file because the default mode is write.
 
 ---
 
