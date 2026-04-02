@@ -1,12 +1,21 @@
 """
-Test script to verify the NameError bug in original user code.
+Test to prove Response 2's NameError bug claim is FALSE.
 
-The bug occurs because on_close() is defined BEFORE logger is created,
-but it references 'logger' inside the function.
+Response 2 claims: "on_close() tries to use logger, but logger isn't defined
+until after the function is defined. This will crash the app when you try to
+close it."
 
-When the user clicks the close button, Python tries to execute on_close(),
-which then tries to access 'logger', but logger doesn't exist in the
-on_close() function's scope.
+This test proves that claim is WRONG. Python uses LATE BINDING for global
+variables - functions look up global names when EXECUTED, not when DEFINED.
+
+Since logger is defined BEFORE the user closes the window (and thus BEFORE
+on_close() executes), NO NameError occurs. The original code works correctly.
+
+VERBATIM structure from original user code:
+1. on_close() is defined (references logger inside)
+2. root and logger are created
+3. root.protocol registers on_close
+4. When user closes window, on_close() executes and finds logger in globals
 """
 
 import tkinter as tk
@@ -98,20 +107,43 @@ class HourlyLogger:
         df.to_excel(output_path, index=False)
         messagebox.showinfo("Exported", f"Saved to {output_path}")
 
-# **BUG IS HERE: on_close() is defined BEFORE logger is created**
-# When Python tries to execute on_close(), 'logger' doesn't exist in its scope
+# VERBATIM original user code structure: on_close() defined BEFORE logger
 def on_close():
+    print("\n[EXECUTION] on_close() is now executing...")
+    print("[LATE BINDING] Looking up 'logger' in global namespace...")
+    print(f"[LATE BINDING] Found logger: {logger}")
+    print("[LATE BINDING] No NameError! Python's late binding works.")
+
     if messagebox.askyesno("Exit", "Export data before exiting?"):
-        logger.export_to_excel()  # ❌ NameError: name 'logger' is not defined
+        print("[ACTION] User clicked 'Yes' - calling logger.export_to_excel()")
+        logger.export_to_excel()
+    else:
+        print("[ACTION] User clicked 'No' - skipping export")
+
+    print("[RESULT] ✓ on_close() executed successfully with NO NameError")
     root.destroy()
 
-# **Run the app**
-root = tk.Tk()
-logger = HourlyLogger(root)
-root.protocol("WM_DELETE_WINDOW", on_close)
+print("\n" + "="*70)
+print("TESTING RESPONSE 2'S FALSE NAMEERROR CLAIM")
+print("="*70)
+print("\n[STEP 1] Defining on_close() function...")
+print("           (function references 'logger' which doesn't exist yet)")
 
-print("✅ App launched successfully!")
-print("🐛 BUG TEST: Try closing the window - you should see a NameError")
-print("   Error will be: NameError: name 'logger' is not defined")
+# Run the app
+root = tk.Tk()
+print("\n[STEP 2] Created tk.Tk() root window")
+
+logger = HourlyLogger(root)
+print("[STEP 3] Created HourlyLogger instance - 'logger' NOW EXISTS in globals")
+
+root.protocol("WM_DELETE_WINDOW", on_close)
+print("[STEP 4] Registered on_close() as window close handler")
+
+print("\n" + "="*70)
+print("APP LAUNCHED SUCCESSFULLY - NO ERROR SO FAR")
+print("="*70)
+print("\n[INSTRUCTION] Close the window to test if NameError occurs...")
+print("[PREDICTION] NO NameError will occur - late binding will find 'logger'")
+print("="*70 + "\n")
 
 root.mainloop()
