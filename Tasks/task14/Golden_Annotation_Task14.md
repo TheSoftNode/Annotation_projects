@@ -641,49 +641,17 @@ Creating an ExcelWriter object with a file name that already exists will overwri
 
 ---
 
-**[AOI #5 - Substantial]**
+**[AOI #5 - Minor]**
 
 **Response Excerpt:**
 
-```python
-def calculate_duration(start, end):
-    start_time = datetime.strptime(start, "%H:%M")
-    end_time = datetime.strptime(end, "%H:%M")
-    duration = (end_time - start_time).seconds / 3600
-    return round(duration, 2)
+```
+Midnight Rollover: Using `.seconds` on a `timedelta` breaks if a task goes past midnight (e.g., 23:00 to 01:00). **Fix:** Use `.total_seconds()`.
 ```
 
-**Description:** The response's calculate_duration function uses .seconds instead of .total_seconds() for timedelta calculations, which produces incorrect duration values for activities that cross midnight. When parsing time-only strings like "23:30" and "00:30" using strptime("%H:%M"), both datetime objects default to the same date (1900-01-01). Subtracting 00:30 from 23:30 on the same day produces a negative timedelta of -1 day, 1:00:00. The .seconds attribute returns only the seconds component (3600 seconds) and ignores the -1 day component. This gives 1.0 hours, which appears correct but only by accident. For other midnight crossing scenarios, this approach fails and produces wrong duration data.
+**Description:** The response claims that using .seconds on a timedelta "breaks" for tasks crossing midnight, but this claim is misleading. The .seconds attribute does not break—it returns the seconds component of the timedelta. For the original code with midnight crossing (e.g., 23:30 to 00:30), the timedelta is -1 day, 1:00:00, and .seconds returns 3600 seconds (1 hour), which happens to be the correct answer by accident. While using .total_seconds() with appropriate negative-value handling is indeed an improvement for robustness, the justification that .seconds "breaks" is inaccurate. The .seconds approach produces the correct result for certain midnight crossings, though for the wrong reason, making the claim of it "breaking" technically false.
 
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** python3 test_aoi2_midnight_original.py
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-TEST CASE 2: Midnight crossing - 23:30 to 00:30
-start_time parsed: 1900-01-01 23:30:00
-end_time parsed: 1900-01-01 00:30:00
-timedelta: -1 day, 1:00:00
-  delta.days: -1
-  delta.seconds: 3600
-  delta.total_seconds(): -82800.0
-
-Result using original code: 1.0 hours
-
-The .seconds attribute returns ONLY the seconds component (ignoring days):
-  .seconds = 3600 seconds = 1.0 hours
-
-This gives 1.0 hours, which LOOKS correct but for the WRONG reason!
-The code produces wrong data for midnight crossing - this is a FUNCTIONAL BUG.
-```
+**Severity:** Minor
 
 ---
 
