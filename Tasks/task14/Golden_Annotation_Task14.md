@@ -404,61 +404,21 @@ ISSUE: Duration field contains FLOAT (4.5) not STRING ('04:30')
 
 **Response Excerpt:**
 
-```python
-    "─" \* 20,   \# visual separator (will be shown as a disabled entry)
+```
+# 1️⃣  Static data – keep it out of the UI class for readability
+# 2️⃣  Helper utilities
+# 3️⃣  Main application class
+btn_frame, text="▶ Start", command=self.start_activity, width=12
+btn_frame, text="⏹ Stop", command=self.stop_activity,
+btn_frame, text="💾 Export", command=self.export_to_excel,
+f"▶ Started: {self.active['Activity (Overview)']} "
+f"⏹ Stopped: Duration {self.active['Duration (h)']} h "
+Happy logging! 🚀
 ```
 
-**Description:** The response's comment claims the visual separator "will be shown as a disabled entry", but this is technically incorrect. The ttk.Combobox widget does not support disabling individual items in its dropdown list. All items in the values list are selectable by default. The separator entry remains fully selectable and can be chosen by users, which is why AOI #5 identifies the lack of separator validation. The comment creates false expectations about widget behavior.
+**Description:** The response uses multiple emojis (1️⃣, 2️⃣, 3️⃣, ▶, ⏹, 💾, 🚀) throughout the technical documentation in section headings, button text, and closing remarks which may be considered unprofessional for technical guidance and could render inconsistently across different environments or be distracting in a programming context.
 
 **Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Web Search
-
-**Query:** ttk.Combobox disable individual items
-
-**URL:** https://docs.python.org/3/library/tkinter.ttk.html
-
-**Source Excerpt:**
-
-Python documentation for ttk.Combobox does not provide built-in methods to disable individual dropdown items. The 'state' parameter affects the entire widget (normal, readonly, disabled), not individual entries. Custom validation is required to prevent selecting specific items.
-
----
-
-**[AOI #9 - Minor]**
-
-**Response Excerpt:**
-
-From RESPONSE_1.md, the response uses emojis throughout the code and documentation.
-
-**Description:** The response uses emojis (✅, ❌, 💡, 🚀, 1️⃣, 2️⃣, 3️⃣, ▶, ⏹, 💾) extensively throughout the technical documentation in section headings, inline comments, button text, and closing remarks. While emojis can add visual interest, they do not provide technical value, may render inconsistently across different environments (IDEs, terminals, documentation systems), and can appear unprofessional in formal technical contexts. Accessibility tools may also announce emojis in distracting ways.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** grep -n "✅\|❌\|💡\|🚀\|1️⃣\|2️⃣\|3️⃣\|▶\|⏹\|💾" RESPONSE_1.md
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-52:\# 1️⃣  Static data – keep it out of the UI class for readability
-108:\# 2️⃣  Helper utilities
-140:\# 3️⃣  Main application class
-238:            btn\_frame, text="▶ Start", command=self.start\_activity, width=12
-246:            btn\_frame, text="⏹ Stop", command=self.stop\_activity,
-256:            btn\_frame, text="💾 Export", command=self.export\_to\_excel,
-396:            f"▶ Started: {self.active\['Activity (Overview)'\]} "
-450:            f"⏹ Stopped: Duration {self.active\['Duration (h)'\]} h "
-618:Feel free to cherry‑pick the pieces you like – the core idea (Start → Stop → store → export) stays exactly the same, but the app is now a lot more robust for real‑world day‑to‑day use. Happy logging\! 🚀
-```
-
-Nine instances of emoji usage found across code comments, UI elements, and documentation.
 
 ---
 
