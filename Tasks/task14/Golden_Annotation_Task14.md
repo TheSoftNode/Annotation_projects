@@ -394,43 +394,9 @@ ISSUE: Duration field contains FLOAT (4.5) not STRING ('04:30')
 * You already use a `Combobox` (read‑only by default) and you separate the concerns (UI vs. data).
 ```
 
-**Description:** The response falsely praises the original code by claiming "you separate the concerns (UI vs. data)", when the code doesn't actually separate concerns. The original user code mixes UI event handling, data transformation, duration calculation, and Excel export logic all within the same HourlyLogger class without any separation of concerns. There are no separate data models, no service layer, and no clear architectural boundaries. This is inaccurate praise that misrepresents the code's actual structure.
+**Description:** The response falsely praises the original code by claiming "you separate the concerns (UI vs. data)" when the code demonstrates no such separation. The original HourlyLogger class tightly couples all concerns within a single class. The __init__ method creates UI widgets and initializes data storage together. The start_activity method handles button clicks, creates data dictionaries, modifies button states, and updates display widgets all in one function. The stop_activity method handles events, persists data to self.entries, manipulates UI elements, invokes business logic, and updates display in a single method. The export_to_excel method mixes validation, UI dialogs, DataFrame creation, duration calculations, and file persistence without separation. There are no separate data model classes, no service layer for business logic, and no architectural boundaries between UI and data concerns. This praise misrepresents the code's actual structure.
 
 **Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** python3 test_separation_of_concerns.py
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-======================================================================
-VERDICT: NO SEPARATION OF CONCERNS
-======================================================================
-
-✗ ALL concerns are mixed in a SINGLE class (HourlyLogger)
-✗ UI creation, event handling, data storage, business logic, and
-  persistence are all tightly coupled in one class
-✗ No separate data model class
-✗ No separate service/business logic layer
-✗ No separate UI component classes
-✗ Methods like start_activity and stop_activity mix UI manipulation
-  with data operations in the same function
-✗ export_to_excel mixes UI dialogs with data transformation and
-  file I/O in one method
-
-======================================================================
-CONCLUSION:
-======================================================================
-Response 1's claim that 'you separate the concerns (UI vs. data)'
-is FALSE. The original code does NOT separate concerns.
-======================================================================
-```
 
 ---
 
