@@ -37,9 +37,25 @@ The response structures the HourlyLogger class to inherit from tk.Tk, which elim
 | **Details entry is not cleared after a stop** | Leaves stale text that can be accidentally re‑used. | Clear the `Entry` widget in `stop_activity`. |
 ```
 
-**Description:** The response incorrectly claims that "Details entry is not cleared after a stop" and suggests clearing the Entry widget in stop_activity(). However, the original user code already includes `self.details.delete(0, tk.END)` in the stop_activity method, which clears the details field after each activity is stopped. This is a false bug report that misrepresents the original code's behavior.
+**Description:** The response incorrectly claims that "Details entry is not cleared after a stop" and suggests clearing the Entry widget in stop_activity(). However, the original user code already includes `self.details.delete(0, tk.END)` in the stop_activity method. When the user clicks the "Stop Activity" button, this line executes and clears the details field, as demonstrated by running the original code where the details field content changes from the entered text to empty string. This is a false bug report that misrepresents the original code's behavior.
 
 **Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** python3 test_details_clearing_run_original.py
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+BEFORE CLEARING - Details field content: 'TEST CONTENT - Watch this clear!'
+AFTER CLEARING - Details field content: ''
+✅ self.details.delete(0, tk.END) was executed
+```
 
 ---
 
