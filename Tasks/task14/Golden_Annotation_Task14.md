@@ -764,6 +764,18 @@ THE PROBLEM:
 
 **Severity:** Minor
 
+**Verification of Issue:**
+
+**Tool Type:** Web Search
+
+**Query:** tkinter.ttk themed widgets appearance separation documentation
+
+**URL:** https://docs.python.org/3/library/tkinter.ttk.html
+
+**Source Excerpt:**
+
+The basic idea for tkinter.ttk is to separate, to the extent possible, the code implementing a widget's behavior from the code implementing its appearance. Widget classes are responsible for maintaining the widget state and invoking callbacks; all aspects of the widget's appearance are handled by the current theme.
+
 ---
 
 ## Preference Ranking
