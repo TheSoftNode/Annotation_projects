@@ -93,7 +93,7 @@ CHOICE=$(whiptail --title "Menu" --menu "Choose:" 15 50 4 \
     "4" "Exit" 3>&1 1>&2 2>&3)
 ```
 
-**Description:** The response provides a whiptail code example that captures the user's selection in the `$CHOICE` variable but includes no code to process this selection. Unlike the dialog example which includes a complete `case` statement to handle each menu option, the whiptail example stops immediately after capturing input. This creates an incomplete code snippet that users cannot run successfully without adding their own processing logic.
+**Description:** The response provides a whiptail code example that captures the user's selection in the `$CHOICE` variable but includes no code to process this selection. The example stops immediately after capturing input with no case statement or any processing logic to handle the user's choice. This creates an incomplete code snippet that users cannot run successfully without adding their own processing logic.
 
 **Severity:** Minor
 
@@ -219,18 +219,15 @@ CHOICE=$(dialog --clear \
 The response explains how select works by listing its three-step process of printing a numbered list, waiting for numeric input, and requiring Enter to submit, which clarifies the mechanism behind why arrow keys are not supported.
 
 #### Strength 2
-The response emphasizes fzf as the primary recommendation with bold formatting and dedicated section placement, which makes it easy for users to identify the modern fuzzy search solution.
-
-#### Strength 3
 The response implements the pure bash arrow handling as a reusable function named select_arrow that uses tput commands for cursor control, which provides users with a more maintainable pattern than inline code.
 
-#### Strength 4
+#### Strength 3
 The response explains that arrow-key support requires tools capable of controlling cursor position or reading raw input codes (ANSI escape codes), which clarifies the technical requirements that pure bash lacks for dynamic menu interaction.
 
-#### Strength 5
+#### Strength 4
 The response provides working code examples for each alternative approach (fzf, dialog, and pure bash), which gives users ready-to-use implementations they can adapt to their needs.
 
-#### Strength 6
+#### Strength 5
 The response concludes with a concise summary that compares all four approaches with specific use case recommendations, which helps users quickly choose the right tool for their needs.
 
 ### Areas of Improvement
@@ -364,4 +361,4 @@ After execution, the terminal shows leftover text from the initial instructions 
 
 **Justification:**
 
-Both responses earn a score of 4 and correctly explain that bash select does not support arrow keys. Response 1 is slightly better because it provides more comprehensive and balanced coverage by presenting dialog, whiptail, and fzf as equally viable alternatives with a structured comparison table that helps users make informed decisions. Response 1 has 5 strengths and 6 Minor AOIs, while Response 2 has 6 strengths and 5 Minor AOIs. Despite Response 2 having more strengths, Response 1's issues are primarily style-related (emojis, verbosity, ordering) and incomplete code examples, whereas Response 2 has more substantive issues including broken arrow key handling in the pure bash example (treats arrows as literal A/B instead of escape sequences) and unverifiable claims that create an unbalanced recommendation favoring fzf. Response 1's practical approach of presenting multiple balanced options with whiptail coverage and a comparison table outweighs Response 2's additional strengths.
+Both responses earn a score of 4 and correctly explain that bash select does not support arrow keys. Response 1 is slightly better because it provides more comprehensive and balanced coverage by presenting dialog, whiptail, and fzf as equally viable alternatives with a structured comparison table that helps users make informed decisions. Response 1 has 5 strengths and 6 Minor AOIs, while Response 2 has 5 strengths and 5 Minor AOIs. Response 1's issues are primarily style-related (emojis, verbosity, ordering) and incomplete code examples, whereas Response 2 has more substantive issues including broken arrow key handling in the pure bash example (treats arrows as literal A/B instead of escape sequences) and unverifiable claims that create an unbalanced recommendation favoring fzf. Response 1's practical approach of presenting multiple balanced options with whiptail coverage and a comparison table provides clearer guidance for users making tool selection decisions.
