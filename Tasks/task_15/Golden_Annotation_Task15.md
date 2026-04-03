@@ -120,12 +120,53 @@ The script successfully displays the whiptail menu and captures the user's choic
 ```
 #### **3. Manual Arrow-Key Handling (Advanced - Not Recommended for Simple Scripts)**
 
-You *can* implement arrow-key navigation using terminal control sequences (via `tput`/`stty`), but it's **complex, error-prone, and overkill** for most scripts.
+You *can* implement arrow-key navigation using terminal control sequences (via `tput`/`stty`), but it's **complex, error-prone, and overkill** for most scripts. Example skeleton:
+
+#!/bin/bash
+
+# WARNING: This is fragile! Use dialog/fzf instead.
+
+options=("Option 1" "Option 2" "Option 3" "Quit")
+selected=0
+
+while true; do
+    # Clear screen and redraw menu
+    clear
+    for i in "${!options[@]}"; do
+        if [ $i -eq $selected ]; then
+            echo "> ${options[$i]}"
+        else
+            echo "  ${options[$i]}"
+        fi
+    done
+
+    # Read a single keypress (handles arrows)
+    IFS= read -rsn1 key
+    if [[ $key == $'\x1b' ]]; then
+        read -rsn2 key  # Read next two chars for arrow keys
+        case "$key" in
+            '[A') ((selected--));; # Up
+            '[B') ((selected++));; # Down
+        esac
+    elif [[ $key == "" ]]; then  # Enter key
+        break
+    fi
+
+    # Wrap-around selection
+    [ $selected -lt 0 ] && selected=$((${#options[@]}-1))
+    [ $selected -ge ${#options[@]} ] && selected=0
+done
+
+echo "You selected: ${options[$selected]}"
+
+**⚠️ Caveats:**
+
+* Requires disabling terminal echo/canonical mode (easy to break terminal state).
+* No mouse support, no ESC handling, no resizing safety.
+* **Only use this if you absolutely cannot install external tools** (e.g., severely restricted environments).
 ```
 
-(Followed by ~30-line manual implementation code example with escape sequence handling, tput commands, wrap-around logic, and extensive caveats)
-
-**Description:** The response includes a 70-line section with a detailed manual arrow-key handling implementation along with extensive warnings and caveats. This section is explicitly labeled "Advanced - Not Recommended for Simple Scripts" and describes the approach as "complex, error-prone, and overkill" with a warning to "Use dialog/fzf instead." For users asking a simple yes/no question about arrow key support, this lengthy discouraged implementation may add unnecessary complexity and overwhelm readers seeking a straightforward answer.
+**Description:** The response includes a 70-line section with a detailed manual arrow-key handling implementation along with extensive warnings and caveats. This section is explicitly labeled "Advanced - Not Recommended for Simple Scripts" and describes the approach as "complex, error-prone, and overkill" with warnings to "Use dialog/fzf instead." For users asking a simple yes/no question about arrow key support, this lengthy discouraged implementation may add unnecessary complexity and overwhelm readers seeking a straightforward answer.
 
 **Severity:** Minor
 
