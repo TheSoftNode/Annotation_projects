@@ -122,39 +122,9 @@ The script successfully displays the whiptail menu and captures the user's choic
 
 You *can* implement arrow-key navigation using terminal control sequences (via `tput`/`stty`), but it's **complex, error-prone, and overkill** for most scripts. Example skeleton:
 
-#!/bin/bash
+[...full manual implementation code...]
 
-# WARNING: This is fragile! Use dialog/fzf instead.
-
-options=("Option 1" "Option 2" "Option 3" "Quit")
-selected=0
-
-while true; do
-    # Clear screen and redraw menu
-    clear
-    for i in "${!options[@]}"; do
-        if [ $i -eq $selected ]; then
-            echo "> ${options[$i]}"
-        else
-            echo "  ${options[$i]}"
-        fi
-    done
-
-    # Read a single keypress (handles arrows)
-    IFS= read -rsn1 key
-    if [[ $key == $'\x1b' ]]; then
-        read -rsn2 key  # Read next two chars for arrow keys
-        case "$key" in
-            '[A') ((selected--));; # Up
-            '[B') ((selected++));; # Down
-        esac
-    elif [[ $key == "" ]]; then  # Enter key
-        break
-    fi
-
-    # Wrap-around selection
-    [ $selected -lt 0 ] && selected=$((${#options[@]}-1))
-    [ $selected -ge ${#options[@]} ] && selected=0
+esac
 done
 
 echo "You selected: ${options[$selected]}"
@@ -166,7 +136,7 @@ echo "You selected: ${options[$selected]}"
 * **Only use this if you absolutely cannot install external tools** (e.g., severely restricted environments).
 ```
 
-**Description:** The response includes a 70-line section with a detailed manual arrow-key handling implementation along with extensive warnings and caveats. This section is explicitly labeled "Advanced - Not Recommended for Simple Scripts" and describes the approach as "complex, error-prone, and overkill" with warnings to "Use dialog/fzf instead." For users asking a simple yes/no question about arrow key support, this lengthy discouraged implementation may add unnecessary complexity and overwhelm readers seeking a straightforward answer.
+**Description:** The response provides more detail than necessary for a simple question, which may overwhelm users seeking a quick answer. The advanced manual implementation is overly complex and is not needed for most users asking this question.
 
 **Severity:** Minor
 
