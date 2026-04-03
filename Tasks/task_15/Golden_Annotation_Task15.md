@@ -145,7 +145,7 @@ You *can* implement arrow-key navigation using terminal control sequences (via `
 
 (Full 40+ line manual implementation with escape sequence handling, tput commands, wrap-around logic, and extensive caveats)
 
-**Description:** The response provides a detailed 40+ line manual arrow-key handling implementation with extensive caveats when the user asked a simple yes/no question ("can select do selection with arrows?"). The response already answered "no" and provided three better alternatives (dialog, whiptail, fzf). This advanced manual implementation may overwhelm users seeking a quick answer and is explicitly labeled as "not recommended" by the response itself, making its inclusion unnecessarily verbose.
+**Description:** The response includes a 70-line section with a 40+ line manual arrow-key handling implementation along with extensive warnings and caveats. This section is explicitly labeled "Advanced - Not Recommended for Simple Scripts" and describes the approach as "complex, error-prone, and overkill" with a warning to "Use dialog/fzf instead." For users asking a simple yes/no question about arrow key support, this lengthy discouraged implementation may add unnecessary complexity and overwhelm readers seeking a straightforward answer.
 
 **Severity:** Minor
 
