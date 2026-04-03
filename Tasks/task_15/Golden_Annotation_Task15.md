@@ -11,7 +11,7 @@ can select do selection with arrows?
 ### Strengths
 
 #### Strength 1
-The response explains why arrow keys do not work with select by noting that select relies on basic read input which only accepts numeric choices, which helps users understand the technical limitation rather than just stating the answer.
+The response directly answers that select does not support arrow key navigation and explains this is because arrow keys are treated as escape sequences rather than navigation commands, which helps users understand the underlying reason for the limitation.
 
 #### Strength 2
 The response provides code examples for four different approaches (dialog, whiptail, fzf, and manual handling), which gives users multiple alternatives they can choose based on their environment constraints.
@@ -227,7 +227,7 @@ CHOICE=$(dialog --clear \
 ### Strengths
 
 #### Strength 1
-The response explains how select works by listing its three-step process of printing a numbered list, waiting for numeric input, and requiring Enter to submit, which clarifies the mechanism behind why arrow keys are not supported.
+The response explains how select works by describing that it prints a numbered list, waits for numeric input, and requires hitting Enter, which clarifies the mechanism behind why arrow keys are not supported.
 
 #### Strength 2
 The response implements the pure bash arrow handling as a reusable function named select_arrow that uses tput commands for cursor control, which provides users with a more maintainable pattern than inline code.
