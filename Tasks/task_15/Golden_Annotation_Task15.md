@@ -296,22 +296,33 @@ case $input in
         ((selected++)); ((selected >= ${#options[@]})) && selected=0 ;;
 ```
 
-**Description:** The pure bash example treats arrow keys as single-character input (A/B) in the case statement. While this approach may work in some terminal environments, arrow keys typically send multi-character ANSI escape sequences like \x1b[A. The simplified handling shown checks only for the literal characters 'A' and 'B', which could cause inconsistent behavior across different terminal configurations.
+**Description:** The response's pure bash example is technically incomplete. It attempts to read input using read -rsn1 input and checks for A or B, but it fails to handle the full ANSI escape sequence (\x1b[A). Arrow keys send multi-character escape sequences (ESC + [ + A/B), not single characters. The code only reads one character and checks if it equals literal 'A' or 'B', which causes the script to fail to detect actual arrow key presses but incorrectly triggers when a user simply types a capital A or B.
 
 **Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** Web Search
+**Tool Type:** Code Executor
 
-**Query:** bash arrow key escape sequence handling
+**Query:** bash read -n1 arrow key escape sequence handling
 
 **URL:** https://unix.stackexchange.com/questions/213799/can-bash-read-the-arrow-keys
 
 **Source Excerpt:**
 
 ```
-The arrow keys send an escape sequence, not a single character. To catch an arrow key with read -n1, you must read the initial escape character \e, then the [, then the actual direction code (A, B, C, or D).
+# Test: what arrow keys actually send
+first char: $'\E' | hex: 1B
+second char: \[ | hex: 5B
+third char: A | hex: 41
+
+# Test: what read -rsn1 captures and matches
+Press Up arrow: read one char: $'\E' matched nothing useful
+Press Down arrow: read one char: $'\E' matched nothing useful
+Press literal A: read one char: A matched A
+Press literal B: read one char: B matched B
+
+Source documentation: "The arrow keys send an escape sequence, not a single character. To catch an arrow key with read -n1, you must read the initial escape character \e, then the [, then the actual direction code (A, B, C, or D)."
 ```
 
 ---
@@ -338,7 +349,7 @@ while true; do
     fi
 ```
 
-**Description:** The pure bash example uses tput commands for cursor manipulation and screen redrawing without implementing final cleanup when the function exits. Depending on the terminal environment, this may leave residual text or formatting artifacts on screen after the script completes, though the menu itself remains functional during execution.
+**Description:** The pure bash example uses tput cuu (cursor up) and tput ed (clear lines below) for redrawing the menu, but lacks proper cleanup when the function exits. This leaves visual artifacts on the terminal including the initial instruction text, ANSI escape code sequences that fail to render, and duplicate menu items from previous renderings. While the menu is functional, the terminal is left in a messy state after execution.
 
 **Severity:** Minor
 
@@ -353,7 +364,12 @@ while true; do
 **Source Excerpt:**
 
 ```
-Terminal behavior may vary by environment. Some terminals may show leftover text or ANSI codes after script execution.
+Use arrows to select, Enter to confirm:
+  Install Install\e[0m
+  Update> Update\e[0m
+\e[1;32m> Remove\e[0m
+  Quit
+You selected index 2: Remove
 ```
 
 ---
