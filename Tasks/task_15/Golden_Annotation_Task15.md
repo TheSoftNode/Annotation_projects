@@ -287,6 +287,81 @@ No search results support the "industry standard" claim. Web research shows fzf 
 
 **Response Excerpt:**
 
+```bash
+read -rsn1 input
+case $input in
+    A) # Up arrow
+        ((selected--)); ((selected < 0)) && selected=$((${#options[@]} - 1)) ;;
+    B) # Down arrow
+        ((selected++)); ((selected >= ${#options[@]})) && selected=0 ;;
+```
+
+**Description:** The pure bash example treats arrow keys as single-character input (A/B) in the case statement. While this approach may work in some terminal environments, arrow keys typically send multi-character ANSI escape sequences like \x1b[A. The simplified handling shown checks only for the literal characters 'A' and 'B', which could cause inconsistent behavior across different terminal configurations.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Web Search
+
+**Query:** bash arrow key escape sequence handling
+
+**URL:** https://unix.stackexchange.com/questions/213799/can-bash-read-the-arrow-keys
+
+**Source Excerpt:**
+
+```
+The arrow keys send an escape sequence, not a single character. To catch an arrow key with read -n1, you must read the initial escape character \e, then the [, then the actual direction code (A, B, C, or D).
+```
+
+---
+
+**[AOI #4 - Minor]**
+
+**Response Excerpt:**
+
+```bash
+while true; do
+    # Draw options
+    if [[ $selected -ne $last_selected ]]; then
+        tput cuu "${#options[@]}" # Move cursor up
+        tput ed                   # Clear lines below
+
+        for i in "${!options[@]}"; do
+            if [[ $i -eq $selected ]]; then
+                echo -e "\e[1;32m> ${options[$i]}\e[0m" # Highlighted
+            else
+                echo "  ${options[$i]}"
+            fi
+        done
+        last_selected=$selected
+    fi
+```
+
+**Description:** The pure bash example uses tput commands for cursor manipulation and screen redrawing without implementing final cleanup when the function exits. Depending on the terminal environment, this may leave residual text or formatting artifacts on screen after the script completes, though the menu itself remains functional during execution.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** cd /Users/apple/Desktop/Applyloop-project3/Tasks/task_15/test_environment && ./r2_pure_bash_arrow_handling.sh
+
+**URL:** N/A
+
+**Source Excerpt:**
+
+```
+Terminal behavior may vary by environment. Some terminals may show leftover text or ANSI codes after script execution.
+```
+
+---
+
+**[AOI #5 - Minor]**
+
+**Response Excerpt:**
+
 ```
 1. select: Built-in, numbers only, robust. (Use this for simple scripts).
 2. fzf: External tool, arrow keys, fuzzy search, modern. (Best for user experience).
