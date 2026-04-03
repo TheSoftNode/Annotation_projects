@@ -11,7 +11,7 @@ can select do selection with arrows?
 ### Strengths
 
 #### Strength 1
-The response directly answers that select does not support arrow key navigation and explains this is because arrow keys are treated as escape sequences rather than navigation commands, which helps users understand the underlying reason for the limitation.
+The response directly answers that bash select does not support arrow key navigation and only accepts numeric input, which provides a clear and precise answer to the user's question.
 
 #### Strength 2
 The response provides code examples for four different approaches (dialog, whiptail, fzf, and manual handling), which gives users multiple alternatives they can choose based on their environment constraints.
