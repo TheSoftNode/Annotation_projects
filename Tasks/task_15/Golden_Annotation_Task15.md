@@ -287,64 +287,6 @@ No search results support the "industry standard" claim. Web research shows fzf 
 
 **Response Excerpt:**
 
-```bash
-while true; do
-    # Draw options
-    if [[ $selected -ne $last_selected ]]; then
-        tput cuu "${#options[@]}" # Move cursor up
-        tput ed                   # Clear lines below
-
-        for i in "${!options[@]}"; do
-            if [[ $i -eq $selected ]]; then
-                echo -e "\e[1;32m> ${options[$i]}\e[0m" # Highlighted
-            else
-                echo "  ${options[$i]}"
-            fi
-        done
-        last_selected=$selected
-    fi
-
-    # Read user input
-    read -rsn1 input
-    case $input in
-        A) ((selected--)); ((selected < 0)) && selected=$((${#options[@]} - 1)) ;;
-        B) ((selected++)); ((selected >= ${#options[@]})) && selected=0 ;;
-        "")
-            tput cnorm # Show cursor
-            return $selected ;;
-    esac
-done
-```
-
-**Description:** The pure bash example uses tput cuu (cursor up) and tput ed (clear lines below) for redrawing the menu, but lacks proper cleanup when the function exits. This leaves visual artifacts on the terminal including the initial instruction text, ANSI escape code sequences that fail to render, and duplicate menu items from previous renderings. While the menu is functional, the terminal is left in a messy state after execution.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** cd /Users/apple/Desktop/Applyloop-project3/Tasks/task_15/test_environment && ./r2_pure_bash_arrow_handling.sh
-
-**URL:** N/A
-
-**Source Excerpt:**
-
-```
-Use arrows to select, Enter to confirm:
-  Install Install\e[0m
-  Update> Update\e[0m
-\e[1;32m> Remove\e[0m
-  Quit
-You selected index 2: Remove
-```
-
----
-
-**[AOI #4 - Minor]**
-
-**Response Excerpt:**
-
 ```
 1. select: Built-in, numbers only, robust. (Use this for simple scripts).
 2. fzf: External tool, arrow keys, fuzzy search, modern. (Best for user experience).
@@ -352,7 +294,7 @@ You selected index 2: Remove
 4. Pure Bash: Too complex for most needs; stick to tools if possible.
 ```
 
-**Description:** The response provides a summary list but lacks a structured comparison table like Response 1 offers. A markdown table with columns for features (arrow keys, installation requirements, use cases) would make it easier for users to quickly compare the alternatives at a glance. Additionally, the response omits whiptail, which is a commonly pre-installed lightweight alternative to dialog on Debian/Ubuntu systems.
+**Description:** The response provides a numbered summary list comparing the four approaches but lacks a structured comparison table. A markdown table with columns for features such as arrow key support, installation requirements, and use cases would make it easier for users to quickly compare the alternatives at a glance. Additionally, the response omits whiptail as an alternative option.
 
 **Severity:** Minor
 
