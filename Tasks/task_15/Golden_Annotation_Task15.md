@@ -294,7 +294,7 @@ No search results support the "industry standard" claim. Web research shows fzf 
 4. Pure Bash: Too complex for most needs; stick to tools if possible.
 ```
 
-**Description:** The response provides a numbered summary list comparing the four approaches but lacks a structured comparison table. A markdown table with columns for features such as arrow key support, installation requirements, and use cases would make it easier for users to quickly compare the alternatives at a glance. Additionally, the response omits whiptail as an alternative option.
+**Description:** The response provides a numbered summary list comparing select, fzf, dialog, and pure bash, but presents the information in plain text format rather than a structured comparison table. A markdown table with columns for features such as arrow key support, installation requirements, and use cases would make it easier for users to quickly compare these alternatives at a glance. Additionally, the response omits whiptail as an alternative option.
 
 **Severity:** Minor
 
