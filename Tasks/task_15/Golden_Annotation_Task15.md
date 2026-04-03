@@ -118,40 +118,20 @@ The script successfully displays the whiptail menu and captures the user's choic
 **Response Excerpt:**
 
 ```
-✅ Arrow-key navigation (↑/↓)
-✅ Enter to select, ESC to cancel
-✅ Works in most Linux environments (install via sudo apt install dialog)
+#### **3. Manual Arrow-Key Handling (Advanced - Not Recommended for Simple Scripts)**
 
-| Tool | Arrow Keys? | Install Needed? | Best For |
-| select | ❌ No | Never (built-in) | Ultra-simple numeric menus |
-| dialog | ✅ Yes | Usually yes | **Most scripts** (reliable, standard) |
+You *can* implement arrow-key navigation using terminal control sequences (via `tput`/`stty`), but it's **complex, error-prone, and overkill** for most scripts.
 ```
 
-**Description:** The response uses multiple emojis (✅, ❌, ↑, ↓, ⚠️) throughout the technical documentation as feature markers and in the comparison table, which may be considered unprofessional for technical guidance and could render inconsistently across different environments or be distracting in a programming context.
+(Followed by ~30-line manual implementation code example with escape sequence handling, tput commands, wrap-around logic, and extensive caveats)
+
+**Description:** The response includes a 70-line section with a detailed manual arrow-key handling implementation along with extensive warnings and caveats. This section is explicitly labeled "Advanced - Not Recommended for Simple Scripts" and describes the approach as "complex, error-prone, and overkill" with a warning to "Use dialog/fzf instead." For users asking a simple yes/no question about arrow key support, this lengthy discouraged implementation may add unnecessary complexity and overwhelm readers seeking a straightforward answer.
 
 **Severity:** Minor
 
 ---
 
 **[AOI #4 - Minor]**
-
-**Response Excerpt:**
-
-```
-#### **3. Manual Arrow-Key Handling (Advanced - Not Recommended for Simple Scripts)**
-
-You *can* implement arrow-key navigation using terminal control sequences (via `tput`/`stty`), but it's **complex, error-prone, and overkill** for most scripts.
-```
-
-(Full 40+ line manual implementation with escape sequence handling, tput commands, wrap-around logic, and extensive caveats)
-
-**Description:** The response includes a 70-line section with a 40+ line manual arrow-key handling implementation along with extensive warnings and caveats. This section is explicitly labeled "Advanced - Not Recommended for Simple Scripts" and describes the approach as "complex, error-prone, and overkill" with a warning to "Use dialog/fzf instead." For users asking a simple yes/no question about arrow key support, this lengthy discouraged implementation may add unnecessary complexity and overwhelm readers seeking a straightforward answer.
-
-**Severity:** Minor
-
----
-
-**[AOI #5 - Minor]**
 
 **Response Excerpt:**
 
@@ -186,7 +166,7 @@ The output from the dialog boxes is written to the standard error... the shell-r
 
 ---
 
-**[AOI #6 - Minor]**
+**[AOI #5 - Minor]**
 
 **Response Excerpt:**
 
@@ -202,6 +182,26 @@ CHOICE=$(dialog --clear \
 ```
 
 **Description:** The response presents code examples for dialog and fzf before mentioning installation requirements. Users attempting to run the code immediately will encounter "command not found" errors before discovering that installation is needed. Stating prerequisites at the beginning of each tool's section would prevent this confusion and improve user experience.
+
+**Severity:** Minor
+
+---
+
+**[AOI #6 - Minor]**
+
+**Response Excerpt:**
+
+```
+✅ Arrow-key navigation (↑/↓)
+✅ Enter to select, ESC to cancel
+✅ Works in most Linux environments (install via sudo apt install dialog)
+
+| Tool | Arrow Keys? | Install Needed? | Best For |
+| select | ❌ No | Never (built-in) | Ultra-simple numeric menus |
+| dialog | ✅ Yes | Usually yes | **Most scripts** (reliable, standard) |
+```
+
+**Description:** The response uses multiple emojis (✅, ❌, ↑, ↓, ⚠️) throughout the technical documentation as feature markers and in the comparison table, which may be considered unprofessional for technical guidance and could render inconsistently across different environments or be distracting in a programming context.
 
 **Severity:** Minor
 
