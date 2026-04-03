@@ -251,7 +251,7 @@ The response concludes with a concise summary that compares all four approaches 
 If you want to select options using arrows (and get a fuzzy search feature for free), the industry standard tool is **`fzf`** (Command-line fuzzy finder).
 ```
 
-**Description:** The response claims that fzf is "the industry standard tool" for fuzzy finding, which is an unverifiable and potentially overstated claim. While fzf is extremely popular and widely used, the term "industry standard" suggests universal adoption or official standardization that cannot be confirmed. Dialog and whiptail have been available longer and are more ubiquitously pre-installed across Linux distributions, making the "industry standard" designation for fzf questionable.
+**Description:** The response claims that fzf is "the industry standard tool" for fuzzy finding, which is an unverifiable claim. The term "industry standard" suggests universal adoption or official standardization that cannot be confirmed through documentation or authoritative sources.
 
 **Severity:** Minor
 
