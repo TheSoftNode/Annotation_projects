@@ -11,13 +11,13 @@ can select do selection with arrows?
 ### Strengths
 
 #### Strength 1
-The response explains why arrow keys do not work with select by describing how the shell's read mechanism treats arrow keys as escape sequences, which helps users understand the technical limitation rather than just stating the answer.
+The response explains why arrow keys do not work with select by noting that select relies on basic read input which only accepts numeric choices, which helps users understand the technical limitation rather than just stating the answer.
 
 #### Strength 2
-The response provides working code examples for four different approaches (dialog, whiptail, fzf, and manual handling), which gives users multiple ready-to-use alternatives they can choose based on their environment constraints.
+The response provides code examples for four different approaches (dialog, whiptail, fzf, and manual handling), which gives users multiple alternatives they can choose based on their environment constraints.
 
 #### Strength 3
-The response mentions that whiptail is often pre-installed on Debian/Ubuntu systems, which saves users time by directing them to a solution they may already have without needing additional installation.
+The response includes whiptail as an alternative tool and notes it may already be available on some systems, which encourages users to check for existing solutions before installing new tools.
 
 #### Strength 4
 The response includes a comparison table with columns for arrow key support, installation requirements, and use cases, which allows users to quickly weigh the pros and cons of each implementation method.
@@ -165,14 +165,14 @@ CHOICE=$(dialog --clear \
 
 **Tool Type:** Web Search
 
-**Query:** dialog stderr output redirection
+**Query:** dialog command stderr output redirection linux
 
-**URL:** https://man7.org/linux/man-pages/man1/dialog.1.html
+**URL:** https://linux.die.net/man/1/dialog
 
 **Source Excerpt:**
 
 ```
-The output from the dialog boxes is written to the standard error... the shell-redirection 2>&1 can be used to send the output to the standard output instead.
+By default, dialog's output (user input/selection) goes to standard error (stderr). The --stdout option redirects dialog's output to standard output. File descriptor redirection such as 3>&1 1>&2 2>&3 is commonly used to swap stderr and stdout to capture dialog's result in a variable.
 ```
 
 ---
