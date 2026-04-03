@@ -17,7 +17,7 @@ The response directly answers that bash select does not support arrow key naviga
 The response provides code examples for four different approaches (dialog, whiptail, fzf, and manual handling), which gives users multiple alternatives they can choose based on their environment constraints.
 
 #### Strength 3
-The response includes whiptail as an alternative tool and notes it may already be available on some systems, which encourages users to check for existing solutions before installing new tools.
+The response presents whiptail as an alternative tool alongside dialog and fzf, which provides users with multiple concrete options for building arrow-key driven menus.
 
 #### Strength 4
 The response includes a comparison table with columns for arrow key support, installation requirements, and use cases, which allows users to quickly weigh the pros and cons of each implementation method.
@@ -288,44 +288,35 @@ No search results support the "industry standard" claim. Web research shows fzf 
 **Response Excerpt:**
 
 ```bash
-read -rsn1 input
-case $input in
-    A) # Up arrow
-        ((selected--)); ((selected < 0)) && selected=$((${#options[@]} - 1)) ;;
-    B) # Down arrow
-        ((selected++)); ((selected >= ${#options[@]})) && selected=0 ;;
+while true; do
+    # Draw options
+    if [[ $selected -ne $last_selected ]]; then
+        tput cuu "${#options[@]}" # Move cursor up
+        tput ed                   # Clear lines below
+
+        for i in "${!options[@]}"; do
+            if [[ $i -eq $selected ]]; then
+                echo -e "\e[1;32m> ${options[$i]}\e[0m" # Highlighted
+            else
+                echo "  ${options[$i]}"
+            fi
+        done
+        last_selected=$selected
+    fi
+
+    # Read user input
+    read -rsn1 input
+    case $input in
+        A) ((selected--)); ((selected < 0)) && selected=$((${#options[@]} - 1)) ;;
+        B) ((selected++)); ((selected >= ${#options[@]})) && selected=0 ;;
+        "")
+            tput cnorm # Show cursor
+            return $selected ;;
+    esac
+done
 ```
 
-**Description:** The pure bash example incorrectly treats arrow keys as single-character input (A/B), whereas arrow keys actually send multi-character ANSI escape sequences like \x1b[A (ESC + [ + A). The code checks for literal 'A' and 'B' characters, which means arrow keys will not work as intended - only typing the letter A or B will trigger the handlers. This makes the arrow key navigation non-functional in the example.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Web Search
-
-**Query:** bash arrow key escape sequence handling
-
-**URL:** https://unix.stackexchange.com/questions/213799/can-bash-read-the-arrow-keys
-
-**Source Excerpt:**
-
-```
-The arrow keys send an escape sequence, not a single character. To catch an arrow key with read -n1, you must read the initial escape character \e, then the [, then the actual direction code (A, B, C, or D).
-```
-
----
-
-**[AOI #4 - Minor]**
-
-**Response Excerpt:**
-
-```bash
-tput cuu "${#options[@]}" # Move cursor up
-tput ed                   # Clear lines below
-```
-
-**Description:** The pure bash example uses tput cuu (cursor up) without proper cleanup handling, which leaves visual artifacts including the initial instruction text and the first menu rendering. While the menu is functional, it leaves previous content on screen after execution, creating a less polished user experience with residual text that is not cleaned up.
+**Description:** The pure bash example uses tput cuu (cursor up) and tput ed (clear lines below) for redrawing the menu, but lacks proper cleanup when the function exits. This leaves visual artifacts on the terminal including the initial instruction text, ANSI escape code sequences that fail to render, and duplicate menu items from previous renderings. While the menu is functional, the terminal is left in a messy state after execution.
 
 **Severity:** Minor
 
@@ -333,19 +324,24 @@ tput ed                   # Clear lines below
 
 **Tool Type:** Code Executor
 
-**Query:** Run r2_pure_bash_arrow_handling.sh
+**Query:** cd /Users/apple/Desktop/Applyloop-project3/Tasks/task_15/test_environment && ./r2_pure_bash_arrow_handling.sh
 
 **URL:** N/A
 
 **Source Excerpt:**
 
 ```
-After execution, the terminal shows leftover text from the initial instructions ("Use arrows to select, Enter to confirm:") and the first menu rendering, which are not properly cleaned up when the function exits.
+Use arrows to select, Enter to confirm:
+  Install Install\e[0m
+  Update> Update\e[0m
+\e[1;32m> Remove\e[0m
+  Quit
+You selected index 2: Remove
 ```
 
 ---
 
-**[AOI #5 - Minor]**
+**[AOI #4 - Minor]**
 
 **Response Excerpt:**
 
