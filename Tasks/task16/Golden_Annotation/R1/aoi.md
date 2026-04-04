@@ -4,14 +4,33 @@
 
 **Response Excerpt:**
 ```
+### ✅ Root Cause
+
 Firebase 11.x (including `FirebaseAuth 11.13.0`) requires **iOS 12.0 or higher** as the minimum deployment target.
+
+But your **Podfile's `platform :ios, '11.0'`** (or lower) is **too low** — so CocoaPods refuses to install the compatible versions of Firebase dependencies, even though they exist in the spec repo.
+
+🔍 `FirebaseAuthInterop (~> 11.0)` is part of Firebase 11.x and **requires iOS 12+**.
+Your project says it supports iOS 11 — so CocoaPods says: "I won't install this because it's incompatible."
+
+---
+
+## ✅ Solution: Bump iOS Deployment Target to iOS 12.0+
+
+### ✅ 1. Update your Podfile
+
+Open `ios/Podfile` and change the platform line from:
+
+platform :ios, '11.0'   # ❌ Too low
+
+to:
 
 platform :ios, '12.0'   # ✅ Required for Firebase 11+
 
-🔍 `FirebaseAuthInterop (~> 11.0)` is part of Firebase 11.x and **requires iOS 12+**.
+💡 **Firebase 11+ officially supports iOS 12+**
 ```
 
-**Description:** The response incorrectly states that Firebase 11.x requires iOS 12.0 as the minimum deployment target when the actual requirement is iOS 13.0. This error appears repeatedly throughout the response in the opening explanation, the recommended code snippet, and the technical details section, causing users who follow this guidance to encounter continued deployment target errors when the solution fails to work.
+**Description:** The response incorrectly states in the Root Cause section that Firebase 11.x and FirebaseAuthInterop require iOS 12.0 as the minimum deployment target when the actual requirement is iOS 13.0, then applies this wrong diagnosis in the solution by instructing users to set `platform :ios, '12.0'` in their Podfile and claiming "Firebase 11+ officially supports iOS 12+", resulting in a solution that will not resolve the dependency error.
 
 **Severity:** Substantial
 
