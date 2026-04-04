@@ -25,22 +25,19 @@ Firebase 11.x (including `FirebaseAuth 11.13.0`) requires **iOS 12.0 or higher**
 s.ios.deployment_target = '13.0'
 ```
 
-**Tool Type:** Code Executor
+**Tool Type:** Google Search
 
-**Query:** `/Users/apple/Desktop/Applyloop-project3/Tasks/task16/test_environment/code_snippets/snippet_1_platform_comparison.sh`
+**Query:** `Firebase iOS SDK 11.0.0 changelog minimum iOS version`
+
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/main/FirebaseCore/CHANGELOG.md
 
 **Source Excerpt:**
 
 ```
-Firebase 11.13.0 actual requirement:
-  s.ios.deployment_target = '13.0'
-
-ANALYSIS:
-❌ Response 1 claims: iOS 12.0
-✅ Actual requirement: iOS 13.0
-
-AOI #2: Wrong deployment target in code snippet
-The suggested fix 'platform :ios, 12.0' will NOT work!
+Firebase 11.0.0
+[changed] Breaking change: Firebase's minimum supported versions have updated for the following platforms:
+Platform: iOS
+Firebase 11: 13.0
 ```
 
 ---
@@ -70,6 +67,21 @@ platform :ios, '12.0'   # ✅ Required for Firebase 11+
 ios_deployment_target = '13.0'
 ```
 
+**Tool Type:** Google Search
+
+**Query:** `Firebase iOS SDK 11.0.0 changelog minimum iOS version`
+
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/main/FirebaseCore/CHANGELOG.md
+
+**Source Excerpt:**
+
+```
+Firebase 11.0.0
+[changed] Breaking change: Firebase's minimum supported versions have updated for the following platforms:
+Platform: iOS
+Firebase 11: 13.0
+```
+
 ---
 
 ## AOI #3 - SUBSTANTIAL
@@ -95,6 +107,21 @@ ios_deployment_target = '13.0'
 
 ```ruby
 s.ios.deployment_target = '13.0'
+```
+
+**Tool Type:** Google Search
+
+**Query:** `Firebase iOS SDK 11.0.0 changelog minimum iOS version`
+
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/main/FirebaseCore/CHANGELOG.md
+
+**Source Excerpt:**
+
+```
+Firebase 11.0.0
+[changed] Breaking change: Firebase's minimum supported versions have updated for the following platforms:
+Platform: iOS
+Firebase 11: 13.0
 ```
 
 ---
@@ -303,6 +330,21 @@ React Native 0.73 raised the minimum iOS version to 13.4
 
 ```
 Increased minimum supported iOS version to 13.0
+```
+
+**Tool Type:** Google Search
+
+**Query:** `Firebase iOS SDK 11.0.0 changelog minimum iOS version github`
+
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/main/FirebaseCore/CHANGELOG.md
+
+**Source Excerpt:**
+
+```
+Firebase 11.0.0
+[changed] Breaking change: Firebase's minimum supported versions have updated for the following platforms:
+Platform: iOS
+Firebase 11: 13.0
 ```
 
 ---
