@@ -373,13 +373,34 @@ uninitialized constant UIHostedViewController
 ```
 
 **Tool Type:** Google Search
-**Query:** iOS detect simulator targetEnvironment
-**URL:** https://developer.apple.com/documentation/xcode/building-conditional-compilation-blocks
+**Query:** Swift targetEnvironment simulator official documentation
+**URL:** https://github.com/apple/swift-evolution/blob/master/proposals/0190-target-environment-platform-condition.md
+**Source Excerpt:**
+```swift
+// Test for a simulator destination
+#if (arch(i386) || arch(x86_64)) && (!os(macOS))
+    print("Simulator")
+#else
+    print("Device")
+#endif
+
+// More restrictive test for iOS simulator
+// Adjust the os test for watchOS, tvOS
+#if (arch(i386) || arch(x86_64)) && os(iOS)
+    // iOS simulator code
+#endif
+```
+
+**Tool Type:** Google Search
+**Query:** Swift targetEnvironment simulator syntax SE-0190
+**URL:** https://github.com/apple/swift-evolution/blob/master/proposals/0190-target-environment-platform-condition.md
 **Source Excerpt:**
 ```
-#if targetEnvironment(simulator)
-// Code for simulator
-#endif
+This proposal adds a new platform condition `targetEnvironment` with a single valid
+argument: `simulator`.
+
+In other words, the proposal is to enable conditional compilation of the form
+`#if targetEnvironment(simulator)`.
 ```
 
 ---
