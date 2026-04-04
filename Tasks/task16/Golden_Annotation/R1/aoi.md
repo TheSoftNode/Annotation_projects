@@ -235,11 +235,12 @@ pod 'Firebase/Storage', '~> 10.25.0'
 **Verification:**
 
 **Tool Type:** Google Search
-**Query:** React Native Firebase iOS installation documentation
-**URL:** https://rnfirebase.io/
+**Query:** React Native Firebase autolinking 0.60
+**URL:** https://github.com/invertase/react-native-firebase/blob/main/docs/index.md
 **Source Excerpt:**
 ```
-The @react-native-firebase modules automatically add the required native Firebase SDK dependencies to your project.
+Users on React Native 0.60+ automatically have access to "autolinking",
+requiring no further manual installation steps. To automatically link the package, rebuild your project:
 ```
 
 **Tool Type:** Google Search
@@ -247,12 +248,21 @@ The @react-native-firebase modules automatically add the required native Firebas
 **URL:** https://github.com/invertase/react-native-firebase/blob/main/docs/migrating-to-v6.md
 **Source Excerpt:**
 ```
-Remove any Firebase pods from your Podfile.
+#### Remove the Firebase Core Pod
 
-If you were using manual installation, you should remove any Firebase pods you had in your Podfile, for example:
+The `Firebase/Core` need to be removed from the project. In version 6, this is automatically installed. Open the
+`/ios/Podfile` and remove the Pod:
 
-- pod 'Firebase/Auth'
-- pod 'Firebase/Firestore'
+target 'AwesomeApp' do
+-   pod 'Firebase/Core', '~> 6.3.0'
+
+#### Remove module specific Pods
+
+Depending on what modules you were using with version 5, we now need to remove the Firebase Pods. For example, if you
+are using the Authentication module, remove the `Firebase/Auth` Pod:
+
+target 'AwesomeApp' do
+-   pod 'Firebase/Auth', '~> 6.3.0'
 ```
 
 ---
