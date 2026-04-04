@@ -84,7 +84,7 @@ No Firebase 6.3.x or Firebase/Auth 6.3.x releases exist in the repository.
 ```
 
 **Tool Type:** Code Executor
-**Query:** pod ipc FirebaseAuth
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```bash
 pod ipc FirebaseAuth
@@ -152,7 +152,7 @@ Validates the Pod using the files in the working directory.
 ```
 
 **Tool Type:** Code Executor
-**Query:** pod lib lint FirebaseAuth --verbose
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```bash
 pod lib lint FirebaseAuth --verbose
@@ -170,7 +170,7 @@ You can use the `--no-clean` option to inspect any issue.
 ```
 
 **Tool Type:** Code Executor
-**Query:** pod dependency tree --plain
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```bash
 pod dependency tree --plain
@@ -251,7 +251,7 @@ Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 **Verification:**
 
 **Tool Type:** Code Executor
-**Query:** Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```ruby
 require 'cocoapods'
@@ -350,7 +350,7 @@ end
 **Verification:**
 
 **Tool Type:** Code Executor
-**Query:** UIHostedViewController.isSimulator
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```ruby
 UIHostedViewController.isSimulator
