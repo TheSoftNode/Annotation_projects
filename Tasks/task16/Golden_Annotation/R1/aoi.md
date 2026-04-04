@@ -307,10 +307,17 @@ Apple does not publicly publish detailed iOS version distribution statistics sho
 **Response Excerpt:**
 ```
 ### **✅ Root Cause**
+🔍 `FirebaseAuthInterop (~> 11.0)` is part of Firebase 11.x and **requires iOS 12+**.
 ### **✅ Solution: Bump iOS Deployment Target to iOS 12.0+**
+platform :ios, '11.0'   # ❌ Too low
+platform :ios, '12.0'   # ✅ Required for Firebase 11+
+💡 **Firebase 11+ officially supports iOS 12+**
+⚠️ If you're using React Native 0.70+, it also recommends iOS 12.0+ as minimum.
+🔗 Firebase 10.x supports iOS 11.0+
+You're now ready to build without warnings or errors. 🎉
 ```
 
-**Description:** The response uses checkmark emoji symbols in section headings which do not add technical value to the documentation.
+**Description:** The response uses multiple emojis (✅, ❌, 🔍, 💡, ⚠️, 🔗, 🎉) throughout the technical documentation in section headings, inline code comments, and explanatory text, which may be considered unprofessional for technical guidance and could render inconsistently across different development environments or terminals.
 
 **Severity:** Minor
 
