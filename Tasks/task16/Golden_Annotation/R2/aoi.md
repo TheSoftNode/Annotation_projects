@@ -83,19 +83,39 @@ Release tags show: "12.11.0", "12.10.0", ..., "11.13.0", "11.12.0", ..., "10.29.
 No Firebase 6.3.x or Firebase/Auth 6.3.x releases exist in the repository.
 ```
 
-**Tool Type:** Google Search
-**Query:** CocoaPods IPC commands documentation
-**URL:** https://guides.cocoapods.org/terminal/commands.html
-**Source Excerpt:**
+**Tool Type:** Code Executor
+**Query:** pod ipc FirebaseAuth
+**Code:**
+```bash
+pod ipc FirebaseAuth
 ```
-IPC
+**Output:**
+```
+[!] Unknown command: `FirebaseAuth`
+Did you mean: list?
 
-pod ipc repl
-pod ipc spec
-pod ipc podfile
-pod ipc podfile-json
-pod ipc list
-pod ipc update-search-index
+Usage:
+
+    $ pod ipc COMMAND
+
+      Inter-process communication
+
+Commands:
+
+    + list                  Lists the specifications known to CocoaPods
+    + podfile               Converts a Podfile to YAML
+    + podfile-json          Converts a Podfile to JSON
+    + repl                  The repl listens to commands on standard input
+    + spec                  Converts a podspec to JSON
+    + update-search-index   Updates the search index
+
+Options:
+
+    --allow-root            Allows CocoaPods to run as root
+    --silent                Show nothing
+    --verbose               Show more debugging information
+    --no-ansi               Show output without ANSI codes
+    --help                  Show help banner of specified command
 ```
 
 ---
@@ -132,15 +152,69 @@ Validates the Pod using the files in the working directory.
 ```
 
 **Tool Type:** Code Executor
-**Query:** Test if 'pod dependency tree' command exists
+**Query:** pod lib lint FirebaseAuth --verbose
 **Code:**
 ```bash
-pod dependency tree --plain 2>&1 | head -5
+pod lib lint FirebaseAuth --verbose
+```
+**Output:**
+```
+  CDN: trunk Relative path: CocoaPods-version.yml exists! Returning local because checking is only performed in repo update
+ -> FirebaseAuth -> FirebaseAuth
+    - ERROR | spec: The specification defined in `FirebaseAuth` could not be loaded.
+
+[!] No podspec exists at path `FirebaseAuth`.
+
+[!] FirebaseAuth did not pass validation, due to 1 error.
+You can use the `--no-clean` option to inspect any issue.
+```
+
+**Tool Type:** Code Executor
+**Query:** pod dependency tree --plain
+**Code:**
+```bash
+pod dependency tree --plain
 ```
 **Output:**
 ```
 [!] Unknown command: `dependency`
-Did you mean: deintegrate?
+Did you mean: spec?
+
+Usage:
+
+    $ pod COMMAND
+
+      CocoaPods, the Cocoa library package manager.
+
+Commands:
+
+    + cache         Manipulate the CocoaPods cache
+    + deintegrate   Deintegrate CocoaPods from your project
+    + env           Display pod environment
+    + init          Generate a Podfile for the current directory
+    + install       Install project dependencies according to versions from a
+                    Podfile.lock
+    + ipc           Inter-process communication
+    + lib           Develop pods
+    + list          List pods
+    + outdated      Show outdated project dependencies
+    + plugins       Show available CocoaPods plugins
+    + repo          Manage spec-repositories
+    + search        Search for pods
+    + setup         Set up the CocoaPods environment
+    + spec          Manage pod specs
+    + trunk         Interact with the CocoaPods API (e.g. publishing new specs)
+    + try           Try a Pod!
+    + update        Update outdated project dependencies and create new Podfile.lock
+
+Options:
+
+    --allow-root    Allows CocoaPods to run as root
+    --silent        Show nothing
+    --version       Show the version of the tool
+    --verbose       Show more debugging information
+    --no-ansi       Show output without ANSI codes
+    --help          Show help banner of specified command
 ```
 
 ---
@@ -177,25 +251,19 @@ Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 **Verification:**
 
 **Tool Type:** Code Executor
-**Query:** Search for Pod::MaterialPodfileDefaults in CocoaPods documentation
+**Query:** Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 **Code:**
-```bash
-curl -sL "https://guides.cocoapods.org/syntax/podfile.html" | grep -i "MaterialPodfileDefaults" | head -5
+```ruby
+require 'cocoapods'
+Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 ```
 **Output:**
 ```
-(no output - class does not exist in documentation)
-```
+ERROR: NameError
+uninitialized constant Pod::MaterialPodfileDefaults
 
-**Tool Type:** Code Executor
-**Query:** Search for RNAutomation.toggle_autolinking in React Native 0.73 pods.rb
-**Code:**
-```bash
-curl -sL "https://raw.githubusercontent.com/facebook/react-native/0.73-stable/packages/react-native/scripts/react_native_pods.rb" 2>/dev/null | grep -i "RNAutomation\|toggle_autolinking" | head -5
-```
-**Output:**
-```
-(no output - method does not exist)
+  Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
+     ^^^^^^^^^^^^^^^^^^^^^^^^^
 ```
 
 **Tool Type:** Google Search
@@ -245,32 +313,6 @@ pod 'SSZipArchive', :modular_headers => false
 
 **Response Excerpt:**
 ```
-* Your current Podfile probably says `platform :ios, '13.0'` (or even `12.x`).
-```
-
-**Description:** The response assumes the user's current deployment target is iOS 13.0 or 12.x, but the error message and context from the conversation history suggest the user likely has iOS 11.0 or lower set in their Podfile. This incorrect assumption about the starting state may confuse users who have a different configuration.
-
-**Severity:** Minor
-
----
-
-## AOI #7 - MINOR
-
-**Response Excerpt:**
-```
-| Xcode still shows **"No such module 'FirebaseAuth'"** | The workspace isn't being used; you opened the `.xcodeproj` instead of the `.xcworkspace`. | Always open `YourApp.xcworkspace`. |
-```
-
-**Description:** While the advice to open the workspace file is correct, the response doesn't mention that this error can also occur if the pods haven't been installed yet or if the modular headers setting is missing. The gotcha table oversimplifies the cause to only one scenario.
-
-**Severity:** Minor
-
----
-
-## AOI #8 - MINOR
-
-**Response Excerpt:**
-```
 ## **1️⃣ What the error really means**
 ## **2️⃣ Quick "bump the platform" fix**
 ## **3️⃣ If you cannot raise the deployment target**
@@ -281,39 +323,13 @@ pod 'SSZipArchive', :modular_headers => false
 ## **8️⃣ Recap Checklist**
 ```
 
-**Description:** The response includes unnecessary emojis in all section headings which do not add technical value and may reduce professional appearance in documentation contexts.
+**Description:** The response uses numbered emojis (1️⃣, 2️⃣, 3️⃣, etc.) in all eight section headings throughout the entire response. While emojis may improve visual scanning for casual readers, they reduce the professional appearance of technical documentation and do not add substantive technical value. Standard markdown numbering or plain section titles would be more appropriate for professional technical guidance.
 
 **Severity:** Minor
 
 ---
 
-## AOI #9 - MINOR
-
-**Response Excerpt:**
-```
-The response includes advanced Podfile configurations, post_install tweaks with Ruby code, and lengthy sections covering edge cases and verification commands that go beyond the scope of simply resolving the deployment target compatibility issue.
-```
-
-**Description:** The response is unnecessarily verbose with advanced configurations and post-install customizations that extend beyond addressing the core Firebase deployment target issue, making the guidance less focused and harder to follow for users who just need the basic fix.
-
-**Severity:** Minor
-
----
-
-## AOI #10 - MINOR
-
-**Response Excerpt:**
-```
-Good luck, and happy coding! 🚀
-```
-
-**Description:** The response ends with unnecessary pleasantries that add no technical value to the documentation and deviate from the informational tone expected in technical guidance.
-
-**Severity:** Minor
-
----
-
-## AOI #11 - SUBSTANTIAL
+## AOI #7 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -334,14 +350,18 @@ end
 **Verification:**
 
 **Tool Type:** Code Executor
-**Query:** Search for UIHostedViewController in Apple documentation
+**Query:** UIHostedViewController.isSimulator
 **Code:**
-```bash
-curl -sL "https://developer.apple.com/documentation/swiftui/uihostingcontroller" | grep -i "UIHostedViewController" | head -5
+```ruby
+UIHostedViewController.isSimulator
 ```
 **Output:**
 ```
-(no output - UIHostedViewController does not exist, only UIHostingController exists)
+ERROR: NameError
+uninitialized constant UIHostedViewController
+
+  result = UIHostedViewController.isSimulator
+           ^^^^^^^^^^^^^^^^^^^^^^
 ```
 
 **Tool Type:** Google Search
@@ -356,7 +376,7 @@ curl -sL "https://developer.apple.com/documentation/swiftui/uihostingcontroller"
 
 ---
 
-## AOI #12 - SUBSTANTIAL
+## AOI #8 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -373,15 +393,48 @@ install_mode :immediate
 
 **Tool Type:** Google Search
 **Query:** CocoaPods install! method valid parameters
-**URL:** https://www.rubydoc.info/gems/cocoapods/Pod/Installer
+**URL:** https://guides.cocoapods.org/syntax/podfile.html#install_bang
 **Source Excerpt:**
 ```
-Installation options for the install! directive:
+Supported Keys:
 
-:deterministic_uuids - Generate deterministic UUIDs for pods projects
-:integrate_targets - Whether to integrate pod targets into the user project
-:lock_pod_sources - Whether to lock the source of the pod dependencies
-:warn_for_unused_master_specs_repo - Warn about unused master specs repo
+:clean
 
-No 'install_mode' parameter exists. The correct syntax is install! with a hash of options, not 'install_mode :immediate'.
+Whether to clean the sources of the pods during installation
+
+:deduplicate_targets
+
+Whether to deduplicate pod targets
+
+:deterministic_uuids
+
+Whether to generate deterministic UUIDs when creating the Pods project
+
+:integrate_targets
+
+Whether to integrate the installed pods into the user project
+
+:lock_pod_sources
+
+Whether to lock the source files of pods. Xcode will prompt to unlock the files when attempting to modify their contents
+
+:warn_for_multiple_pod_sources
+
+Whether to emit a warning when multiple sources contain a Pod with the same name and version
+
+:warn_for_unused_master_specs_repo
+
+Whether to emit a warning if a project is not explicitly specifying the git based master specs repo and can instead use CDN which is the default.
+
+:share_schemes_for_development_pods
+
+Whether to share Xcode schemes for development pods.
+
+:disable_input_output_paths
+
+Whether to disable the input & output paths of the CocoaPods script phases (Copy Frameworks & Copy Resources)
+
+:preserve_pod_file_structure
+
+Whether to preserve the file structure of all Pods, including externally sourced pods.
 ```

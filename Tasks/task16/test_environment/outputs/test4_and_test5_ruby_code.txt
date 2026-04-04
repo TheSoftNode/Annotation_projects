@@ -1,0 +1,21 @@
+=== TEST 4: Pod::MaterialPodfileDefaults (AOI #4) ===
+Code: require 'cocoapods'; Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
+ERROR: NameError
+uninitialized constant Pod::MaterialPodfileDefaults
+
+  Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
+     ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Full error:
+/Users/apple/Desktop/Applyloop-project3/Tasks/task16/test_environment/outputs/test_ruby_code.rb:7:in `<main>'
+
+=== TEST 5: UIHostedViewController.isSimulator (AOI #7) ===
+Code: UIHostedViewController.isSimulator
+ERROR: NameError
+uninitialized constant UIHostedViewController
+
+  result = UIHostedViewController.isSimulator
+           ^^^^^^^^^^^^^^^^^^^^^^
+
+Full error:
+/Users/apple/Desktop/Applyloop-project3/Tasks/task16/test_environment/outputs/test_ruby_code.rb:21:in `<main>'

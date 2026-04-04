@@ -1,0 +1,18 @@
+
+  CDN: trunk Relative path: CocoaPods-version.yml exists! Returning local because checking is only performed in repo update
+ -> FirebaseAuth -> FirebaseAuth
+    - ERROR | spec: The specification defined in `FirebaseAuth` could not be loaded.
+
+[!] No podspec exists at path `FirebaseAuth`.
+
+[!] FirebaseAuth did not pass validation, due to 1 error.
+You can use the `--no-clean` option to inspect any issue.
+
+/Users/apple/.rbenv/versions/3.1.4/lib/ruby/gems/3.1.0/gems/cocoapods-1.16.2/lib/cocoapods/command/lib/lint.rb:116:in `block in run'
+/Users/apple/.rbenv/versions/3.1.4/lib/ruby/gems/3.1.0/gems/cocoapods-1.16.2/lib/cocoapods/command/lib/lint.rb:77:in `each'
+/Users/apple/.rbenv/versions/3.1.4/lib/ruby/gems/3.1.0/gems/cocoapods-1.16.2/lib/cocoapods/command/lib/lint.rb:77:in `run'
+/Users/apple/.rbenv/versions/3.1.4/lib/ruby/gems/3.1.0/gems/claide-1.1.0/lib/claide/command.rb:334:in `run'
+/Users/apple/.rbenv/versions/3.1.4/lib/ruby/gems/3.1.0/gems/cocoapods-1.16.2/lib/cocoapods/command.rb:52:in `run'
+/Users/apple/.rbenv/versions/3.1.4/lib/ruby/gems/3.1.0/gems/cocoapods-1.16.2/bin/pod:55:in `<top (required)>'
+/Users/apple/.rbenv/versions/3.1.4/bin/pod:25:in `load'
+/Users/apple/.rbenv/versions/3.1.4/bin/pod:25:in `<main>'
