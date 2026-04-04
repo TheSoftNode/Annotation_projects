@@ -67,28 +67,26 @@ target 'YourApp' do
 end
 ```
 
-**Description:** The response recommends downgrading to Firebase Auth version 6.3.x for iOS 12 support, but this version does not exist in Firebase's release history. Firebase versioning goes from 9.x to 10.x to 11.x, and version 6.3.x is not a real Firebase release. Additionally, the command `pod ipc FirebaseAuth` is not a valid CocoaPods command and will fail when users attempt to run it.
+**Description:** The response recommends Firebase 6.3.x for iOS 12.0 support, but Firebase 6.3.0 supports iOS 8.0 minimum, not iOS 12.0. This is not the "highest version" compatible with iOS 12.0 - Firebase 10.x (which supports iOS 11.0+) is more appropriate. The command `pod ipc FirebaseAuth` is invalid and will fail.
 
 **Severity:** Substantial
 
 **Verification:**
 
 **Tool Type:** Google Search
-**Query:** Firebase iOS SDK releases
-**URL:** https://github.com/firebase/firebase-ios-sdk/releases
+**Query:** Firebase 6.3.0 iOS deployment target
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/6.3.0/FirebaseAuth.podspec
 **Source Excerpt:**
 ```
-Available release versions (sampling):
+s.ios.deployment_target = '8.0'
+```
 
-12.11.0, 12.10.0, 12.9.0, 12.8.0, 12.7.0, 12.6.0, 12.5.0, 12.4.0, 12.3.0, 12.2.0
-12.1.0, 12.0.0
-11.15.0, 11.14.0, 11.13.0, 11.12.0, 11.11.0, 11.10.0, 11.9.0, 11.8.1, 11.8.0
-11.7.0, 11.6.0, 11.5.0, 11.4.0, 11.3.0, 11.2.0, 11.1.0, 11.0.0
-10.29.0, 10.28.1, 10.28.0, 10.27.0, 10.26.0, 10.25.0, 10.24.0, 10.23.1, 10.23.0
-10.22.1, 10.22.0, 10.21.0, 10.20.0, 10.19.0, 10.18.0, 10.17.0, 10.16.0, 10.15.0
-10.14.0, 10.13.0, 10.12.0
-
-No version 6.3.x exists in the Firebase iOS SDK release history.
+**Tool Type:** Google Search
+**Query:** Firebase 10.25.0 iOS deployment target
+**URL:** https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-10.25.0/FirebaseAuthInterop.podspec
+**Source Excerpt:**
+```
+s.ios.deployment_target = '11.0'
 ```
 
 **Tool Type:** Code Executor
