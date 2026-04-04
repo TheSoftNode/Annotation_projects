@@ -95,6 +95,22 @@ s.name = "RNFBApp"
 
 **Tool Type:** Google Search
 
+**Query:** `react-native-firebase auth iOS installation RNFBAuth pod documentation github`
+
+**URL:** https://github.com/invertase/react-native-firebase/blob/main/docs/auth/usage/installation/ios.md
+
+**Source Excerpt:**
+
+```
+## 1. Add the Pod
+
+Add the `RNFBAuth` Pod to your projects `/ios/Podfile`:
+
+  pod 'RNFBAuth', :path => '../node_modules/@react-native-firebase/auth'
+```
+
+**Tool Type:** Google Search
+
 **Query:** `react-native-firebase v6 migration remove RNFirebase pod github`
 
 **URL:** https://github.com/invertase/react-native-firebase/blob/main/docs/migrating-to-v6.md
