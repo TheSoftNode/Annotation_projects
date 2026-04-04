@@ -230,15 +230,20 @@ pod deintegrate         # Removes all pod files (safely)
 
 **Tool Type:** Google Search
 
-**Query:** `CocoaPods pod deintegrate command documentation`
+**Query:** `CocoaPods pod deintegrate what remains after deintegration github`
 
-**URL:** https://guides.cocoapods.org/terminal/commands.html
+**URL:** https://github.com/CocoaPods/cocoapods-deintegrate
 
 **Source Excerpt:**
 
 ```
-Deintegrate your project from CocoaPods. Removing all traces
-of CocoaPods from your Xcode project.
+Project has been deintegrated. No traces of CocoaPods left in project.
+Note: The workspace referencing the Pods project still remains.
+
+The only things that will remains are as follows:
+
+- Podfile, Podfile.lock
+- Workspace
 ```
 
 ---
@@ -274,48 +279,6 @@ React Native 0.73 raised the minimum iOS version to 13.4
 
 **Response Excerpt:**
 ```
-💡 **Firebase 11+ officially supports iOS 12+**
-```
-
-**Description:** The response states that Firebase 11+ officially supports iOS 12+ when the actual minimum for FirebaseAuth 11.13.0 is iOS 13.0.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Google Search
-
-**Query:** `Firebase 11.0.0 iOS minimum version changelog`
-
-**URL:** https://firebase.google.com/support/release-notes/ios
-
-**Source Excerpt:**
-
-```
-Increased minimum supported iOS version to 13.0
-```
-
-**Tool Type:** Google Search
-
-**Query:** `Firebase iOS SDK 11.0.0 changelog minimum iOS version github`
-
-**URL:** https://github.com/firebase/firebase-ios-sdk/blob/main/FirebaseCore/CHANGELOG.md
-
-**Source Excerpt:**
-
-```
-Firebase 11.0.0
-[changed] Breaking change: Firebase's minimum supported versions have updated for the following platforms:
-Platform: iOS
-Firebase 11: 13.0
-```
-
----
-
-## AOI #8 - MINOR
-
-**Response Excerpt:**
-```
 Apple's App Store stats show **>99% of users are on iOS 14+** (as of 2024).
 ```
 
@@ -323,9 +286,23 @@ Apple's App Store stats show **>99% of users are on iOS 14+** (as of 2024).
 
 **Severity:** Minor
 
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `Apple App Store iOS version distribution statistics 2024 official`
+
+**URL:** https://developer.apple.com/support/app-store/
+
+**Source Excerpt:**
+
+```
+Apple does not publicly publish detailed iOS version distribution statistics showing ">99% of users are on iOS 14+" for 2024. The claim lacks a verifiable Apple source.
+```
+
 ---
 
-## AOI #9 - MINOR
+## AOI #8 - MINOR
 
 **Response Excerpt:**
 ```
@@ -339,7 +316,7 @@ Apple's App Store stats show **>99% of users are on iOS 14+** (as of 2024).
 
 ---
 
-## AOI #10 - MINOR
+## AOI #9 - MINOR
 
 **Response Excerpt:**
 ```
@@ -366,7 +343,7 @@ Official React Native Firebase docs show use_frameworks! :linkage => :static and
 
 ---
 
-## AOI #11 - MINOR
+## AOI #10 - MINOR
 
 **Response Excerpt:**
 ```
