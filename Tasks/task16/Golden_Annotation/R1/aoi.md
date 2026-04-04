@@ -280,7 +280,7 @@ React Native 0.73 raised the minimum iOS version to 13.4
 
 ---
 
-## AOI #8 - MINOR
+## AOI #9 - MINOR
 
 **Response Excerpt:**
 ```
@@ -307,7 +307,7 @@ Increased minimum supported iOS version to 13.0
 
 ---
 
-## AOI #9 - MINOR
+## AOI #10 - MINOR
 
 **Response Excerpt:**
 ```
@@ -320,7 +320,7 @@ Apple's App Store stats show **>99% of users are on iOS 14+** (as of 2024).
 
 ---
 
-## AOI #10 - MINOR
+## AOI #11 - MINOR
 
 **Response Excerpt:**
 ```
@@ -334,7 +334,7 @@ Apple's App Store stats show **>99% of users are on iOS 14+** (as of 2024).
 
 ---
 
-## AOI #11 - MINOR
+## AOI #12 - MINOR
 
 **Response Excerpt:**
 ```
@@ -361,7 +361,7 @@ Official React Native Firebase docs show use_frameworks! :linkage => :static and
 
 ---
 
-## AOI #12 - MINOR
+## AOI #13 - MINOR
 
 **Response Excerpt:**
 ```
