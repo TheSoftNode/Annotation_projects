@@ -93,6 +93,10 @@ No version 6.3.x exists in the Firebase iOS SDK release history.
 
 **Tool Type:** Code Executor
 **Query:** pod ipc FirebaseAuth 2>&1
+**Code:**
+```bash
+pod ipc FirebaseAuth
+```
 **Source Excerpt:**
 ```
 [!] Unknown command: `FirebaseAuth`
@@ -157,6 +161,10 @@ Validates the Pod using the files in the working directory.
 
 **Tool Type:** Code Executor
 **Query:** pod lib lint FirebaseAuth --verbose 2>&1 | head -30
+**Code:**
+```bash
+pod lib lint FirebaseAuth --verbose
+```
 **Source Excerpt:**
 ```
   CDN: trunk Relative path: CocoaPods-version.yml exists! Returning local because checking is only performed in repo update
@@ -171,6 +179,10 @@ You can use the `--no-clean` option to inspect any issue.
 
 **Tool Type:** Code Executor
 **Query:** pod dependency tree --plain 2>&1
+**Code:**
+```bash
+pod dependency tree --plain
+```
 **Source Excerpt:**
 ```
 [!] Unknown command: `dependency`
@@ -248,6 +260,11 @@ Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 
 **Tool Type:** Code Executor
 **Query:** ruby -e "require 'cocoapods'; Pod::MaterialPodfileDefaults.new([:android, :ios]).apply" 2>&1
+**Code:**
+```ruby
+require 'cocoapods'
+Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
+```
 **Source Excerpt:**
 ```
 ERROR: NameError
@@ -342,6 +359,10 @@ end
 
 **Tool Type:** Code Executor
 **Query:** ruby -e "UIHostedViewController.isSimulator" 2>&1
+**Code:**
+```ruby
+UIHostedViewController.isSimulator
+```
 **Source Excerpt:**
 ```
 ERROR: NameError
