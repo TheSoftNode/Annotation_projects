@@ -1,0 +1,1 @@
+pod deintegrate && pod install --repo-update

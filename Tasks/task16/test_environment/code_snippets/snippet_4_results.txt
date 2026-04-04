@@ -1,0 +1,26 @@
+Response 1 - Snippet 4 Test Results
+Date: Sat Apr  4 09:45:07 WAT 2026
+========================================
+
+Response 1's Downgrade Recommendation:
+pod 'Firebase/Auth', '~> 10.25.0'
+pod 'Firebase/Firestore', '~> 10.25.0'
+pod 'Firebase/Storage', '~> 10.25.0'
+
+========================================
+VERIFICATION:
+Checking Firebase 10.25.0 iOS requirements...
+
+Firebase 10.25.0 - FirebaseAuth:
+  ios_deployment_target = '11.0'
+
+Firebase 10.25.0 - FirebaseAuthInterop:
+  s.ios.deployment_target = '11.0'
+
+========================================
+ANALYSIS:
+✅ Response 1 correctly states Firebase 10.25.0 supports iOS 11.0+
+
+NOTE: However, this downgrade advice is for direct Firebase pods,
+not @react-native-firebase wrappers used in the context.
+========================================
