@@ -95,18 +95,16 @@ s.name = "RNFBApp"
 
 **Tool Type:** Google Search
 
-**Query:** `react-native-firebase v6 migration pod names RNFirebase deprecated`
+**Query:** `react-native-firebase v6 migration remove RNFirebase pod github`
 
-**URL:** https://rnfirebase.io/migrating-to-v6
+**URL:** https://github.com/invertase/react-native-firebase/blob/main/docs/migrating-to-v6.md
 
 **Source Excerpt:**
 
 ```
-The pod names have changed:
-- RNFirebase → RNFBApp
-- RNFirebaseAuth → RNFBAuth
-- RNFirebaseFirestore → RNFBFirestore
-- RNFirebaseStorage → RNFBStorage
+Remove the `RNFirebase` pod from your `/ios/Podfile`:
+
+-   pod 'RNFirebase', :path => '../node_modules/react-native-firebase/ios'
 ```
 
 ---

@@ -8,12 +8,12 @@ The response includes Xcode navigation instructions with the exact menu path sho
 ---
 
 ## Strength 2
-The response provides a before-and-after code comparison showing `platform :ios, '11.0'` labeled as "Too low" contrasted with `platform :ios, '12.0'` labeled as "Required for Firebase 11+", using inline annotations to clarify which value is incorrect and which resolves the issue.
+The response provides a before-and-after code comparison showing `platform :ios, '11.0'` labeled as "Too low" contrasted with `platform :ios, '12.0'` labeled as "Required for Firebase 11+", using inline annotations to clearly differentiate the old value from the recommended change.
 
 ---
 
 ## Strength 3
-The response provides step-by-step terminal commands for cleaning the CocoaPods environment (`pod deintegrate`, `pod cache clean --all`, `rm -rf Pods/`), helping users ensure a clean rebuild and eliminate cached dependency conflicts.
+The response provides step-by-step terminal commands for cleaning the CocoaPods environment (`pod deintegrate`, `pod cache clean --all`), helping users ensure a clean rebuild and eliminate cached dependency conflicts.
 
 ---
 
