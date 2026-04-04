@@ -243,101 +243,91 @@ The response concludes with a concise summary that compares all four approaches 
 
 ### Areas of Improvement
 
-**[AOI #1 - Minor]**
-
-**Response Excerpt:**
-
-```
-If you want to select options using arrows (and get a fuzzy search feature for free), the industry standard tool is **`fzf`** (Command-line fuzzy finder).
-```
-
-**Description:** The response claims that fzf is "the industry standard tool" for fuzzy finding, which is an unverifiable claim. The term "industry standard" suggests universal adoption or official standardization that cannot be confirmed through documentation or authoritative sources.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Web Search
-
-**Query:** fzf "industry standard" fuzzy finder command line popular
-
-**URL:** N/A (no results found)
-
-**Source Excerpt:**
-
-No search results support the "industry standard" claim. Web research shows fzf is popular with "around 21,000 stars on Github" and is "widely adopted", but no sources describe it as an industry standard.
-
----
-
-**[AOI #2 - Minor]**
-
-**Response Excerpt:**
-
-```
-**Recommendation:** Install and use **`fzf`**. It is vastly superior to the built-in `select` for interactive scripts.
-```
-
-**Description:** The response recommends fzf as "vastly superior" to the built-in select and positions it as the primary recommendation without acknowledging that dialog and whiptail are equally viable alternatives that may already be installed on users' systems. This creates an unbalanced recommendation that overlooks the benefits of dialog and whiptail, which are designed for terminal UIs, handle edge cases, and are pre-installed on many distributions.
-
-**Severity:** Minor
-
----
-
-**[AOI #3 - Minor]**
+**[AOI #1 - Substantial]**
 
 **Response Excerpt:**
 
 ```bash
+# Read user input
 read -rsn1 input
 case $input in
     A) # Up arrow
         ((selected--)); ((selected < 0)) && selected=$((${#options[@]} - 1)) ;;
     B) # Down arrow
         ((selected++)); ((selected >= ${#options[@]})) && selected=0 ;;
+    "") # Enter key
+        tput cnorm # Show cursor
+        return $selected ;;
+esac
 ```
 
-**Description:** The response's pure bash example is technically incomplete. It attempts to read input using read -rsn1 input and checks for A or B, but it fails to handle the full ANSI escape sequence (\x1b[A). Arrow keys send multi-character escape sequences (ESC + [ + A/B), not single characters. The code only reads one character and checks if it equals literal 'A' or 'B', which causes the script to fail to detect actual arrow key presses but incorrectly triggers when a user simply types a capital A or B.
+**Description:** The response's pure Bash arrow-key example is technically incorrect because it reads only one character with read -rsn1 input and checks for literal A and B, even though real arrow keys arrive as multi-character escape sequences such as \x1b[A and \x1b[B. This means the example does not detect actual arrow keys and may react when a user types plain A or B.
 
-**Severity:** Minor
+**Severity:** Substantial
 
 **Verification of Issue:**
 
 **Tool Type:** Code Executor
 
-**Query:** bash read -n1 arrow key escape sequence handling
+**Query:** bash inspect_keys.sh
 
-**URL:** https://unix.stackexchange.com/questions/213799/can-bash-read-the-arrow-keys
+**URL:** N/A
 
 **Source Excerpt:**
 
 ```
-# Test: what arrow keys actually send
+Press one key, then wait...
 first char: $'\E' | hex: 1B
+Now checking whether more chars immediately follow...
 second char: \[ | hex: 5B
 third char: A | hex: 41
 
-# Test: what read -rsn1 captures and matches
-Press Up arrow: read one char: $'\E' matched nothing useful
-Press Down arrow: read one char: $'\E' matched nothing useful
-Press literal A: read one char: A matched A
-Press literal B: read one char: B matched B
+Press one key, then wait...
+first char: $'\E' | hex: 1B
+Now checking whether more chars immediately follow...
+second char: \[ | hex: 5B
+third char: B | hex: 42
+```
 
-Source documentation: "The arrow keys send an escape sequence, not a single character. To catch an arrow key with read -n1, you must read the initial escape character \e, then the [, then the actual direction code (A, B, C, or D)."
+**Tool Type:** Code Executor
+
+**Query:** bash one_char_bug_demo.sh
+
+**Source Excerpt:**
+
+```
+Press Up arrow, Down arrow, A, or B.
+read one char: A
+matched A
+
+Press Up arrow, Down arrow, A, or B.
+read one char: B
+matched B
+
+Press Up arrow, Down arrow, A, or B.
+read one char: $'\E'
+matched nothing useful
+
+Press Up arrow, Down arrow, A, or B.
+read one char: $'\E'
+matched nothing useful
 ```
 
 ---
 
-**[AOI #4 - Minor]**
+**[AOI #2 - Substantial]**
 
 **Response Excerpt:**
 
 ```bash
+# Hide cursor
+tput civis
+
 while true; do
     # Draw options
     if [[ $selected -ne $last_selected ]]; then
         tput cuu "${#options[@]}" # Move cursor up
         tput ed                   # Clear lines below
-
         for i in "${!options[@]}"; do
             if [[ $i -eq $selected ]]; then
                 echo -e "\e[1;32m> ${options[$i]}\e[0m" # Highlighted
@@ -347,47 +337,38 @@ while true; do
         done
         last_selected=$selected
     fi
+
+    # Read user input
+    read -rsn1 input
+    case $input in
+        A) # Up arrow
+            ((selected--)); ((selected < 0)) && selected=$((${#options[@]} - 1)) ;;
+        B) # Down arrow
+            ((selected++)); ((selected >= ${#options[@]})) && selected=0 ;;
+        "") # Enter key
+            tput cnorm # Show cursor
+            return $selected ;;
+    esac
+done
 ```
 
-**Description:** The pure bash example uses tput cuu (cursor up) and tput ed (clear lines below) for redrawing the menu, but lacks proper cleanup when the function exits. This leaves visual artifacts on the terminal including the initial instruction text, ANSI escape code sequences that fail to render, and duplicate menu items from previous renderings. While the menu is functional, the terminal is left in a messy state after execution.
+**Description:** The response's pure Bash example hides the terminal cursor with tput civis but restores it only on the Enter-key path with tput cnorm. It does not set a trap for interruption signals, so pressing Ctrl+C can leave the terminal cursor hidden after the script exits.
 
-**Severity:** Minor
+**Severity:** Substantial
 
 **Verification of Issue:**
 
 **Tool Type:** Code Executor
 
-**Query:** cd /Users/apple/Desktop/Applyloop-project3/Tasks/task_15/test_environment && ./r2_pure_bash_arrow_handling.sh
+**Query:** bash test_cursor_bug.sh
 
 **URL:** N/A
 
 **Source Excerpt:**
 
 ```
-Use arrows to select, Enter to confirm:
-  Install Install\e[0m
-  Update> Update\e[0m
-\e[1;32m> Remove\e[0m
-  Quit
-You selected index 2: Remove
+After pressing Ctrl+C, the script exits to the shell prompt but the terminal cursor remains hidden.
 ```
-
----
-
-**[AOI #5 - Minor]**
-
-**Response Excerpt:**
-
-```
-1. select: Built-in, numbers only, robust. (Use this for simple scripts).
-2. fzf: External tool, arrow keys, fuzzy search, modern. (Best for user experience).
-3. dialog: External tool, full UI windows, classic. (Best for installers).
-4. Pure Bash: Too complex for most needs; stick to tools if possible.
-```
-
-**Description:** The response provides a numbered summary list comparing select, fzf, dialog, and pure bash, but presents the information in plain text format rather than a structured comparison table. A markdown table with columns for features such as arrow key support, installation requirements, and use cases would make it easier for users to quickly compare these alternatives at a glance. Additionally, the response omits whiptail as an alternative option.
-
-**Severity:** Minor
 
 ---
 
@@ -397,8 +378,8 @@ You selected index 2: Remove
 
 ## Preference Ranking
 
-**Ranking:** Response 1 is slightly better than Response 2
+**Ranking:** Response 1 is much better than Response 2
 
 **Justification:**
 
-Both responses earn a score of 4 and correctly explain that bash select does not support arrow keys. Response 1 is slightly better because it provides more comprehensive and balanced coverage by presenting dialog, whiptail, and fzf as equally viable alternatives with a structured comparison table that helps users make informed decisions. Response 1 has 5 strengths and 6 Minor AOIs, while Response 2 has 5 strengths and 5 Minor AOIs. Response 1's issues are primarily style-related (emojis, verbosity, ordering) and incomplete code examples, whereas Response 2 has more substantive issues including broken arrow key handling in the pure bash example (treats arrows as literal A/B instead of escape sequences) and unverifiable claims that create an unbalanced recommendation favoring fzf. Response 1's practical approach of presenting multiple balanced options with whiptail coverage and a comparison table provides clearer guidance for users making tool selection decisions.
+R1 provides working code examples for dialog, whiptail, and fzf with a comparison table. R2 contains substantial technical flaws: the pure bash example fails to detect actual arrow keys (checks literal A/B instead of escape sequences) and leaves the cursor hidden after Ctrl+C.
