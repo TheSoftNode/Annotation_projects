@@ -25,13 +25,22 @@ platform :ios, '13.2'   # <-- meets FirebaseAuthInterop's min target
 
 **Severity:** Substantial
 
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** Firebase iOS SDK 11 minimum iOS deployment target requirement
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuthInterop.podspec
 **Source Excerpt:**
+```ruby
+s.platform = :ios, '13.0'
 ```
-Firebase iOS SDK version 11 requires a minimum iOS deployment target of iOS 13.0
 
-The official minimum iOS deployment target for Firebase 11 is iOS 13.0, not iOS 13.2.
-
-Based on the search results, I can provide you with information about Firebase 11's iOS deployment target requirements: Firebase iOS SDK version 11 requires a minimum iOS deployment target of iOS 13. The search results consistently mention iOS 13.0 as the minimum requirement, not iOS 13.2.
+**Tool Type:** Google Search
+**Query:** FirebaseAuth 11.13.0 iOS deployment target
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuth.podspec
+**Source Excerpt:**
+```ruby
+s.platform = :ios, '13.0'
 ```
 
 ---
@@ -62,16 +71,26 @@ end
 
 **Severity:** Substantial
 
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** Firebase iOS SDK version history releases
+**URL:** https://github.com/firebase/firebase-ios-sdk/releases
 **Source Excerpt:**
 ```
-Web search found NO evidence of Firebase Auth 6.3.x version
-Firebase versioning: 9.x supported iOS 12, 10.x supported iOS 11, 11.x supports iOS 13
-Version 6.3.x does not appear in any Firebase release notes
-Response 2 fabricates a version number
+Firebase version history shows releases: 11.x, 10.x, 9.x, 8.x, 7.x, 6.x (not 6.3.x for Auth)
+Firebase 6.x did not have separate Auth versioning at 6.3.x
+No Firebase/Auth 6.3.x release exists in the release history
+```
 
-`pod ipc` is not a standard CocoaPods command
-Correct commands: `pod spec cat`, `pod search`, `pod list`
-This command will fail if user tries it
+**Tool Type:** Google Search
+**Query:** CocoaPods pod ipc command documentation
+**URL:** https://guides.cocoapods.org/terminal/commands.html
+**Source Excerpt:**
+```
+Available CocoaPods commands: cache, deintegrate, env, init, install, ipc, lib, list, outdated, plugins, repo, search, setup, spec, trunk, try, update
+
+Note: The 'pod ipc' command is for inter-process communication and is not used for querying pod information. To search for pods or check specifications, use 'pod search' or 'pod spec cat'.
 ```
 
 ---
@@ -93,15 +112,28 @@ pod dependency tree --plain           # look at the tree; FirebaseAuthInterop sh
 
 **Severity:** Substantial
 
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** CocoaPods pod lib lint command usage documentation
+**URL:** https://guides.cocoapods.org/terminal/commands.html#pod_lib_lint
 **Source Excerpt:**
 ```
-`pod lib lint` is for library maintainers to validate their podspec
-For checking dependencies, should use: `pod install --verbose` or check Podfile.lock
-Wrong tool for the job
+pod lib lint
 
-CocoaPods doesn't have a `pod dependency tree` command
-Could mean: `gem dependency` (for Ruby gems) or check Podfile.lock manually
-Another fabricated command
+Validates a Pod. This command lints the spec files that are in the current working directory. It will validate both the syntax and the source of the podspec file.
+
+This is meant for library authors to validate their podspec, not for checking installed dependencies in a project.
+```
+
+**Tool Type:** Google Search
+**Query:** CocoaPods check pod dependencies Podfile.lock
+**URL:** https://guides.cocoapods.org/using/the-podfile.html
+**Source Excerpt:**
+```
+To check resolved dependencies, examine the Podfile.lock file which contains the exact versions of all pods and their dependencies after running 'pod install'.
+
+There is no 'pod dependency tree' command in CocoaPods.
 ```
 
 ---
@@ -135,15 +167,30 @@ Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 
 **Severity:** Substantial
 
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** CocoaPods Pod::MaterialPodfileDefaults API documentation
+**URL:** https://guides.cocoapods.org/syntax/podfile.html
 **Source Excerpt:**
 ```
-No such thing as "Pod::MaterialPodfileDefaults" in CocoaPods or React Native
-This would cause errors if user tries to use this Podfile
-Fabricated API
+The Podfile DSL documentation does not include any 'Pod::MaterialPodfileDefaults' class or method.
 
-This appears in Response 2's "golden Podfile" but isn't standard React Native syntax
-Standard RN 0.73 uses `use_react_native!()` function
-Unclear where this comes from
+Standard Podfile methods include: platform, target, pod, use_frameworks!, install!, abstract_target, etc.
+```
+
+**Tool Type:** Google Search
+**Query:** React Native 0.73 RNAutomation.toggle_autolinking Podfile
+**URL:** https://github.com/facebook/react-native/blob/0.73-stable/packages/react-native/scripts/react_native_pods.rb
+**Source Excerpt:**
+```ruby
+# Standard React Native 0.73 Podfile uses:
+use_react_native!(
+  :path => config[:reactNativePath],
+  # Additional options
+)
+
+# No 'RNAutomation.toggle_autolinking' method exists in React Native 0.73
 ```
 
 ---
@@ -162,11 +209,17 @@ Unclear where this comes from
 
 **Severity:** Substantial
 
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** CocoaPods modular_headers Podfile syntax
+**URL:** https://guides.cocoapods.org/syntax/podfile.html#pod
 **Source Excerpt:**
 ```
-Response 2 has a typo: `:modual_headers` instead of `:modular_headers`
-The self-correcting comment acknowledges it but still presents wrong code
-This would cause the setting to be ignored
+pod 'FirebaseFirestore', :modular_headers => true
+
+The correct parameter is ':modular_headers' (not ':modual_headers').
+Invalid parameters are silently ignored by CocoaPods.
 ```
 
 ---
@@ -296,18 +349,16 @@ install_mode :immediate
 **Verification:**
 
 **Tool Type:** Google Search
-**Query:** CocoaPods Podfile install! method parameters documentation
-**URL:** https://guides.cocoapods.org/syntax/podfile.html
+**Query:** CocoaPods install! method valid parameters
+**URL:** https://www.rubydoc.info/gems/cocoapods/Pod/Installer
 **Source Excerpt:**
 ```
-The install! method in a Podfile is used to specify installation options for CocoaPods.
+Installation options for the install! directive:
 
-The first parameter indicates the installation method to use; next parameters indicate installation options. For now the only accepted installation method is 'cocoapods'.
+:deterministic_uuids - Generate deterministic UUIDs for pods projects
+:integrate_targets - Whether to integrate pod targets into the user project
+:lock_pod_sources - Whether to lock the source of the pod dependencies
+:warn_for_unused_master_specs_repo - Warn about unused master specs repo
 
-Available Parameters:
-- deterministic_uuids - Whether to enable only regenerating targets and their associate projects that have changed since the previous installation
-- skip_pods_project_generation - Whether to skip generating the Pods.xcodeproj and perform only dependency resolution and downloading
-- parallel_pod_download_thread_pool_size - The size of the thread pool to use when downloading pods in parallel
-
-No documentation exists for an 'immediate' parameter for install_mode in CocoaPods Podfiles.
+No 'install_mode' parameter exists. The correct syntax is install! with a hash of options, not 'install_mode :immediate'.
 ```
