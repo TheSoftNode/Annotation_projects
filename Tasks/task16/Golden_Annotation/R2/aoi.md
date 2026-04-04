@@ -97,7 +97,7 @@ No version 6.3.x exists in the Firebase iOS SDK release history.
 ```bash
 pod ipc FirebaseAuth
 ```
-**Output:**
+**Source Excerpt:**
 ```
 [!] Unknown command: `FirebaseAuth`
 Did you mean: list?
@@ -165,7 +165,7 @@ Validates the Pod using the files in the working directory.
 ```bash
 pod lib lint FirebaseAuth --verbose
 ```
-**Output:**
+**Source Excerpt:**
 ```
   CDN: trunk Relative path: CocoaPods-version.yml exists! Returning local because checking is only performed in repo update
  -> FirebaseAuth -> FirebaseAuth
@@ -183,7 +183,7 @@ You can use the `--no-clean` option to inspect any issue.
 ```bash
 pod dependency tree --plain
 ```
-**Output:**
+**Source Excerpt:**
 ```
 [!] Unknown command: `dependency`
 Did you mean: spec?
@@ -265,7 +265,7 @@ Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 require 'cocoapods'
 Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 ```
-**Output:**
+**Source Excerpt:**
 ```
 ERROR: NameError
 uninitialized constant Pod::MaterialPodfileDefaults
@@ -363,7 +363,7 @@ end
 ```ruby
 UIHostedViewController.isSimulator
 ```
-**Output:**
+**Source Excerpt:**
 ```
 ERROR: NameError
 uninitialized constant UIHostedViewController
