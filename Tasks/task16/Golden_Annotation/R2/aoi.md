@@ -73,14 +73,22 @@ end
 
 **Verification:**
 
-**Tool Type:** GitHub API
-**Query:** Firebase iOS SDK releases tag names
-**URL:** https://api.github.com/repos/firebase/firebase-ios-sdk/releases
+**Tool Type:** Google Search
+**Query:** Firebase iOS SDK releases
+**URL:** https://github.com/firebase/firebase-ios-sdk/releases
 **Source Excerpt:**
-```json
-Release tags show: "12.11.0", "12.10.0", ..., "11.13.0", "11.12.0", ..., "10.29.0", "10.28.0", ..., "9.6.0", "9.5.0", ..., "8.15.0", "8.14.0", ..., "7.11.0", "7.10.0"
+```
+Available release versions (sampling):
 
-No Firebase 6.3.x or Firebase/Auth 6.3.x releases exist in the repository.
+12.11.0, 12.10.0, 12.9.0, 12.8.0, 12.7.0, 12.6.0, 12.5.0, 12.4.0, 12.3.0, 12.2.0
+12.1.0, 12.0.0
+11.15.0, 11.14.0, 11.13.0, 11.12.0, 11.11.0, 11.10.0, 11.9.0, 11.8.1, 11.8.0
+11.7.0, 11.6.0, 11.5.0, 11.4.0, 11.3.0, 11.2.0, 11.1.0, 11.0.0
+10.29.0, 10.28.1, 10.28.0, 10.27.0, 10.26.0, 10.25.0, 10.24.0, 10.23.1, 10.23.0
+10.22.1, 10.22.0, 10.21.0, 10.20.0, 10.19.0, 10.18.0, 10.17.0, 10.16.0, 10.15.0
+10.14.0, 10.13.0, 10.12.0
+
+No version 6.3.x exists in the Firebase iOS SDK release history.
 ```
 
 **Tool Type:** Code Executor

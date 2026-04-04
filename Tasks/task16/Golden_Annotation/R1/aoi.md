@@ -215,7 +215,49 @@ Response 1 says '✅ This works' but provides NO warning about:
 
 ---
 
-## AOI #5 - MINOR
+## AOI #5 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+### **Option A: Downgrade Firebase to v10.x (supports iOS 11+)**
+
+In your Podfile:
+
+pod 'Firebase/Auth', '~> 10.25.0'
+pod 'Firebase/Firestore', '~> 10.25.0'
+pod 'Firebase/Storage', '~> 10.25.0'
+```
+
+**Description:** The response recommends manually adding direct Firebase/* pods (Firebase/Auth, Firebase/Firestore, Firebase/Storage) to the Podfile, which is the wrong integration model for modern React Native Firebase projects. Current React Native Firebase documentation states that the native Firebase dependencies are automatically installed by the @react-native-firebase packages, and the v6 migration guide specifically instructs users to remove old direct Firebase/* pod declarations. This approach conflicts with React Native Firebase's autolinking architecture and can cause dependency management issues.
+
+**Severity:** Substantial
+
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** React Native Firebase iOS installation documentation
+**URL:** https://rnfirebase.io/
+**Source Excerpt:**
+```
+The @react-native-firebase modules automatically add the required native Firebase SDK dependencies to your project.
+```
+
+**Tool Type:** Google Search
+**Query:** React Native Firebase migration v6 remove Firebase pods
+**URL:** https://github.com/invertase/react-native-firebase/blob/main/docs/migrating-to-v6.md
+**Source Excerpt:**
+```
+Remove any Firebase pods from your Podfile.
+
+If you were using manual installation, you should remove any Firebase pods you had in your Podfile, for example:
+
+- pod 'Firebase/Auth'
+- pod 'Firebase/Firestore'
+```
+
+---
+
+## AOI #6 - MINOR
 
 **Response Excerpt:**
 ```
@@ -248,7 +290,7 @@ The only things that will remains are as follows:
 
 ---
 
-## AOI #6 - MINOR
+## AOI #7 - MINOR
 
 **Response Excerpt:**
 ```
@@ -275,7 +317,7 @@ React Native 0.73 raised the minimum iOS version to 13.4
 
 ---
 
-## AOI #7 - MINOR
+## AOI #8 - MINOR
 
 **Response Excerpt:**
 ```
@@ -302,7 +344,7 @@ Apple does not publicly publish detailed iOS version distribution statistics sho
 
 ---
 
-## AOI #8 - MINOR
+## AOI #9 - MINOR
 
 **Response Excerpt:**
 ```
@@ -323,7 +365,7 @@ You're now ready to build without warnings or errors. 🎉
 
 ---
 
-## AOI #9 - MINOR
+## AOI #10 - MINOR
 
 **Response Excerpt:**
 ```
@@ -350,7 +392,7 @@ Official React Native Firebase docs show use_frameworks! :linkage => :static and
 
 ---
 
-## AOI #10 - MINOR
+## AOI #11 - MINOR
 
 **Response Excerpt:**
 ```
