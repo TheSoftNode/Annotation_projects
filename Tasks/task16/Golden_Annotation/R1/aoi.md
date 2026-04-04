@@ -11,13 +11,36 @@ Firebase 11.x (including `FirebaseAuth 11.13.0`) requires **iOS 12.0 or higher**
 
 **Severity:** Substantial
 
-**Verification:**
-- **Tool Type:** Code Executor
-- **Query:** `curl -L https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-11.13.0/FirebaseAuthInterop.podspec | grep deployment_target`
-- **URL:** https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-11.13.0/FirebaseAuthInterop.podspec
-- **Source Excerpt:**
-```
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `Firebase iOS SDK 11.13.0 FirebaseAuthInterop podspec github`
+
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuthInterop.podspec
+
+**Source Excerpt:**
+
+```ruby
 s.ios.deployment_target = '13.0'
+```
+
+**Tool Type:** Code Executor
+
+**Query:** `/Users/apple/Desktop/Applyloop-project3/Tasks/task16/test_environment/code_snippets/snippet_1_platform_comparison.sh`
+
+**Source Excerpt:**
+
+```
+Firebase 11.13.0 actual requirement:
+  s.ios.deployment_target = '13.0'
+
+ANALYSIS:
+❌ Response 1 claims: iOS 12.0
+✅ Actual requirement: iOS 13.0
+
+AOI #2: Wrong deployment target in code snippet
+The suggested fix 'platform :ios, 12.0' will NOT work!
 ```
 
 ---
@@ -33,13 +56,18 @@ platform :ios, '12.0'   # ✅ Required for Firebase 11+
 
 **Severity:** Substantial
 
-**Verification:**
-- **Tool Type:** Code Executor
-- **Query:** `curl -L https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-11.13.0/FirebaseAuth.podspec | grep deployment_target`
-- **URL:** https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-11.13.0/FirebaseAuth.podspec
-- **Source Excerpt:**
-```
-s.ios.deployment_target = '13.0'
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `Firebase iOS SDK CocoaPods-11.13.0 FirebaseAuth deployment target`
+
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuth.podspec
+
+**Source Excerpt:**
+
+```ruby
+ios_deployment_target = '13.0'
 ```
 
 ---
@@ -55,12 +83,17 @@ s.ios.deployment_target = '13.0'
 
 **Severity:** Substantial
 
-**Verification:**
-- **Tool Type:** Code Executor
-- **Query:** `curl -L https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-11.13.0/FirebaseAuthInterop.podspec | grep deployment_target`
-- **URL:** https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-11.13.0/FirebaseAuthInterop.podspec
-- **Source Excerpt:**
-```
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `FirebaseAuthInterop 11.0 iOS minimum deployment target podspec`
+
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuthInterop.podspec
+
+**Source Excerpt:**
+
+```ruby
 s.ios.deployment_target = '13.0'
 ```
 
@@ -80,20 +113,34 @@ pod 'RNFirebaseStorage', :path => '../node_modules/@react-native-firebase/storag
 
 **Severity:** Substantial
 
-**Verification:**
-- **Tool Type:** Code Executor
-- **Query:** `curl -L https://raw.githubusercontent.com/invertase/react-native-firebase/master/packages/app/RNFBApp.podspec | grep 's.name'`
-- **URL:** https://raw.githubusercontent.com/invertase/react-native-firebase/master/packages/app/RNFBApp.podspec
-- **Source Excerpt:**
-```
-s.name         = "RNFBApp"
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `react-native-firebase RNFBApp podspec github master`
+
+**URL:** https://github.com/invertase/react-native-firebase/blob/main/packages/app/RNFBApp.podspec
+
+**Source Excerpt:**
+
+```ruby
+s.name = "RNFBApp"
 ```
 
-**Additional Verification:**
-- **Query:** `curl -L https://raw.githubusercontent.com/invertase/react-native-firebase/master/packages/auth/RNFBAuth.podspec | grep 's.name'`
-- **Source Excerpt:**
+**Tool Type:** Google Search
+
+**Query:** `react-native-firebase v6 migration pod names RNFirebase deprecated`
+
+**URL:** https://rnfirebase.io/migrating-to-v6
+
+**Source Excerpt:**
+
 ```
-s.name         = "RNFBAuth"
+The pod names have changed:
+- RNFirebase → RNFBApp
+- RNFirebaseAuth → RNFBAuth
+- RNFirebaseFirestore → RNFBFirestore
+- RNFirebaseStorage → RNFBStorage
 ```
 
 ---
@@ -118,13 +165,30 @@ target 'YourApp' do
 
 **Severity:** Substantial
 
-**Verification:**
-- **Tool Type:** Web Search
-- **Query:** React Native Firebase autolinking iOS 2025
-- **URL:** https://rnfirebase.io/
-- **Source Excerpt:**
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `React Native Firebase autolinking documentation iOS setup`
+
+**URL:** https://rnfirebase.io/
+
+**Source Excerpt:**
+
 ```
 Users on React Native 0.60+ automatically have access to "autolinking", requiring no further manual installation steps.
+```
+
+**Tool Type:** Google Search
+
+**Query:** `React Native 0.60 autolinking what is autolinking`
+
+**URL:** https://reactnative.dev/blog/2019/07/03/version-60
+
+**Source Excerpt:**
+
+```
+Autolinking is a new feature that allows React Native to automatically link native dependencies without manual intervention.
 ```
 
 ---
@@ -140,11 +204,16 @@ pod deintegrate         # Removes all pod files (safely)
 
 **Severity:** Minor
 
-**Verification:**
-- **Tool Type:** Web Search
-- **Query:** CocoaPods pod deintegrate command documentation
-- **URL:** https://guides.cocoapods.org/terminal/commands.html
-- **Source Excerpt:**
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `CocoaPods pod deintegrate command documentation`
+
+**URL:** https://guides.cocoapods.org/terminal/commands.html
+
+**Source Excerpt:**
+
 ```
 pod deintegrate: Remove all traces of CocoaPods from your Xcode project.
 ```
@@ -162,11 +231,16 @@ pod deintegrate: Remove all traces of CocoaPods from your Xcode project.
 
 **Severity:** Minor
 
-**Verification:**
-- **Tool Type:** Web Search
-- **Query:** React Native 0.73 minimum iOS version requirement
-- **URL:** https://reactnative.dev/blog/2023/12/06/0.73-debugging-improvements-stable-symlinks
-- **Source Excerpt:**
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `React Native 0.73 minimum iOS version requirement blog`
+
+**URL:** https://reactnative.dev/blog/2023/12/06/0.73-debugging-improvements-stable-symlinks
+
+**Source Excerpt:**
+
 ```
 React Native 0.73 raised the minimum iOS version to 13.4
 ```
@@ -184,13 +258,18 @@ React Native 0.73 raised the minimum iOS version to 13.4
 
 **Severity:** Minor
 
-**Verification:**
-- **Tool Type:** Code Executor
-- **Query:** `curl -L https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-11.13.0/FirebaseAuth.podspec | grep deployment_target`
-- **URL:** https://raw.githubusercontent.com/firebase/firebase-ios-sdk/CocoaPods-11.13.0/FirebaseAuth.podspec
-- **Source Excerpt:**
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `Firebase 11.0.0 iOS minimum version changelog`
+
+**URL:** https://firebase.google.com/support/release-notes/ios
+
+**Source Excerpt:**
+
 ```
-s.ios.deployment_target = '13.0'
+Increased minimum supported iOS version to 13.0
 ```
 
 ---
@@ -233,11 +312,16 @@ use_modular_headers!
 
 **Severity:** Minor
 
-**Verification:**
-- **Tool Type:** Web Search
-- **Query:** "use_modular_headers" CocoaPods Firebase iOS requirement
-- **URL:** https://rnfirebase.io/
-- **Source Excerpt:**
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `React Native Firebase iOS setup use_modular_headers required`
+
+**URL:** https://rnfirebase.io/
+
+**Source Excerpt:**
+
 ```
 Official React Native Firebase docs show use_frameworks! :linkage => :static and $RNFirebaseAsStaticFramework = true, but do not include use_modular_headers! in the setup instructions.
 ```
