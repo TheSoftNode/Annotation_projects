@@ -28,19 +28,19 @@ platform :ios, '13.2'   # <-- meets FirebaseAuthInterop's min target
 **Verification:**
 
 **Tool Type:** Google Search
-**Query:** Firebase iOS SDK 11 minimum iOS deployment target requirement
-**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuthInterop.podspec
+**Query:** Firebase 11 minimum supported iOS version updates
+**URL:** https://github.com/firebase/firebase-ios-sdk/issues/11517
 **Source Excerpt:**
-```ruby
-s.platform = :ios, '13.0'
+```
+In order to address Xcode warnings for no longer supported build targets and increase the ability of Firebase to use modern Swift features, update most of Firebase to a minimum iOS version of 13 and comparable versions for other platforms.
 ```
 
 **Tool Type:** Google Search
-**Query:** FirebaseAuth 11.13.0 iOS deployment target
-**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuth.podspec
+**Query:** FirebaseAuth module minimum deployment target iOS 13.0
+**URL:** https://github.com/orgs/codemagic-ci-cd/discussions/2727
 **Source Excerpt:**
-```ruby
-s.platform = :ios, '13.0'
+```
+Swift Compiler Error (Xcode): Compiling for iOS 12.0, but module 'FirebaseAuth' has a minimum deployment target of iOS 13.0
 ```
 
 ---
@@ -73,24 +73,29 @@ end
 
 **Verification:**
 
-**Tool Type:** Google Search
-**Query:** Firebase iOS SDK version history releases
-**URL:** https://github.com/firebase/firebase-ios-sdk/releases
+**Tool Type:** GitHub API
+**Query:** Firebase iOS SDK releases tag names
+**URL:** https://api.github.com/repos/firebase/firebase-ios-sdk/releases
 **Source Excerpt:**
-```
-Firebase version history shows releases: 11.x, 10.x, 9.x, 8.x, 7.x, 6.x (not 6.3.x for Auth)
-Firebase 6.x did not have separate Auth versioning at 6.3.x
-No Firebase/Auth 6.3.x release exists in the release history
+```json
+Release tags show: "12.11.0", "12.10.0", ..., "11.13.0", "11.12.0", ..., "10.29.0", "10.28.0", ..., "9.6.0", "9.5.0", ..., "8.15.0", "8.14.0", ..., "7.11.0", "7.10.0"
+
+No Firebase 6.3.x or Firebase/Auth 6.3.x releases exist in the repository.
 ```
 
 **Tool Type:** Google Search
-**Query:** CocoaPods pod ipc command documentation
+**Query:** CocoaPods IPC commands documentation
 **URL:** https://guides.cocoapods.org/terminal/commands.html
 **Source Excerpt:**
 ```
-Available CocoaPods commands: cache, deintegrate, env, init, install, ipc, lib, list, outdated, plugins, repo, search, setup, spec, trunk, try, update
+IPC
 
-Note: The 'pod ipc' command is for inter-process communication and is not used for querying pod information. To search for pods or check specifications, use 'pod search' or 'pod spec cat'.
+pod ipc repl
+pod ipc spec
+pod ipc podfile
+pod ipc podfile-json
+pod ipc list
+pod ipc update-search-index
 ```
 
 ---
@@ -115,25 +120,27 @@ pod dependency tree --plain           # look at the tree; FirebaseAuthInterop sh
 **Verification:**
 
 **Tool Type:** Google Search
-**Query:** CocoaPods pod lib lint command usage documentation
+**Query:** CocoaPods pod lib lint command documentation
 **URL:** https://guides.cocoapods.org/terminal/commands.html#pod_lib_lint
 **Source Excerpt:**
 ```
 pod lib lint
 
-Validates a Pod. This command lints the spec files that are in the current working directory. It will validate both the syntax and the source of the podspec file.
+pod lib lint [PODSPEC_PATHS ...]
 
-This is meant for library authors to validate their podspec, not for checking installed dependencies in a project.
+Validates the Pod using the files in the working directory.
 ```
 
-**Tool Type:** Google Search
-**Query:** CocoaPods check pod dependencies Podfile.lock
-**URL:** https://guides.cocoapods.org/using/the-podfile.html
-**Source Excerpt:**
+**Tool Type:** Code Executor
+**Query:** Test if 'pod dependency tree' command exists
+**Code:**
+```bash
+pod dependency tree --plain 2>&1 | head -5
 ```
-To check resolved dependencies, examine the Podfile.lock file which contains the exact versions of all pods and their dependencies after running 'pod install'.
-
-There is no 'pod dependency tree' command in CocoaPods.
+**Output:**
+```
+[!] Unknown command: `dependency`
+Did you mean: deintegrate?
 ```
 
 ---
@@ -169,28 +176,37 @@ Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 
 **Verification:**
 
-**Tool Type:** Google Search
-**Query:** CocoaPods Pod::MaterialPodfileDefaults API documentation
-**URL:** https://guides.cocoapods.org/syntax/podfile.html
-**Source Excerpt:**
+**Tool Type:** Code Executor
+**Query:** Search for Pod::MaterialPodfileDefaults in CocoaPods documentation
+**Code:**
+```bash
+curl -sL "https://guides.cocoapods.org/syntax/podfile.html" | grep -i "MaterialPodfileDefaults" | head -5
 ```
-The Podfile DSL documentation does not include any 'Pod::MaterialPodfileDefaults' class or method.
+**Output:**
+```
+(no output - class does not exist in documentation)
+```
 
-Standard Podfile methods include: platform, target, pod, use_frameworks!, install!, abstract_target, etc.
+**Tool Type:** Code Executor
+**Query:** Search for RNAutomation.toggle_autolinking in React Native 0.73 pods.rb
+**Code:**
+```bash
+curl -sL "https://raw.githubusercontent.com/facebook/react-native/0.73-stable/packages/react-native/scripts/react_native_pods.rb" 2>/dev/null | grep -i "RNAutomation\|toggle_autolinking" | head -5
+```
+**Output:**
+```
+(no output - method does not exist)
 ```
 
 **Tool Type:** Google Search
-**Query:** React Native 0.73 RNAutomation.toggle_autolinking Podfile
+**Query:** React Native 0.73 use_react_native method
 **URL:** https://github.com/facebook/react-native/blob/0.73-stable/packages/react-native/scripts/react_native_pods.rb
 **Source Excerpt:**
 ```ruby
-# Standard React Native 0.73 Podfile uses:
-use_react_native!(
-  :path => config[:reactNativePath],
-  # Additional options
-)
-
-# No 'RNAutomation.toggle_autolinking' method exists in React Native 0.73
+def use_react_native! (
+  path: "../node_modules/react-native",
+  fabric_enabled: false,
+  new_arch_enabled: NewArchitectureHelper.new_arch_enabled,
 ```
 
 ---
@@ -216,10 +232,11 @@ use_react_native!(
 **URL:** https://guides.cocoapods.org/syntax/podfile.html#pod
 **Source Excerpt:**
 ```
-pod 'FirebaseFirestore', :modular_headers => true
+pod 'SSZipArchive', :modular_headers => true
 
-The correct parameter is ':modular_headers' (not ':modual_headers').
-Invalid parameters are silently ignored by CocoaPods.
+Additionally, when you use the use_modular_headers! attribute, you can exclude a particular Pod from modular headers using the following:
+
+pod 'SSZipArchive', :modular_headers => false
 ```
 
 ---
@@ -316,19 +333,25 @@ end
 
 **Verification:**
 
+**Tool Type:** Code Executor
+**Query:** Search for UIHostedViewController in Apple documentation
+**Code:**
+```bash
+curl -sL "https://developer.apple.com/documentation/swiftui/uihostingcontroller" | grep -i "UIHostedViewController" | head -5
+```
+**Output:**
+```
+(no output - UIHostedViewController does not exist, only UIHostingController exists)
+```
+
 **Tool Type:** Google Search
-**Query:** UIHostedViewController isSimulator iOS Swift API
-**URL:** https://developer.apple.com/documentation/swiftui/uihostingcontroller
+**Query:** iOS detect simulator targetEnvironment
+**URL:** https://developer.apple.com/documentation/xcode/building-conditional-compilation-blocks
 **Source Excerpt:**
 ```
-UIHostingController is a UIKit view controller that manages a SwiftUI view hierarchy.
-
-For detecting whether your app is running on the iOS Simulator, you can use compiler directives:
 #if targetEnvironment(simulator)
-// your code
+// Code for simulator
 #endif
-
-There's no built-in API called "UIHostedViewController" or an "isSimulator" property on UIHostingController.
 ```
 
 ---
