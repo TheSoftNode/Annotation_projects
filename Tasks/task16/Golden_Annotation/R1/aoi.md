@@ -5,9 +5,13 @@
 **Response Excerpt:**
 ```
 Firebase 11.x (including `FirebaseAuth 11.13.0`) requires **iOS 12.0 or higher** as the minimum deployment target.
+
+platform :ios, '12.0'   # ✅ Required for Firebase 11+
+
+🔍 `FirebaseAuthInterop (~> 11.0)` is part of Firebase 11.x and **requires iOS 12+**.
 ```
 
-**Description:** The response incorrectly states that Firebase 11.x requires iOS 12.0 as the minimum deployment target when the actual requirement is iOS 13.0, causing users who follow this guidance to encounter continued deployment target errors.
+**Description:** The response incorrectly states that Firebase 11.x requires iOS 12.0 as the minimum deployment target when the actual requirement is iOS 13.0. This error appears repeatedly throughout the response in the opening explanation, the recommended code snippet, and the technical details section, causing users who follow this guidance to encounter continued deployment target errors when the solution fails to work.
 
 **Severity:** Substantial
 
@@ -43,90 +47,6 @@ Firebase 11: 13.0
 ---
 
 ## AOI #2 - SUBSTANTIAL
-
-**Response Excerpt:**
-```
-platform :ios, '12.0'   # ✅ Required for Firebase 11+
-```
-
-**Description:** The response instructs users to set their deployment target to iOS 12.0 for Firebase 11+ when Firebase 11.13.0 actually requires iOS 13.0, resulting in a solution that will not resolve the dependency error described in the user's prompt.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Google Search
-
-**Query:** `Firebase iOS SDK CocoaPods-11.13.0 FirebaseAuth deployment target`
-
-**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuth.podspec
-
-**Source Excerpt:**
-
-```ruby
-ios_deployment_target = '13.0'
-```
-
-**Tool Type:** Google Search
-
-**Query:** `Firebase iOS SDK 11.0.0 changelog minimum iOS version`
-
-**URL:** https://github.com/firebase/firebase-ios-sdk/blob/main/FirebaseCore/CHANGELOG.md
-
-**Source Excerpt:**
-
-```
-Firebase 11.0.0
-[changed] Breaking change: Firebase's minimum supported versions have updated for the following platforms:
-Platform: iOS
-Firebase 11: 13.0
-```
-
----
-
-## AOI #3 - SUBSTANTIAL
-
-**Response Excerpt:**
-```
-🔍 `FirebaseAuthInterop (~> 11.0)` is part of Firebase 11.x and **requires iOS 12+**.
-```
-
-**Description:** The response claims that FirebaseAuthInterop 11.0 requires iOS 12+ when the actual minimum is iOS 13.0, perpetuating the incorrect deployment target information throughout the explanation section.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Google Search
-
-**Query:** `FirebaseAuthInterop 11.0 iOS minimum deployment target podspec`
-
-**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuthInterop.podspec
-
-**Source Excerpt:**
-
-```ruby
-s.ios.deployment_target = '13.0'
-```
-
-**Tool Type:** Google Search
-
-**Query:** `Firebase iOS SDK 11.0.0 changelog minimum iOS version`
-
-**URL:** https://github.com/firebase/firebase-ios-sdk/blob/main/FirebaseCore/CHANGELOG.md
-
-**Source Excerpt:**
-
-```
-Firebase 11.0.0
-[changed] Breaking change: Firebase's minimum supported versions have updated for the following platforms:
-Platform: iOS
-Firebase 11: 13.0
-```
-
----
-
-## AOI #4 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -172,7 +92,7 @@ The pod names have changed:
 
 ---
 
-## AOI #5 - SUBSTANTIAL
+## AOI #3 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -220,7 +140,7 @@ Autolinking is a new feature that allows React Native to automatically link nati
 
 ---
 
-## AOI #6 - SUBSTANTIAL
+## AOI #4 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -253,7 +173,7 @@ Common dependency resolution issues occur when downgrading major versions of pod
 
 ---
 
-## AOI #7 - MINOR
+## AOI #5 - MINOR
 
 **Response Excerpt:**
 ```
@@ -280,7 +200,7 @@ pod deintegrate: Remove all traces of CocoaPods from your Xcode project.
 
 ---
 
-## AOI #8 - MINOR
+## AOI #6 - MINOR
 
 **Response Excerpt:**
 ```
@@ -307,7 +227,7 @@ React Native 0.73 raised the minimum iOS version to 13.4
 
 ---
 
-## AOI #9 - MINOR
+## AOI #7 - MINOR
 
 **Response Excerpt:**
 ```
@@ -349,7 +269,7 @@ Firebase 11: 13.0
 
 ---
 
-## AOI #10 - MINOR
+## AOI #8 - MINOR
 
 **Response Excerpt:**
 ```
@@ -362,7 +282,7 @@ Apple's App Store stats show **>99% of users are on iOS 14+** (as of 2024).
 
 ---
 
-## AOI #11 - MINOR
+## AOI #9 - MINOR
 
 **Response Excerpt:**
 ```
@@ -376,7 +296,7 @@ Apple's App Store stats show **>99% of users are on iOS 14+** (as of 2024).
 
 ---
 
-## AOI #12 - MINOR
+## AOI #10 - MINOR
 
 **Response Excerpt:**
 ```
@@ -403,7 +323,7 @@ Official React Native Firebase docs show use_frameworks! :linkage => :static and
 
 ---
 
-## AOI #13 - MINOR
+## AOI #11 - MINOR
 
 **Response Excerpt:**
 ```
