@@ -149,26 +149,27 @@ target 'YourApp' do
 
 **Tool Type:** Google Search
 
-**Query:** `React Native Firebase autolinking documentation iOS setup`
+**Query:** `React Native Firebase autolinking 0.60 documentation github`
 
-**URL:** https://rnfirebase.io/
+**URL:** https://github.com/invertase/react-native-firebase/blob/main/docs/index.md
 
 **Source Excerpt:**
 
 ```
-Users on React Native 0.60+ automatically have access to "autolinking", requiring no further manual installation steps.
+Users on React Native 0.60+ automatically have access to "autolinking",
+requiring no further manual installation steps. To automatically link the package, rebuild your project:
 ```
 
 **Tool Type:** Google Search
 
-**Query:** `React Native 0.60 autolinking what is autolinking`
+**Query:** `React Native 0.60 autolinking native modules announcement`
 
 **URL:** https://reactnative.dev/blog/2019/07/03/version-60
 
 **Source Excerpt:**
 
 ```
-Autolinking is a new feature that allows React Native to automatically link native dependencies without manual intervention.
+The team working on the React Native CLI has introduced major improvements to native module linking called autolinking! Most scenarios will not require the use of react-native link anymore.
 ```
 
 ---
