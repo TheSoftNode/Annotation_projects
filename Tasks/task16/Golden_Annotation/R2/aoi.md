@@ -92,12 +92,12 @@ No version 6.3.x exists in the Firebase iOS SDK release history.
 ```
 
 **Tool Type:** Code Executor
-**Query:** pod ipc FirebaseAuth 2>&1
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```bash
 pod ipc FirebaseAuth
 ```
-**Source Excerpt:**
+**Output:**
 ```
 [!] Unknown command: `FirebaseAuth`
 Did you mean: list?
@@ -160,12 +160,12 @@ Validates the Pod using the files in the working directory.
 ```
 
 **Tool Type:** Code Executor
-**Query:** pod lib lint FirebaseAuth --verbose 2>&1 | head -30
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```bash
 pod lib lint FirebaseAuth --verbose
 ```
-**Source Excerpt:**
+**Output:**
 ```
   CDN: trunk Relative path: CocoaPods-version.yml exists! Returning local because checking is only performed in repo update
  -> FirebaseAuth -> FirebaseAuth
@@ -178,12 +178,12 @@ You can use the `--no-clean` option to inspect any issue.
 ```
 
 **Tool Type:** Code Executor
-**Query:** pod dependency tree --plain 2>&1
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```bash
 pod dependency tree --plain
 ```
-**Source Excerpt:**
+**Output:**
 ```
 [!] Unknown command: `dependency`
 Did you mean: spec?
@@ -259,13 +259,13 @@ Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 **Verification:**
 
 **Tool Type:** Code Executor
-**Query:** ruby -e "require 'cocoapods'; Pod::MaterialPodfileDefaults.new([:android, :ios]).apply" 2>&1
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```ruby
 require 'cocoapods'
 Pod::MaterialPodfileDefaults.new([:android, :ios]).apply
 ```
-**Source Excerpt:**
+**Output:**
 ```
 ERROR: NameError
 uninitialized constant Pod::MaterialPodfileDefaults
@@ -358,12 +358,12 @@ end
 **Verification:**
 
 **Tool Type:** Code Executor
-**Query:** ruby -e "UIHostedViewController.isSimulator" 2>&1
+**Query:** ./run_all_r2_tests.sh
 **Code:**
 ```ruby
 UIHostedViewController.isSimulator
 ```
-**Source Excerpt:**
+**Output:**
 ```
 ERROR: NameError
 uninitialized constant UIHostedViewController
