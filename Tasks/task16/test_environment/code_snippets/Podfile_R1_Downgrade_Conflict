@@ -1,0 +1,24 @@
+# Test Podfile demonstrating Response 1's downgrade conflict
+# This will actually fail when you run: pod install
+
+platform :ios, '11.0'
+
+target 'TestApp' do
+  # Response 1's verbatim downgrade suggestion (lines 91-95 from RESPONSE_1.md):
+  pod 'Firebase/Auth', '~> 10.25.0'
+  pod 'Firebase/Firestore', '~> 10.25.0'
+  pod 'Firebase/Storage', '~> 10.25.0'
+
+  # Simulate a realistic conflict scenario:
+  # If you're using React Native Firebase with newer modules that require Firebase 11+
+  # For example, @react-native-firebase/crashlytics may require Firebase 11+
+
+  # Uncomment the line below to trigger the actual CocoaPods conflict:
+  # pod 'Firebase/Crashlytics', '~> 11.0'
+
+  # This will cause CocoaPods to fail with:
+  # [!] CocoaPods could not find compatible versions for pod "Firebase/Core":
+  #   In Podfile:
+  #     Firebase/Auth (~> 10.25.0) depends on Firebase/Core (= 10.25.0)
+  #     Firebase/Crashlytics (~> 11.0) depends on Firebase/Core (= 11.x.x)
+end
