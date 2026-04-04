@@ -467,3 +467,79 @@ Whether to disable the input & output paths of the CocoaPods script phases (Copy
 
 Whether to preserve the file structure of all Pods, including externally sourced pods.
 ```
+
+---
+
+## AOI #9 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+  # If you're using the RN‑Firebase wrapper:
+  # pod 'RNFirebase/Auth', :path => '../node_modules/@react-native-firebase/auth'
+  # pod 'RNFirebase/Firestore', :path => '../node_modules/@react-native-firebase/firestore'
+  # pod 'RNFirebase/Storage', :path => '../node_modules/@react-native-firebase/storage'
+```
+
+and
+
+```
+  # If you prefer the RN‑Firebase wrapper rather than direct Firebase pods:
+  # pod 'RNFirebase/Auth',     :path => '../node_modules/@react-native-firebase/auth'
+  # pod 'RNFirebase/Firestore', :path => '../node_modules/@react-native-firebase/firestore'
+  # pod 'RNFirebase/Storage',   :path => '../node_modules/@react-native-firebase/storage'
+```
+
+**Description:** The response uses incorrect pod names for React Native Firebase packages. The response specifies `RNFirebase/Auth`, `RNFirebase/Firestore`, and `RNFirebase/Storage`, but the actual podspec names are `RNFBAuth`, `RNFBFirestore`, and `RNFBStorage` respectively. These incorrect pod names will cause CocoaPods to fail with "Unable to find a specification for RNFirebase/Auth" errors if users attempt to use the suggested wrapper configuration.
+
+**Severity:** Substantial
+
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** React Native Firebase Auth podspec name
+**URL:** https://github.com/invertase/react-native-firebase/blob/master/packages/auth/RNFBAuth.podspec
+**Source Excerpt:**
+```
+  s.name                = "RNFBAuth"
+```
+
+**Tool Type:** Google Search
+**Query:** React Native Firebase Firestore podspec name
+**URL:** https://github.com/invertase/react-native-firebase/blob/master/packages/firestore/RNFBFirestore.podspec
+**Source Excerpt:**
+```
+  s.name                = "RNFBFirestore"
+```
+
+**Tool Type:** Google Search
+**Query:** React Native Firebase Storage podspec name
+**URL:** https://github.com/invertase/react-native-firebase/blob/master/packages/storage/RNFBStorage.podspec
+**Source Excerpt:**
+```
+  s.name                = "RNFBStorage"
+```
+
+---
+
+## AOI #10 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+  # If you need Google Services (Analytics, Crashlytics, etc.)
+  pod 'GoogleUtilities', '~> 1.4'   # needed by many Firebase pods
+```
+
+**Description:** The response recommends installing GoogleUtilities version ~> 1.4, which is incompatible with Firebase 11.x. Firebase 11.13.0 (the version in the original error) actually requires GoogleUtilities ~> 8.1. Specifying the wrong version constraint will either cause dependency resolution conflicts or force CocoaPods to install an outdated version that doesn't satisfy Firebase's actual requirements.
+
+**Severity:** Substantial
+
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** Firebase 11.13.0 GoogleUtilities dependency version
+**URL:** https://github.com/firebase/firebase-ios-sdk/blob/CocoaPods-11.13.0/FirebaseAuth.podspec
+**Source Excerpt:**
+```
+  s.dependency 'GoogleUtilities/AppDelegateSwizzler', '~> 8.1'
+  s.dependency 'GoogleUtilities/Environment', '~> 8.1'
+```
