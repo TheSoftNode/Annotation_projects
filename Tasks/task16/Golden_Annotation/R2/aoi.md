@@ -67,7 +67,7 @@ target 'YourApp' do
 end
 ```
 
-**Description:** The response recommends Firebase 6.3.x for iOS 12.0 support, but Firebase 6.3.0 supports iOS 8.0 minimum, not iOS 12.0. This is not the "highest version" compatible with iOS 12.0 - Firebase 10.x (which supports iOS 11.0+) is more appropriate. The command `pod ipc FirebaseAuth` is invalid and will fail.
+**Description:** The response recommends Firebase 6.3.x as the highest version compatible with iOS 12.0, but this is incorrect. Firebase 6.3.0 actually has a minimum deployment target of iOS 8.0, making it far older than necessary. For iOS 12.0 compatibility, Firebase 10.x (iOS 11.0+) would be more appropriate. Additionally, `pod ipc FirebaseAuth` is not a valid CocoaPods command.
 
 **Severity:** Substantial
 
