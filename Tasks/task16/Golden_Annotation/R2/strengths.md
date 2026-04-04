@@ -6,7 +6,7 @@ The response explains the dependency resolution mechanism by describing how Coco
 ---
 
 ## Strength 2
-The response includes Xcode DerivedData cleanup with the specific path `~/Library/Developer/Xcode/DerivedData/*`, addressing stale build artifacts that can persist after Podfile changes.
+The response includes cleanup commands for clearing Xcode's DerivedData and CocoaPods caches, addressing stale build artifacts that can persist after Podfile changes.
 
 ---
 
@@ -17,13 +17,3 @@ The response provides a gotchas table mapping symptoms like "No such module" err
 
 ## Strength 4
 The response uses numbered sections with a recap checklist at the end, allowing users to verify they have completed all steps in the correct order.
-
----
-
-## Strength 5
-The response presents decision-making guidance explaining when to upgrade the deployment target versus when to downgrade Firebase versions, acknowledging that projects have different legacy support constraints.
-
----
-
-## Strength 6
-The response provides a complete React Native Podfile example showing the full configuration with React Native pods, Firebase pods, and necessary settings like use_modular_headers, giving users a comprehensive reference.

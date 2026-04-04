@@ -240,3 +240,74 @@ Good luck, and happy coding! 🚀
 **Description:** The response ends with unnecessary pleasantries that add no technical value to the documentation and deviate from the informational tone expected in technical guidance.
 
 **Severity:** Minor
+
+---
+
+## AOI #11 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+post_install do |installer|
+  installer.pods_project.build_development_target = '13.0'   # keep dev target a notch lower if you like
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64' if UIHostedViewController.isSimulator
+    end
+  end
+end
+```
+
+**Description:** The response's post_install block includes a fabricated API call `UIHostedViewController.isSimulator` that does not exist in iOS or CocoaPods. The correct class name is `UIHostingController` (not `UIHostedViewController`), and there is no `isSimulator` property on this class. To detect the simulator in Swift, developers should use the compiler directive `#if targetEnvironment(simulator)` instead. This code will cause a runtime error if users copy this example.
+
+**Severity:** Substantial
+
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** UIHostedViewController isSimulator iOS Swift API
+**URL:** https://developer.apple.com/documentation/swiftui/uihostingcontroller
+**Source Excerpt:**
+```
+UIHostingController is a UIKit view controller that manages a SwiftUI view hierarchy.
+
+For detecting whether your app is running on the iOS Simulator, you can use compiler directives:
+#if targetEnvironment(simulator)
+// your code
+#endif
+
+There's no built-in API called "UIHostedViewController" or an "isSimulator" property on UIHostingController.
+```
+
+---
+
+## AOI #12 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+platform :ios, '13.2'        # <-- raise to meet FirebaseAuthInterop's minimum
+
+install_mode :immediate
+```
+
+**Description:** The response includes `install_mode :immediate` as a Podfile configuration parameter, but this is not a valid CocoaPods parameter. The correct method is `install!` (not `install_mode`) and it does not accept an `:immediate` parameter. Valid `install!` parameters include `:deterministic_uuids`, `:skip_pods_project_generation`, `:parallel_pod_download_thread_pool_size`, and `:warn_for_unused_master_specs_repo`, but not `:immediate`. This invalid syntax will cause the Podfile to fail or be silently ignored.
+
+**Severity:** Substantial
+
+**Verification:**
+
+**Tool Type:** Google Search
+**Query:** CocoaPods Podfile install! method parameters documentation
+**URL:** https://guides.cocoapods.org/syntax/podfile.html
+**Source Excerpt:**
+```
+The install! method in a Podfile is used to specify installation options for CocoaPods.
+
+The first parameter indicates the installation method to use; next parameters indicate installation options. For now the only accepted installation method is 'cocoapods'.
+
+Available Parameters:
+- deterministic_uuids - Whether to enable only regenerating targets and their associate projects that have changed since the previous installation
+- skip_pods_project_generation - Whether to skip generating the Pods.xcodeproj and perform only dependency resolution and downloading
+- parallel_pod_download_thread_pool_size - The size of the thread pool to use when downloading pods in parallel
+
+No documentation exists for an 'immediate' parameter for install_mode in CocoaPods Podfiles.
+```
