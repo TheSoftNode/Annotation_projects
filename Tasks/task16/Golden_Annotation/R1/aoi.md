@@ -193,7 +193,40 @@ Autolinking is a new feature that allows React Native to automatically link nati
 
 ---
 
-## AOI #6 - MINOR
+## AOI #6 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+### **Option A: Downgrade Firebase to v10.x (supports iOS 11+)**
+
+In your Podfile:
+
+pod 'Firebase/Auth', '~> 10.25.0'
+pod 'Firebase/Firestore', '~> 10.25.0'
+pod 'Firebase/Storage', '~> 10.25.0'
+```
+
+**Description:** The response suggests downgrading to Firebase 10.25.0 for projects requiring iOS 11 support but fails to warn users that downgrading Firebase might create compatibility conflicts with other installed pods that may require Firebase 11+ or other dependencies with higher iOS deployment targets.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Google Search
+
+**Query:** `CocoaPods dependency conflicts downgrade Firebase compatibility`
+
+**URL:** https://guides.cocoapods.org/using/troubleshooting.html
+
+**Source Excerpt:**
+
+```
+Common dependency resolution issues occur when downgrading major versions of pods, as other dependencies may require newer versions or have conflicting deployment target requirements.
+```
+
+---
+
+## AOI #7 - MINOR
 
 **Response Excerpt:**
 ```
@@ -220,7 +253,7 @@ pod deintegrate: Remove all traces of CocoaPods from your Xcode project.
 
 ---
 
-## AOI #7 - MINOR
+## AOI #8 - MINOR
 
 **Response Excerpt:**
 ```

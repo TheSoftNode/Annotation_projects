@@ -13,7 +13,7 @@ The response provides a before-and-after code comparison showing `platform :ios,
 ---
 
 ## Strength 3
-The response presents both solution paths by offering an upgrade approach for modern projects and a downgrade approach with specific Firebase 10.25.0 versions for legacy constraints, allowing users to choose based on whether they can modify their deployment target requirements.
+The response provides step-by-step terminal commands for cleaning the CocoaPods environment (`pod deintegrate`, `pod cache clean --all`, `rm -rf Pods/`), helping users ensure a clean rebuild and eliminate cached dependency conflicts.
 
 ---
 
