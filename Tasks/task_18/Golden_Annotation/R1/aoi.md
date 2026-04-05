@@ -221,13 +221,10 @@ With the variables correctly set, the script will print the InfluxDB line you ex
 **Verification:**
 
 **Tool Type:** Code Executor
-**Query:** Test original user code with gawk (variables correctly set via --assign)
+**Query:** `echo "cpu 42 5 10 20 30 40 45 50" | gawk --assign environment="prod" --assign measurement_name="latency" '{output_influxdb_string="resource_usage_" environment; output_influxdb_string+=",name=" measurement_name; output_influxdb_string+=" " $1 "_count=" $2; output_influxdb_string+=", " $1 "_min=" $3; output_influxdb_string+=", " $1 "_10p=" $4; output_influxdb_string+=", " $1 "_25p=" $5; output_influxdb_string+=", " $1 "_50p=" $6; output_influxdb_string+=", " $1 "_75p=" $7; output_influxdb_string+=", " $1 "_90p=" $8; output_influxdb_string+=", " $1 "_max=" $9; print output_influxdb_string}'`
 **Source Excerpt:**
 ```
-=== Testing ORIGINAL code with gawk (--assign should work) ===
 0
-
-Exit code: 0
 ```
 
 This proves that even when variables are correctly passed (using gawk with --assign), the script still fails due to the += operator, contradicting the response's claim that "with the variables correctly set, the script will print the InfluxDB line you expect."
