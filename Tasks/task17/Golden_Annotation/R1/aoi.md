@@ -76,11 +76,11 @@ Requiring json/jwe does not make `JSON::JWE::EncryptionFailed` exist because it'
 ```ruby
 rescue JSON::JWE::Exception => e
   raise TokenGenerationError, "JWT encryption failed: #{e.message}"
-rescue JSON::JWE::EncryptionFailed => e
-  raise TokenGenerationError, "Encryption failed: #{e.message}"
+rescue StandardError => e
+  raise TokenGenerationError, "Unexpected failure generating token: #{e.message}"
 ```
 
-**Description:** The response uses `JSON::JWE::Exception` and `JSON::JWE::EncryptionFailed` in rescue blocks, but these exception classes do not exist in the json-jwt gem, causing the module to crash with NameError when any error occurs.
+**Description:** The response uses `JSON::JWE::Exception` in a rescue block, but this exception class does not exist in the json-jwt gem, causing the module to crash with NameError when any error occurs.
 
 **Severity:** Substantial
 
@@ -99,11 +99,10 @@ NameError:
 ```
 
 **Tool Type:** Code Executor
-**Query:** `ruby -e "require 'json/jwt'; require 'json/jwe'; p defined?(JSON::JWE::Exception); p defined?(JSON::JWE::EncryptionFailed)"`
+**Query:** `ruby -e "require 'json/jwt'; require 'json/jwe'; p defined?(JSON::JWE::Exception)"`
 **Source Excerpt:**
 
 ```
-nil
 nil
 ```
 
@@ -310,53 +309,6 @@ The gem's documentation shows `encrypt` is called on a JWT instance, not as a cl
 
 **Response Excerpt:**
 ```
-'secret_key_id' => 'key-123', # <-- This was missing!
-```
-
-**Description:** The response treats the issue as a missing configuration key when the actual problem is the missing method definition in the module, which means adding configuration data alone will not fix the error.
-
-**Severity:** Minor
-
----
-
-## AOI #10 - SUBSTANTIAL
-
-**Response Excerpt:**
-```
-### **✅ Required Fix: Add `json/jwe` to `explo.rb`**
-
-Your `explo.rb` currently requires only `json/jwt`, but you're using `JSON::JWE::EncryptionFailed`. You **must** require `json/jwe` explicitly.
-
-Update your `explo.rb` to:
-
-require 'json/jwt'
-require 'json/jwe' # <-- ADD THIS LINE!
-```
-
-**Description:** The response states that requiring json/jwe explicitly is a required fix, but the json-jwt gem already requires json/jwe automatically, meaning users who follow this instruction are adding unnecessary code.
-
-**Severity:** Substantial
-
-**Verification:**
-
-**Tool Type:** Google Search
-**Query:** `json-jwt gem nov/json-jwt lib/json/jwt.rb GitHub source code require`
-**URL:** https://raw.githubusercontent.com/nov/json-jwt/main/lib/json/jwt.rb
-**Source Excerpt:**
-
-```ruby
-require 'json/jws'
-require 'json/jwe'
-```
-
-The json-jwt gem's main file already requires json/jwe automatically, so explicitly requiring it again is not necessary.
-
----
-
-## AOI #11 - MINOR
-
-**Response Excerpt:**
-```
 Absolutely! Based on your failing specs and the `Explo` module code, here's a **fully corrected, exhaustive, and robust** version of your RSpec suite
 ```
 
@@ -366,7 +318,7 @@ Absolutely! Based on your failing specs and the `Explo` module code, here's a **
 
 ---
 
-## AOI #12 - MINOR
+## AOI #10 - MINOR
 
 **Response Excerpt:**
 ```ruby
@@ -384,7 +336,7 @@ end
 
 ---
 
-## AOI #13 - MINOR
+## AOI #11 - MINOR
 
 **Response Excerpt:**
 ```ruby
@@ -402,7 +354,7 @@ end
 
 **Description:** The response adds a test case expecting the module to rescue TypeError and return global embeds, but the module code contains no rescue block in the get_available_embeds method, causing this new test to fail.
 
-**Severity:** Minor
+**Severity:** Substantial
 
 **Verification:**
 
@@ -420,7 +372,7 @@ TypeError:
 
 ---
 
-## AOI #14 - MINOR
+## AOI #12 - MINOR
 
 **Response Excerpt:**
 ```ruby
@@ -430,3 +382,49 @@ def generate_embed_token(customer_id:, embed_id:, analytics_role:, expiration: 2
 **Description:** The response defines a default expiration value of 24 hours in the method signature, but the spec file explicitly passes the expiration parameter in every test without including a test to verify the default value works correctly when the parameter is omitted.
 
 **Severity:** Minor
+
+---
+
+## AOI #13 - SUBSTANTIAL
+
+**Response Excerpt:**
+```ruby
+before do
+  stub_const("LOCAL_SETTINGS", {
+    'explo' => {
+      'embed_issuer_url' => 'https://explo.example.com',
+      'secret_key_value' => 'supersecretkey123',
+      'secret_key_id' => 'key-123',
+      'default_embeds' => [{'id' => 'global_1', 'name' => 'Global Dashboard 1'}, {'id' => 'global_2', 'name' => 'Global Dashboard 2'}]
+    }
+  })
+end
+
+context 'with valid Plus role' do
+  let(:analytics_role) { 'Plus' }
+  it_behaves_like 'an encrypted JWT string'
+end
+```
+
+**Description:** The response uses real encryption with a weak test key ('supersecretkey123') in success tests instead of stubbing the encrypt method, making tests brittle and dependent on actual cryptographic behavior rather than providing isolated unit tests.
+
+**Severity:** Substantial
+
+---
+
+## AOI #14 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+* The code is now **robust** against missing config keys.
+```
+
+```ruby
+def secret_key_id
+  LOCAL_SETTINGS.dig('explo', 'secret_key_id')
+end
+```
+
+**Description:** The response claims the code is robust against missing config keys, but the added secret_key_id method silently returns nil when the key is absent instead of raising an error like the env! method does, allowing nil to be used as the kid value.
+
+**Severity:** Substantial
