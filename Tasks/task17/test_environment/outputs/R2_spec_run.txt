@@ -1,0 +1,84 @@
+FFFFFFFFFF
+
+Failures:
+
+  1) Explo with valid Plus role behaves like Plus role generates a JWT behaves like an encrypted JWT string returns an encrypted JWT string with 5 base64url segments
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     Shared Example Group: "an encrypted JWT string" called from ./spec/lib/explo_r2_spec.rb:69
+     Shared Example Group: "Plus role generates a JWT" called from ./spec/lib/explo_r2_spec.rb:92
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  2) Explo with valid Essentials role behaves like Essentials role generates a JWT behaves like an encrypted JWT string returns an encrypted JWT string with 5 base64url segments
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     Shared Example Group: "an encrypted JWT string" called from ./spec/lib/explo_r2_spec.rb:74
+     Shared Example Group: "Essentials role generates a JWT" called from ./spec/lib/explo_r2_spec.rb:101
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  3) Explo with invalid role raises TokenGenerationError with a specific message
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  4) Explo when encryption fails raises TokenGenerationError with encryption message
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  5) Explo when secret key is missing raises ConfigurationError with a message that mentions secret_key
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  6) Explo with other unknown errors raises TokenGenerationError containing "Unexpected failure"
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  7) Explo#get_available_embeds when customer has no specific embeds returns only the global default embeds
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  8) Explo#get_available_embeds when customer has specific embeds returns a combination of global and customer embeds
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  9) Explo#get_available_embeds when a customer embed has the same ID as a global embed returns a unique list, preferring the first one found (global)
+     Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+       The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+     # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+     # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+  10) Explo#get_available_embeds when ShardSetting lookup raises an error rescues the error and returns only the global embeds
+      Failure/Error: stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+        The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported.
+      # ./spec/lib/explo_r2_spec.rb:20:in `stub_local_settings'
+      # ./spec/lib/explo_r2_spec.rb:42:in `block (2 levels) in <top (required)>'
+
+Finished in 0.00528 seconds (files took 0.87673 seconds to load)
+10 examples, 10 failures
+
+Failed examples:
+
+rspec './spec/lib/explo_r2_spec.rb[1:1:1:1:1]' # Explo with valid Plus role behaves like Plus role generates a JWT behaves like an encrypted JWT string returns an encrypted JWT string with 5 base64url segments
+rspec './spec/lib/explo_r2_spec.rb[1:2:1:1:1]' # Explo with valid Essentials role behaves like Essentials role generates a JWT behaves like an encrypted JWT string returns an encrypted JWT string with 5 base64url segments
+rspec ./spec/lib/explo_r2_spec.rb:111 # Explo with invalid role raises TokenGenerationError with a specific message
+rspec ./spec/lib/explo_r2_spec.rb:139 # Explo when encryption fails raises TokenGenerationError with encryption message
+rspec ./spec/lib/explo_r2_spec.rb:169 # Explo when secret key is missing raises ConfigurationError with a message that mentions secret_key
+rspec ./spec/lib/explo_r2_spec.rb:194 # Explo with other unknown errors raises TokenGenerationError containing "Unexpected failure"
+rspec ./spec/lib/explo_r2_spec.rb:222 # Explo#get_available_embeds when customer has no specific embeds returns only the global default embeds
+rspec ./spec/lib/explo_r2_spec.rb:233 # Explo#get_available_embeds when customer has specific embeds returns a combination of global and customer embeds
+rspec ./spec/lib/explo_r2_spec.rb:243 # Explo#get_available_embeds when a customer embed has the same ID as a global embed returns a unique list, preferring the first one found (global)
+rspec ./spec/lib/explo_r2_spec.rb:254 # Explo#get_available_embeds when ShardSetting lookup raises an error rescues the error and returns only the global embeds
+

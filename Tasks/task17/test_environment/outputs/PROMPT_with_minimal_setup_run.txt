@@ -1,0 +1,139 @@
+FFFFFF...F
+
+Failures:
+
+  1) Explo.generate_embed_token with valid Plus role behaves like an encrypted JWT string returns an encrypted JWT string with 5 base64url segments
+     Failure/Error:
+       rescue JSON::JWE::Exception => e
+       raise TokenGenerationError, "JWT encryption failed: #{e.message}"
+       rescue StandardError => e
+       raise TokenGenerationError, "Unexpected failure generating token: #{e.message}"
+
+     NameError:
+       uninitialized constant JSON::JWE::Exception
+
+       rescue JSON::JWE::Exception => e
+                       ^^^^^^^^^^^
+     Shared Example Group: "an encrypted JWT string" called from ./spec/lib/explo_spec_runnable.rb:57
+     # ./lib/explo.rb:29:in `rescue in generate_embed_token'
+     # ./lib/explo.rb:12:in `generate_embed_token'
+     # ./spec/lib/explo_spec_runnable.rb:39:in `block (3 levels) in <top (required)>'
+     # ./spec/lib/explo_spec_runnable.rb:28:in `block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   undefined local variable or method `secret_key_id' for Explo:Module
+     #   
+     #   jwt.header[:kid] = secret_key_id
+     #                      ^^^^^^^^^^^^^
+     #   ./lib/explo.rb:23:in `generate_embed_token'
+
+  2) Explo.generate_embed_token with valid Essentials role behaves like an encrypted JWT string returns an encrypted JWT string with 5 base64url segments
+     Failure/Error:
+       rescue JSON::JWE::Exception => e
+       raise TokenGenerationError, "JWT encryption failed: #{e.message}"
+       rescue StandardError => e
+       raise TokenGenerationError, "Unexpected failure generating token: #{e.message}"
+
+     NameError:
+       uninitialized constant JSON::JWE::Exception
+
+       rescue JSON::JWE::Exception => e
+                       ^^^^^^^^^^^
+     Shared Example Group: "an encrypted JWT string" called from ./spec/lib/explo_spec_runnable.rb:65
+     # ./lib/explo.rb:29:in `rescue in generate_embed_token'
+     # ./lib/explo.rb:12:in `generate_embed_token'
+     # ./spec/lib/explo_spec_runnable.rb:39:in `block (3 levels) in <top (required)>'
+     # ./spec/lib/explo_spec_runnable.rb:28:in `block (3 levels) in <top (required)>'
+     # ------------------
+     # --- Caused by: ---
+     # NameError:
+     #   undefined local variable or method `secret_key_id' for Explo:Module
+     #   
+     #   jwt.header[:kid] = secret_key_id
+     #                      ^^^^^^^^^^^^^
+     #   ./lib/explo.rb:23:in `generate_embed_token'
+
+  3) Explo.generate_embed_token with invalid role raises TokenGenerationError
+     Failure/Error: expect { subject }.to raise_error(Explo::TokenGenerationError, /Invalid analytics role/)
+
+       expected Explo::TokenGenerationError with message matching /Invalid analytics role/, got #<NameError: uninitialized constant JSON::JWE::Exception
+
+       rescue JSON::JWE::Exception => e
+                       ^^^^^^^^^^^> with backtrace:
+         # ./lib/explo.rb:29:in `rescue in generate_embed_token'
+         # ./lib/explo.rb:12:in `generate_embed_token'
+         # ./spec/lib/explo_spec_runnable.rb:39:in `block (3 levels) in <top (required)>'
+         # ./spec/lib/explo_spec_runnable.rb:75:in `block (5 levels) in <top (required)>'
+         # ./spec/lib/explo_spec_runnable.rb:75:in `block (4 levels) in <top (required)>'
+     # ./spec/lib/explo_spec_runnable.rb:75:in `block (4 levels) in <top (required)>'
+
+  4) Explo.generate_embed_token when encryption fails raises TokenGenerationError with encryption message
+     Failure/Error: allow(JSON::JWE).to receive(:encrypt).and_raise(JSON::JWE::EncryptionFailed.new("bad key"))
+
+     NameError:
+       uninitialized constant JSON::JWE::EncryptionFailed
+
+           allow(JSON::JWE).to receive(:encrypt).and_raise(JSON::JWE::EncryptionFailed.new("bad key"))
+                                                                    ^^^^^^^^^^^^^^^^^^
+       Did you mean?  JSON::JWE::DecryptionFailed
+     # ./spec/lib/explo_spec_runnable.rb:87:in `block (4 levels) in <top (required)>'
+
+  5) Explo.generate_embed_token when secret key is missing raises ConfigurationError
+     Failure/Error:
+           expect {
+       
+             described_class.generate_embed_token(
+       
+               customer_id: customer_id,
+       
+               embed_id: embed_id,
+       
+               analytics_role: analytics_role
+       
+
+       expected Explo::ConfigurationError with message matching /secret_key_value/, got #<NameError: uninitialized constant JSON::JWE::Exception
+
+       rescue JSON::JWE::Exception => e
+                       ^^^^^^^^^^^> with backtrace:
+         # ./lib/explo.rb:29:in `rescue in generate_embed_token'
+         # ./lib/explo.rb:12:in `generate_embed_token'
+         # ./spec/lib/explo_spec_runnable.rb:113:in `block (5 levels) in <top (required)>'
+         # ./spec/lib/explo_spec_runnable.rb:111:in `block (4 levels) in <top (required)>'
+     # ./spec/lib/explo_spec_runnable.rb:111:in `block (4 levels) in <top (required)>'
+
+  6) Explo.generate_embed_token with other unknown errors raises TokenGenerationError for unexpected failure
+     Failure/Error: expect { subject }.to raise_error(Explo::TokenGenerationError, /Unexpected failure/)
+
+       expected Explo::TokenGenerationError with message matching /Unexpected failure/, got #<NameError: uninitialized constant JSON::JWE::Exception
+
+       rescue JSON::JWE::Exception => e
+                       ^^^^^^^^^^^> with backtrace:
+         # ./lib/explo.rb:29:in `rescue in generate_embed_token'
+         # ./lib/explo.rb:12:in `generate_embed_token'
+         # ./spec/lib/explo_spec_runnable.rb:39:in `block (3 levels) in <top (required)>'
+         # ./spec/lib/explo_spec_runnable.rb:141:in `block (5 levels) in <top (required)>'
+         # ./spec/lib/explo_spec_runnable.rb:141:in `block (4 levels) in <top (required)>'
+     # ./spec/lib/explo_spec_runnable.rb:141:in `block (4 levels) in <top (required)>'
+
+  7) Explo#get_available_embeds when ShardSetting lookup raises an error rescues the error and returns only the global embeds
+     Failure/Error: customer_embeds = ShardSetting["explo_custom_embeds"] || []
+
+     StandardError:
+       database timeout
+     # ./lib/explo.rb:37:in `get_available_embeds'
+     # ./spec/lib/explo_spec_runnable.rb:198:in `block (4 levels) in <top (required)>'
+
+Finished in 0.04548 seconds (files took 0.95305 seconds to load)
+10 examples, 7 failures
+
+Failed examples:
+
+rspec './spec/lib/explo_spec_runnable.rb[1:1:1:1:1]' # Explo.generate_embed_token with valid Plus role behaves like an encrypted JWT string returns an encrypted JWT string with 5 base64url segments
+rspec './spec/lib/explo_spec_runnable.rb[1:1:2:1:1]' # Explo.generate_embed_token with valid Essentials role behaves like an encrypted JWT string returns an encrypted JWT string with 5 base64url segments
+rspec ./spec/lib/explo_spec_runnable.rb:73 # Explo.generate_embed_token with invalid role raises TokenGenerationError
+rspec ./spec/lib/explo_spec_runnable.rb:91 # Explo.generate_embed_token when encryption fails raises TokenGenerationError with encryption message
+rspec ./spec/lib/explo_spec_runnable.rb:109 # Explo.generate_embed_token when secret key is missing raises ConfigurationError
+rspec ./spec/lib/explo_spec_runnable.rb:139 # Explo.generate_embed_token with other unknown errors raises TokenGenerationError for unexpected failure
+rspec ./spec/lib/explo_spec_runnable.rb:194 # Explo#get_available_embeds when ShardSetting lookup raises an error rescues the error and returns only the global embeds
+

@@ -4,4 +4,8 @@
 
 **Justification:**
 
-R1 provides working commands and valid Podfile syntax with a clear upgrade path and functional downgrade option to Firebase 10.x. R2 contains multiple critical errors including non-existent Firebase version 6.3.x, invalid commands like `pod ipc` and `pod dependency tree`, fabricated APIs in its example Podfile, and a typo in the modular headers configuration that would silently fail.
+R1 provides working commands and valid Podfile syntax with a clear upgrade path. R2 contains critical errors including wrong iOS version (13.2 vs 13.0), inappropriate Firebase version recommendation, invalid commands, fabricated APIs, incorrect pod names, and wrong dependency versions.
+
+**Alternative Justification (Both Responses Invalid):**
+
+Both responses provide wrong iOS version requirements. R1 incorrectly states iOS 12.0 instead of 13.0, uses deprecated pod names, and recommends wrong integration model. R2 incorrectly states iOS 13.2 instead of 13.0, provides invalid commands, and includes fabricated APIs.

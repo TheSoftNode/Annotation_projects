@@ -1,0 +1,26 @@
+
+An error occurred while loading ./spec/lib/explo_spec.rb.
+Failure/Error:
+  describe Explo do
+  shared_examples 'an encrypted JWT string' do
+  it 'returns an encrypted JWT string with 5 base64url segments' do
+  expect(subject).to match(/\A(?:[A-Za-z0-9_-]+.){4}[A-Za-z0-9_-]+\z/)
+  end
+  end
+  
+  describe '.generate_embed_token' do
+  let(:customer_id) { 'customer_123' }
+  let(:embed_id) { 'embed_abc' }
+
+NameError:
+  uninitialized constant Explo
+
+  describe Explo do
+           ^^^^^
+# ./spec/lib/explo_spec.rb:3:in `<top (required)>'
+No examples found.
+
+
+Finished in 0.00007 seconds (files took 0.54152 seconds to load)
+0 examples, 0 failures, 1 error occurred outside of examples
+
