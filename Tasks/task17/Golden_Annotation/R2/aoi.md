@@ -54,13 +54,14 @@ rspec ./spec/lib/explo_r2_spec.rb:254 # Explo#get_available_embeds when ShardSet
 Below is a **complete, self‑contained RSpec suite** that
 
 * loads the `Explo` module you posted,
-* wires‑up all the external dependencies (`LOCAL_SETTINGS`, `ShardSetting`,
-  `JSON::JWE`, `env!` helper, etc.),
-* exercises **every** example‑group you wrote,
 * fixes the failures that were reported in the original run
 ```
 
-**Description:** The response states it fixes the failures from the original run, but only provides a spec file without any module file fixes, leaving all the actual bugs in the module code unresolved.
+```ruby
+require_relative '../../lib/explo'   # path to the file you posted
+```
+
+**Description:** The response states it fixes the failures from the original run, but only provides a spec file that loads the original buggy module without any module file fixes, leaving all the actual bugs in the module code unresolved.
 
 **Severity:** Substantial
 
@@ -70,18 +71,24 @@ Below is a **complete, self‑contained RSpec suite** that
 
 **Response Excerpt:**
 ```ruby
+def stub_local_settings(**overrides)
+  stub_const('LOCAL_SETTINGS', { 'explo' => overrides })
+end
+
 before(:all) do
   stub_local_settings(
-    'explo' => {
-      'secret_key' => 'test-secret-key-at-least-32-chars-long',
-      'secret_key_id' => 'test-key-id',
-      'global_embeds' => ['global1', 'global2']
+    explo: {
+      'secret_key_id'      => 'testing_kid',
+      'secret_key_value'   => 'testing_secret',
+      'embed_issuer_url'   => 'https://example.com/issuer',
+      'default_embeds'     => [{'id' => 'global_1', 'name' => 'Global Dashboard 1'},
+                               {'id' => 'global_2', 'name' => 'Global Dashboard 2'}]
     }
   )
 end
 ```
 
-**Description:** The response uses `before(:all)` with `stub_const`, but RSpec does not support test doubles or stubs outside of the per-test lifecycle, causing all 10 tests to fail with the same error.
+**Description:** The response uses `before(:all)` to call a helper method that uses `stub_const`, but RSpec does not support test doubles or stubs outside of the per-test lifecycle, causing all 10 tests to fail with the same error.
 
 **Severity:** Substantial
 
