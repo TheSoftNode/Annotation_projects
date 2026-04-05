@@ -32,11 +32,11 @@ But += is actually arithmetic assignment in awk!
 ```
 
 **Tool Type:** Web Search
-**Query:** GNU awk assignment operators
-**URL:** https://www.gnu.org/software/gawk/manual/html_node/Assignment-Ops.html
+**Query:** awk string concatenation operator documentation
+**URL:** https://www.gnu.org/software/gawk/manual/html_node/Concatenation.html
 **Source Excerpt:**
 ```
-The += operator adds the value on the right-hand side to the variable on the left. The right-hand operand is converted to a number.
+There is only one string operation: concatenation. It does not have a specific operator to represent it. Instead, concatenation is performed by writing expressions next to one another, with no operator.
 ```
 
 ---
@@ -55,15 +55,13 @@ This appends a **space**, then the value of `$1`, then `_count=`, then `$2`.
 **Verification:**
 
 **Tool Type:** Web Search
-**Query:** GNU awk assignment operators string concatenation
-**URL:** https://www.gnu.org/software/gawk/manual/html_node/Assignment-Ops.html
+**Query:** awk string concatenation operator documentation
+**URL:** https://www.gnu.org/software/gawk/manual/html_node/Concatenation.html
 **Source Excerpt:**
 ```
-The += operator adds the value on the right-hand side to the variable on the left. The right-hand operand is converted to a number.
+There is only one string operation: concatenation. It does not have a specific operator to represent it. Instead, concatenation is performed by writing expressions next to one another, with no operator. For example, the following program concatenates 'foo' with 'bar' to produce 'foobar':
 
-String concatenation is performed by writing the two strings next to each other, with no operator. For example, the following program concatenates the two strings:
-
-awk 'BEGIN { s = "abc"; s = s "def"; print s }'
+awk 'BEGIN { s = "foo" "bar"; print s }'
 ```
 
 ---

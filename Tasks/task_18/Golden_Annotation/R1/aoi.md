@@ -21,11 +21,11 @@ Use the `+=` operator for strings (available in most awks): `output_influxdb_str
 ```
 
 **Tool Type:** Web Search
-**Query:** GNU awk assignment operators documentation
-**URL:** https://www.gnu.org/software/gawk/manual/html_node/Assignment-Ops.html
+**Query:** awk string concatenation operator documentation
+**URL:** https://www.gnu.org/software/gawk/manual/html_node/Concatenation.html
 **Source Excerpt:**
 ```
-The += operator adds the value on the right-hand side to the variable on the left. The right-hand operand is converted to a number.
+There is only one string operation: concatenation. It does not have a specific operator to represent it. Instead, concatenation is performed by writing expressions next to one another, with no operator.
 ```
 
 ---
