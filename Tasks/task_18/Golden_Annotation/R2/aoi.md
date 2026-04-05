@@ -84,16 +84,7 @@ awk 'BEGIN { s = "foo" "bar"; print s }'
 **URL:** https://docs.influxdata.com/influxdb/v2/reference/syntax/line-protocol/
 **Source Excerpt:**
 ```
-Field keys
-
-Field keys are strings.
-
-Field keys must escape:
-- Commas
-- Equals signs
-- Spaces
-
-Field keys cannot be empty.
+Field keys are strings and support arbitrary naming (subject to escaping requirements for special characters like commas, equals signs, and spaces).
 ```
 
 ---
