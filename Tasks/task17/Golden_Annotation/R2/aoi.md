@@ -108,11 +108,11 @@ This single error causes 100% test failure rate.
 
 **Tool Type:** Google Search
 **Query:** `RSpec before(:all) stub_const not supported rspec-mocks lifecycle`
-**URL:** https://relishapp.com/rspec/rspec-mocks/docs/basics/test-doubles
+**URL:** https://rspec.info/features/3-12/rspec-mocks/basics/scope/
 **Source Excerpt:**
 
 ```
-Test doubles are only available within the scope of individual examples. They cannot be used in before(:all) hooks.
+The use of doubles or partial doubles from rspec-mocks outside of the per-test lifecycle is not supported. All rspec-mocks constructs have a per-example lifecycle. Since before(:context) runs outside the scope of any individual example, usage of rspec-mocks features is not supported there. Note that before(:all) is an alias for before(:context).
 ```
 
 ---
