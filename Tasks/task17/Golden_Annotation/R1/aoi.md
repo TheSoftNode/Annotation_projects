@@ -122,20 +122,6 @@ nil
 **Verification:**
 
 **Tool Type:** Code Executor
-**Query:** `grep -A4 "def get_available_embeds" test_environment/R1_explo_module_VERBATIM.rb`
-**Source Excerpt:**
-
-```ruby
-def get_available_embeds
-  global_embeds = env!('default_embeds')
-  customer_embeds = ShardSetting["explo_custom_embeds"] || []
-  (global_embeds + customer_embeds).uniq { |embed| embed['id'] }
-end
-```
-
-No rescue block exists.
-
-**Tool Type:** Code Executor
 **Query:** `rspec spec/lib/explo_r1_spec.rb -e "when ShardSetting lookup raises an error"`
 **URL:** [test_environment/outputs/R1_spec_run.txt](test_environment/outputs/R1_spec_run.txt)
 **Source Excerpt:**
@@ -162,29 +148,6 @@ StandardError:
 
 **Verification:**
 
-**Tool Type:** Code Executor
-**Query:** `grep -A12 "when secret_key_value is missing" test_environment/R1_explo_spec_VERBATIM.rb`
-**Source Excerpt:**
-
-```ruby
-context 'when secret_key_value is missing' do
-  before do
-    stub_const("LOCAL_SETTINGS", {
-      'explo' => {
-        'embed_issuer_url' => 'https://explo.example.com',
-        'secret_key_id' => 'key-123'
-      }
-    })
-  end
-
-  it 'raises ConfigurationError with appropriate message' do
-    expect { subject }.to raise_error(Explo::ConfigurationError, /secret_key_value/)
-  end
-end
-```
-
-The spec expects `ConfigurationError` but the module's rescue block wraps it into `TokenGenerationError`.
-
 ---
 
 ## AOI #6 - SUBSTANTIAL
@@ -203,29 +166,6 @@ This fixes the `undefined local variable or method 'secret_key_id'` error in spe
 **Severity:** Substantial
 
 **Verification:**
-
-**Tool Type:** Code Executor
-**Query:** `grep -A12 "when secret_key_id is missing from LOCAL_SETTINGS" test_environment/R1_explo_spec_VERBATIM.rb`
-**Source Excerpt:**
-
-```ruby
-context 'when secret_key_id is missing from LOCAL_SETTINGS' do
-  before do
-    stub_const("LOCAL_SETTINGS", {
-      'explo' => {
-        'embed_issuer_url' => 'https://explo.example.com',
-        'secret_key_value' => 'supersecretkey123'
-      }
-    })
-  end
-
-  it 'raises TokenGenerationError with clear message' do
-    expect { subject }.to raise_error(Explo::TokenGenerationError, /undefined local variable or method `secret_key_id'/)
-  end
-end
-```
-
-After adding the `secret_key_id` method, this error message will never occur because the method returns `nil` instead of raising undefined method error.
 
 ---
 
