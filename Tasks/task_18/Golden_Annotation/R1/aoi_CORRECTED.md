@@ -125,16 +125,16 @@ Records are separated by a character called the record separator. By default, th
 
 ---
 
-## AOI #5 - SUBSTANTIAL
+## AOI #5 - MINOR
 
 **Response Excerpt:**
 ```
-When an unknown option is encountered, `awk` treats it as a filename to read from. Since no such file exists, `awk` silently skips it and proceeds with an empty script body – the variables are never defined, so they evaluate to the empty string (`""`).
+most `awk` implementations (including the one you are probably running) ignore it and treat it as a filename
 ```
 
-**Description:** The response incorrectly claims that awk silently skips unknown options and proceeds with an empty script body, but testing shows awk implementations print error messages and fail to execute rather than silently continuing.
+**Description:** The response claims most awk implementations treat unknown options as filenames, but awk implementation documentation does not support this behavior, and testing shows implementations report unknown option errors rather than silently treating them as files.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 **Verification:**
 
