@@ -1,0 +1,13 @@
+=== R2 Step 8: Test the quoting claim ===
+
+Testing with spaces in values:
+environment='prod west'
+measurement_name='server 1'
+
+UNQUOTED version:
+awk: fatal: cannot open file `--assign' for reading: No such file or directory
+
+QUOTED version:
+prod west server 1
+
+Quoted version preserves spaces in values

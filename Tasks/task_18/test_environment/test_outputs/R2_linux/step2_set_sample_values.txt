@@ -1,0 +1,6 @@
+=== R2 Step 2: Set the exact sample values from RESPONSE 2 ===
+
+Values set:
+statistics_result_string="cpu 100 1 2 3 4 5 6 10"
+environment="prod"
+measurement_name="server1"

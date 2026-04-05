@@ -1,0 +1,7 @@
+=== R2 Step 9: Test the '9 fields per line' claim ===
+
+Testing with only 3 fields:
+NF=3 1=<cpu> 2=<100> 3=<1> 9=<>
+
+Fields beyond NF are empty strings
+The script expects 9 fields ( through )

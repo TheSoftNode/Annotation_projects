@@ -1,0 +1,12 @@
+=== R1 Step 6C: Verify the += claim directly ===
+
+Testing += operator:
+awk 'BEGIN { s="abc"; s+="def"; print s }'
+0
+
+Testing string concatenation:
+awk 'BEGIN { s="abc"; s=s "def"; print s }'
+abcdef
+
+If += were string concatenation, both should print 'abcdef'
+If += is arithmetic, first will convert to numbers and print '0'

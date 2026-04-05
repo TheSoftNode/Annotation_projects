@@ -1,0 +1,6 @@
+=== R1 Step 9: Verify the 'undefined awk variables are empty' claim ===
+
+Testing undefined variable:
+<> 0
+
+Expected: empty string between < >, and 0 for numeric context

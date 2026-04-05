@@ -1,0 +1,3 @@
+=== R1 Step 3: Verify the shell-expansion claim ===
+
+awk --assign environment=prod --assign measurement_name=latency

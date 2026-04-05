@@ -1,0 +1,7 @@
+=== R1 Step 5: Run the response's -v fix exactly as written ===
+
+Running R1's -v fix...
+
+resource_usage_prod,name=latency cpu_count=42, cpu_min=5, cpu_10p=10, cpu_25p=20, cpu_50p=30, cpu_75p=40, cpu_90p=45, cpu_max=50
+
+Exit code: 0

@@ -1,0 +1,13 @@
+=== R1 Step 7: Verify the portable -v claim ===
+
+Testing -v with default awk:
+hello
+
+Testing -v with mawk (if available):
+hello
+
+Testing -v with busybox awk (if available):
+hello
+
+Testing -v with gawk (if available):
+hello

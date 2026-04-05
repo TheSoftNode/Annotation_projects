@@ -1,0 +1,6 @@
+=== R1 Step 10: Verify the '$9 is empty if NF < 9' claim ===
+
+Testing with only 3 fields:
+NF=3 9th=<>
+
+Expected: NF=3, 9th=<>

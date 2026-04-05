@@ -1,0 +1,5 @@
+=== R1 Step 2: Set clean sample values ===
+
+environment=<prod>
+measurement_name=<latency>
+statistics_result_string=<cpu 42 5 10 20 30 40 45 50>

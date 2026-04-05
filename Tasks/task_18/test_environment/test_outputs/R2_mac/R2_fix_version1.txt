@@ -1,0 +1,6 @@
+awk: unknown option --assign ignored
+
+awk: syntax error at source line 1
+ context is
+	 >>> environment <<< 
+awk: bailing out at source line 1

@@ -1,0 +1,7 @@
+=== R1 Step 8: Verify the GNU-awk-specific --assign claim ===
+
+GNU Awk version:
+GNU Awk 5.2.1, API 3.2, PMA Avon 8-g1, (GNU MPFR 4.2.1, GNU MP 6.3.0)
+
+Testing --assign with gawk:
+hello

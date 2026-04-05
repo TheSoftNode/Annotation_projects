@@ -1,0 +1,7 @@
+=== R2 Step 5: Test the -- suggestion exactly as RESPONSE 2 suggested ===
+
+Running R2's script with -- separator...
+
+resource_usage_prod,name=server1 cpu_count=100,cpu_min=1,cpu_10p=2,cpu_25p=3,cpu_50p=4,cpu_75p=5,cpu_90p=6,cpu_max=10
+
+Exit code: 0
