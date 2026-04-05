@@ -14,7 +14,7 @@ The response explains shell parameter expansion happens before command execution
 
 ## 3
 
-The response explains why GNU awk differs from other implementations by explicitly documenting which implementations do not support the option, helping the user understand platform-specific behavior.
+The response explains why GNU awk differs from other implementations by naming specific examples like mawk, busybox awk, and macOS awk that do not support the option, helping the user understand platform-specific behavior.
 
 ---
 
