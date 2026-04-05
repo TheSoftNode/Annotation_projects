@@ -1,0 +1,10 @@
+=== R2 Step 11: Optional Mac check ===
+
+Testing with macOS default /usr/bin/awk...
+
+/usr/bin/awk: unknown option --assign ignored
+
+/usr/bin/awk: can't open file --assign
+ source line number 1
+
+Exit code: 2

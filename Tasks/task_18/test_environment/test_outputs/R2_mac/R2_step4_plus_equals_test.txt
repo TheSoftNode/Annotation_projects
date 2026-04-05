@@ -1,0 +1,12 @@
+=== R2 Step 4: Isolate the += claim ===
+
+Testing += as string concatenation (R2's assumption):
+awk 'BEGIN { s="abc"; s+="def"; print s }'
+0
+
+Testing actual string concatenation in awk:
+awk 'BEGIN { s="abc"; s=s "def"; print s }'
+abcdef
+
+CRITICAL: If += were string concatenation, both would print 'abcdef'
+But += is actually arithmetic assignment in awk!

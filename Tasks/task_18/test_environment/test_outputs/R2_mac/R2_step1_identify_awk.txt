@@ -1,0 +1,10 @@
+=== R2 Step 1: Identify your awk ===
+
+Command path:
+/usr/bin/awk
+
+AWK version:
+awk version 20200816
+
+gawk available:
+not found

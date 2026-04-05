@@ -148,6 +148,24 @@ StandardError:
 
 **Verification:**
 
+**Tool Type:** Code Executor
+**Query:** `rspec spec/lib/explo_r1_spec.rb -e "when secret_key_value is missing"`
+**URL:** [test_environment/outputs/R1_spec_run.txt](test_environment/outputs/R1_spec_run.txt)
+**Source Excerpt:**
+
+```
+Failure/Error:
+  expect {
+    described_class.generate_embed_token(
+      customer_id: customer_id,
+      embed_id: embed_id,
+      analytics_role: analytics_role
+    )
+  }.to raise_error(Explo::ConfigurationError, /Explo configuration missing: 'secret_key_value'/)
+
+  expected Explo::ConfigurationError with message matching /Explo configuration missing: 'secret_key_value'/, got #<NameError: uninitialized constant JSON::JWE::Exception
+```
+
 ---
 
 ## AOI #6 - SUBSTANTIAL
@@ -166,6 +184,21 @@ This fixes the `undefined local variable or method 'secret_key_id'` error in spe
 **Severity:** Substantial
 
 **Verification:**
+
+**Tool Type:** Code Executor
+**Query:** `rspec spec/lib/explo_r1_spec.rb -e "when secret_key_id is missing from LOCAL_SETTINGS"`
+**URL:** [test_environment/outputs/R1_spec_run.txt](test_environment/outputs/R1_spec_run.txt)
+**Source Excerpt:**
+
+```
+Failure/Error: expect { subject }.to raise_error(Explo::TokenGenerationError, /undefined local variable or method `secret_key_id'/)
+
+  expected Explo::TokenGenerationError with message matching /undefined local variable or method `secret_key_id'/, got #<NameError: uninitialized constant JSON::JWE::Exception
+
+    rescue JSON::JWE::Exception => e
+                    ^^^^^^^^^^^> with backtrace:
+    # ./lib/explo_r1.rb:26:in `rescue in generate_embed_token'
+```
 
 ---
 

@@ -1,0 +1,8 @@
+=== R2 Step 10: Install GNU awk, then rerun RESPONSE 2 unchanged ===
+
+gawk is not installed.
+Install with:
+  macOS: brew install gawk
+  Linux: sudo apt-get install -y gawk
+
+Skipping this test.

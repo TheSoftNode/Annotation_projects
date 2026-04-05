@@ -1,0 +1,4 @@
+=== R1 Step 8: Verify the GNU-awk-specific --assign claim ===
+
+gawk is not installed. Skipping this test.
+Install with: brew install gawk (macOS) or sudo apt-get install gawk (Linux)

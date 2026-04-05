@@ -1,0 +1,12 @@
+=== R1 Step 1: Identify which awk we are testing ===
+
+Command path:
+/usr/bin/awk
+
+AWK version:
+awk version 20200816
+
+Available implementations:
+mawk: not found
+busybox: not found
+gawk: not found

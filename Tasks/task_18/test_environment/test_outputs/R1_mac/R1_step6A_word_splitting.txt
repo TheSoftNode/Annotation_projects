@@ -1,0 +1,12 @@
+=== R1 Step 6A: Verify the word-splitting claim ===
+
+Testing with spaces in values:
+environment='prod west'
+measurement_name='latency p95'
+
+UNQUOTED version:
+awk: can't open file -v
+ source line number 1
+
+QUOTED version:
+env=<prod west> name=<latency p95>

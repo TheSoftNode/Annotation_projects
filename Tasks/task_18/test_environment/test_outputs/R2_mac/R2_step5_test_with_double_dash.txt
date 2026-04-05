@@ -1,0 +1,10 @@
+=== R2 Step 5: Test the -- suggestion exactly as RESPONSE 2 suggested ===
+
+Running R2's script with -- separator...
+
+awk: unknown option --assign ignored
+
+awk: can't open file --assign
+ source line number 1
+
+Exit code: 2

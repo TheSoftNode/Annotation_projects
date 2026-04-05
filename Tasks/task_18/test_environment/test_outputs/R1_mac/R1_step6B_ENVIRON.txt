@@ -1,0 +1,4 @@
+=== R1 Step 6B: Verify the ENVIRON claim ===
+
+Testing ENVIRON array...
+env=<prod> name=<latency>

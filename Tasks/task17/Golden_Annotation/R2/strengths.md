@@ -20,4 +20,4 @@ The response organizes tests into logical context blocks with descriptive names 
 
 ## 4
 
-The response creates a helper method that encapsulates constant stubbing logic, allowing the user to override specific configuration values in individual tests without repeating the full stubbing setup.
+The response creates a helper method to encapsulate constant stubbing logic, making tests more readable by keeping the configuration setup in one place.
