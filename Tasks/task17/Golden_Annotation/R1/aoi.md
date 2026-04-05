@@ -357,32 +357,6 @@ The json-jwt gem's main file already requires json/jwe automatically, so explici
 
 **Response Excerpt:**
 ```
-**All 6 failing specs are now passing**. The code is now **robust** against missing config keys, and the spec suite is **exhaustive** — covering all possible failure paths.
-```
-
-**Description:** The response describes the code as "robust" and the test suite as "exhaustive" when 77% of tests fail, which misrepresents the quality and completeness of the solution.
-
-**Severity:** Minor
-
-**Verification:**
-
-**Tool Type:** Code Executor
-**Query:** `rspec spec/lib/explo_r1_spec.rb`
-**URL:** [test_environment/outputs/R1_spec_run.txt](test_environment/outputs/R1_spec_run.txt)
-**Source Excerpt:**
-
-```
-13 examples, 10 failures
-```
-
-Code with 77% failure rate cannot reasonably be described as "robust" or "exhaustive."
-
----
-
-## AOI #12 - MINOR
-
-**Response Excerpt:**
-```
 Absolutely! Based on your failing specs and the `Explo` module code, here's a **fully corrected, exhaustive, and robust** version of your RSpec suite
 ```
 
@@ -392,7 +366,7 @@ Absolutely! Based on your failing specs and the `Explo` module code, here's a **
 
 ---
 
-## AOI #13 - MINOR
+## AOI #12 - MINOR
 
 **Response Excerpt:**
 ```ruby
@@ -410,7 +384,7 @@ end
 
 ---
 
-## AOI #14 - MINOR
+## AOI #13 - MINOR
 
 **Response Excerpt:**
 ```ruby
@@ -446,7 +420,7 @@ TypeError:
 
 ---
 
-## AOI #15 - MINOR
+## AOI #14 - MINOR
 
 **Response Excerpt:**
 ```ruby

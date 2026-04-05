@@ -64,28 +64,6 @@ Below is a **complete, self‑contained RSpec suite** that
 
 **Severity:** Substantial
 
-**Verification:**
-
-**Tool Type:** Code Executor
-**Query:** `ls test_environment/R2_*.rb`
-**Source Excerpt:**
-
-```
-test_environment/R2_explo_spec_VERBATIM.rb
-```
-
-Only the spec file exists. No module file was provided.
-
-**Tool Type:** Code Executor
-**Query:** `grep "require_relative '../../lib/explo'" test_environment/R2_explo_spec_VERBATIM.rb`
-**Source Excerpt:**
-
-```ruby
-require_relative '../../lib/explo'
-```
-
-The spec requires the original buggy module, which still has all the bugs from the prompt.
-
 ---
 
 ## AOI #3 - SUBSTANTIAL
@@ -162,67 +140,6 @@ nil
 
 **Response Excerpt:**
 ```
-We instead raise a plain JSON::JWE::Exception (which **does** exist after requiring json/jwe). In the original code, there's a rescue JSON::JWE::Exception clause (which does exist).
-```
-
-**Description:** The response claims with bold emphasis that `JSON::JWE::Exception` does exist after requiring json/jwe, but this exception class does not exist in the gem, causing tests to fail when trying to raise this non-existent exception.
-
-**Severity:** Substantial
-
-**Verification:**
-
-**Tool Type:** Code Executor
-**Query:** `ruby -e "require 'json/jwt'; require 'json/jwe'; p defined?(JSON::JWE::Exception)"`
-**Source Excerpt:**
-
-```
-nil
-```
-
-**Tool Type:** Google Search
-**Query:** `json-jwt gem nov/json-jwt GitHub JSON::JWE exception classes`
-**URL:** https://github.com/nov/json-jwt/blob/main/lib/json/jwe.rb
-**Source Excerpt:**
-
-```ruby
-class DecryptionFailed < JWT::VerificationFailed; end
-class UnexpectedAlgorithm < JWT::UnexpectedAlgorithm; end
-```
-
-The gem defines `DecryptionFailed` and `UnexpectedAlgorithm`, but not `Exception` as a direct class under JSON::JWE.
-
----
-
-## AOI #6 - SUBSTANTIAL
-
-**Response Excerpt:**
-```
-* fixes the failures that were reported in the original run
-```
-
-**Description:** The response states it fixes the failures from the original run, but the failures were in the module code and the response only provides a spec file, leaving the user without any actual bug fixes.
-
-**Severity:** Substantial
-
-**Verification:**
-
-**Tool Type:** Code Executor
-**Query:** `rspec spec/lib/explo_r2_spec.rb`
-**URL:** [test_environment/outputs/R2_spec_run.txt](test_environment/outputs/R2_spec_run.txt)
-**Source Excerpt:**
-
-```
-10 examples, 10 failures
-```
-
-All original failures remain because the module was never fixed.
-
----
-
-## AOI #7 - SUBSTANTIAL
-
-**Response Excerpt:**
-```
 Below is a **complete, self‑contained RSpec suite**
 ```
 
@@ -230,34 +147,9 @@ Below is a **complete, self‑contained RSpec suite**
 
 **Severity:** Substantial
 
-**Verification:**
-
-**Tool Type:** Code Executor
-**Query:** `grep "require_relative" test_environment/R2_explo_spec_VERBATIM.rb`
-**Source Excerpt:**
-
-```ruby
-require_relative '../../lib/explo'
-```
-
-The spec requires an external dependency, contradicting the "self-contained" claim.
-
 ---
 
-## AOI #8 - MINOR
-
-**Response Excerpt:**
-```ruby
-require 'rspec'
-```
-
-**Description:** The response adds an unnecessary require statement for RSpec when the framework is already loaded by the rspec command.
-
-**Severity:** Minor
-
----
-
-## AOI #9 - MINOR
+## AOI #7 - MINOR
 
 **Response Excerpt:**
 ```
@@ -283,7 +175,7 @@ Only 10 examples exist, not 15.
 
 ---
 
-## AOI #10 - MINOR
+## AOI #8 - MINOR
 
 **Response Excerpt:**
 ```
@@ -296,7 +188,7 @@ All configuration is **re‑stubbed per test case**, guaranteeing deterministic 
 
 ---
 
-## AOI #11 - MINOR
+## AOI #9 - MINOR
 
 **Response Excerpt:**
 ```
@@ -309,71 +201,7 @@ All of the above are exercised **twice** (once for the "Plus" role and once for 
 
 ---
 
-## AOI #12 - MINOR
-
-**Response Excerpt:**
-```
-adds a few extra sanity checks that make the suite robust on any CI box
-```
-
-**Description:** The response describes the test suite as "robust on any CI box" when the code has a 100% test failure rate, making it unable to run successfully in any environment.
-
-**Severity:** Minor
-
-**Verification:**
-
-**Tool Type:** Code Executor
-**Query:** `rspec spec/lib/explo_r2_spec.rb`
-**URL:** [test_environment/outputs/R2_spec_run.txt](test_environment/outputs/R2_spec_run.txt)
-**Source Excerpt:**
-
-```
-10 examples, 10 failures
-```
-
-A test suite with 100% failure rate cannot be described as "robust on any CI box."
-
----
-
-## AOI #13 - SUBSTANTIAL
-
-**Response Excerpt:**
-```
-In the original code the test tried to raise(JSON::JWE::EncryptionFailed.new(...)) but the class does not exist in the version of json-jwt you use. We instead raise a plain JSON::JWE::Exception (which **does** exist) and assert against that.
-```
-
-**Description:** The response acknowledges that `JSON::JWE::EncryptionFailed` does not exist in the json-jwt gem, but then uses `JSON::JWE::Exception` which also does not exist, replacing one non-existent exception class with another non-existent exception class.
-
-**Severity:** Substantial
-
-**Verification:**
-
-**Tool Type:** Code Executor
-**Query:** `ruby -e "require 'json/jwt'; require 'json/jwe'; p defined?(JSON::JWE::EncryptionFailed); p defined?(JSON::JWE::Exception)"`
-**Source Excerpt:**
-
-```
-nil
-nil
-```
-
-Both exception classes are undefined in the json-jwt gem.
-
-**Tool Type:** Google Search
-**Query:** `json-jwt gem nov/json-jwt GitHub JSON::JWE exception classes`
-**URL:** https://github.com/nov/json-jwt/blob/main/lib/json/jwe.rb
-**Source Excerpt:**
-
-```ruby
-class DecryptionFailed < JWT::VerificationFailed; end
-class UnexpectedAlgorithm < JWT::UnexpectedAlgorithm; end
-```
-
-Neither `EncryptionFailed` nor `Exception` exist directly under `JSON::JWE`.
-
----
-
-## AOI #14 - SUBSTANTIAL
+## AOI #10 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```ruby
@@ -401,7 +229,7 @@ Like allow(...).to receive, except that the targets are instances of the given c
 
 ---
 
-## AOI #15 - SUBSTANTIAL
+## AOI #11 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```ruby
@@ -424,7 +252,7 @@ end
 
 ---
 
-## AOI #16 - MINOR
+## AOI #12 - MINOR
 
 **Response Excerpt:**
 ```
@@ -458,30 +286,7 @@ The method does not accept "a payload hash, a kid string and an algorithm name" 
 
 ---
 
-## AOI #17 - MINOR
-
-**Response Excerpt:**
-```
-Below is a **complete, self‑contained RSpec suite** that
-
-* loads the `Explo` module you posted,
-* wires‑up all the external dependencies (`LOCAL_SETTINGS`, `ShardSetting`,
-  `JSON::JWE`, `env!` helper, etc.),
-* exercises **every** example‑group you wrote,
-* fixes the failures that were reported in the original run, and
-* adds a few extra sanity checks that make the suite robust on any CI box.
-
-You can drop the file into `spec/lib/explo_spec.rb` (or any other spec
-directory that RSpec discovers) and run it with `bundle exec rspec`.
-```
-
-**Description:** The response includes lengthy conversational filler with bullet points and explanatory text at the beginning, making the user scroll through unnecessary content before reaching the actual code.
-
-**Severity:** Minor
-
----
-
-## AOI #18 - SUBSTANTIAL
+## AOI #13 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```ruby
@@ -512,7 +317,7 @@ NoMethodError: undefined method 'fetch' for nil:NilClass
 
 ---
 
-## AOI #19 - SUBSTANTIAL
+## AOI #14 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```ruby
