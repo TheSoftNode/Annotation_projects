@@ -11,7 +11,7 @@
 
 **Tool Type:** Web Search
 **Query:** Supabase RLS row level security required public schema tables exposed API
-**URL:** https://supabase.com/docs/guides/api/securing-your-api
+**URL:** https://supabase.com/docs/guides/database/postgres/row-level-security
 **Source Excerpt:**
 ```
 RLS must always be enabled on any tables stored in an exposed schema. By default, this is the public schema.
@@ -52,7 +52,7 @@ Reference the auth.users table to ensure data integrity and specify on delete ca
 Go to **SQL Editor → Row Level Security** → test policies with `auth.uid()`
 ```
 
-**Description:** The response suggests testing RLS policies with auth.uid() in the SQL Editor, but this testing method will not work as described because the SQL Editor bypasses RLS and auth.uid() requires JWT/request context that is not available in direct SQL execution. Supabase documentation explicitly states that to properly test RLS you need to setup user JWT claims and change the running user to anon or authenticated, or test from the client SDK rather than the SQL Editor.
+**Description:** The response provides incomplete guidance for testing RLS policies by suggesting users "test policies with auth.uid()" in the SQL Editor without explaining the necessary setup. According to Supabase documentation, proper RLS testing requires setting up user JWT claims and changing the running user to anon or authenticated, which is not mentioned in the response's testing instructions. Without this critical context, users following the guidance will not be able to effectively test their RLS policies.
 
 **Tool Type:** Web Search
 **Query:** Supabase auth.uid() SQL Editor test RLS policies
@@ -206,4 +206,46 @@ followed by:
 "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 followed by:
 "This is already enabled in Supabase projects — you don't need to run this"
+```
+
+---
+
+## AOI #10 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE event ENABLE ROW LEVEL SECURITY;
+```
+
+**Description:** The response enables RLS on the users and event tables but does not create any policies for these tables. According to Supabase documentation, once RLS is enabled on a table, no data is accessible through the API until policies are explicitly created. This leaves two critical tables completely inaccessible through the Supabase API, making the schema incomplete despite being presented as ready for Supabase use. Only week_statuses and event_users have policies defined.
+
+**Tool Type:** Web Search
+**Query:** Supabase RLS enabled no policies table inaccessible
+**URL:** https://supabase.com/docs/guides/database/postgres/row-level-security
+**Source Excerpt:**
+```
+Once you have enabled RLS, no data is accessible via the API when using the public anon key. You must write security policies to specify who can access what data.
+```
+
+---
+
+## AOI #11 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+You now have a **Supabase-ready, secure, scalable schema** aligned with their best practices!
+```
+
+**Description:** The response concludes with a claim that the schema is "Supabase-ready, secure, scalable" and "aligned with their best practices," which overstates the actual state of the provided solution. The schema has multiple substantial issues including missing foreign key references to auth.users (contradicting Supabase's documented best practices), incomplete RLS policy coverage leaving two tables inaccessible, incorrect navigation instructions for the Supabase dashboard, and flawed RLS testing guidance. These issues make the schema incomplete and not fully aligned with Supabase security best practices.
+
+**Tool Type:** Code Analysis
+**Query:** N/A
+**Source Excerpt:**
+```
+Issues present in response:
+- No foreign key to auth.users (AOI #2)
+- Missing RLS policies for users and event tables (AOI #10)
+- Outdated dashboard navigation (AOI #4)
+- Incomplete RLS testing guidance (AOI #3)
 ```

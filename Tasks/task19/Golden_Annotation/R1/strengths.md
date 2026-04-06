@@ -2,7 +2,7 @@
 
 ## 1
 
-The response converts the users table primary key from integer to UUID with gen_random_uuid() default, providing a consistent UUID-based identifier type that can accommodate Supabase's authentication system requirements if the user later decides to integrate with auth.users.
+The response converts the users table primary key from integer to UUID with gen_random_uuid() default, aligning the schema with typical Supabase conventions for user identification.
 
 ---
 
@@ -14,7 +14,7 @@ The response adds ON DELETE CASCADE clauses to all foreign key relationships, pr
 
 ## 3
 
-The response includes six indexes, accelerating query execution for filtering operations that would otherwise require full table scans.
+The response includes six indexes on foreign key columns and timestamp columns, demonstrating attention to query optimization for common access patterns involving relationships and time-based filtering.
 
 ---
 
