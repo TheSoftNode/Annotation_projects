@@ -25,7 +25,7 @@ If row level security (RLS) is not enabled on a public table, anyone with the pr
 
 **Response Excerpt:**
 ```
-UUID for users.id Matches Supabase Auth's auth.users.id — allows direct linking
+| `UUID` for `users.id` | Matches Supabase Auth's `auth.users.id` — allows direct linking |
 ```
 
 **Description:** The response claims that using UUID for users.id "allows direct linking" to Supabase Auth's auth.users.id, but the provided SQL code does not create any foreign key reference to auth.users. The code only creates `id UUID PRIMARY KEY DEFAULT gen_random_uuid()` without the `REFERENCES auth.users(id)` clause. True direct linking requires an explicit foreign key constraint as shown in Supabase's user management documentation.
@@ -49,7 +49,7 @@ Reference the auth.users table to ensure data integrity and specify on delete ca
 
 **Response Excerpt:**
 ```
-Go to SQL Editor → Row Level Security → test policies with auth.uid()
+Go to **SQL Editor → Row Level Security** → test policies with `auth.uid()`
 ```
 
 **Description:** The response suggests testing RLS policies with auth.uid() in the SQL Editor, but this testing method will not work as described because the SQL Editor bypasses RLS and auth.uid() requires JWT/request context that is not available in direct SQL execution. Supabase documentation explicitly states that to properly test RLS you need to setup user JWT claims and change the running user to anon or authenticated, or test from the client SDK rather than the SQL Editor.
@@ -70,7 +70,7 @@ To do RLS testing you need to setup the user JWT claims and change the running u
 
 **Response Excerpt:**
 ```
-Go to Authentication → Settings → ensure Email or Password auth is enabled
+Go to **Authentication → Settings** → ensure `Email` or `Password` auth is enabled
 ```
 
 **Description:** The response provides outdated navigation instructions for enabling email and password authentication in the Supabase dashboard. The current Supabase interface locates email and password authentication settings under Authentication → Providers (under the Configuration section), not under Authentication → Settings. This incorrect navigation path will prevent users from finding the correct location to configure authentication providers.
