@@ -12,10 +12,10 @@ val randomFiniteFloat = generateSequence { kotlin.random.Random.nextFloat() }
 
 **Severity:** Substantial
 
-**Tool Type:** Code Executor + Web Search
+**Tool Type:** Code Executor
 **Query:** `kotlinc test1.kt -include-runtime -d test1.jar && java -jar test1.jar`
 
-**URL:** https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.random/-random/next-float.html
+**URL:**
 **Source Excerpt:**
 ```
 === Test 1: nextFloat() sequence expression ===
@@ -25,7 +25,13 @@ true
 true
 ```
 
-Web Search: "The nextFloat() method gets the next random Float value uniformly distributed between 0 (inclusive) and 1 (exclusive). The basic nextFloat() method without parameters returns values in the range [0, 1), which are inherently finite values."
+**Tool Type:** Web Search
+**Query:** Kotlin Random.nextFloat() documentation return value range finite
+**URL:** https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.random/-random/next-float.html
+**Source Excerpt:**
+```
+The nextFloat() function gets the next random Float value uniformly distributed between 0 (inclusive) and 1 (exclusive).
+```
 
 ---
 
@@ -117,7 +123,11 @@ val randomFiniteFloat = generateSequence { kotlin.random.Random.nextFloat() }
 **Query:** Kotlin coding conventions method chaining indentation
 
 **URL:** https://kotlinlang.org/docs/coding-conventions.html
-**Source Excerpt:** "When wrapping chained calls, put the `.` character or the `?.` operator on the next line, with a single indent"
+**Source Excerpt:**
+```
+Web Search (verbatim from kotlinlang.org):
+"When wrapping chained calls, put the . character or the ?. operator on the next line, with a single indent."
+```
 
 ---
 
