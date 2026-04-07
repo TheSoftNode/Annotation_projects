@@ -8,7 +8,7 @@ val randomFiniteFloat = generateSequence { kotlin.random.Random.nextFloat() }
     .first { it.isFinite() }
 ```
 
-**Description:** The response applies isFinite() filtering to Random.nextFloat(), but Random.nextFloat() is documented to always return values in [0.0, 1.0), which are already finite. The filtering is redundant for this specific expression and adds unnecessary overhead.
+**Description:** The response's primary expression applies isFinite() to Random.nextFloat(), but Random.nextFloat() is documented to always return values in [0.0, 1.0), which are already finite. For the concrete code it gives, the filtering is redundant and does not change the outcome.
 
 **Severity:** Substantial
 
@@ -141,5 +141,32 @@ kotlin.random.Random.nextFloat() generates a random Float in the range [0.0, 1.0
 **Description:** The response describes floating-point operations producing NaN or infinity as a theoretical possibility ("in theory"), which implies a rare or hypothetical edge case. However, the response then demonstrates actual examples where expressions do produce these non-finite values. This framing creates confusion by downplaying a real, practical concern as theoretical when the examples prove it happens in practice.
 
 **Severity:** Minor
+
+---
+
+## AOI #8 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+val randomFiniteFloat = generateSequence { kotlin.random.Random.nextFloat() }
+    .first { it.isFinite() }
+```
+
+**Description:** The prompt asks for an expression that does the same as the user's existing random Float expression while excluding infinities and NaN. The response's primary code sample replaces the user's unknown original expression with Random.nextFloat(), so it does not preserve the user's original generator unless the original expression was already Random.nextFloat(). The main solution assumes a specific generator rather than wrapping the user's existing expression.
+
+**Severity:** Substantial
+
+**Tool Type:** Code Executor
+**Query:** Compare prompt request with primary solution
+
+**URL:**
+**Source Excerpt:**
+```
+Prompt: "I have an expression that produces random Float values. Write an expression that does the same but excluding infinities and NaN."
+
+R1 Primary Solution: generateSequence { kotlin.random.Random.nextFloat() }.first { it.isFinite() }
+
+The prompt indicates the user already has an expression, but the primary solution uses Random.nextFloat() rather than showing how to wrap their existing expression.
+```
 
 ---
