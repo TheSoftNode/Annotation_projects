@@ -138,3 +138,25 @@ and ghcr.io/dockersamples/example-voting-app-vote:pr-311
 
 The TAG is an optional identifier. If no tag is provided, Docker defaults to "latest".
 ```
+
+---
+
+## AOI #6 - MINOR
+
+**Response Excerpt:**
+```
+--format "table {{.ID}}\t{{.Image}}\t{{.Names}}" Prints a tidy table with the container ID, the full image reference (repo:tag or @digest), and the container Name. The table keyword adds a header row.
+```
+
+**Description:** The response explicitly states that the table keyword adds a header row to make the output readable, but because the output is piped directly into grep -i buildkit, the header row (which does not contain the word "buildkit") is filtered out and never displayed to the user.
+
+**Severity:** Minor
+
+**Tool Type:** Code Executor
+**Query:** `docker run -d --name test_buildkit alpine sleep 1000 && docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}" | grep -i buildkit`
+
+**URL:**
+**Source Excerpt:**
+```
+5f8538f004bf   alpine                          test_buildkit
+```
