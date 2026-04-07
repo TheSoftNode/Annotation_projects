@@ -7,7 +7,7 @@
 docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}" | grep -i buildkit
 ```
 
-**Description:** The response provides a command to filter containers by image tag, but the grep filter searches the entire output line including container names. When "buildkit" appears in a container name, the command returns that container even if the image tag does not contain "buildkit".
+**Description:** The response provides a command to filter containers by image tag, but the grep filter searches the entire output line. When "buildkit" appears in the container name or repository name, the command returns that container even if the image tag does not contain "buildkit".
 
 **Severity:** Substantial
 
@@ -25,32 +25,7 @@ docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}" | grep -i buildkit
 
 ---
 
-## AOI #2 - SUBSTANTIAL
-
-**Response Excerpt:**
-```
-docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}" | grep -i buildkit
-```
-
-**Description:** The response intends to filter by image tag, but the grep command searches the entire image reference string "repo:tag". When "buildkit" appears in the repository name, the command matches that container even if the tag does not contain "buildkit".
-
-**Severity:** Substantial
-
-**Tool Type:** Code Executor
-**Query:** `./test3_main_command_running_only.sh | tee ../outputs/R1/test3_main_command_running_only.txt`
-
-**URL:**
-**Source Excerpt:**
-```
-=== Main Command: Running containers with buildkit filter ===
-4f72eb31048c   local/plain:latest              buildkit_named
-2b9c50eb146b   local/buildkit-repo:latest      c_repo_running
-5568ff7c28b8   local/test:buildkit-alpha       c_tag_running
-```
-
----
-
-## AOI #3 - MINOR
+## AOI #2 - MINOR
 
 **Response Excerpt:**
 ```
@@ -67,7 +42,7 @@ docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}" | grep -i buildkit
 
 ---
 
-## AOI #4 - SUBSTANTIAL
+## AOI #3 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```bash
@@ -90,7 +65,7 @@ docker ps -aq | xargs docker inspect --format '{{.Id}} {{.Image}}' | grep -i bui
 
 ---
 
-## AOI #5 - SUBSTANTIAL
+## AOI #4 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -119,7 +94,7 @@ docker ps --format "{{.ID}} {{.Image}} {{.Names}}" |
 
 ---
 
-## AOI #6 - SUBSTANTIAL
+## AOI #5 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -152,7 +127,7 @@ All of these fit on a single command line and achieve the goal of listing only c
 
 ---
 
-## AOI #7 - MINOR
+## AOI #6 - MINOR
 
 **Response Excerpt:**
 ```bash
