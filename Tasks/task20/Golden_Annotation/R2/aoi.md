@@ -63,18 +63,24 @@ Web search across docs.docker.com returns pages about JSON formatting, docker in
 **You need `jq` installed** (standard on most Linux/macOS systems; `sudo apt install jq` if missing).
 ```
 
-**Description:** The response says jq is "standard on most Linux/macOS systems," but jq is only pre-installed on macOS Sequoia (2024+) and is not pre-installed by default on most Linux distributions or earlier macOS versions. This may cause users to expect jq to be available when it is not.
+**Description:** The response says jq is "standard on most Linux/macOS systems," but jq requires manual installation on most Linux distributions and older macOS versions. This may cause users to expect jq to be available when it is not.
 
 **Severity:** Substantial
 
 **Tool Type:** Web Search
-**Query:** jq pre-installed default Linux macOS systems
+**Query:** jq preinstalled default macOS Linux Ubuntu Debian Fedora RHEL
+
 **URL:** https://jqlang.org/download/
 **Source Excerpt:**
 ```
-macOS Sequoia (2024+): Pre-installed in /usr/bin
-Earlier macOS versions: Not pre-installed, requires installation via Homebrew or MacPorts
-Linux distributions: Not pre-installed by default, requires manual installation via apt/yum/dnf
+Download jq
+
+- Ubuntu/Debian: Install using sudo apt-get install jq
+- Fedora: Install using sudo dnf install jq
+- RHEL/CentOS: jq utility is available through EPEL Repository
+- macOS: Use Homebrew to install jq with brew install jq
+
+The official jq download page shows installation instructions for all major operating systems, indicating manual installation is required in most cases.
 ```
 
 ---
