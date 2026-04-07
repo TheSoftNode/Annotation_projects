@@ -42,7 +42,7 @@ c_digest_running NOT matched
 **Officially recommended** by Docker for complex filtering
 ```
 
-**Description:** The response states the JSON+jq method is "officially recommended" by Docker for complex filtering, but no official Docker documentation supports this. Docker's formatting documentation mentions JSON output support and provides examples, but does not recommend or endorse jq as an official tool for complex filtering.
+**Description:** The response states the JSON+jq method is "officially recommended" by Docker for complex filtering, which overstates Docker's endorsement. While Docker's documentation does show jq being used with Docker JSON output in some examples for readability or downstream processing, Docker does not officially recommend jq as the preferred tool for complex filtering tasks.
 
 **Severity:** Substantial
 
