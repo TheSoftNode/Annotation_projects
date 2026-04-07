@@ -26,7 +26,7 @@ The response acknowledges that Random.nextFloat() itself returns finite values, 
 
 ## 5
 
-The response uses bolded headers, italics, and bullet points to organize the content, helping the user navigate between the main solution, explanation, generic version, and example sections.
+The response includes a generic version that wraps any Float-returning expression, giving the user an adaptable pattern for their existing generator.
 
 ---
 

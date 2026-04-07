@@ -20,13 +20,13 @@ The response includes multiple alternative approaches (Flow-based filtering, rec
 
 ## 4
 
-The response uses bolded headers, italics, bullet points, dividers, and a TL;DR to break down the response into easy to read, digestible sections.
+The response includes a TL;DR section at the end with a copy-paste ready one-liner, allowing the user to quickly get the essential solution.
 
 ---
 
 ## 5
 
-The response restates the problem and the goal to clarify the necessary level of the scope.
+The response explains that Math.random() * Float.MAX_VALUE can exceed Float's representable range and produce Infinity or NaN, helping the user understand why conversion approaches need consideration.
 
 ---
 

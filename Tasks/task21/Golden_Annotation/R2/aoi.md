@@ -100,10 +100,10 @@ This is essentially a recursive tail-recursive loop that guarantees finiteness
 
 **Severity:** Substantial
 
-**Tool Type:** Code Executor
+**Tool Type:** Code Executor + Web Search
 **Query:** `kotlinc test_recursive_boundary.kt -include-runtime -d test_recursive_boundary.jar && java -jar test_recursive_boundary.jar`
 
-**URL:**
+**URL:** https://kotlinlang.org/docs/coding-conventions.html
 **Source Excerpt:**
 ```
 === Test G: Recursive boundary (will stack overflow) ===
@@ -111,6 +111,8 @@ Exception in thread "main" java.lang.StackOverflowError
 	at Test_recursive_boundaryKt.generateRandomFiniteFloat(test_recursive_boundary.kt:3)
 	at Test_recursive_boundaryKt.generateRandomFiniteFloat(test_recursive_boundary.kt:3)
 ```
+
+Web Search: "The tailrec modifier enables tail call optimization (TCO), allowing the Kotlin compiler to transform certain recursive calls into iterative loops. To be eligible for the tailrec modifier, a function must call itself as the last operation it performs. The tailrec modifier tells the Kotlin compiler to optimize this recursion into an efficient loop."
 
 ---
 
@@ -124,6 +126,12 @@ Kotlin's standard-library random utilities (kotlin.random.Random) already genera
 **Description:** The response makes a broad claim about Kotlin's "random utilities" generating finite Floats only, but only Random.nextFloat() is specifically documented with this guarantee. The claim is too broad and not supported for all methods in kotlin.random.Random.
 
 **Severity:** Minor
+
+**Tool Type:** Web Search
+**Query:** Kotlin Random.nextFloat() documentation return value range finite
+
+**URL:** https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.random/-random/next-float.html
+**Source Excerpt:** "The nextFloat() method gets the next random Float value uniformly distributed between 0 (inclusive) and 1 (exclusive). The basic nextFloat() method without parameters returns values in the range [0, 1), which are inherently finite values."
 
 ---
 
@@ -139,6 +147,12 @@ val safeRandomFloat = generateRandomFloat()
 **Description:** The response does not mention that this expression must be run from either a coroutine or a suspend function, as firstOrNull() on Flow is a suspend operator.
 
 **Severity:** Minor
+
+**Tool Type:** Web Search
+**Query:** Kotlin Flow firstOrNull suspend function coroutine documentation
+
+**URL:** https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/first-or-null.html
+**Source Excerpt:** "The firstOrNull() function is defined as: suspend fun <T> Flow<T>.firstOrNull(): T?. Since firstOrNull() is a suspend function, it is only allowed to be called from a coroutine or another suspend function."
 
 ---
 
