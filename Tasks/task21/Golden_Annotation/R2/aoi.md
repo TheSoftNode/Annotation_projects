@@ -95,6 +95,14 @@ test_flow_verbatim.kt:5:50: error: unresolved reference 'flow'.
 test_flow_verbatim.kt:9:9: error: unresolved reference 'emit'.
 ```
 
+**Tool Type:** Web Search
+**Query:** kotlinx.coroutines.flow package documentation import dependency
+**URL:** https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/
+**Source Excerpt:**
+```
+To use coroutines and follow examples, you need to add a dependency on the kotlinx-coroutines-core module. For Gradle: implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+```
+
 ---
 
 ## AOI #4 - SUBSTANTIAL
