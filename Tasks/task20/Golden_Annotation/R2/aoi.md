@@ -47,11 +47,11 @@ c_digest_running NOT matched
 **Severity:** Substantial
 
 **Tool Type:** Web Search
-**Query:** Docker official documentation JSON jq recommended complex filtering
-**URL:** https://docs.docker.com/engine/cli/formatting/ and https://docs.docker.com/reference/cli/docker/container/ls/
+**Query:** Docker official documentation jq recommended JSON filtering site:docs.docker.com
+**URL:** https://docs.docker.com/engine/cli/formatting/
 **Source Excerpt:**
 ```
-Docker supports Go templates for formatting output and provides --format json for JSON output. No mention of jq being "officially recommended" was found in Docker's official documentation.
+Web search across docs.docker.com returns pages about JSON formatting, docker inspect, and JSON-related configuration. The term "jq" does not appear in any of the Docker official documentation pages. Docker documents its own Go template-based JSON formatting but does not mention or recommend the jq tool.
 ```
 
 ---

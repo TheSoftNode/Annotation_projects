@@ -49,7 +49,7 @@ docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Names}}" | grep -i buildkit
 docker ps -aq | xargs docker inspect --format '{{.Id}} {{.Image}}' | grep -i buildkit | cut -d' ' -f1
 ```
 
-**Description:** The response suggests a command to output container IDs, but this command produces no output. The `{{.Image}}` placeholder in docker inspect returns the image SHA256 hash rather than the image name, preventing the grep filter from matching "buildkit".
+**Description:** The response suggests a command to output container IDs using `{{.Image}}`, but this command produces no output. The `{{.Image}}` placeholder in docker inspect returns the image SHA256 hash rather than the image name, preventing the grep filter from matching "buildkit". Docker's inspect documentation shows `{{.Config.Image}}` should be used to get the image name.
 
 **Severity:** Substantial
 
@@ -61,6 +61,21 @@ docker ps -aq | xargs docker inspect --format '{{.Id}} {{.Image}}' | grep -i bui
 ```
 === Variation 2: Container IDs only ===
 
+```
+
+### Verification: {{.Config.Image}} is the correct placeholder
+
+**Tool Type:** Web Search
+**Query:** Docker inspect .Config.Image get image name
+
+**URL:** https://docs.docker.com/reference/cli/docker/inspect/
+**Source Excerpt:**
+```
+When inspecting containers:
+- .Image → Image ID/SHA256 digest (e.g., sha256:925ff619...)
+- .Config.Image → Image name/tag as specified (e.g., local/test:buildkit-alpha)
+
+Docker example: "Get an instance's image name" uses .Config.Image
 ```
 
 ---
