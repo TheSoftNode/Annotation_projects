@@ -138,7 +138,7 @@ Web Search (verbatim from kotlinlang.org):
 kotlin.random.Random.nextFloat() generates a random Float in the range [0.0, 1.0), but note that in theory, floating-point operations could produce NaN or infinity under certain conditions (though nextFloat() itself won't — it's guaranteed to return finite values).
 ```
 
-**Description:** The response is somewhat misleading because it mentions that floating-point operations could produce NaN or infinity in theory, but then immediately shows examples where unsafe expressions can indeed produce NaN or infinity, making the theoretical caveat confusing in context.
+**Description:** The response describes floating-point operations producing NaN or infinity as a theoretical possibility ("in theory"), which implies a rare or hypothetical edge case. However, the response then demonstrates actual examples where expressions do produce these non-finite values. This framing creates confusion by downplaying a real, practical concern as theoretical when the examples prove it happens in practice.
 
 **Severity:** Minor
 
