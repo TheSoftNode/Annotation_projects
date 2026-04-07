@@ -14,7 +14,7 @@ The response demonstrates how to adapt the pattern to any Float-returning expres
 
 ## 3
 
-The response includes an example with an unsafe expression that can produce infinity or NaN, helping the user see a use case where filtering would be needed.
+The response includes an example with an unsafe expression that can produce infinity, helping the user see a concrete case where the filtering pattern applies.
 
 ---
 
@@ -26,7 +26,7 @@ The response acknowledges that Random.nextFloat() itself returns finite values, 
 
 ## 5
 
-The response includes a generic version that wraps any Float-returning expression, giving the user an adaptable pattern for their existing generator.
+The response explains that Float.isFinite() returns true only for non-infinite and non-NaN values, providing the user with information about the filtering predicate.
 
 ---
 

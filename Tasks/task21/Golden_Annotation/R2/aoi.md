@@ -96,11 +96,12 @@ test_flow_verbatim.kt:9:9: error: unresolved reference 'emit'.
 ```
 
 **Tool Type:** Web Search
-**Query:** kotlinx.coroutines.flow package documentation import dependency
-**URL:** https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/
+**Query:** kotlinx.coroutines.flow not part of standard library separate dependency
+**URL:** https://kt.academy/article/cc-built-in-vs-library
 **Source Excerpt:**
 ```
-To use coroutines and follow examples, you need to add a dependency on the kotlinx-coroutines-core module. For Gradle: implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+Built-in support: Compiler support and elements in the Kotlin standard library with elements in the kotlin.coroutines package.
+kotlinx.coroutines library: Separate dependency needs to be added to the project with elements in the kotlinx.coroutines package.
 ```
 
 ---
@@ -133,7 +134,7 @@ Exception in thread "main" java.lang.StackOverflowError
 **URL:** https://kotlinlang.org/docs/functions.html
 **Source Excerpt:**
 ```
-Kotlin supports a style of functional programming known as tail recursion. When a function is marked with the tailrec modifier and meets the required formal conditions, the compiler optimizes out the recursion, leaving behind a fast and efficient loop based version instead.
+Kotlin supports a style of functional programming known as tail recursion, which allows some algorithms that would normally be written using loops to instead be written using a recursive function, but without the risk of stack overflow. When a function is marked with the tailrec modifier and meets the required form, the compiler optimizes out the recursion, leaving behind a fast and efficient loop based version instead.
 ```
 
 ---
