@@ -1,0 +1,12 @@
+=== Test F: Recursive helper ===
+1.9138543E38 | finite=true
+2.5370023E38 | finite=true
+2.3703062E38 | finite=true
+3.0169249E38 | finite=true
+1.1515894E38 | finite=true
+2.5180346E38 | finite=true
+1.2709626E38 | finite=true
+4.4562533E37 | finite=true
+1.6854219E38 | finite=true
+2.4573912E38 | finite=true
+

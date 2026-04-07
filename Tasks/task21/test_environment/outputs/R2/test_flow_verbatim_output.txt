@@ -1,0 +1,17 @@
+=== Test E: Flow snippet (expected to fail) ===
+test_flow_verbatim.kt:2:16: error: unresolved reference 'it'.
+    .filter { !it.isNaN() && !it.isInfinite() }
+               ^^
+test_flow_verbatim.kt:2:31: error: unresolved reference 'it'.
+    .filter { !it.isNaN() && !it.isInfinite() }
+                              ^^
+test_flow_verbatim.kt:5:36: error: unresolved reference 'Flow'.
+private fun generateRandomFloat(): Flow<Float> = flow {
+                                   ^^^^
+test_flow_verbatim.kt:5:50: error: unresolved reference 'flow'.
+private fun generateRandomFloat(): Flow<Float> = flow {
+                                                 ^^^^
+test_flow_verbatim.kt:9:9: error: unresolved reference 'emit'.
+        emit(candidate)            // could be NaN/Infinity
+        ^^^^
+

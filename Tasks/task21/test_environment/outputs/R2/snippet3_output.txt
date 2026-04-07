@@ -1,0 +1,9 @@
+=== Test 3: Range scaling ===
+Generated value in range [2.5, 7.3): 2.944913
+Is finite: true
+Is in range: true
+
+Testing 100 iterations:
+All values finite: true
+All values in range: true
+

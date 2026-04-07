@@ -1,0 +1,6 @@
+=== Test 3: Example unsafe expression ===
+Generated value: -50.32566
+Is finite: true
+Is NaN: false
+Is infinite: false
+

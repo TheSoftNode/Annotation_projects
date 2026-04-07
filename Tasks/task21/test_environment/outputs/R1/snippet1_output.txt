@@ -1,0 +1,6 @@
+=== Test 1: Basic generateSequence ===
+Generated value: 0.2402671
+Is finite: true
+Is NaN: false
+Is infinite: false
+

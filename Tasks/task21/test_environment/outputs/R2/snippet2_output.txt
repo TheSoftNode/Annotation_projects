@@ -1,0 +1,9 @@
+=== Test 2: Simplest solution ===
+Generated value: 0.026444554
+Is finite: true
+Is NaN: false
+Is infinite: false
+
+Testing 1000 iterations:
+All values finite: true
+

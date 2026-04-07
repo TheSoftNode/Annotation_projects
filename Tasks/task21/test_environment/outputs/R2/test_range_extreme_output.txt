@@ -1,0 +1,23 @@
+=== Test D: Range scaling (extreme) ===
+max - min = Infinity
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+Infinity | finite=false
+

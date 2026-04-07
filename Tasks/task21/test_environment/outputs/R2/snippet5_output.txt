@@ -1,0 +1,6 @@
+=== Test 5: Recursive helper ===
+Generated value: 3.363538E38
+Is finite: true
+Is NaN: false
+Is infinite: false
+

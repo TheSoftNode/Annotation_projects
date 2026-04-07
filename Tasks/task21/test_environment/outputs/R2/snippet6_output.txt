@@ -1,0 +1,7 @@
+=== Test 6: TL;DR one-liner ===
+Generated value: 0.17762774
+Is finite: true
+Is NaN: false
+Is infinite: false
+Is in range [0f, 1f): true
+

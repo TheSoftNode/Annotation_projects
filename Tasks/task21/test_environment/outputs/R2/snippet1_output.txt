@@ -1,0 +1,9 @@
+=== Test 1: Problem example ===
+Generated value: 1.1982846E38
+Is finite: true
+Is NaN: false
+Is infinite: false
+
+Testing 100 iterations:
+Finite: 100, Infinity: 0, NaN: 0
+

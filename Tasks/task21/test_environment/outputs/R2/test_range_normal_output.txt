@@ -1,0 +1,3 @@
+=== Test C: Range scaling (normal) ===
+All sampled values were finite and in [min, max)
+

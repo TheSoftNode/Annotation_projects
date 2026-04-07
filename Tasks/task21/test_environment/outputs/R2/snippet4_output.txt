@@ -1,0 +1,26 @@
+=== Test 4: Flow filter (expected to fail without coroutines) ===
+test4_flow_filter.kts:2:8: error: unresolved reference 'kotlinx'.
+import kotlinx.coroutines.flow.*
+       ^
+test4_flow_filter.kts:3:8: error: unresolved reference 'kotlinx'.
+import kotlinx.coroutines.runBlocking
+       ^
+test4_flow_filter.kts:5:28: error: unresolved reference 'Flow'.
+fun generateRandomFloat(): Flow<Float> = flow {
+                           ^
+test4_flow_filter.kts:5:42: error: unresolved reference 'flow'.
+fun generateRandomFloat(): Flow<Float> = flow {
+                                         ^
+test4_flow_filter.kts:9:9: error: unresolved reference 'emit'.
+        emit(candidate)            // could be NaN/Infinity
+        ^
+test4_flow_filter.kts:13:23: error: unresolved reference 'runBlocking'.
+val safeRandomFloat = runBlocking {
+                      ^
+test4_flow_filter.kts:15:20: error: unresolved reference 'it'.
+        .filter { !it.isNaN() && !it.isInfinite() }
+                   ^
+test4_flow_filter.kts:15:35: error: unresolved reference 'it'.
+        .filter { !it.isNaN() && !it.isInfinite() }
+                                  ^
+

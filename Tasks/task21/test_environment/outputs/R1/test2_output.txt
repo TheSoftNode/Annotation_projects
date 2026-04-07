@@ -1,0 +1,6 @@
+=== Test 2: isFinite() claim ===
+false
+false
+false
+true
+

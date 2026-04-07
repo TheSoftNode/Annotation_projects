@@ -1,0 +1,6 @@
+=== Test 3: Unsafe expression example ===
+-5.1427
+true
+false
+false
+

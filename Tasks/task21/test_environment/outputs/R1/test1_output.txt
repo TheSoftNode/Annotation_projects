@@ -1,0 +1,6 @@
+=== Test 1: nextFloat() sequence expression ===
+0.9920246
+true
+true
+true
+
