@@ -92,7 +92,7 @@ docker ps --format "{{.ID}} {{.Image}} {{.Names}}" |
   awk -F':' '{if ($2 ~ /buildkit/) print $0}'
 ```
 
-**Description:** The response states this command provides "exact-match on the tag only" and will "ensure the word appears in the tag, not the repo name," but the awk command splits on colons without isolating tags from container names. This causes matches when "buildkit" appears in the container name.
+**Description:** The response presents the awk variant as a tag-only match, but the command does not truly isolate the tag from the rest of the formatted output, which degrades usability by matching containers based on the container name instead of the image tag.
 
 **Severity:** Substantial
 
@@ -112,44 +112,29 @@ docker ps --format "{{.ID}} {{.Image}} {{.Names}}" |
 ## AOI #5 - SUBSTANTIAL
 
 **Response Excerpt:**
-```
-All of these fit on a single command line and achieve the goal of listing only containers whose image tag contains the word **buildkit**.
-```
-
-**Description:** The response says "all of these fit on a single command line and achieve the goal of listing only containers whose image tag contains the word buildkit," but the main grep command matches container names and repository names in addition to image tags. The inspect command produces no output.
-
-**Severity:** Substantial
-
-**Tool Type:** Code Executor
-**Query:** `./run_all_tests.sh | tee ../outputs/R1/all_tests_output.txt`
-
-**URL:**
-**Source Excerpt:**
-```
-=== Main Command: Running containers with buildkit filter ===
-4f72eb31048c   local/plain:latest              buildkit_named
-2b9c50eb146b   local/buildkit-repo:latest      c_repo_running
-5568ff7c28b8   local/test:buildkit-alpha       c_tag_running
-
-=== Variation 2: Container IDs only ===
-
-
-=== Variation 3: AWK tag-only filter ===
-4f72eb31048c local/plain:latest buildkit_named
-5568ff7c28b8 local/test:buildkit-alpha c_tag_running
-```
-
-
----
-
-## AOI #6 - MINOR
-
-**Response Excerpt:**
 ```bash
 docker ps --format "{{.ID}} {{.Image}} {{.Names}}" |
   awk -F':' '{if ($2 ~ /buildkit/) print $0}'
 ```
 
-**Description:** The response provides an awk command without explaining how it works. The awk syntax includes field splitting, regex matching, and print logic but lacks explanation.
+**Description:** The response assumes a single colon cleanly separates repository and tag, but valid Docker image references can include a registry host and port in the form [HOST[:PORT]/]NAMESPACE/REPOSITORY[:TAG]. The awk -F':' can misparse valid image references such as registry.example.com:5000/team/app:buildkit, so the "tag-only" logic is not reliable even before considering the appended container name. Docker also documents that the tag is optional and defaults to latest when omitted.
 
-**Severity:** Minor
+**Severity:** Substantial
+
+**Tool Type:** Web Search
+**Query:** Docker image reference format HOST PORT NAMESPACE REPOSITORY TAG
+
+**URL:** https://docs.docker.com/reference/cli/docker/image/tag/
+**Source Excerpt:**
+```
+A full Docker image reference consists of:
+[HOST[:PORT]/]PATH[:TAG]
+
+or more specifically:
+[HOST[:PORT]/][NAMESPACE/]REPOSITORY[:TAG]
+
+Examples include: docker/welcome-to-docker (equivalent to docker.io/docker/welcome-to-docker:latest),
+and ghcr.io/dockersamples/example-voting-app-vote:pr-311
+
+The TAG is an optional identifier. If no tag is provided, Docker defaults to "latest".
+```

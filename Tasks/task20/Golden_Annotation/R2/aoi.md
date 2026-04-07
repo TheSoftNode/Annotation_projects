@@ -257,6 +257,6 @@ and
 docker ps -a --format '{{json .}}' | jq -r 'select( (.Image | contains("buildkit")) and (.Image | contains(":") or .Image | contains("@")) ) | "\(.ID)\t\(.Image)\t\(.Names)"'
 ```
 
-**Description:** The response offers an "enhanced version" for digest support, but this version checks if "buildkit" appears anywhere in the image string using `.Image | contains("buildkit")`. This is the same approach as grep, which the response criticizes for having "false positives" and lacking precision. The enhanced version reintroduces matching repository names.
+**Description:** The response provides an "enhanced version" for digest support using `.Image | contains("buildkit")`, which checks if "buildkit" appears anywhere in the image string. Earlier in the response, the approach of matching the entire image string (like grep does) is criticized for having "false positives" and lacking precision. The enhanced version reintroduces this same issue by matching repository names containing "buildkit" in addition to tags.
 
 **Severity:** Minor
