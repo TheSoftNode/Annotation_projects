@@ -53,6 +53,14 @@ Infinity | finite=false
 Infinity | finite=false
 ```
 
+**Tool Type:** Web Search
+**Query:** IEEE 754 floating point overflow infinity arithmetic operations specification
+**URL:** https://en.wikipedia.org/wiki/IEEE_754
+**Source Excerpt:**
+```
+Overflow occurs when a finite result is too large to be represented accurately (i.e., its exponent with an unbounded exponent would be too large). Being able to denote infinity as a specific value is useful because it allows operations to continue past overflow situations.
+```
+
 ---
 
 ## AOI #3 - SUBSTANTIAL
