@@ -1,0 +1,4 @@
+=== R2 Main Command with jq errors ===
+jq: error (at <stdin>:2): null (null) and string ("buildkit") cannot have their containment checked
+0d757da9f2bc	local/test:buildkit-alpha	c_tag_stopped
+75eed0ce6fa9	local/test:buildkit-alpha	c_tag_running

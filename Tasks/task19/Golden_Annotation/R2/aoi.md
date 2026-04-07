@@ -1,13 +1,13 @@
 # Response 2 - Areas of Improvement (AOIs)
 
-## AOI #1 - SUBSTANTIAL
+## AOI #1 - MINOR
 
 **Response Excerpt:**
 ```
 Row Level Security (RLS) enabled on all tables (required for Supabase)
 ```
 
-**Description:** The response states that RLS is "required for Supabase" when enabled on all tables, which overstates Supabase's actual requirements. According to Supabase documentation, RLS must be enabled on tables in exposed schemas (public by default), not literally every table in every schema. This wording incorrectly suggests that RLS is a universal Supabase requirement regardless of schema exposure or API accessibility, when the requirement is specifically for tables exposed through the auto-generated API.
+**Description:** The response uses overly broad wording by stating that RLS is "required for Supabase." According to Supabase documentation, RLS must be enabled on tables in exposed schemas (public by default), not on every table in every possible schema. Since this response creates all tables in the public schema, the guidance is correct in this context, but the phrasing overgeneralizes Supabase's actual requirement and could mislead users working with non-public schemas.
 
 **Tool Type:** Web Search
 **Query:** Supabase RLS row level security required public schema tables

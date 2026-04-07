@@ -1,0 +1,5 @@
+27a387bcffdb   local/test:BuildKitBeta                       c_upper_tag
+9a24874d2905   localhost:5000/example/plain:buildkit-alpha   c_regport
+0d757da9f2bc   local/test:buildkit-alpha                     c_tag_stopped
+a15775239252   local/plain:latest                            buildkit_named
+75eed0ce6fa9   local/test:buildkit-alpha                     c_tag_running

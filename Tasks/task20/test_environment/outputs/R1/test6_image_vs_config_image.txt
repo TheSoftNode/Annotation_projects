@@ -1,0 +1,5 @@
+=== Using {{.Image}} (response uses this) ===
+sha256:925ff61909aebae4bcc9bc04bb96a8bd15cd2271f13159fe95ce4338824531dd
+
+=== Using {{.Config.Image}} (Docker docs recommend this for image name) ===
+local/test:buildkit-alpha

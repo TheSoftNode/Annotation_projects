@@ -1,0 +1,12 @@
+=== Ancestor filter with wildcards (should not work as substring match) ===
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+=== Ancestor filter with exact reference ===
+CONTAINER ID   IMAGE                                         COMMAND               CREATED          STATUS          PORTS     NAMES
+128f4b12526d   busybox                                       "sh -c 'sleep 600'"   23 seconds ago   Up 22 seconds             c_digest_running
+27a387bcffdb   local/test:BuildKitBeta                       "sh -c 'sleep 600'"   23 seconds ago   Up 23 seconds             c_upper_tag
+9a24874d2905   localhost:5000/example/plain:buildkit-alpha   "sh -c 'sleep 600'"   23 seconds ago   Up 23 seconds             c_regport
+a15775239252   local/plain:latest                            "sh -c 'sleep 600'"   24 seconds ago   Up 23 seconds             buildkit_named
+b15122059335   local/plain:latest                            "sh -c 'sleep 600'"   24 seconds ago   Up 24 seconds             c_plain_running
+1fa78efe078f   local/buildkit-repo:latest                    "sh -c 'sleep 600'"   24 seconds ago   Up 24 seconds             c_repo_running
+75eed0ce6fa9   local/test:buildkit-alpha                     "sh -c 'sleep 600'"   25 seconds ago   Up 24 seconds             c_tag_running

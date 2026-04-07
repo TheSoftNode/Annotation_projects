@@ -1,0 +1,119 @@
+==========================================
+R1 COMPLETE TEST SUITE
+==========================================
+
+=== Docker Version ===
+Client:
+ Version:           28.1.1
+ API version:       1.49
+ Go version:        go1.23.8
+ Git commit:        4eba377
+ Built:             Fri Apr 18 09:49:45 2025
+ OS/Arch:           darwin/amd64
+ Context:           desktop-linux
+
+Server: Docker Desktop 4.41.2 (191736)
+ Engine:
+  Version:          28.1.1
+  API version:      1.49 (minimum version 1.24)
+  Go version:       go1.23.8
+  Git commit:       01f442b
+  Built:            Fri Apr 18 09:52:57 2025
+  OS/Arch:          linux/amd64
+  Experimental:     false
+ containerd:
+  Version:          1.7.27
+  GitCommit:        05044ec0a9a75232cad458027ca83437aae3f4da
+ runc:
+  Version:          1.2.5
+  GitCommit:        v1.2.5-0-g59923ef
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+
+=== Helper Tools Check ===
+/usr/bin/grep
+/usr/bin/awk
+/usr/bin/cut
+/usr/bin/xargs
+
+==========================================
+
+=== Baseline: All containers with format ===
+CONTAINER ID   IMAGE                           NAMES
+94dc1382b3a1   local/test:foo-buildkit         c_tag_stopped
+4f72eb31048c   local/plain:latest              buildkit_named
+e58756f454f2   local/plain:latest              c_plain_running
+2b9c50eb146b   local/buildkit-repo:latest      c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       c_tag_running
+a2a26dc489cf   hasura/graphql-engine:v2.43.0   generated-graphql-engine-1
+63bd081d184b   postgres:17.5                   generated-envio-postgres-1
+
+==========================================
+
+=== Main Command: Running containers with buildkit filter ===
+4f72eb31048c   local/plain:latest              buildkit_named
+2b9c50eb146b   local/buildkit-repo:latest      c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       c_tag_running
+
+==========================================
+
+=== docker ps (should omit c_tag_stopped) ===
+CONTAINER ID   IMAGE                           COMMAND                   CREATED          STATUS                    PORTS                    NAMES
+4f72eb31048c   local/plain:latest              "sh -c 'sleep 600'"       10 seconds ago   Up 9 seconds                                       buildkit_named
+e58756f454f2   local/plain:latest              "sh -c 'sleep 600'"       10 seconds ago   Up 10 seconds                                      c_plain_running
+2b9c50eb146b   local/buildkit-repo:latest      "sh -c 'sleep 600'"       11 seconds ago   Up 10 seconds                                      c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       "sh -c 'sleep 600'"       11 seconds ago   Up 10 seconds                                      c_tag_running
+a2a26dc489cf   hasura/graphql-engine:v2.43.0   "/bin/sh -c '\"${HGE_…"   6 months ago     Up 11 minutes (healthy)   0.0.0.0:8080->8080/tcp   generated-graphql-engine-1
+63bd081d184b   postgres:17.5                   "docker-entrypoint.s…"    6 months ago     Up 11 minutes             0.0.0.0:5433->5432/tcp   generated-envio-postgres-1
+
+=== docker ps -a (should include c_tag_stopped) ===
+CONTAINER ID   IMAGE                           COMMAND                   CREATED          STATUS                    PORTS                    NAMES
+94dc1382b3a1   local/test:foo-buildkit         "sh -c 'echo done'"       10 seconds ago   Created                                            c_tag_stopped
+4f72eb31048c   local/plain:latest              "sh -c 'sleep 600'"       10 seconds ago   Up 9 seconds                                       buildkit_named
+e58756f454f2   local/plain:latest              "sh -c 'sleep 600'"       10 seconds ago   Up 10 seconds                                      c_plain_running
+2b9c50eb146b   local/buildkit-repo:latest      "sh -c 'sleep 600'"       11 seconds ago   Up 10 seconds                                      c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       "sh -c 'sleep 600'"       11 seconds ago   Up 10 seconds                                      c_tag_running
+a2a26dc489cf   hasura/graphql-engine:v2.43.0   "/bin/sh -c '\"${HGE_…"   6 months ago     Up 11 minutes (healthy)   0.0.0.0:8080->8080/tcp   generated-graphql-engine-1
+63bd081d184b   postgres:17.5                   "docker-entrypoint.s…"    6 months ago     Up 11 minutes             0.0.0.0:5433->5432/tcp   generated-envio-postgres-1
+
+==========================================
+
+=== Table format with header (should have CONTAINER ID, IMAGE, NAMES header) ===
+CONTAINER ID   IMAGE                           NAMES
+4f72eb31048c   local/plain:latest              buildkit_named
+e58756f454f2   local/plain:latest              c_plain_running
+2b9c50eb146b   local/buildkit-repo:latest      c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       c_tag_running
+a2a26dc489cf   hasura/graphql-engine:v2.43.0   generated-graphql-engine-1
+63bd081d184b   postgres:17.5                   generated-envio-postgres-1
+
+==========================================
+
+=== Using {{.Image}} (response uses this) ===
+sha256:925ff61909aebae4bcc9bc04bb96a8bd15cd2271f13159fe95ce4338824531dd
+
+=== Using {{.Config.Image}} (Docker docs recommend this for image name) ===
+local/test:buildkit-alpha
+
+==========================================
+
+=== Variation 1: Include stopped containers ===
+94dc1382b3a1   local/test:foo-buildkit         c_tag_stopped
+4f72eb31048c   local/plain:latest              buildkit_named
+2b9c50eb146b   local/buildkit-repo:latest      c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       c_tag_running
+
+==========================================
+
+=== Variation 2: Container IDs only ===
+
+==========================================
+
+=== Variation 3: AWK tag-only filter ===
+4f72eb31048c local/plain:latest buildkit_named
+5568ff7c28b8 local/test:buildkit-alpha c_tag_running
+
+==========================================
+
+ALL TESTS COMPLETED

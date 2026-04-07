@@ -1,0 +1,3 @@
+=== Enhanced version with digest support ===
+
+Check if this defeats the stated purpose by matching entire image string like grep

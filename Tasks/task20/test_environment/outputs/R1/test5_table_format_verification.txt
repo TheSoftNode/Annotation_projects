@@ -1,0 +1,8 @@
+=== Table format with header (should have CONTAINER ID, IMAGE, NAMES header) ===
+CONTAINER ID   IMAGE                           NAMES
+4f72eb31048c   local/plain:latest              buildkit_named
+e58756f454f2   local/plain:latest              c_plain_running
+2b9c50eb146b   local/buildkit-repo:latest      c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       c_tag_running
+a2a26dc489cf   hasura/graphql-engine:v2.43.0   generated-graphql-engine-1
+63bd081d184b   postgres:17.5                   generated-envio-postgres-1

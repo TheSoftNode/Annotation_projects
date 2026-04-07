@@ -14,7 +14,7 @@ The response includes a trigger that automatically updates the last_update colum
 
 ## 3
 
-The response converts all primary keys to UUID type with uuid_generate_v4() defaults for all tables including events, providing consistent identifier types across the schema that align with Supabase Auth's UUID-based system.
+The response converts single-column primary keys to UUID type with uuid_generate_v4() defaults for users and events tables, adopting UUID-based identifiers for entity tables instead of sequential integers.
 
 ---
 

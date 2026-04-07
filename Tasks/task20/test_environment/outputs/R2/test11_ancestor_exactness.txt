@@ -1,0 +1,12 @@
+=== Ancestor filter with exact image (should match container AND descendants) ===
+CONTAINER ID   IMAGE                                         COMMAND               CREATED          STATUS          PORTS     NAMES
+128f4b12526d   busybox                                       "sh -c 'sleep 600'"   46 seconds ago   Up 45 seconds             c_digest_running
+27a387bcffdb   local/test:BuildKitBeta                       "sh -c 'sleep 600'"   46 seconds ago   Up 45 seconds             c_upper_tag
+9a24874d2905   localhost:5000/example/plain:buildkit-alpha   "sh -c 'sleep 600'"   46 seconds ago   Up 46 seconds             c_regport
+a15775239252   local/plain:latest                            "sh -c 'sleep 600'"   47 seconds ago   Up 46 seconds             buildkit_named
+b15122059335   local/plain:latest                            "sh -c 'sleep 600'"   47 seconds ago   Up 46 seconds             c_plain_running
+1fa78efe078f   local/buildkit-repo:latest                    "sh -c 'sleep 600'"   47 seconds ago   Up 47 seconds             c_repo_running
+75eed0ce6fa9   local/test:buildkit-alpha                     "sh -c 'sleep 600'"   48 seconds ago   Up 47 seconds             c_tag_running
+
+Expected: Should show c_tag_running AND c_child (descendant)
+This disputes the claim that ancestor 'only matches EXACT image references'

@@ -1,0 +1,45 @@
+=== Cleaning up existing test containers and images ===
+c_tag_running
+c_repo_running
+c_plain_running
+buildkit_named
+c_tag_stopped
+Untagged: local/test:buildkit-alpha
+Untagged: local/buildkit-repo:latest
+Untagged: local/plain:latest
+
+=== Pulling busybox image ===
+latest: Pulling from library/busybox
+Digest: sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e
+Status: Image is up to date for busybox:latest
+docker.io/library/busybox:latest
+
+=== Creating test images ===
+
+=== Creating basic test containers ===
+75eed0ce6fa9c345cdcb8f7d3cbe8ff0f337807b072783a25219b55f9fbdc138
+1fa78efe078fed83a98d9d8c60771986d038ed31af12054e8c1b579f8e0d6e35
+b15122059335e21211c2a8c9919b1d4e67b7090f519cdd9af5a8eff8777456d0
+a157752392523105422d25f3e124ae9a90dbad6dcf25f99ad533e9b3b7935c8f
+0d757da9f2bc7ecbea65a40f0084fc2a48df0eacc1971b671e2e8126fa918486
+9a24874d290534bc9f88514a0d25afbd83a16be6bb653afc828b73cf1b4a30f9
+27a387bcffdb64384fef418f926d16a04d114b192ac005aaf3d34deb2cd67bdf
+
+=== Creating digest-based container ===
+128f4b12526d84e167f4dcc7055b5f779aedc96e457d8b630567b359bb2e0173
+
+=== Creating child image and container ===
+ab4b566fff076cfdfbe7b11d150d8cafe2919944050fee63a10d35d87bda1321
+
+=== Test containers created successfully ===
+
+Ground truth:
+- c_tag_running → image tag contains buildkit
+- c_repo_running → repo contains buildkit, tag is latest
+- c_plain_running → no buildkit anywhere
+- buildkit_named → container name contains buildkit, image does not
+- c_tag_stopped → stopped/created container whose tag contains buildkit
+- c_regport → registry URL with port (localhost:5000), tag contains buildkit
+- c_upper_tag → tag contains BuildKit (uppercase)
+- c_digest_running → digest-based image reference
+- c_child → child image of buildkit-alpha

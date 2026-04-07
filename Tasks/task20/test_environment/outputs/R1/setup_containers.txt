@@ -1,0 +1,29 @@
+=== Cleaning up existing test containers and images ===
+
+=== Pulling busybox image ===
+latest: Pulling from library/busybox
+481282afbc43: Pulling fs layer
+481282afbc43: Verifying Checksum
+481282afbc43: Download complete
+481282afbc43: Pull complete
+Digest: sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+
+=== Creating test images ===
+
+=== Creating test containers ===
+5568ff7c28b873c9ec348cbdaa2f2709c855823ba9b8590e81dc646ca8ae1201
+2b9c50eb146b48883d10c82ff3e25cc9ac5d566bd05fa65f4669cc74a9fe7265
+e58756f454f28d3b0d013d2930d83aaa8ec26f8b1e5b004724642fb37a5dc06c
+4f72eb31048cf9b453b9a4b1d9c4553bfc7b5f914e5380dd2d923a9153a7e6ec
+94dc1382b3a1b84e0e7a351cce148a47471126d0ec477dc3b52f2354acfa7c61
+
+=== Test containers created successfully ===
+
+Ground truth:
+- c_tag_running → image tag contains buildkit
+- c_repo_running → repo contains buildkit, tag is latest
+- c_plain_running → no buildkit anywhere
+- buildkit_named → container name contains buildkit, image does not
+- c_tag_stopped → stopped/created container whose tag contains buildkit

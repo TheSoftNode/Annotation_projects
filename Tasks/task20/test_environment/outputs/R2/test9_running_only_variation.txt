@@ -1,0 +1,2 @@
+=== Running containers only (should NOT show c_tag_stopped) ===
+75eed0ce6fa9	local/test:buildkit-alpha	c_tag_running

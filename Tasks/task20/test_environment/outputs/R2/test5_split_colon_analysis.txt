@@ -1,0 +1,20 @@
+=== c_tag_running: plain repo:tag ===
+local/test:buildkit-alpha
+[
+  "local/test",
+  "buildkit-alpha"
+]
+
+=== c_regport: registry with port ===
+localhost:5000/example/plain:buildkit-alpha
+[
+  "localhost",
+  "5000/example/plain",
+  "buildkit-alpha"
+]
+
+=== c_digest_running: digest-based image ===
+busybox
+[
+  "busybox"
+]

@@ -1,0 +1,3 @@
+=== Variation 3: AWK tag-only filter ===
+4f72eb31048c local/plain:latest buildkit_named
+5568ff7c28b8 local/test:buildkit-alpha c_tag_running

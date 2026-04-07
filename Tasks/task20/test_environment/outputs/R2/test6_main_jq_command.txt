@@ -1,0 +1,9 @@
+=== Main jq command: Tag-only matching ===
+0d757da9f2bc	local/test:buildkit-alpha	c_tag_stopped
+75eed0ce6fa9	local/test:buildkit-alpha	c_tag_running
+
+Expected:
+- c_tag_running SHOULD appear (tag has buildkit)
+- c_repo_running SHOULD NOT appear (repo has buildkit, tag is latest)
+- buildkit_named SHOULD NOT appear (only name has buildkit)
+- c_regport test for registry:port handling

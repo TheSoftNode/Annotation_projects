@@ -1,0 +1,18 @@
+=== docker ps (should omit c_tag_stopped) ===
+CONTAINER ID   IMAGE                           COMMAND                   CREATED              STATUS                    PORTS                    NAMES
+4f72eb31048c   local/plain:latest              "sh -c 'sleep 600'"       About a minute ago   Up About a minute                                  buildkit_named
+e58756f454f2   local/plain:latest              "sh -c 'sleep 600'"       About a minute ago   Up About a minute                                  c_plain_running
+2b9c50eb146b   local/buildkit-repo:latest      "sh -c 'sleep 600'"       About a minute ago   Up About a minute                                  c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       "sh -c 'sleep 600'"       About a minute ago   Up About a minute                                  c_tag_running
+a2a26dc489cf   hasura/graphql-engine:v2.43.0   "/bin/sh -c '\"${HGE_…"   6 months ago         Up 12 minutes (healthy)   0.0.0.0:8080->8080/tcp   generated-graphql-engine-1
+63bd081d184b   postgres:17.5                   "docker-entrypoint.s…"    6 months ago         Up 12 minutes             0.0.0.0:5433->5432/tcp   generated-envio-postgres-1
+
+=== docker ps -a (should include c_tag_stopped) ===
+CONTAINER ID   IMAGE                           COMMAND                   CREATED              STATUS                    PORTS                    NAMES
+94dc1382b3a1   local/test:foo-buildkit         "sh -c 'echo done'"       About a minute ago   Created                                            c_tag_stopped
+4f72eb31048c   local/plain:latest              "sh -c 'sleep 600'"       About a minute ago   Up About a minute                                  buildkit_named
+e58756f454f2   local/plain:latest              "sh -c 'sleep 600'"       About a minute ago   Up About a minute                                  c_plain_running
+2b9c50eb146b   local/buildkit-repo:latest      "sh -c 'sleep 600'"       About a minute ago   Up About a minute                                  c_repo_running
+5568ff7c28b8   local/test:buildkit-alpha       "sh -c 'sleep 600'"       About a minute ago   Up About a minute                                  c_tag_running
+a2a26dc489cf   hasura/graphql-engine:v2.43.0   "/bin/sh -c '\"${HGE_…"   6 months ago         Up 12 minutes (healthy)   0.0.0.0:8080->8080/tcp   generated-graphql-engine-1
+63bd081d184b   postgres:17.5                   "docker-entrypoint.s…"    6 months ago         Up 12 minutes             0.0.0.0:5433->5432/tcp   generated-envio-postgres-1

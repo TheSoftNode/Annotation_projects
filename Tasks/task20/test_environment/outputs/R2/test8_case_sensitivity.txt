@@ -1,0 +1,8 @@
+=== Case-sensitive (default) - should NOT match c_upper_tag ===
+0d757da9f2bc	local/test:buildkit-alpha	c_tag_stopped
+75eed0ce6fa9	local/test:buildkit-alpha	c_tag_running
+
+=== Case-insensitive with ascii_downcase - should match c_upper_tag ===
+27a387bcffdb	local/test:BuildKitBeta	c_upper_tag
+0d757da9f2bc	local/test:buildkit-alpha	c_tag_stopped
+75eed0ce6fa9	local/test:buildkit-alpha	c_tag_running

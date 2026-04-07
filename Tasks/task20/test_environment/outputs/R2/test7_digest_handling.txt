@@ -1,0 +1,5 @@
+=== Digest-based image .Image field ===
+busybox
+
+=== Main command with digest container ===
+c_digest_running NOT matched
