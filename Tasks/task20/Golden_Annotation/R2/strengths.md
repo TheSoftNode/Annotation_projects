@@ -14,7 +14,7 @@ The response uses Docker's JSON output format for structured data parsing, which
 
 ## 3
 
-The response provides case-sensitivity handling options by demonstrating the default case-sensitive behavior and showing how to add ascii_downcase for case-insensitive matching, giving users control over match behavior.
+The response provides case-sensitivity handling options by demonstrating the default case-sensitive behavior and showing how to add ascii_downcase for case-insensitive matching, giving the user control over match behavior.
 
 ---
 
@@ -26,7 +26,7 @@ The response includes multiple variations of the jq command for different use ca
 
 ## 5
 
-The response provides a fallback grep method for users who cannot use jq, acknowledging that not all environments may have jq available.
+The response provides a fallback grep method for the user who cannot use jq, acknowledging that not all environments may have jq available.
 
 ---
 
@@ -34,4 +34,4 @@ The response provides a fallback grep method for users who cannot use jq, acknow
 
 ### 6
 
-The response confirms that Docker CLI lacks native substring matching for image tags, helping users understand why alternative approaches like grep or jq are necessary.
+The response confirms that Docker CLI lacks native substring matching for image tags, helping the user understand why alternative approaches like grep or jq are necessary.

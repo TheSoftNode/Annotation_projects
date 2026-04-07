@@ -8,13 +8,13 @@ The response provides a working grep-based command that successfully filters Doc
 
 ## 2
 
-The response includes multiple command variations for different use cases, allowing users to choose between showing all containers with -a or focusing only on running containers.
+The response includes multiple command variations for different use cases, allowing the user to choose between showing all containers with -a or focusing only on running containers.
 
 ---
 
 ## 3
 
-The response acknowledges that Docker's native --filter flag doesn't support wildcard patterns for image matching, explaining why the grep-based alternative approach is necessary and helping users understand the limitation of built-in filtering options.
+The response acknowledges that Docker's native --filter flag doesn't support wildcard patterns for image matching, helping the user understand why the grep-based alternative approach is necessary.
 
 ---
 
@@ -34,13 +34,13 @@ The response demonstrates case-insensitive matching with grep -i, allowing the f
 
 ### 6
 
-The response explains the -a flag behavior in the table, helping users understand that docker ps shows only running containers by default and how to include stopped containers.
+The response explains the -a flag behavior in the table, helping the user understand that docker ps shows only running containers by default and how to include stopped containers.
 
 ---
 
 ### 7
 
-The response provides a variation that outputs only container IDs, addressing the use case of piping results to other commands for scripting purposes.
+The response provides a variation that outputs only container IDs, allowing the user to pipe results to other commands for scripting purposes.
 
 ---
 
