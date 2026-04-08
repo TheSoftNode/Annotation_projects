@@ -59,7 +59,7 @@ int main() {
 
 **Description:** The response claims this program has "multiple else-if branches" but the code contains only one else-if branch checking `number == 0`.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 ---
 
@@ -109,7 +109,7 @@ printf("Enter a positive number: ");
 scanf("%d", &number);
 ```
 
-**Description:** The response uses scanf with %d without validating its return value. When users enter non-numeric strings, scanf fails and leaves number with a garbage value, causing the program to run with unpredictable results instead of handling the error.
+**Description:** The response uses scanf with %d without validating its return value. When users enter non-numeric strings, scanf fails and the program proceeds with an unreliable value instead of handling the error.
 
 **Severity:** Minor
 
@@ -195,7 +195,7 @@ int main() {
 
 **Description:** The response claims the second program has "more explicit nesting" compared to the first program, but both have identical nesting structures (outer if checks `number > 0`, inner if checks `number % 20 == 0`), differing only in comments and error messages.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 ---
 

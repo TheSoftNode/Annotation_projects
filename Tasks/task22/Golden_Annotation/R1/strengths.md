@@ -2,13 +2,13 @@
 
 ## 1
 
-The response provides three complete C programs that compile and run without errors, giving the user multiple working implementations to choose from.
+The response provides three complete C programs, giving the user multiple working implementations to choose from.
 
 ---
 
 ## 2
 
-The response demonstrates proper nested if-else structure where the inner condition checking `number % 20 == 0` is only evaluated after the outer condition `number > 0` passes, helping the user understand conditional nesting.
+The response demonstrates nested if-else structure in the first two programs where the inner condition checking `number % 20 == 0` is only evaluated after the outer condition `number > 0` passes, helping the user understand conditional nesting.
 
 ---
 
@@ -20,7 +20,7 @@ The response includes inline comments explaining each level of the nested struct
 
 ## 4
 
-The response provides a flowchart representation of the program logic, helping the user visualize the decision flow from input to output.
+The response provides a text-based logic diagram of the program flow, helping the user visualize the decision flow from input to output.
 
 ---
 
