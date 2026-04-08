@@ -159,7 +159,7 @@ and
 **Uses default workqueue**: `schedule_work` uses the shared `system_wq`, which may serialize work items depending on flags.
 ```
 
-**Description:** The response incorrectly claims that schedule_work uses the system_wq workqueue and describes it as serializing work items depending on flags. However, current Linux kernel implementations use system_percpu_wq by default, which is a multi-CPU per-CPU workqueue that does not serialize work items in the way described. This factual error could mislead the user about the concurrency behavior of their scheduled work items.
+**Description:** The response incorrectly identifies the backing workqueue as system_wq, but the current kernel source shows schedule_work queues to system_percpu_wq instead. This misidentification undermines the accuracy of the response's explanation about workqueue behavior, as system_percpu_wq is a multi-CPU per-CPU workqueue with different concurrency characteristics than what the response describes.
 
 **Severity:** Substantial
 
