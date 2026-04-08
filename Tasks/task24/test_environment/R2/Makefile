@@ -1,1 +1,1 @@
-obj-m += r2_basic.o
+obj-m += r2_test.o
