@@ -56,11 +56,10 @@ static void my_work_handler(struct work_struct *work)
 **URL:**
 **Source Excerpt:**
 ```
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c: In function 'my_work_handler':
 /workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c:19:5: error: implicit declaration of function 'msleep' [-Werror=implicit-function-declaration]
    19 |     msleep(100);
       |     ^~~~~~
-cc1: some warnings being treated as errors
-make[2]: *** [scripts/Makefile.build:243: /workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.o] Error 1
 ```
 
 ---
@@ -115,13 +114,34 @@ module_exit(cleanup_module);
 /workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c:25:19: error: static declaration of 'init_module' follows non-static declaration
    25 | static int __init init_module(void)
       |                   ^~~~~~~~~~~
+In file included from /workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c:5:
 ./include/linux/module.h:78:12: note: previous declaration of 'init_module' with type 'int(void)'
    78 | extern int init_module(void);
       |            ^~~~~~~~~~~
 /workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c:41:20: error: static declaration of 'cleanup_module' follows non-static declaration
    41 | static void __exit cleanup_module(void)
       |                    ^~~~~~~~~~~~~~
-./include/linux/module.h:124:13: error: redefinition of 'init_module'
+./include/linux/module.h:79:13: note: previous declaration of 'cleanup_module' with type 'void(void)'
+   79 | extern void cleanup_module(void);
+      |             ^~~~~~~~~~~~~~
+./include/linux/module.h:135:13: error: redefinition of 'init_module'
+  135 |         int init_module(void) __copy(initfn)                    \
+      |             ^~~~~~~~~~~
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c:53:1: note: in expansion of macro 'module_init'
+   53 | module_init(init_module);
+      | ^~~~~~~~~~~
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c:25:19: note: previous definition of 'init_module' with type 'int(void)'
+   25 | static int __init init_module(void)
+      |                   ^~~~~~~~~~~
+./include/linux/module.h:143:14: error: redefinition of 'cleanup_module'
+  143 |         void cleanup_module(void) __copy(exitfn)                \
+      |              ^~~~~~~~~~~~~~
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c:55:1: note: in expansion of macro 'module_exit'
+   55 | module_exit(cleanup_module);
+      | ^~~~~~~~~~~
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R1/work_test.c:41:20: note: previous definition of 'cleanup_module' with type 'void(void)'
+   41 | static void __exit cleanup_module(void)
+      |                    ^~~~~~~~~~~~~~
 ```
 
 ---
@@ -144,12 +164,14 @@ and
 **Severity:** Substantial
 
 **Tool Type:** Web Search
-**Query:** "Linux kernel schedule_work system_percpu_wq"
+**Query:** "Linux kernel schedule_work system_percpu_wq workqueue.h source code"
 
 **URL:** https://github.com/torvalds/linux/blob/master/include/linux/workqueue.h
 **Source Excerpt:**
-```
-Current upstream kernel source shows schedule_work() queues to system_percpu_wq, not system_wq. The header marks system_wq as legacy.
+```c
+static inline bool schedule_work(struct work_struct *work) {
+    return queue_work(system_percpu_wq, work);
+}
 ```
 
 ---
