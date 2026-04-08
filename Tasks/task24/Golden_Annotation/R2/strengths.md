@@ -2,7 +2,7 @@
 
 ## 1
 
-The response provides clear numbered sections explaining key characteristics of schedule_work including deferred execution, process context, and the default workqueue, helping the user understand multiple aspects of the function systematically.
+The response organizes information into numbered sections with clear headings for different topics, helping the user navigate and locate specific information about schedule_work systematically.
 
 ---
 
@@ -26,6 +26,6 @@ The response includes a practical example showing deferred interrupt processing 
 
 ## 5
 
-The response provides a best practices section with five concrete recommendations including keeping work functions short and handling module unloading properly, helping the user write better kernel code.
+The response includes a best practices section with specific recommendations for using schedule_work, helping the user understand how to write safer and more efficient kernel code.
 
 ---

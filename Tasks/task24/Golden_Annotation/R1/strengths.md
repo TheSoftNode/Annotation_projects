@@ -2,7 +2,7 @@
 
 ## 1
 
-The response provides a complete code example demonstrating how to initialize a work structure, schedule work, and handle cleanup, helping the user understand the full workflow for using schedule_work.
+The response provides a code example with module initialization and cleanup functions using INIT_WORK and flush_scheduled_work, helping the user understand how to properly set up and tear down workqueue usage in a kernel module.
 
 ---
 
