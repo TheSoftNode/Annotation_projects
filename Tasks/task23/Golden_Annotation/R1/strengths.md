@@ -8,7 +8,7 @@ The response demonstrates how to combine directory and filename paths using snpr
 
 ## 2
 
-The response provides both POSIX and Windows code examples, showing the user platform-specific approaches for directory creation with mkdir and CreateDirectory.
+The response provides a full POSIX example and a Windows-specific snippet for directory creation, helping the user see platform-specific approaches using mkdir and CreateDirectory.
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## 1
 
-The response provides a complete working example using fopen with "wx" mode, showing the user how to create a file exclusively without overwriting if it already exists.
+The response provides a complete working example using fopen with "wx" mode, showing the user how to create a file exclusively without overwriting it if it already exists.
 
 ---
 
