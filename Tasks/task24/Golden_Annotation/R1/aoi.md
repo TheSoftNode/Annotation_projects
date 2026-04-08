@@ -223,11 +223,17 @@ static void __exit cleanup_module(void)
 **Severity:** Substantial
 
 **Tool Type:** Web Search
-**Query:** "flush_scheduled_work" site:kernel.org documentation deadlock
+**Query:** site:kernel.org/doc "flush_scheduled_work" "Think twice"
 
-**URL:** https://lore.kernel.org/lkml/Pine.LNX.4.44L0.0912161051160.2909-100000@iolanthe.rowland.org/
+**URL:** https://www.kernel.org/doc/html/v5.0/driver-api/basics.html
 **Source Excerpt:**
 ```
+flush_scheduled_work
+
+void flush_scheduled_work(void)
+
+ensure that any scheduled work has run to completion.
+
 Think twice before calling this function! It's very easy to get into trouble if you don't take great care. Either of the following situations will lead to deadlock:
 
 One of the work items currently on the workqueue needs to acquire a lock held by your code or its caller.
