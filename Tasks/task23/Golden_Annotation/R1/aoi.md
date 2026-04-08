@@ -104,8 +104,18 @@ if (mkdir(directory, 0777) == -1) {
 }
 ```
 
-**Description:** The response uses mkdir which only creates a single directory level, so the example will fail if parent directories in the path do not already exist.
+**Description:** The response uses mkdir which only creates a single directory level, so if the example path contains multiple levels like "/path/to/your/directory", the code will fail with ENOENT if parent directories do not already exist.
 
 **Severity:** Minor
+
+**Tool Type:** Code Executor
+**Query:** `gcc test_mkdir_parents.c -o test && ./test` (testing mkdir with "/tmp/test_parent/child/grandchild")
+
+**URL:**
+**Source Excerpt:**
+```
+Failed to create directory: No such file or directory
+Error code: 2 (ENOENT=2)
+```
 
 ---
