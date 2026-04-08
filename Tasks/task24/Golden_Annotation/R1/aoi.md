@@ -13,7 +13,7 @@ and
 `schedle_work` is a convenient way to defer kernel tasks to a safe execution context.
 ```
 
-**Description:** The response misspells "schedule_work" as "schedle_work" twice.
+**Description:** The response misspells "schedule_work" as "schedle_work" twice (in the opening paragraph and closing section), making the function name incorrect and potentially confusing the user about the actual kernel API function name they need to use.
 
 **Severity:** Substantial
 
@@ -46,7 +46,7 @@ static void my_work_handler(struct work_struct *work)
 }
 ```
 
-**Description:** The response uses msleep without including linux/delay.h, causing the code to fail compilation with an implicit declaration error.
+**Description:** The response uses the msleep function in the work handler without including the required linux/delay.h header, causing compilation to fail with an implicit function declaration error when the user attempts to build the kernel module, preventing them from using the example code.
 
 **Severity:** Substantial
 
@@ -102,7 +102,7 @@ module_init(init_module);
 module_exit(cleanup_module);
 ```
 
-**Description:** The response uses function names init_module and cleanup_module which conflict with the module_init and module_exit macros, causing compilation to fail with redefinition errors.
+**Description:** The response uses the function names init_module and cleanup_module, which are special symbol names that conflict with the module_init and module_exit macros, causing compilation to fail with static/non-static declaration conflicts and redefinition errors. This prevents the user from building the kernel module, as these function names are reserved by the kernel module infrastructure.
 
 **Severity:** Substantial
 
@@ -139,7 +139,7 @@ and
 **Uses default workqueue**: `schedule_work` uses the shared `system_wq`, which may serialize work items depending on flags.
 ```
 
-**Description:** The response incorrectly states that schedule_work uses system_wq, when current Linux kernel uses system_percpu_wq which is multi-CPU multi-threaded, not serialized.
+**Description:** The response incorrectly claims that schedule_work uses the system_wq workqueue and describes it as serializing work items depending on flags. However, current Linux kernel implementations use system_percpu_wq by default, which is a multi-CPU per-CPU workqueue that does not serialize work items in the way described. This factual error could mislead the user about the concurrency behavior of their scheduled work items.
 
 **Severity:** Substantial
 
@@ -173,7 +173,7 @@ and
 ### **🔹 How It Works**
 ```
 
-**Description:** The response uses emojis (🔹) in section headings.
+**Description:** The response uses emojis (🔹) decoratively in section headings throughout the explanation, which is unnecessary for technical kernel documentation and may be considered unprofessional in this context.
 
 **Severity:** Minor
 
@@ -196,7 +196,7 @@ static void __exit cleanup_module(void)
 }
 ```
 
-**Description:** The response uses the deprecated flush_scheduled_work function in the actual code while commenting that cancel_work_sync should be used instead, when it should demonstrate the recommended function in the code itself.
+**Description:** The response uses the deprecated flush_scheduled_work function in the actual cleanup code while only mentioning cancel_work_sync as a commented alternative. This demonstrates bad practice by showing deprecated API usage in the primary code path, potentially encouraging the user to use the outdated function instead of the recommended cancel_work_sync approach.
 
 **Severity:** Substantial
 
@@ -211,7 +211,7 @@ static void __exit cleanup_module(void)
   * `false` if the work was already pending and not re-queued (e.g., if it's already queued or running).
 ```
 
-**Description:** The response provides a confusing explanation of the return value, particularly the phrasing "already queued and re-queued" and "already pending and not re-queued" which does not clearly describe the actual behavior.
+**Description:** The response provides a confusing explanation of schedule_work's return value, using contradictory phrasing like "already queued and re-queued" versus "already pending and not re-queued" that makes it difficult for the user to understand when the function returns true versus false. The explanation should clearly state that the function returns true if the work was successfully queued and false if it was already pending on the queue.
 
 **Severity:** Minor
 
