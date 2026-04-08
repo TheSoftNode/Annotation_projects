@@ -1,0 +1,17 @@
+=== Testing R1 Version 3 ===
+Compilation successful
+
+Test 1: Input 40 (multiple of 20)
+Enter a positive number: 40 is a multiple of 20.
+
+Test 2: Input 35 (not multiple of 20)
+Enter a positive number: 35 is not a multiple of 20.
+
+Test 3: Input -5 (negative)
+Enter a positive number: Negative numbers are not allowed.
+
+Test 4: Input 0 (zero)
+Enter a positive number: Zero is not a positive number.
+
+Test 5: Input 20 (edge case)
+Enter a positive number: 20 is a multiple of 20.

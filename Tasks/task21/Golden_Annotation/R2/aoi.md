@@ -10,10 +10,11 @@ val raw = (Math.random() * Float.MAX_VALUE).toFloat()   // can become Infinity
 and
 
 ```
-When you multiply that by Float.MAX_VALUE the intermediate Double can exceed the range that a Float can represent, and the conversion can produce Infinity (or even NaN in edge cases).
+Math.random() returns a Double in [0.0, 1.0). When you multiply that by Float.MAX_VALUE the intermediate Double can exceed the range that a Float can represent, and the conversion can produce Infinity (or even NaN in edge cases).
+So the expression you have may occasionally give you a non‑finite value.
 ```
 
-**Description:** The response claims that Math.random() * Float.MAX_VALUE can produce Infinity or NaN, but testing shows this expression never produces non-finite values. Math.random() returns values in [0.0, 1.0), so the product stays below Float.MAX_VALUE and remains finite. The documented ranges do not support the claim that this exact expression can overflow to Infinity.
+**Description:** The response claims that Math.random() * Float.MAX_VALUE can produce Infinity or NaN, but testing shows this expression never produces non-finite values. Math.random() returns values in [0.0, 1.0), so the product stays below Float.MAX_VALUE and remains finite.
 
 **Severity:** Substantial
 
@@ -36,7 +37,7 @@ No non-finite values seen in 1,000,000 samples
 Because the base nextFloat() is already finite, the derived value will be finite as long as min and max are finite (which they usually are).
 ```
 
-**Description:** The response claims that finite min and max values guarantee a finite result when using the scaling formula min + (max - min) * nextFloat(), but this is false. With extreme finite endpoints like -Float.MAX_VALUE and Float.MAX_VALUE, the intermediate calculation (max - min) overflows to Infinity under IEEE 754 arithmetic, producing non-finite results.
+**Description:** The response claims that finite min and max values guarantee a finite result when using the scaling formula min + (max - min) * nextFloat(), but this is not correct. With extreme finite endpoints like -Float.MAX_VALUE and Float.MAX_VALUE, the intermediate calculation (max - min) overflows to Infinity under IEEE 754 arithmetic, producing non-finite results.
 
 **Severity:** Substantial
 
@@ -58,7 +59,9 @@ Infinity | finite=false
 **URL:** https://en.wikipedia.org/wiki/IEEE_754
 **Source Excerpt:**
 ```
-Overflow occurs when a finite result is too large to be represented accurately (i.e., its exponent with an unbounded exponent would be too large). Being able to denote infinity as a specific value is useful because it allows operations to continue past overflow situations.
+These are the same five exceptions as were defined in IEEE 754-1985, but the division by zero exception has been extended to operations other than the division.
+Some decimal floating-point implementations define additional exceptions,[36][37] which are not part of IEEE 754:
+Clamped: a result's exponent is too large for the destination format. By default, trailing zeros will be added to the coefficient to reduce the exponent to the largest usable value. If this is not possible (because this would cause the number of digits needed to be more than the destination format) then an overflow exception occurs.
 ```
 
 ---
@@ -69,12 +72,13 @@ Overflow occurs when a finite result is too large to be represented accurately (
 ```
 val safeRandomFloat = generateRandomFloat()
     .filter { !it.isNaN() && !it.isInfinite() }
-    .firstOrNull() ?: 0f
+    .firstOrNull() ?: 0f        // fallback (or throw, depending on your needs)
 
 private fun generateRandomFloat(): Flow<Float> = flow {
     while (true) {
+        // Re‑use the original (potentially unsafe) generator here
         val candidate = (Math.random() * Float.MAX_VALUE).toFloat()
-        emit(candidate)
+        emit(candidate)            // could be NaN/Infinity
     }
 }
 ```
@@ -96,12 +100,16 @@ test_flow_verbatim.kt:9:9: error: unresolved reference 'emit'.
 ```
 
 **Tool Type:** Web Search
-**Query:** kotlinx.coroutines.flow not part of standard library separate dependency
+**Query:** kotlinx.coroutines.flow package documentation import dependency
 **URL:** https://kt.academy/article/cc-built-in-vs-library
 **Source Excerpt:**
 ```
-Built-in support: Compiler support and elements in the Kotlin standard library with elements in the kotlin.coroutines package.
-kotlinx.coroutines library: Separate dependency needs to be added to the project with elements in the kotlinx.coroutines package.
+| Built-in support | kotlinx.coroutines library |
+|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
+| Compiler support and elements in the Kotlin standard library. | Separate dependency needs to be added to the project. |
+| Elements are in the kotlin.coroutines package. | Elements are in the kotlinx.coroutines package. |
+| Minimalistic, provides a few basic elements (like Continuation or suspendCoroutine) and the suspend keyword. | Hard to use directly. |
+| Allows nearly any concurrence style. | Designed for direct use. |
 ```
 
 ---
@@ -134,81 +142,9 @@ Exception in thread "main" java.lang.StackOverflowError
 **URL:** https://kotlinlang.org/docs/functions.html
 **Source Excerpt:**
 ```
-Kotlin supports a style of functional programming known as tail recursion, which allows some algorithms that would normally be written using loops to instead be written using a recursive function, but without the risk of stack overflow. When a function is marked with the tailrec modifier and meets the required form, the compiler optimizes out the recursion, leaving behind a fast and efficient loop based version instead.
+Tail recursive functions
+
+Kotlin supports a style of functional programming known as tail recursion. For some algorithms that would normally use loops, you can use a recursive function instead without the risk of stack overflow. When a function is marked with the tailrec modifier and meets the required formal conditions, the compiler optimizes out the recursion, leaving behind a fast and efficient loop based version instead:
 ```
-
----
-
-## AOI #5 - MINOR
-
-**Response Excerpt:**
-```
-Kotlin's standard-library random utilities (kotlin.random.Random) already generate finite Floats only.
-```
-
-**Description:** The response makes a broad claim about Kotlin's "random utilities" generating finite Floats only, but only Random.nextFloat() is specifically documented with this guarantee. The claim is too broad and not supported for all methods in kotlin.random.Random.
-
-**Severity:** Minor
-
-**Tool Type:** Web Search
-**Query:** Kotlin Random.nextFloat() documentation return value range finite
-
-**URL:** https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.random/-random/next-float.html
-**Source Excerpt:**
-```
-Web Search (verbatim from kotlinlang.org):
-"The nextFloat() function gets the next random Float value uniformly distributed between 0 (inclusive) and 1 (exclusive)."
-```
-
----
-
-## AOI #6 - MINOR
-
-**Response Excerpt:**
-```
-val safeRandomFloat = generateRandomFloat()
-    .filter { !it.isNaN() && !it.isInfinite() }
-    .firstOrNull() ?: 0f
-```
-
-**Description:** The response does not mention that this expression must be run from either a coroutine or a suspend function, as firstOrNull() on Flow is a suspend operator.
-
-**Severity:** Minor
-
-**Tool Type:** Web Search
-**Query:** Kotlin Flow firstOrNull suspend function coroutine documentation
-
-**URL:** https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/first-or-null.html
-**Source Excerpt:**
-```
-Web Search (verbatim from kotlinlang.org):
-"suspend fun <T> Flow<T>.firstOrNull(): T? - The terminal operator that returns the first element emitted by the flow and then cancels flow's collection. Returns null if the flow was empty."
-```
-
----
-
-## AOI #7 - MINOR
-
-**Response Excerpt:**
-```
-That's it. It produces a random Float uniformly distributed over [0f, 1f) and never yields NaN or Infinity.
-```
-
-**Description:** The response includes this sentence that is unnecessary as it does not add any meaning beyond what has already been stated.
-
-**Severity:** Minor
-
----
-
-## AOI #8 - MINOR
-
-**Response Excerpt:**
-```
-finite values. finite value in the half-open interval [0.0f, 1.0f). an expression that produces a random Float that is guaranteed to be valid is: finite finite value finite one you get a finite one: filter the results until you get a finite one
-```
-
-**Description:** The response unnecessarily uses the word "finite" multiple times throughout, which becomes repetitive.
-
-**Severity:** Minor
 
 ---

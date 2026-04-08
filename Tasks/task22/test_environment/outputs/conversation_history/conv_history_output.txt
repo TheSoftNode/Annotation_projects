@@ -1,0 +1,17 @@
+=== Testing Conversation History Code ===
+Compilation successful
+
+Test 1: Input 60
+Enter a positive number: 60 is a multiple of 20.
+
+Test 2: Input 25
+Enter a positive number: 25 is not a multiple of 20.
+
+Test 3: Input -10
+Enter a positive number: Please enter a positive number only.
+
+Test 4: Input 0
+Enter a positive number: Please enter a positive number only.
+
+Test 5: Input 20
+Enter a positive number: 20 is a multiple of 20.

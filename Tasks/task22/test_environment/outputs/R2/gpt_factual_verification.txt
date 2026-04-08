@@ -1,0 +1,81 @@
+======================================
+GPT Factual Verification for R2
+======================================
+
+=== COMPILATION CHECKS ===
+
+Compiler check 1 (basic):
+✓ Compilation successful
+
+Compiler check 2 (strict):
+✓ Compilation successful with strict flags
+
+=== RUNTIME TESTS ===
+
+Input: 40
+Enter a positive number: 40 is a multiple of 20.
+
+Input: 35
+Enter a positive number: 35 is not a multiple of 20.
+
+Input: -5
+Enter a positive number: Error: Please enter a positive number only.
+
+Input: 0
+Enter a positive number: Error: Please enter a positive number only.
+
+=== STRUCTURAL VERIFICATION ===
+
+nl -ba r2_main.c:
+     1	#include <stdio.h>
+     2	
+     3	int main() {
+     4	
+     5	    int num;
+     6	
+     7	
+     8	
+     9	    printf("Enter a positive number: ");
+    10	
+    11	    scanf("%d", &num);
+    12	
+    13	
+    14	
+    15	    if (num > 0) {  // First if: Check if number is positive
+    16	
+    17	        if (num % 20 == 0) {  // Nested if: Check multiple of 20
+    18	
+    19	            printf("%d is a multiple of 20.\n", num);
+    20	
+    21	        } else {  // Nested else
+    22	
+    23	            printf("%d is not a multiple of 20.\n", num);
+    24	
+    25	        }
+    26	
+    27	    } else {  // Else for first if (non-positive number)
+    28	
+    29	        printf("Error: Please enter a positive number only.\n");
+    30	
+    31	    }
+    32	
+    33	
+    34	
+    35	    return 0;
+    36	
+    37	}
+
+grep -n "if" r2_main.c:
+15:    if (num > 0) {  // First if: Check if number is positive
+17:        if (num % 20 == 0) {  // Nested if: Check multiple of 20
+27:    } else {  // Else for first if (non-positive number)
+
+grep -n 'Error: Please enter a positive number only.' r2_main.c:
+29:        printf("Error: Please enter a positive number only.\n");
+
+grep -n 'is a multiple of 20' r2_main.c:
+19:            printf("%d is a multiple of 20.\n", num);
+
+grep -n 'is not a multiple of 20' r2_main.c:
+23:            printf("%d is not a multiple of 20.\n", num);
+

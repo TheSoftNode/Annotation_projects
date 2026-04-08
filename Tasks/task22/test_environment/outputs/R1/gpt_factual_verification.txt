@@ -1,0 +1,73 @@
+======================================
+GPT Factual Verification for R1
+======================================
+
+=== VERSION 1 (response1_v1.c) ===
+Compiling with -Wall -Wextra -std=c11...
+✓ Compilation successful
+
+Testing version 1:
+Input: 40
+Enter a positive number: 40 is a multiple of 20.
+
+Input: 35
+Enter a positive number: 35 is not a multiple of 20.
+
+Input: -5
+Enter a positive number: Error: Please enter a positive number.
+
+Input: 0
+Enter a positive number: Error: Please enter a positive number.
+
+---
+
+=== VERSION 2 (response1_v2.c) ===
+Compiling with -Wall -Wextra -std=c11...
+✓ Compilation successful
+
+Testing version 2:
+Input: 40
+Enter a positive number: 40 is a multiple of 20.
+
+Input: 35
+Enter a positive number: 35 is not a multiple of 20.
+
+Input: -5
+Enter a positive number: Invalid input! Number must be positive.
+
+Input: 0
+Enter a positive number: Invalid input! Number must be positive.
+
+---
+
+=== VERSION 3 (response1_v3.c) ===
+Compiling with -Wall -Wextra -std=c11...
+✓ Compilation successful
+
+Testing version 3:
+Input: 40
+Enter a positive number: 40 is a multiple of 20.
+
+Input: 35
+Enter a positive number: 35 is not a multiple of 20.
+
+Input: 0
+Enter a positive number: Zero is not a positive number.
+
+Input: -5
+Enter a positive number: Negative numbers are not allowed.
+
+---
+
+=== STRUCTURAL VERIFICATION ===
+
+Checking for 'else if' in version 3:
+33:    else if (number == 0) {
+
+Line numbers for version 1:
+    17	    // Using nested if-else to check
+    19	    if (number > 0) {           // Outer if: Check if positive
+    21	        if (number % 20 == 0) { // Inner if: Check if multiple of 20
+    25	        } else {                // Inner else: Not multiple of 20
+    31	    } else {                    // Outer else: Not positive number
+
