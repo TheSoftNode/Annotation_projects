@@ -1,0 +1,33 @@
+=== R2 COMPREHENSIVE FACTUAL TESTS ===
+
+TEST 1: Compile exact code from response
+RESULT: Compilation succeeded (code is compile-valid)
+
+TEST 2: Run with hardcoded /home/user/documents path (expect failure)
+Error opening file: No such file or directory
+Directory does not exist: /home/user/documents/newfile.txt
+Exit code: 1
+
+TEST 3: Check if hardcoded path exists
+ls: /home/user: No such file or directory
+ls: /home/user/documents: No such file or directory
+
+TEST 4: Create directory and test file creation
+File created successfully at: /tmp/test_r2_dir/newfile.txt
+
+TEST 5: Run again to test 'wx' exclusive creation (expect EEXIST)
+Error opening file: File exists
+File already exists: /tmp/test_r2_dir/newfile.txt
+
+TEST 6: Verify file was created and contains correct content
+File exists
+Hello, this is a new file!
+
+TEST 7: Test 'w' mode for overwriting
+First write successful
+Second write successful
+Second write (overwritten)
+
+TEST 8: Check man page for fopen 'w' and 'x' modes
+
+=== R2 TESTS COMPLETE ===

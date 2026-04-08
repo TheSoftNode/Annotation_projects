@@ -1,0 +1,29 @@
+=== R1 COMPREHENSIVE FACTUAL TESTS ===
+
+TEST 1: Compile exact code from response (expect errno/EEXIST errors)
+r1_main.c:27:13: error: use of undeclared identifier 'errno'
+        if (errno != EEXIST) {
+            ^
+r1_main.c:27:22: error: use of undeclared identifier 'EEXIST'
+        if (errno != EEXIST) {
+                     ^
+2 errors generated.
+RESULT: Compilation failed (as expected - missing errno.h)
+
+TEST 2: Verify plain mkdir doesn't create missing parent directories
+mkdir: /tmp/r1-dir-check/one: No such file or directory
+RESULT: mkdir failed with missing parents (correct POSIX behavior)
+
+TEST 3: Check man page for fopen mode 'w' behavior
+
+TEST 4: Check man page for mkdir EEXIST behavior
+     [EEXIST]           The named file exists.
+
+     [EFAULT]           _P_a_t_h points outside the process's allocated address
+
+TEST 5: Fix missing errno.h and test with /tmp directory
+Fixed code compiled successfully
+File created successfully at: /tmp/test_r1_fixed/newfile.txt
+File created successfully
+This is the content of the new file.
+=== R1 TESTS COMPLETE ===

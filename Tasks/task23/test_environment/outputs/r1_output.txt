@@ -1,0 +1,9 @@
+=== Testing R1 ===
+r1_main.c:27:13: error: use of undeclared identifier 'errno'
+        if (errno != EEXIST) {
+            ^
+r1_main.c:27:22: error: use of undeclared identifier 'EEXIST'
+        if (errno != EEXIST) {
+                     ^
+2 errors generated.
+Compilation failed

@@ -1,0 +1,18 @@
+=== Testing R2 ===
+Compilation successful
+
+Test 1: Run with hardcoded path /home/user/documents (non-existent)
+Error opening file: No such file or directory
+Directory does not exist: /home/user/documents/newfile.txt
+
+Test 2: Create test directory and run
+File created successfully at: /tmp/test_r2_dir/newfile.txt
+
+Test 3: Run again to test 'x' mode exclusivity
+Error opening file: File exists
+File already exists: /tmp/test_r2_dir/newfile.txt
+
+Test 4: Verify file creation and content
+File exists
+Hello, this is a new file!
+

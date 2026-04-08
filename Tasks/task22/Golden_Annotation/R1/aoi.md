@@ -1,6 +1,6 @@
 # Response 1 - Areas of Improvement (AOIs)
 
-## AOI #1 - SUBSTANTIAL
+## AOI #1 - MINOR
 
 **Response Excerpt:**
 ```
@@ -104,30 +104,6 @@ Error: Please enter a positive number.
 
 **Response Excerpt:**
 ```
-printf("Enter a positive number: ");
-
-scanf("%d", &number);
-```
-
-**Description:** The response uses scanf with %d without validating its return value. When users enter non-numeric strings, scanf fails and the program proceeds with an unreliable value instead of handling the error.
-
-**Severity:** Minor
-
-**Tool Type:** Code Executor
-**Query:** `echo "hello" | ./r1_version1`
-
-**URL:**
-**Source Excerpt:**
-```
-Enter a positive number: 32767 is not a multiple of 20.
-```
-
----
-
-## AOI #4 - SUBSTANTIAL
-
-**Response Excerpt:**
-```
 if (number > 0) {           // Outer if: Check if positive
 
     if (number % 20 == 0) { // Inner if: Check if multiple of 20
@@ -194,69 +170,6 @@ int main() {
 ```
 
 **Description:** The response claims the second program has "more explicit nesting" compared to the first program, but both have identical nesting structures (outer if checks `number > 0`, inner if checks `number % 20 == 0`), differing only in comments and error messages.
-
-**Severity:** Minor
-
----
-
-## AOI #5 - MINOR
-
-**Response Excerpt:**
-```
-**Another version with multiple else-if branches:**
-
-#include <stdio.h>
-
-int main() {
-
-    int number;
-
-
-
-    printf("Enter a positive number: ");
-
-    scanf("%d", &number);
-
-
-
-    // Using nested if-else with multiple conditions
-
-    if (number > 0) {
-
-        if (number % 20 == 0) {
-
-            printf("%d is a multiple of 20.\n", number);
-
-        }
-
-        else {
-
-            printf("%d is not a multiple of 20.\n", number);
-
-        }
-
-    }
-
-    else if (number == 0) {
-
-        printf("Zero is not a positive number.\n");
-
-    }
-
-    else {
-
-        printf("Negative numbers are not allowed.\n");
-
-    }
-
-
-
-    return 0;
-
-}
-```
-
-**Description:** The response introduces an else-if branch in the third program that splits non-positive inputs into zero and negative cases, going beyond the requested simple nested if-else structure for checking multiples of 20.
 
 **Severity:** Minor
 
