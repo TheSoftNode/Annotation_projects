@@ -159,7 +159,7 @@ and
 **Uses default workqueue**: `schedule_work` uses the shared `system_wq`, which may serialize work items depending on flags.
 ```
 
-**Description:** The response incorrectly identifies the backing workqueue as system_wq, but the current kernel source shows schedule_work queues to system_percpu_wq instead. This misidentification undermines the accuracy of the response's explanation about workqueue behavior, as system_percpu_wq is a multi-CPU per-CPU workqueue with different concurrency characteristics than what the response describes.
+**Description:** The response incorrectly identifies the backing workqueue as system_wq. In current kernel source, schedule_work() queues to system_percpu_wq, which is a multi-CPU multi-threaded workqueue. This makes the named queue wrong and weakens the accuracy of the concurrency explanation, potentially misleading the user about how their scheduled work items will execute.
 
 **Severity:** Substantial
 
@@ -245,7 +245,7 @@ In most situations flushing the entire workqueue is overkill; you merely need to
 
 ---
 
-## AOI #7 - MINOR
+## AOI #7 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -254,8 +254,25 @@ In most situations flushing the entire workqueue is overkill; you merely need to
   * `false` if the work was already pending and not re-queued (e.g., if it's already queued or running).
 ```
 
-**Description:** The response provides a confusing explanation of schedule_work's return value, using contradictory phrasing like "already queued and re-queued" versus "already pending and not re-queued" that makes it difficult for the user to understand when the function returns true versus false. The explanation should clearly state that the function returns true if the work was successfully queued and false if it was already pending on the queue.
+**Description:** The response incorrectly explains the return value of schedule_work(). The kernel documentation states that the function returns false if the work was already on the kernel-global workqueue and true otherwise. The response incorrectly claims that already-queued work can be "re-queued" and return true, which misrepresents the API behavior. Because return value semantics are central to correctly using this API, this is a substantial error.
 
-**Severity:** Minor
+**Severity:** Substantial
+
+**Tool Type:** Web Search
+**Query:** Linux kernel schedule_work return value documentation
+
+**URL:** https://www.kernel.org/doc/html/v4.13/driver-api/basics.html
+**Source Excerpt:**
+```
+schedule_work
+
+bool schedule_work(struct work_struct *work)
+
+put work task in global workqueue
+
+Returns false if work was already on the kernel-global workqueue and true otherwise.
+
+This puts a job in the kernel-global workqueue if it was not already queued and leaves it in the same position on the kernel-global workqueue otherwise.
+```
 
 ---
