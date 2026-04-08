@@ -1,3 +1,0 @@
-=== Test 4: Boundary test (will hang - skipping) ===
-This test intentionally generates only NaN and will hang.
-Run manually with timeout if needed: timeout 5s java -jar test4.jar

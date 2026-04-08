@@ -1,0 +1,39 @@
+=== R2 COMPREHENSIVE TESTS (Run in GitHub Codespaces) ===
+
+TEST 1: Checking for common typos
+No major typos found
+
+TEST 2: Checking for emojis
+FOUND: Emojis in response
+
+TEST 3: Extracting basic example code
+Code extracted to r2_basic.c
+
+TEST 4: Checking if msleep is used without including <linux/delay.h>
+17:    msleep(100);
+ISSUE: msleep() used but <linux/delay.h> not included
+
+TEST 5: Checking for module_exit (cleanup function)
+ISSUE: No module_exit defined (incomplete module)
+
+TEST 6: Creating Makefile for kernel module build
+Makefile created
+
+TEST 7: Attempting kernel module build (requires Linux with kernel headers)
+Kernel headers found, attempting build...
+make: Entering directory '/usr/src/linux-headers-6.8.0-1044-azure'
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  CC [M]  /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_basic.o
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_basic.c: In function ‘my_work_func’:
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_basic.c:17:5: error: implicit declaration of function ‘msleep’ [-Werror=implicit-function-declaration]
+   17 |     msleep(100);
+      |     ^~~~~~
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:243: /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_basic.o] Error 1
+make[1]: *** [/usr/src/linux-headers-6.8.0-1044-azure/Makefile:1927: /workspaces/Annotation_projects/Tasks/task24/test_environment/R2] Error 2
+make: *** [Makefile:240: __sub-make] Error 2
+make: Leaving directory '/usr/src/linux-headers-6.8.0-1044-azure'
+
+=== R2 COMPREHENSIVE TESTS COMPLETE ===

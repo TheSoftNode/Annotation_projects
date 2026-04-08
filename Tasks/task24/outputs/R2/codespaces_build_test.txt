@@ -1,0 +1,68 @@
+==========================================
+R2 KERNEL MODULE BUILD TEST (Codespaces)
+==========================================
+
+This script tests R2's basic example code
+
+STEP 1: Checking dependencies...
+----------------------------------------
+Kernel version:
+6.8.0-1044-azure
+
+Checking for kernel build directory:
+lrwxrwxrwx 1 root root 39 Nov 21 22:00 /lib/modules/6.8.0-1044-azure/build -> /usr/src/linux-headers-6.8.0-1044-azure
+
+GCC version:
+gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+
+Make version:
+GNU Make 4.3
+
+STEP 3: Creating r2_test.c with exact code from R2...
+----------------------------------------
+r2_test.c created
+
+STEP 4: Creating Makefile...
+----------------------------------------
+Makefile created
+
+STEP 5: Building kernel module (with verbose output)...
+----------------------------------------
+Command: make -C /lib/modules/$(uname -r)/build M=$PWD modules V=1
+
+make: Entering directory '/usr/src/linux-headers-6.8.0-1044-azure'
+make --no-print-directory -C /usr/src/linux-headers-6.8.0-1044-azure \
+-f /usr/src/linux-headers-6.8.0-1044-azure/Makefile modules
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: x86_64-linux-gnu-gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+  You are using:           gcc-13 (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0
+make -f ./scripts/Makefile.build obj=/workspaces/Annotation_projects/Tasks/task24/test_environment/R2 need-builtin=1 need-modorder=1 
+# CC [M]  /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_test.o
+  gcc-13 -Wp,-MMD,/workspaces/Annotation_projects/Tasks/task24/test_environment/R2/.r2_test.o.d -nostdinc -I./arch/x86/include -I./arch/x86/include/generated  -I./include -I./arch/x86/include/uapi -I./arch/x86/include/generated/uapi -I./include/uapi -I./include/generated/uapi -include ./include/linux/compiler-version.h -include ./include/linux/kconfig.h -I./ubuntu/include -include ./include/linux/compiler_types.h -D__KERNEL__ -fmacro-prefix-map=./= -std=gnu11 -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -mno-sse -mno-mmx -mno-sse2 -mno-3dnow -mno-avx -fcf-protection=none -m64 -falign-jumps=1 -falign-loops=1 -mno-80387 -mno-fp-ret-in-387 -mpreferred-stack-boundary=3 -mskip-rax-setup -mtune=generic -mno-red-zone -mcmodel=kernel -Wno-sign-compare -fno-asynchronous-unwind-tables -mindirect-branch=thunk-extern -mindirect-branch-register -mindirect-branch-cs-prefix -mfunction-return=thunk-extern -fno-jump-tables -mharden-sls=all -fpatchable-function-entry=16,16 -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fno-omit-frame-pointer -fno-optimize-sibling-calls -ftrivial-auto-var-init=zero -fno-stack-clash-protection -pg -mrecord-mcount -mfentry -DCC_USING_FENTRY -falign-functions=16 -fstrict-flex-arrays=3 -fno-strict-overflow -fno-stack-check -fconserve-stack -Wall -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=1024 -Wno-main -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-dangling-pointer -Wvla -Wno-pointer-sign -Wcast-function-type -Wno-stringop-overflow -Wno-array-bounds -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-restrict -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-type-limits -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -g -gdwarf-5  -fsanitize=bounds-strict -fsanitize=shift -fsanitize=bool -fsanitize=enum  -DMODULE  -DKBUILD_BASENAME='"r2_test"' -DKBUILD_MODNAME='"r2_test"' -D__KBUILD_MODNAME=kmod_r2_test -c -o /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_test.o /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_test.c   ; ./tools/objtool/objtool --hacks=jump_label --hacks=noinstr --hacks=skylake --retpoline --rethunk --sls --stackval --static-call --uaccess --prefix=16   --module /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_test.o
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_test.c: In function ‘my_work_func’:
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_test.c:17:5: error: implicit declaration of function ‘msleep’ [-Werror=implicit-function-declaration]
+   17 |     msleep(100);
+      |     ^~~~~~
+cc1: some warnings being treated as errors
+make[2]: *** [scripts/Makefile.build:243: /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_test.o] Error 1
+make[1]: *** [/usr/src/linux-headers-6.8.0-1044-azure/Makefile:1927: /workspaces/Annotation_projects/Tasks/task24/test_environment/R2] Error 2
+make: *** [Makefile:240: __sub-make] Error 2
+make: Leaving directory '/usr/src/linux-headers-6.8.0-1044-azure'
+
+STEP 6: Analyzing build results...
+----------------------------------------
+✗ BUILD FAILED
+
+Checking for expected errors:
+
+1. Checking for msleep() without <linux/delay.h>:
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_test.c:17:5: error: implicit declaration of function ‘msleep’ [-Werror=implicit-function-declaration]
+   17 |     msleep(100);
+
+2. Checking for module_exit issues:
+
+Full build log saved to: build_output.txt
+
+==========================================
+R2 BUILD TEST COMPLETE
+==========================================
