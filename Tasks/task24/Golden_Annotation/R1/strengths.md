@@ -2,7 +2,7 @@
 
 ## 1
 
-The response provides a code example with module initialization and cleanup functions using INIT_WORK and flush_scheduled_work, helping the user understand how to properly set up and tear down workqueue usage in a kernel module.
+The response provides a code example with module initialization and cleanup functions demonstrating INIT_WORK for setup and the module_init/module_exit pattern, helping the user understand the basic structure of workqueue usage in a kernel module.
 
 ---
 

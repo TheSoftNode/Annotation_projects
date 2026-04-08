@@ -218,9 +218,24 @@ static void __exit cleanup_module(void)
 }
 ```
 
-**Description:** The response uses the deprecated flush_scheduled_work function in the actual cleanup code while only mentioning cancel_work_sync as a commented alternative. This demonstrates bad practice by showing deprecated API usage in the primary code path, potentially encouraging the user to use the outdated function instead of the recommended cancel_work_sync approach.
+**Description:** The response uses the deprecated flush_scheduled_work function in the actual cleanup code while only mentioning cancel_work_sync as a commented alternative. This demonstrates bad practice by showing deprecated API usage in the primary code path. The kernel documentation warns that flush_scheduled_work can lead to deadlock and recommends cancel_work_sync for cleaning up specific work items, so using the deprecated function in the example code could encourage unsafe practices.
 
 **Severity:** Substantial
+
+**Tool Type:** Web Search
+**Query:** "flush_scheduled_work" site:kernel.org documentation deadlock
+
+**URL:** https://lore.kernel.org/lkml/Pine.LNX.4.44L0.0912161051160.2909-100000@iolanthe.rowland.org/
+**Source Excerpt:**
+```
+Think twice before calling this function! It's very easy to get into trouble if you don't take great care. Either of the following situations will lead to deadlock:
+
+One of the work items currently on the workqueue needs to acquire a lock held by your code or its caller.
+
+Your code is running in the context of a work routine.
+
+In most situations flushing the entire workqueue is overkill; you merely need to know that a particular work item isn't queued and isn't running. In such cases you should use cancel_delayed_work_sync() or cancel_work_sync() instead.
+```
 
 ---
 
