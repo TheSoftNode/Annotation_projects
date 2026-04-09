@@ -27,7 +27,7 @@ echo
 
 cd R1 2>/dev/null || cd test_environment/R1
 
-for test in test_claim*.py; do
+for test in test_claim*.py test_r1*.py; do
     if [ -f "$test" ]; then
         echo "Running $test..."
         echo "------------------------------------------------------------"
@@ -49,7 +49,7 @@ echo
 
 cd R2 2>/dev/null || cd test_environment/R2
 
-for test in test*.py; do
+for test in test[0-9]*.py test_r2*.py; do
     if [ -f "$test" ]; then
         echo "Running $test..."
         echo "------------------------------------------------------------"

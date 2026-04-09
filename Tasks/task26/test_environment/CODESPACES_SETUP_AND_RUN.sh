@@ -46,7 +46,7 @@ echo
 
 cd R1
 
-for test in test_claim*.py; do
+for test in test_claim*.py test_r1*.py; do
     echo "Running $test..."
     echo "------------------------------------------------------------"
     python3 "$test" | tee "../outputs/R1/${test%.py}_output.txt"
@@ -66,7 +66,7 @@ echo
 
 cd R2
 
-for test in test*.py; do
+for test in test[0-9]*.py test_r2*.py; do
     echo "Running $test..."
     echo "------------------------------------------------------------"
     python3 "$test" | tee "../outputs/R2/${test%.py}_output.txt"

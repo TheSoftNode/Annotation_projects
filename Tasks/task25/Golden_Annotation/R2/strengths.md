@@ -2,7 +2,7 @@
 
 ## 1
 
-The response uses a PnL mismatch example to illustrate why even small floating-point rounding errors can matter in financial systems.
+The response uses a PnL mismatch example to illustrate floating-point rounding risks, helping the user understand why even small errors can matter in financial systems.
 
 ---
 
@@ -14,7 +14,7 @@ The response provides code examples showing why direct float equality checks fai
 
 ## 3
 
-The response acknowledges that integers add implementation complexity, then offers practical techniques such as strong typing and safe math wrappers to reduce mistakes when working with scaled integers.
+The response acknowledges that integers add implementation complexity and offers practical techniques such as strong typing and safe math wrappers, helping the user reduce mistakes when working with scaled integers.
 
 ---
 
