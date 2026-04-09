@@ -13,7 +13,7 @@ and
 `schedle_work` is a convenient way to defer kernel tasks to a safe execution context.
 ```
 
-**Description:** The response misspells "schedule_work" as "schedle_work" twice (in the opening paragraph and closing section), making the function name incorrect and potentially confusing the user about the actual kernel API function name they need to use.
+**Description:** The response misspells "schedule_work" as "schedle_work" twice, making the function name incorrect and potentially confusing the user about the actual kernel API function name they need to use.
 
 **Severity:** Substantial
 
@@ -169,6 +169,12 @@ and
 **URL:** https://github.com/torvalds/linux/blob/master/include/linux/workqueue.h
 **Source Excerpt:**
 ```c
+/*
+ * system_percpu_wq is the one used by schedule[_delayed]_work[_on]().
+ * Multi-CPU multi-threaded.
+ */
+extern struct workqueue_struct *system_percpu_wq;
+
 static inline bool schedule_work(struct work_struct *work) {
     return queue_work(system_percpu_wq, work);
 }
