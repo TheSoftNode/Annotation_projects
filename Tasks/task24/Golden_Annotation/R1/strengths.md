@@ -2,7 +2,7 @@
 
 ## 1
 
-The response provides a code example with module initialization and cleanup functions demonstrating INIT_WORK for setup and the module_init/module_exit pattern, helping the user understand the basic structure of workqueue usage in a kernel module.
+The response provides a concrete code example showing how to initialize a work item with INIT_WORK and queue it with schedule_work, which helps the user understand the basic workqueue setup flow in a kernel module.
 
 ---
 

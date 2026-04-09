@@ -1,6 +1,6 @@
 # Response 1 - Areas of Improvement (AOIs)
 
-## AOI #1 - SUBSTANTIAL
+## AOI #1 - MINOR
 
 **Response Excerpt:**
 ```
@@ -15,7 +15,7 @@ and
 
 **Description:** The response misspells "schedule_work" as "schedle_work" twice (in the "Purpose of schedule_work" section and in the "Summary" section), making the function name incorrect and potentially confusing the user about the actual kernel API function name they need to use.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 ---
 

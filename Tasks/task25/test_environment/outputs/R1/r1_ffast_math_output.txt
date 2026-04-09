@@ -1,0 +1,25 @@
+============================================================
+R1 Test D: -ffast-math Compiler Flag Behavior
+============================================================
+
+Step 1: Compile WITHOUT -ffast-math
+------------------------------------------------------------
+Compilation successful
+
+Step 2: Run WITHOUT -ffast-math
+------------------------------------------------------------
+NaN detected: isnan(x) = true
+NaN self-inequality: (x != x) = true
+
+Step 3: Compile WITH -ffast-math
+------------------------------------------------------------
+Compilation successful
+
+Step 4: Run WITH -ffast-math
+------------------------------------------------------------
+NaN detected: isnan(x) = true
+NaN self-inequality: (x != x) = true
+
+============================================================
+Test D Complete
+============================================================

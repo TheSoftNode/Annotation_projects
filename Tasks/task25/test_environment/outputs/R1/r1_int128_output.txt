@@ -1,0 +1,23 @@
+============================================================
+R1 Test E: __int128 Availability
+============================================================
+
+Step 1: Attempt to compile with __int128
+------------------------------------------------------------
+Compilation successful
+
+Step 2: Run the test
+------------------------------------------------------------
+__int128 type is supported
+Successfully created and manipulated __int128 variable
+Value after left shift by 100: 0x00000010000000000000000000000000
+
+Result: __int128 IS supported on this system
+
+Step 3: Check compiler support explicitly
+------------------------------------------------------------
+#define __SIZEOF_INT128__ 16
+
+============================================================
+Test E Complete
+============================================================

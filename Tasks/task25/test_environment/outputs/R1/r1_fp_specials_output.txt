@@ -1,0 +1,52 @@
+============================================================
+R1 Test F: NaN and Infinity Behavior
+============================================================
+
+Step 1: Compile fp_specials.c
+------------------------------------------------------------
+Compilation successful
+
+Step 2: Run the test
+------------------------------------------------------------
+Test F.1: NaN Behavior
+------------------------------------------------------------
+Created NaN: 0.0 / 0.0
+  isnan(nan_val) = 1
+  nan_val == nan_val: 0
+  nan_val != nan_val: 1
+  nan_val < 0.0: 0
+  nan_val > 0.0: 0
+  nan_val == 0.0: 0
+
+Test F.2: Positive Infinity
+------------------------------------------------------------
+Created +Inf: 1.0 / 0.0
+  isinf(pos_inf) = 1
+  pos_inf > 1e308: 1
+  pos_inf == pos_inf: 1
+  pos_inf + 1.0 == pos_inf: 1
+
+Test F.3: Negative Infinity
+------------------------------------------------------------
+Created -Inf: -1.0 / 0.0
+  isinf(neg_inf) = 1
+  neg_inf < -1e308: 1
+  neg_inf == neg_inf: 1
+
+Test F.4: Infinity Arithmetic
+------------------------------------------------------------
+  +Inf + +Inf: isinf() = 1, value > 0: 1
+  +Inf - +Inf: isnan() = 1
+  +Inf * 0.0: isnan() = 1
+
+Test F.5: Comparison Propagation
+------------------------------------------------------------
+  (NaN < 5.0) = 0 (should be 0)
+  (NaN > 5.0) = 0 (should be 0)
+  (NaN == 5.0) = 0 (should be 0)
+  All comparisons with NaN are false
+
+
+============================================================
+Test F Complete
+============================================================

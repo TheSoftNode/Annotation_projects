@@ -1,0 +1,31 @@
+============================================================
+Conversation History - Code Tests
+============================================================
+
+Compiling conversation history code...
+Compilation successful
+
+Running tests...
+------------------------------------------------------------
+Testing conversation history code examples:
+
+1. Testing multiply_scaled:
+   $1,234.56 × $78.90 = $97406.78
+   Expected: $97,406.78
+
+2. Testing sqrt_scaled:
+   sqrt($100.00) = $10.00
+   Expected: $10.00
+
+3. Testing log_scaled:
+   ln(7.389) = 1.999992
+   Expected: ~2.0
+
+4. Testing overflow scenario:
+   $1,000 × $1,000 = $1000000.00
+   Expected: $1,000,000
+
+
+============================================================
+Conversation History Tests Complete
+============================================================
