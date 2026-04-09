@@ -29,7 +29,7 @@ Created +Inf: 1.0 / 0.0
 Test F.3: Negative Infinity
 ------------------------------------------------------------
 Created -Inf: -1.0 / 0.0
-  isinf(neg_inf) = 1
+  isinf(neg_inf) = -1
   neg_inf < -1e308: 1
   neg_inf == neg_inf: 1
 

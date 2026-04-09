@@ -17,8 +17,8 @@ Compilation successful
 
 Step 4: Run WITH -ffast-math
 ------------------------------------------------------------
-NaN detected: isnan(x) = true
-NaN self-inequality: (x != x) = true
+NaN NOT detected: isnan(x) = false
+NaN self-inequality: (x != x) = false
 
 ============================================================
 Test D Complete
