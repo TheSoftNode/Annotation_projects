@@ -8,7 +8,7 @@ The response organizes information into numbered sections with clear headings fo
 
 ## 2
 
-The response includes a dedicated section on reentrancy explaining that work functions may be re-executed if rescheduled, helping the user understand work item lifecycle behavior.
+The response covers important function variants including schedule_delayed_work and queue_work with their function signatures and use cases, helping the user understand the broader workqueue API family beyond just schedule_work.
 
 ---
 

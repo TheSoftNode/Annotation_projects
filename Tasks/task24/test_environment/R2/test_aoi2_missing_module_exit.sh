@@ -37,26 +37,21 @@ static int __init my_init(void)
 module_init(my_init);
 // NOTE: Missing module_exit - this is the issue being tested
 
+MODULE_LICENSE("GPL");
 EOF
 
 echo "Created r2_aoi2_test.c (with msleep fixed but missing module_exit)"
 echo ""
 
-# Create Makefile
-cat > Makefile_aoi2 << 'EOF'
+# Create Makefile in current directory
+cat > Makefile << 'EOF'
 obj-m += r2_aoi2_test.o
-
-all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-
-clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 EOF
 
-echo "Building kernel module..."
+echo "Building kernel module with verbose output..."
 echo ""
 
-make -f Makefile_aoi2 -C /lib/modules/$(uname -r)/build M=$PWD modules 2>&1
+make -C /lib/modules/$(uname -r)/build M=$PWD modules V=1 2>&1
 
 echo ""
 echo "=========================================="
@@ -65,19 +60,17 @@ echo "=========================================="
 echo ""
 
 if [ -f r2_aoi2_test.ko ]; then
-    echo "✓ MODULE BUILT SUCCESSFULLY"
+    echo "✓ MODULE BUILT (but incomplete - missing module_exit)"
     echo ""
-    echo "Checking modinfo for cleanup function:"
-    modinfo r2_aoi2_test.ko | grep -E "cleanup|exit"
-    echo ""
-    echo "Note: The module builds but has no cleanup/exit function."
-    echo "This makes it potentially unsafe to unload."
+    echo "The module compiles successfully but is incomplete."
+    echo "It has module_init but no module_exit function."
 else
     echo "✗ BUILD FAILED"
-    echo ""
-    echo "Checking for errors/warnings:"
-    grep -i "warning\|error" *.log 2>/dev/null || echo "No build log found"
 fi
+
+# Clean up
+make -C /lib/modules/$(uname -r)/build M=$PWD clean 2>&1 > /dev/null
+rm -f Makefile
 
 echo ""
 echo "=========================================="

@@ -62,21 +62,15 @@ EOF
 echo "Created r2_aoi5_test.c (interrupt example missing INIT_WORK)"
 echo ""
 
-# Create Makefile
-cat > Makefile_aoi5 << 'EOF'
+# Create Makefile in current directory
+cat > Makefile << 'EOF'
 obj-m += r2_aoi5_test.o
-
-all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
-
-clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
 EOF
 
-echo "Building kernel module..."
+echo "Building kernel module with verbose output..."
 echo ""
 
-make -f Makefile_aoi5 -C /lib/modules/$(uname -r)/build M=$PWD modules 2>&1
+make -C /lib/modules/$(uname -r)/build M=$PWD modules V=1 2>&1
 
 echo ""
 echo "=========================================="
@@ -100,6 +94,10 @@ if [ -f r2_aoi5_test.ko ]; then
 else
     echo "✗ BUILD FAILED"
 fi
+
+# Clean up
+make -C /lib/modules/$(uname -r)/build M=$PWD clean 2>&1 > /dev/null
+rm -f Makefile
 
 echo ""
 echo "=========================================="
