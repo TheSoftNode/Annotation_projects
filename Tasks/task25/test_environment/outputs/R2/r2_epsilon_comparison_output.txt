@@ -1,0 +1,36 @@
+============================================================
+R2 Test E: Float Equality Trap
+============================================================
+
+Test 1: Price calculation that should be equal
+------------------------------------------------------------
+price1: 100.09999999999999431566
+price2: 100.09999999999999431566
+price1 == price2: True
+Difference: 0.00000000000000000000e+00
+
+Test 2: Epsilon comparison workaround
+------------------------------------------------------------
+Using epsilon: 1e-06
+abs(price1 - price2) < epsilon: True
+
+Test 3: Different calculation paths, same logical result
+------------------------------------------------------------
+path1 (0.1 + 0.1 + 0.1): 0.30000000000000004441
+path2 (0.3): 0.29999999999999998890
+path1 == path2: False
+abs(path1 - path2) < epsilon: True
+
+Test 4: Integer comparison (always exact)
+------------------------------------------------------------
+int_price1: 10010
+int_price2: 10010
+int_price1 == int_price2: True
+No epsilon needed: True
+
+============================================================
+What this tests:
+  - R2 Claim 6: Float equality is dangerous due to rounding
+  - R2 Claim 7: Epsilon comparison pattern
+  - R2 Claim 5: Integer equality is reliable
+============================================================

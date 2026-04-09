@@ -98,18 +98,50 @@ echo "============================================================"
 echo "PART 3: RESPONSE 2 TESTS"
 echo "============================================================"
 echo
-echo "NOTE: R2 is OFF-TOPIC - it answers about Linux kernel"
-echo "      schedule_work() instead of floats vs integers"
-echo
 
-# Test R2 - Kernel header verification
-echo "--- R2 Test: Kernel Header Verification ---"
-if [ -f "./R2/test_r2_kernel_headers.sh" ]; then
-    chmod +x ./R2/test_r2_kernel_headers.sh
-    ./R2/test_r2_kernel_headers.sh | tee "$OUTPUTS_DIR/R2/r2_kernel_headers_output.txt"
+# Test R2 - Float precision issues
+echo "--- R2 Test A: Float Precision Issues ---"
+if [ -f "./R2/test_r2_float_precision.py" ]; then
+    chmod +x ./R2/test_r2_float_precision.py
+    python3 ./R2/test_r2_float_precision.py | tee "$OUTPUTS_DIR/R2/r2_float_precision_output.txt"
     echo
 else
-    echo "WARNING: R2/test_r2_kernel_headers.sh not found"
+    echo "WARNING: R2/test_r2_float_precision.py not found"
+    echo
+fi
+
+# Test R2 - Float overflow behavior
+echo "--- R2 Test B: Float Overflow Behavior ---"
+if [ -f "./R2/test_r2_float_overflow.py" ]; then
+    chmod +x ./R2/test_r2_float_overflow.py
+    python3 ./R2/test_r2_float_overflow.py | tee "$OUTPUTS_DIR/R2/r2_float_overflow_output.txt"
+    echo
+else
+    echo "WARNING: R2/test_r2_float_overflow.py not found"
+    echo
+fi
+
+# Test R2 - Epsilon comparison
+echo "--- R2 Test E: Float Equality Trap ---"
+if [ -f "./R2/test_r2_epsilon_comparison.py" ]; then
+    chmod +x ./R2/test_r2_epsilon_comparison.py
+    python3 ./R2/test_r2_epsilon_comparison.py | tee "$OUTPUTS_DIR/R2/r2_epsilon_comparison_output.txt"
+    echo
+else
+    echo "WARNING: R2/test_r2_epsilon_comparison.py not found"
+    echo
+fi
+
+# Test R2 - Performance benchmark
+echo "--- R2 Test C: Performance Benchmark ---"
+if [ -f "./R2/test_r2_benchmark_multiply.sh" ]; then
+    chmod +x ./R2/test_r2_benchmark_multiply.sh
+    cd R2
+    bash test_r2_benchmark_multiply.sh | tee ../outputs/R2/r2_benchmark_multiply_output.txt
+    cd ..
+    echo
+else
+    echo "WARNING: R2/test_r2_benchmark_multiply.sh not found"
     echo
 fi
 
@@ -128,6 +160,6 @@ echo
 echo "Next steps:"
 echo "1. Review all output files for factual verification"
 echo "2. Use outputs as source excerpts for AOIs"
-echo "3. Note R2's off-topic issue as a major AOI"
+echo "3. Begin drafting strengths and AOIs for both responses"
 echo
 echo "============================================================"

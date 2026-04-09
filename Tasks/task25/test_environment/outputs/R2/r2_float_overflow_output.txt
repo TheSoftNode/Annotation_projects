@@ -1,0 +1,32 @@
+============================================================
+R2 Test B: Float Overflow Behavior
+============================================================
+
+Test 1: Float overflow produces infinity
+------------------------------------------------------------
+Large float: 1.7e+308
+Large * 10: inf
+Is infinity: True
+Is finite: False
+
+Test 2: Infinity arithmetic (silent continuation)
+------------------------------------------------------------
+inf + 1000: inf
+inf * 2: inf
+inf - inf: nan (NaN)
+System continues running with inf/NaN: True
+
+Test 3: Integer overflow comparison
+------------------------------------------------------------
+sys.maxsize: 9223372036854775807
+Integer overflow behavior is platform-dependent:
+  - Python: Arbitrary precision (no overflow)
+  - C int64_t: Undefined behavior or wrapping
+  - Result: More explicit failure than float's silent inf
+
+============================================================
+What this tests:
+  - R2 Claim 8: 'With floats, the numbers just get bigger
+                 or turn into inf, and the system might keep
+                 running silently with garbage data.'
+============================================================

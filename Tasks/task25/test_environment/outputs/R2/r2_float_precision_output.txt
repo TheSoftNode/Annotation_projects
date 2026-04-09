@@ -1,0 +1,31 @@
+============================================================
+R2 Test A: Float Precision Issues
+============================================================
+
+Test 1: The classic 0.1 + 0.2 problem
+------------------------------------------------------------
+0.1 + 0.2 = 0.30000000000000004
+0.1 + 0.2 == 0.3: False
+Exact representation: 0.30000000000000004441
+
+Test 2: Integer equivalent
+------------------------------------------------------------
+Integer: 10 + 20 = 30
+10 + 20 == 30: True
+
+Test 3: Accumulation of small errors
+------------------------------------------------------------
+Float: 0.1 added 1000 times = 99.9999999999986
+Expected: 100.0
+Match: False
+
+Integer: 10 added 1000 times = 10000
+Expected: 10000 (representing 100.0)
+Match: True
+
+============================================================
+What this tests:
+  - R2 Claim 1: 'Float: 0.1 + 0.2 often equals 0.30000000000000004'
+  - R2 Claim 2: 'Int: 10 + 20 always equals 30'
+  - R2 Claim 6: Float precision issues with equality
+============================================================
