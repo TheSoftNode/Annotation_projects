@@ -2,7 +2,7 @@
 
 ## 1
 
-The response demonstrates floating-point rounding error accumulation through a PnL scenario with a 1-cent discrepancy, helping the user understand why small errors matter in financial systems.
+The response uses a PnL mismatch example to illustrate why even small floating-point rounding errors can matter in financial systems.
 
 ---
 
@@ -14,7 +14,7 @@ The response provides code examples showing why direct float equality checks fai
 
 ## 3
 
-The response explains how floats silently produce infinity on overflow while integer overflow is explicit, helping the user understand why silent failure is worse in financial systems.
+The response acknowledges that integers add implementation complexity, then offers practical techniques such as strong typing and safe math wrappers to reduce mistakes when working with scaled integers.
 
 ---
 
@@ -26,6 +26,6 @@ The response provides a hybrid table mapping domains to types with specific exam
 
 ## 5
 
-The response addresses the 0.5ms latency budget by explaining that the real bottleneck is network I/O and serialization rather than arithmetic, helping the user focus on the right performance concerns.
+The response contextualizes integer-versus-float arithmetic costs within the broader 0.5ms latency budget, helping the user avoid overfocusing on isolated instruction timings.
 
 ---
