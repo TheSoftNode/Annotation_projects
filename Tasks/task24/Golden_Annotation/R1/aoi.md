@@ -13,7 +13,7 @@ and
 `schedle_work` is a convenient way to defer kernel tasks to a safe execution context.
 ```
 
-**Description:** The response misspells "schedule_work" as "schedle_work" twice, making the function name incorrect and potentially confusing the user about the actual kernel API function name they need to use.
+**Description:** The response misspells "schedule_work" as "schedle_work" twice (in the "Purpose of schedule_work" section and in the "Summary" section), making the function name incorrect and potentially confusing the user about the actual kernel API function name they need to use.
 
 **Severity:** Substantial
 
