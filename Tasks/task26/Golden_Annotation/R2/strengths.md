@@ -2,7 +2,7 @@
 
 ## 1
 
-The response correctly identifies that MLKR uses L-BFGS-B as its underlying optimizer, directly answering the user's question about whether L-BFGS-B is appropriate for MLKR.
+The response correctly identifies that MLKR uses L-BFGS-B as its underlying optimizer, helping the user understand the relationship between L-BFGS-B and MLKR.
 
 ---
 
