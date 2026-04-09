@@ -75,6 +75,14 @@ module_init(my_init);
 
 **Severity:** Substantial
 
+**Tool Type:** Code Inspection
+**Query:** Inspection of the Basic Example code section
+**URL:**
+**Source Excerpt:**
+```
+The Basic Example code contains module_init(my_init) but no corresponding module_exit() macro or cleanup function. A complete kernel module requires both initialization and cleanup functions to safely load and unload.
+```
+
 ---
 
 ## AOI #3 - MINOR
@@ -189,6 +197,14 @@ static void process_irq_data(struct work_struct *work)
 **Description:** The response provides a deferred interrupt processing example showing an interrupt handler that calls schedule_work on the irq_work work_struct, but the code never initializes this work structure with INIT_WORK to associate it with the work function. Without this initialization, the work_struct contains uninitialized data and calling schedule_work on it would result in undefined behavior or kernel crashes, making this example non-functional and potentially dangerous if the user copies it.
 
 **Severity:** Substantial
+
+**Tool Type:** Code Inspection
+**Query:** Inspection of the deferred interrupt processing example
+**URL:**
+**Source Excerpt:**
+```
+The code declares 'static struct work_struct irq_work;' and calls 'schedule_work(&irq_work);' in the interrupt handler, but nowhere in the example is there an INIT_WORK(&irq_work, process_irq_data) call to initialize the work structure and associate it with the process_irq_data function. The work_struct remains uninitialized.
+```
 
 ---
 
