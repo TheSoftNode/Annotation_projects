@@ -48,7 +48,7 @@ This package wraps MKL algorithms in `sklearn`-compatible estimators (e.g., `MKL
 **It uses L-BFGS-B internally** for the kernel weight optimization step in SimpleMKL (see [their implementation](https://github.com/scikit-learn-contrib/mkl/blob/master/sklearncontrib/mkl/_mkl.py#L152)).
 ```
 
-**Description:** The response cites https://github.com/scikit-learn-contrib/mkl as a valid resource and claims the repository contains specific implementation details, but this GitHub URL returns a 404 error. The repository does not exist, making the citation unreliable and the implementation details unverifiable.
+**Description:** The response cites a GitHub repository as a valid resource and claims it contains specific implementation details, but the repository returns a 404 error and does not exist, making the citation unreliable and the implementation details unverifiable.
 
 **Severity:** Substantial
 

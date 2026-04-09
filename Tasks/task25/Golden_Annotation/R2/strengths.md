@@ -14,7 +14,7 @@ The response provides code examples showing why direct float equality checks fai
 
 ## 3
 
-The response acknowledges that integers add implementation complexity and offers practical techniques such as strong typing and safe math wrappers, helping the user reduce mistakes when working with scaled integers.
+The response recommends strong typing and safe math wrappers, giving the user practical ways to reduce implementation mistakes when working with scaled integers.
 
 ---
 
