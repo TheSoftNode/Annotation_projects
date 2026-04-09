@@ -208,3 +208,17 @@ But even then:
 **Severity:** Minor
 
 ---
+
+## AOI #8 - MINOR
+
+**Response Excerpt:**
+
+```
+| **Overflow handling** | ✅ Controllable via __int128 or range checks | ❌ Silent overflow (NaN/inf) |
+```
+
+**Description:** The response contrasts integer overflow as controllable and floating-point overflow as "silent," but IEEE 754 defines overflow as a floating-point exception with specified default behavior such as returning signed infinity. Meanwhile, signed integer overflow in C/C++ is undefined behavior. This makes the comparison misleadingly one-sided.
+
+**Severity:** Minor
+
+---
