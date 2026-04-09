@@ -1,0 +1,10 @@
+============================================================
+R1 Claim 2: MKL not in core sklearn
+============================================================
+
+Test 1: Attempting to use kernel='mkl' with SVC
+------------------------------------------------------------
+✓ kernel='mkl' rejected with ValueError: The 'kernel' parameter of SVC must be a str among {'sigmoid', 'rbf', 'linear', 'poly', 'precomputed'} or a callable. Got 'mkl' instead.
+  VERDICT: Claim SUPPORTED
+
+============================================================

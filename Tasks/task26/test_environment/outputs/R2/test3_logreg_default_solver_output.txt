@@ -1,0 +1,11 @@
+============================================================
+R2 Test 3: LogisticRegression default solver
+============================================================
+
+Checking default solver for LogisticRegression
+------------------------------------------------------------
+Default solver: lbfgs
+✓ Default is 'lbfgs'
+  VERDICT: R2's claim 'default is usually lbfgs' is SUPPORTED
+
+============================================================

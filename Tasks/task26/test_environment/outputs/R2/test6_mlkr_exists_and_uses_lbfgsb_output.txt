@@ -1,0 +1,21 @@
+============================================================
+R2 Test 6: MLKR existence and optimizer
+============================================================
+
+Test 1: MLKR class exists
+------------------------------------------------------------
+✓ MLKR class found
+  Class name: MLKR
+  Docstring first line: Metric Learning for Kernel Regression (MLKR)
+
+Test 2: MLKR uses L-BFGS-B
+------------------------------------------------------------
+'L-BFGS-B' found in MLKR.fit source: True
+✓ MLKR implementation uses L-BFGS-B
+  VERDICT: R2's claim is SUPPORTED
+
+Test 3: Minimal MLKR fit
+------------------------------------------------------------
+✗ Fit failed: check_X_y() got an unexpected keyword argument 'force_all_finite'
+
+============================================================

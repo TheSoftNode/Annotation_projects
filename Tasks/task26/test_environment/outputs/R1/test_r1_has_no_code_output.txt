@@ -1,0 +1,14 @@
+======================================================================
+Checking R1 for runnable code examples
+======================================================================
+
+OBSERVATION: R1 provides NO code snippets
+             R1's response is purely theoretical/explanatory
+             Contains:
+             - Mathematical formulations
+             - Comparison tables
+             - Conceptual explanations
+             - References to external implementations
+
+VERDICT: R1 provides no practical code examples to test
+         This contrasts with R2 which provides code (albeit incomplete)

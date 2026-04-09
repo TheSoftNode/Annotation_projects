@@ -1,0 +1,19 @@
+============================================================
+R2 Test 7: liblinear recommendation for large data
+============================================================
+
+Checking LogisticRegression documentation for solver guidance...
+------------------------------------------------------------
+Searching for solver recommendations in sklearn docs:
+
+✓ Docs mention 'saga' in context of large datasets
+✓ Docs mention 'sag' for large/faster scenarios
+! Docs mention 'liblinear' for SMALL datasets (contradicts R2)
+
+VERDICT: R2's claim to use 'liblinear' for millions of rows
+         CONTRADICTS sklearn docs which say liblinear is for SMALL data
+         and 'sag'/'saga' are for LARGE datasets
+
+This is an AOI - R2 gives incorrect solver recommendation
+
+============================================================

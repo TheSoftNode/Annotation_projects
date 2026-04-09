@@ -1,0 +1,18 @@
+============================================================
+R2 Test 4: MLP solver options and default
+============================================================
+
+Checking MLPClassifier solver configuration
+------------------------------------------------------------
+Default solver: adam
+Has solver parameter: True
+
+Testing each solver mentioned in R2...
+------------------------------------------------------------
+✓ solver='lbfgs' is valid
+✓ solver='adam' is valid
+✓ solver='sgd' is valid
+
+VERDICT: All three solvers (lbfgs, adam, sgd) are supported
+
+============================================================

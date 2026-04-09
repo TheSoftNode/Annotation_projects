@@ -1,0 +1,12 @@
+============================================================
+R1 Claim 6: LogisticRegression(solver='lbfgs')
+============================================================
+
+Testing LogisticRegression with solver='lbfgs'
+------------------------------------------------------------
+✓ Model trained successfully
+  Iterations: [103]
+  Classes: [0 1 2]
+  VERDICT: Claim SUPPORTED
+
+============================================================

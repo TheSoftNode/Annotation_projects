@@ -1,0 +1,13 @@
+======================================================================
+Testing R2's MLPClassifier code snippet (EXPECTED TO FAIL)
+======================================================================
+✓ MLPClassifier instantiation successful
+  Model: MLPClassifier(solver='lbfgs')
+  Solver: lbfgs
+
+Attempting model.fit(X_train, y_train) as shown in R2...
+✗ NameError: name 'X_train' is not defined
+
+VERDICT: R2's code snippet is INCOMPLETE
+         X_train and y_train are never defined
+         This code cannot be run as-is

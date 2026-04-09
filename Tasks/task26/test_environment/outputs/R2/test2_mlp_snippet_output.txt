@@ -1,0 +1,11 @@
+============================================================
+R2 Test 2: MLP snippet (verbatim)
+============================================================
+
+Attempting to run R2's MLP code exactly as written...
+------------------------------------------------------------
+✓ Got expected NameError: name 'X_train' is not defined
+  VERDICT: Snippet is INCOMPLETE - missing X_train/y_train definition
+           This is an AOI: code example is not standalone runnable
+
+============================================================

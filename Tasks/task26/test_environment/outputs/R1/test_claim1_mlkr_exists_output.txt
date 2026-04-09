@@ -1,0 +1,12 @@
+============================================================
+R1 Claim 1: Testing MLKR existence
+============================================================
+
+✓ MLKR class found in metric-learn
+  Class name: MLKR
+  First line of docstring: Metric Learning for Kernel Regression (MLKR)
+
+VERDICT: R1's assumption that 'MLKR' is likely a typo for 'MKL' is DISPUTED
+         MLKR is a real algorithm: Metric Learning for Kernel Regression
+
+============================================================

@@ -1,0 +1,16 @@
+============================================================
+R2 Test 5: solver='lbfgs' uses L-BFGS-B internally
+============================================================
+
+Test 1: LogisticRegression implementation
+------------------------------------------------------------
+'L-BFGS-B' found in LogisticRegression source: True
+
+Test 2: MLP implementation
+------------------------------------------------------------
+'L-BFGS-B' found in MLP source: True
+
+✓ Both implementations use L-BFGS-B
+  VERDICT: R2's claim is SUPPORTED
+
+============================================================

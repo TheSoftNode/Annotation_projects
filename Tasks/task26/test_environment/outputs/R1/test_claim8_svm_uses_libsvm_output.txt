@@ -1,0 +1,16 @@
+============================================================
+R1 Claim 8: SVMs use LIBSVM/LIBLINEAR
+============================================================
+
+Test 1: SVC mentions libsvm
+------------------------------------------------------------
+'libsvm' in SVC docstring: True
+
+Test 2: LinearSVC mentions liblinear
+------------------------------------------------------------
+'liblinear' in LinearSVC docstring: True
+
+✓ Both SVC and LinearSVC mention their respective libraries
+  VERDICT: Claim SUPPORTED
+
+============================================================

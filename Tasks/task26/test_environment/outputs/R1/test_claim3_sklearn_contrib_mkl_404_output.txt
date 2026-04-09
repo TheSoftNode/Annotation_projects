@@ -1,0 +1,11 @@
+============================================================
+R1 Claim 3: scikit-learn-contrib/mkl repo check
+============================================================
+
+Testing URL: https://github.com/scikit-learn-contrib/mkl
+------------------------------------------------------------
+✗ HTTP 404 - Repository NOT FOUND
+  VERDICT: R1's claim about this specific repo is DISPUTED
+           The cited GitHub URL returns 404
+
+============================================================

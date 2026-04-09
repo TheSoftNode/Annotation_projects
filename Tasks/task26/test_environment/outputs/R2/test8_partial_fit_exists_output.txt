@@ -1,0 +1,14 @@
+============================================================
+R2 Test 8: partial_fit availability
+============================================================
+
+Checking if MLPClassifier has partial_fit method...
+------------------------------------------------------------
+MLPClassifier has partial_fit method: True
+
+✓ partial_fit method exists
+  VERDICT: R2's claim 'no partial_fit support for lbfgs' is
+           OVERSIMPLIFIED - the method exists, but behavior with
+           lbfgs solver is different (doesn't support online learning)
+
+============================================================
