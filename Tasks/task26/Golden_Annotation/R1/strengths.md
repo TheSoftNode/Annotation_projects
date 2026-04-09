@@ -20,7 +20,7 @@ The response explains the mathematical structure of SimpleMKL optimization probl
 
 ## 4
 
-The response properly identifies ambiguity in the user's prompt by noting that MLKR is not a standard term and clearly states its interpretation before providing a detailed answer.
+The response identifies ambiguity in the user's prompt by noting that MLKR is not a standard term, helping the user understand why clarification is needed.
 
 ---
 
