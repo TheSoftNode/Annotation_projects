@@ -96,6 +96,63 @@ This is not the web page you are looking for.
 **Response Excerpt:**
 
 ```
+[`MKLpy`](https://github.com/andrewssobral/mklpy) (standalone MKL library)
+```
+
+**Description:** The response cites a GitHub repository for MKLpy as a valid standalone MKL library resource, but the repository returns a 404 error and does not exist, making the citation unreliable.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Web Search
+
+**Query:** https://github.com/andrewssobral/mklpy
+
+**URL:** https://github.com/andrewssobral/mklpy
+
+**Source Excerpt:**
+
+```
+404 Not Found
+This is not the web page you are looking for.
+```
+
+---
+
+## AOI #5 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+*Evidence*: The original [SimpleMKL paper](http://www.jmlr.org/papers/volume2/raetsch01a/raetsch01a.pdf) uses gradient-based methods (L-BFGS variants are standard in MKL solvers).
+```
+
+**Description:** The response cites the original SimpleMKL paper as evidence for L-BFGS usage in MKL solvers, but the linked PDF returns a 404 error and cannot be accessed, making the citation unverifiable.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Web Search
+
+**Query:** http://www.jmlr.org/papers/volume2/raetsch01a/raetsch01a.pdf
+
+**URL:** http://www.jmlr.org/papers/volume2/raetsch01a/raetsch01a.pdf
+
+**Source Excerpt:**
+
+```
+404 Not Found
+```
+
+---
+
+## AOI #7 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
 For **SimpleMKL-style problems** (convex, smooth kernel weight opt): **Use L-BFGS-B** (via `scipy.optimize.minimize(method='L-BFGS-B')`).
   * Enforce
   * β≥0
@@ -128,7 +185,7 @@ Supports only bound constraints.
 
 ---
 
-## AOI #5 - SUBSTANTIAL
+## AOI #8 - SUBSTANTIAL
 
 **Response Excerpt:**
 
@@ -145,7 +202,7 @@ Supports only bound constraints.
 
 ---
 
-## AOI #6 - SUBSTANTIAL
+## AOI #9 - SUBSTANTIAL
 
 **Response Excerpt:**
 
@@ -172,7 +229,7 @@ result = minimize(loss_grad, X0.ravel(), method='L-BFGS-B', jac=True,
 
 ---
 
-## AOI #7 - MINOR
+## AOI #10 - MINOR
 
 **Response Excerpt:**
 
