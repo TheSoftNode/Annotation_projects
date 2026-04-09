@@ -71,16 +71,20 @@ static int __init my_init(void)
 module_init(my_init);
 ```
 
-**Description:** The response provides a basic example with module_init to load the module but does not include a corresponding module_exit function to properly unload and clean up resources. This makes the module incomplete and potentially unsafe, as loaded work items would not be properly cancelled or synchronized when unloading the module, potentially leading to system crashes or memory corruption.
+**Description:** The response provides a basic example with module_init but omits module_exit, leaving the example incomplete for demonstrating a typical loadable module. While module_exit is only required if unloadability is desired, omitting it without explanation in a "Basic Example" leaves the user without guidance on proper cleanup of scheduled work items, which is important for modules intended to be unloaded.
 
 **Severity:** Substantial
 
-**Tool Type:** Code Inspection
-**Query:** Inspection of the Basic Example code section
+**Tool Type:** Code Executor
+**Query:** `make -C /lib/modules/$(uname -r)/build M=$PWD modules V=1`
+
 **URL:**
 **Source Excerpt:**
 ```
-The Basic Example code contains module_init(my_init) but no corresponding module_exit() macro or cleanup function. A complete kernel module requires both initialization and cleanup functions to safely load and unload.
+# LD [M]  /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_aoi2_test.ko
+  ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_aoi2_test.ko /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_aoi2_test.o /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_aoi2_test.mod.o
+
+The module builds successfully despite having no module_exit function. The compiler does not enforce that kernel modules have cleanup functions, so this semantic error is not caught at compile time. The module is incomplete and unsafe for production use.
 ```
 
 ---
@@ -198,12 +202,19 @@ static void process_irq_data(struct work_struct *work)
 
 **Severity:** Substantial
 
-**Tool Type:** Code Inspection
-**Query:** Inspection of the deferred interrupt processing example
+**Tool Type:** Code Executor
+**Query:** `make -C /lib/modules/$(uname -r)/build M=$PWD modules V=1`
+
 **URL:**
 **Source Excerpt:**
 ```
-The code declares 'static struct work_struct irq_work;' and calls 'schedule_work(&irq_work);' in the interrupt handler, but nowhere in the example is there an INIT_WORK(&irq_work, process_irq_data) call to initialize the work structure and associate it with the process_irq_data function. The work_struct remains uninitialized.
+/workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_aoi5_test.c:23:13: warning: 'process_irq_data' defined but not used [-Wunused-function]
+   23 | static void process_irq_data(struct work_struct *work)
+      |             ^~~~~~~~~~~~~~~~
+
+# LD [M]  /workspaces/Annotation_projects/Tasks/task24/test_environment/R2/r2_aoi5_test.ko
+
+The module builds successfully with only a warning that process_irq_data is unused. The compiler does not detect that irq_work was never initialized with INIT_WORK to link it to process_irq_data. This semantic error would cause undefined behavior or kernel crashes at runtime when schedule_work(&irq_work) is called.
 ```
 
 ---
@@ -257,13 +268,13 @@ static int __init my_init(void)
 module_init(my_init);
 ```
 
-**Description:** The response labels the first code section as a "Basic Example" which suggests it should be a complete working example, but it omits the essential module_exit cleanup code. The cleanup code using flush_work appears much later in a separate "Synchronization" section without clearly indicating it belongs with the basic example, fragmenting what should be a single coherent module implementation and potentially confusing users about how the pieces fit together.
+**Description:** The response labels the first code section as a "Basic Example" which suggests it should be self-contained, but the cleanup code using flush_work appears much later in a separate "Synchronization" section without clearly indicating it belongs with the basic example. This fragments the presentation and may confuse users about how the init and cleanup pieces fit together as parts of the same module.
 
 **Severity:** Substantial
 
 ---
 
-## AOI #7 - MINOR
+## AOI #7 - SUBSTANTIAL
 
 **Response Excerpt:**
 ```
@@ -290,8 +301,46 @@ static void my_work_func(struct work_struct *work)
 }
 ```
 
-**Description:** The response's reentrancy section could be clearer about the important distinction between a work item being rescheduled while already queued versus attempting concurrent execution. The current explanation with phrases like "can be called again before it finishes" may lead users to incorrectly believe the same work function can execute simultaneously on multiple CPUs for the same work_struct, when the kernel actually prevents this concurrent execution.
+**Description:** The response uses schedule_delayed_work(to_delayed_work(work), HZ) in a function that receives a plain struct work_struct *work parameter. The to_delayed_work() macro uses container_of to cast to struct delayed_work, which is only valid if the original object is actually a struct delayed_work. Since the example uses a plain work_struct without establishing it's actually a delayed_work, this is incorrect API usage that would cause undefined behavior.
 
-**Severity:** Minor
+**Severity:** Substantial
+
+---
+
+## AOI #8 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+### **3. Default Workqueue**
+
+* Uses the kernel's **system workqueue** (`system_wq`)
+```
+
+and
+
+```
+* `schedule_work(work)` is equivalent to `queue_work(system_wq, work)`
+```
+
+**Description:** The response incorrectly identifies the backing workqueue as system_wq. In current kernel source, schedule_work() uses system_percpu_wq, which the header describes as the queue used by schedule[_delayed]_work[_on]() and as multi-CPU, multi-threaded. This makes the named queue wrong and the equivalence statement incorrect.
+
+**Severity:** Substantial
+
+**Tool Type:** Web Search
+**Query:** "Linux kernel schedule_work system_percpu_wq workqueue.h source code"
+
+**URL:** https://github.com/torvalds/linux/blob/master/include/linux/workqueue.h
+**Source Excerpt:**
+```c
+/*
+ * system_percpu_wq is the one used by schedule[_delayed]_work[_on]().
+ * Multi-CPU multi-threaded.
+ */
+extern struct workqueue_struct *system_percpu_wq;
+
+static inline bool schedule_work(struct work_struct *work) {
+    return queue_work(system_percpu_wq, work);
+}
+```
 
 ---
