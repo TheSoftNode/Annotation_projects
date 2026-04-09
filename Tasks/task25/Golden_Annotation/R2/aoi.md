@@ -52,6 +52,21 @@ What this tests:
 
 **Severity:** Minor
 
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** out-of-order execution pipelined processors instructions multiple clock cycles Wikipedia
+
+**URL:** https://en.wikipedia.org/wiki/Out-of-order_execution
+
+**Source Excerpt:**
+
+```
+In pipelined in-order execution processors, execution of instructions overlap
+in pipelined fashion with each requiring multiple clock cycles to complete.
+```
+
 ---
 
 ## AOI #3 - MINOR
@@ -123,6 +138,30 @@ if (fabs(a - b) < 0.000001) { ... }
 **Description:** The response characterizes epsilon-based floating-point comparison as "Slow & Risky" but calling it "Slow" is misleading in a 0.5ms latency budget context. An epsilon comparison involves subtraction, absolute value, and comparison, adding only a few nanoseconds compared to direct equality. In a 500,000 nanosecond budget, this is not a meaningful performance bottleneck.
 
 **Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** `bash test_r2_epsilon_speed.sh`
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+Integer equality (a == b):         0.40 ns per op
+Epsilon comparison (fabs < eps):   0.67 ns per op
+Overhead of epsilon comparison:    0.27 ns
+
+In a 0.5ms (500,000 ns) latency budget:
+  Epsilon overhead is 0.0001% of the budget
+  You could do ~742599 epsilon comparisons in 0.5ms
+
+CONCLUSION:
+  Epsilon comparison adds only ~0.3 ns overhead.
+  Calling it 'Slow' in a 0.5ms HFT budget is misleading.
+```
 
 ---
 
