@@ -71,9 +71,9 @@ static int __init my_init(void)
 module_init(my_init);
 ```
 
-**Description:** The response provides a basic example with module_init but omits module_exit, leaving the example incomplete for demonstrating a typical loadable module. While module_exit is only required if unloadability is desired, omitting it without explanation in a "Basic Example" leaves the user without guidance on proper cleanup of scheduled work items, which is important for modules intended to be unloaded.
+**Description:** The response provides a basic example with module_init but omits module_exit, leaving the example incomplete for demonstrating a typical unloadable module. While module_exit is only required if unloadability is desired, omitting it without explanation leaves the user without guidance on proper cleanup of scheduled work items.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 **Tool Type:** Code Executor
 **Query:** `make -C /lib/modules/$(uname -r)/build M=$PWD modules V=1`
@@ -270,7 +270,7 @@ module_init(my_init);
 
 **Description:** The response labels the first code section as a "Basic Example" which suggests it should be self-contained, but the cleanup code using flush_work appears much later in a separate "Synchronization" section without clearly indicating it belongs with the basic example. This fragments the presentation and may confuse users about how the init and cleanup pieces fit together as parts of the same module.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 ---
 
@@ -341,6 +341,36 @@ extern struct workqueue_struct *system_percpu_wq;
 static inline bool schedule_work(struct work_struct *work) {
     return queue_work(system_percpu_wq, work);
 }
+```
+
+---
+
+## AOI #9 - SUBSTANTIAL
+
+**Response Excerpt:**
+```
+flush_work(&my_work);  /* Wait for specific work */
+
+flush_scheduled_work(); /* Wait for all work on system_wq */
+```
+
+**Description:** The response recommends flush_scheduled_work() as part of its synchronization guidance, but the current kernel header explicitly warns against flushing system-wide workqueues and states "Please stop using this function, for this function will be removed in near future." Additionally, the comment is inaccurate because flush_scheduled_work flushes system_percpu_wq, not system_wq. This is a substantial API-guidance problem because it teaches a discouraged system-wide flush.
+
+**Severity:** Substantial
+
+**Tool Type:** Web Search
+**Query:** flush_scheduled_work kernel documentation deprecated
+
+**URL:** https://www.kernel.org/doc/html/v5.0/driver-api/basics.html
+**Source Excerpt:**
+```
+flush_scheduled_work
+
+void flush_scheduled_work(void)
+
+ensure that any scheduled work has run to completion.
+
+Think twice before calling this function! It's very easy to get into trouble if you don't take great care.
 ```
 
 ---
