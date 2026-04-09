@@ -276,3 +276,25 @@ This puts a job in the kernel-global workqueue if it was not already queued and 
 ```
 
 ---
+
+## AOI #8 - MINOR
+
+**Response Excerpt:**
+```
+* **Not re-entrant by default**: If the work is already queued, calling `schedule_work` again will not queue it a second time (unless it has finished).
+```
+
+**Description:** The response oversimplifies the workqueue non-reentrance guarantee by saying work is "not re-entrant by default." The kernel documentation specifies that non-reentrance is guaranteed only when specific conditions hold, including that the work function hasn't been changed, the work item hasn't been queued to another workqueue, and it hasn't been reinitiated. The blanket phrase "not re-entrant by default" is imprecise and may mislead users about when the guarantee applies.
+
+**Severity:** Minor
+
+**Tool Type:** Web Search
+**Query:** Linux kernel workqueue non-reentrant guarantee conditions
+
+**URL:** https://docs.kernel.org/core-api/workqueue.html
+**Source Excerpt:**
+```
+Workqueue guarantees that a work item cannot be re-entrant if the following conditions hold after a work item gets queued: The work function hasn't been changed. No one queues the work item to another workqueue. The work item hasn't been reinitiated. Note that requeuing the work item (to the same queue) in the self function doesn't break these conditions, so it's safe to do.
+```
+
+---
