@@ -135,7 +135,7 @@ allow you to buy half a share.
 if (fabs(a - b) < 0.000001) { ... }
 ```
 
-**Description:** The response characterizes epsilon-based floating-point comparison as "Slow & Risky" but calling it "Slow" is misleading in a 0.5ms latency budget context. An epsilon comparison involves subtraction, absolute value, and comparison, adding only a few nanoseconds compared to direct equality. In a 500,000 nanosecond budget, this is not a meaningful performance bottleneck.
+**Description:** The response characterizes epsilon-based floating-point comparison as "Slow & Risky," but in a 0.5ms latency budget, the extra arithmetic involved in an epsilon comparison is unlikely to be a meaningful bottleneck by itself. While the "risky" label has some merit when exact-price matching is required, labeling it "slow" overstates the performance cost at this scale.
 
 **Severity:** Minor
 
