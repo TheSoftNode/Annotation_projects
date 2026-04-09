@@ -70,7 +70,7 @@ You can't buy 1.5 shares (usually).
 
 **Query:** `python3 test_r2_fractional_shares.py`
 
-**URL:** https://www.finra.org/investors/insights/investing-fractional-shares
+**URL:**
 
 **Source Excerpt:**
 
@@ -91,6 +91,21 @@ CONCLUSION:
   R2's claim 'You can't buy 1.5 shares (usually)' is
   increasingly inaccurate. Fractional shares are now common
   in retail trading.
+```
+
+**Tool Type:** Google
+
+**Query:** `FINRA fractional shares investing`
+
+**URL:** https://www.finra.org/investors/insights/investing-fractional-shares
+
+**Source Excerpt:**
+
+```
+With fractional shares, you can buy a portion of a share
+of stock... For example, if a share of stock costs $100,
+but you only have $50 to invest, fractional shares would
+allow you to buy half a share.
 ```
 
 ---
