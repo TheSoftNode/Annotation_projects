@@ -17,7 +17,7 @@
 
 **Query:** `python3 test_r1_python.py`
 
-**URL:** https://docs.oracle.com/cd/E19957-01/806-3568/ncg_math.html
+**URL:**
 
 **Source Excerpt:**
 
@@ -30,6 +30,21 @@ math.ulp(1_000_000.0): 1.1641532182693481e-10
   (This is the spacing, not 0.001 / 0.1 cent)
 1000000.0 + 0.0001 == 1000000.0001: True
 1000000.01 + 0.01 == 1000000.02: True
+```
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** IEEE 754 double format 53 bits precision significand Oracle Numerical Computation Guide
+
+**URL:** https://docs.oracle.com/cd/E19957-01/806-3568/ncg_math.html
+
+**Source Excerpt:**
+
+```
+The 52-bit fraction combined with the implicit leading significand bit provides
+53 bits of precision in double-format normal numbers.
 ```
 
 ---
@@ -54,20 +69,18 @@ and in the table:
 
 **Verification of Issue:**
 
-**Tool Type:** Web Documentation
+**Tool Type:** Google
 
-**Query:** "floating-point denormal subnormal performance stalls modern processors"
+**Query:** Intel denormal numbers floating-point performance hundreds clock cycles
 
 **URL:** https://www.intel.com/content/www/us/en/docs/dpcpp-cpp-compiler/developer-guide-reference/2025-0/denormal-numbers.html
 
 **Source Excerpt:**
 
 ```
-Intel documents that denormalized (subnormal) floating-point numbers
-can cause significant performance penalties, costing hundreds of
-clock cycles. However, sqrt(0) produces exactly 0.0, which is a
-normal representable value — not a denormal — and does not trigger
-these stall conditions.
+Denormal computations use hardware and/or operating system resources to handle
+denormals; these can cost hundreds of clock cycles. Denormal computations take
+much longer to calculate than normal computations.
 ```
 
 ---
@@ -87,19 +100,24 @@ these stall conditions.
 
 **Verification of Issue:**
 
-**Tool Type:** Web Documentation
+**Tool Type:** Google
 
-**Query:** "GCC -ffast-math IEEE 754 compliance optimization flags"
+**Query:** GCC -ffast-math IEEE ISO rules specifications incorrect output optimize options
 
 **URL:** https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html
 
 **Source Excerpt:**
 
 ```
-GCC documents that -ffast-math enables options like -ffinite-math-only
-and -funsafe-math-optimizations that break IEEE/ISO conformance.
-This confirms the behavior change comes from non-standard compiler
-flags, not from IEEE 754 itself being "implementation-defined."
+Sets the options -fno-math-errno, -funsafe-math-optimizations, -ffinite-math-only,
+-fno-rounding-math, -fno-signaling-nans, -fcx-limited-range and
+-fexcess-precision=fast.
+
+This option is not turned on by any -O option besides -Ofast since it can
+result in incorrect output for programs that depend on an exact implementation
+of IEEE or ISO rules/specifications for math functions. It may, however, yield
+faster code for programs that do not require the guarantees of these
+specifications.
 ```
 
 ---

@@ -2,30 +2,30 @@
 
 ## 1
 
-The response explains the non-determinism problem with floating-point arithmetic across different compilers and optimization flags, helping the user understand why floats can produce different results in backtesting versus live trading environments.
+The response explains floating-point non-determinism across compilers and optimization flags, helping the user understand why floats produce different results in backtesting versus live trading.
 
 ---
 
 ## 2
 
-The response provides a comparison table showing the differences between integer scaled math and float math across multiple requirements like determinism, performance predictability, and precision control, helping the user evaluate the trade-offs systematically.
+The response provides a comparison table of integer versus float math across determinism, performance, and precision, helping the user evaluate trade-offs systematically.
 
 ---
 
 ## 3
 
-The response includes concrete examples of how floating-point equality comparisons fail, explaining why epsilon-based comparisons are needed and why this creates problems for exact order matching logic.
+The response includes concrete examples of floating-point equality comparison failures, helping the user understand why exact order matching with floats is unreliable.
 
 ---
 
 ## 4
 
-The response addresses the specific 0.5ms latency context mentioned in the conversation history by explaining that determinism matters more than the small performance differences between integer and float operations.
+The response addresses the 0.5ms latency context from the conversation by explaining that determinism matters more than small integer-versus-float speed differences.
 
 ---
 
 ## 5
 
-The response provides a detailed breakdown of which system components should use integers versus floats in real HFT systems, helping the user understand that the hybrid approach uses floats only for non-core analytics while keeping price storage and order matching as integer-only.
+The response breaks down which system components should use integers versus floats, helping the user apply a hybrid approach that restricts floats to non-core analytics.
 
 ---
