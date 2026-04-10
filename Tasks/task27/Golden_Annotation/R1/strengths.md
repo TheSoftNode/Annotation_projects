@@ -2,7 +2,7 @@
 
 ## 1
 
-The response implements a SWAR popcount algorithm using GNU vector extensions with bitwise operations, shifts, and adds, providing a compiler-portable approach that works across GCC and Clang without requiring specific CPU popcount instruction support.
+The response implements a SWAR popcount algorithm using GNU vector extensions, providing a solution that works on GCC and Clang without requiring hardware popcount instructions.
 
 ---
 
@@ -14,7 +14,7 @@ The response implements a vectorized loop processing four uint32_t elements at a
 
 ## 3
 
-The response provides an intrinsics-based alternative using _mm_popcnt_u32 for the scalar POPCNT instruction, giving users a targeted optimization option when their deployment platform supports the POPCNT instruction set extension.
+The response provides an intrinsics-based alternative using _mm_popcnt_u32, giving users a hardware-accelerated option when their platform supports POPCNT instructions.
 
 ---
 
