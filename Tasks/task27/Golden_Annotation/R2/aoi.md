@@ -67,7 +67,7 @@ popcount_openmp.c:15:23: error: variable-sized object may not be initialized exc
     }
 ```
 
-**Description:** The response combines #pragma omp simd with __builtin_popcount without explaining that __builtin_popcount maps to scalar POPCNT instructions operating on general-purpose registers rather than vector registers, making true SIMD vectorization ineffective without AVX-512 VPOPCNTDQ support or alternative approaches.
+**Description:** The response treats #pragma omp simd over __builtin_popcount as if it typically yields true packed SIMD popcount, but __builtin_popcount maps to scalar POPCNT instructions while vector popcount requires AVX-512 VPOPCNTDQ, making the response's vectorization explanation materially misleading.
 
 **Severity:** Substantial
 
@@ -100,34 +100,44 @@ AVX-512VPOPCNTDQ provides vector popcount operations for packed integers
 
 ---
 
-## AOI #3 - MINOR
+## AOI #3 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
-3. **Dynamic Size:** The code uses a `const size_t n` so you can easily change the size of the array without rewriting logic.
+On CPUs with AVX-512 VPOPCNTDQ, compilers can often map this directly to true vector hardware instructions.
 ```
 
-**Description:** The response describes using const size_t n for "dynamic size" as a beneficial feature, misleadingly suggesting flexibility while the approach creates a VLA that cannot be initialized with a braced initializer list in C, directly causing the compilation error.
+**Description:** The response presents AVX-512 VPOPCNTDQ vector popcount mapping as a likely outcome without specifying required target flags or acknowledging platform constraints, but AVX-512 VPOPCNTDQ is a separate target feature requiring specific compiler flags like -mavx512vpopcntdq, making this claim misleading about what the code will actually produce by default.
 
-**Severity:** Minor
+**Severity:** Substantial
 
 **Verification of Issue:**
 
 **Tool Type:** Google
 
-**Query:** C variable length array initialization
+**Query:** GCC -mavx512vpopcntdq flag
 
-**URL:** https://en.cppreference.com/w/c/language/array
+**URL:** https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
 
 **Source Excerpt:**
 
 ```
-If expression is not an integer constant expression, the declarator is for an array of variable size.
-[...]
-Each time the flow of control passes over the declaration, expression is evaluated [...] and the array is allocated.
-[...]
-Variable length arrays and the types derived from them are not initialized.
+-mavx512vpopcntdq
+Enable AVX-512 VPOPCNTDQ instruction set support.
+```
+
+**Tool Type:** Google
+
+**Query:** AVX-512 VPOPCNTDQ availability
+
+**URL:** https://en.wikipedia.org/wiki/AVX-512
+
+**Source Excerpt:**
+
+```
+AVX-512_VPOPCNTDQ (Vector Population Count Doubleword and Quadword)
+Adds vector population count instructions for 32-bit and 64-bit integers.
 ```
 
 ---
