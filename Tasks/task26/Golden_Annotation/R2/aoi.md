@@ -22,10 +22,10 @@ And the response dedicates the vast majority of its content to MLP and LogisticR
 **Response Excerpt:**
 
 ```
-If you have millions of rows, use liblinear for speed
+*Exception:* If you have millions of rows, switch to `solver='saga'` or `solver='liblinear'`.
 ```
 
-**Description:** The response recommends using liblinear for millions of rows, but this contradicts scikit-learn's official documentation which explicitly states liblinear is designed for small datasets and recommends sag or saga solvers for large datasets. This incorrect recommendation could lead users to choose a suboptimal solver for their large-scale problems.
+**Description:** The response recommends "solver='saga' or 'solver='liblinear'" for millions of rows, but while saga is appropriate for large datasets, liblinear contradicts scikit-learn's official documentation which explicitly states liblinear is designed for small datasets and recommends sag or saga solvers for large datasets. This partial incorrect recommendation could mislead users into choosing a suboptimal solver for their large-scale problems.
 
 **Severity:** Substantial
 

@@ -14,7 +14,7 @@ The response provides concrete code examples showing how to use LogisticRegressi
 
 ## 3
 
-The response explains that solver='lbfgs' in scikit-learn internally maps to the L-BFGS-B scipy implementation, clarifying the relationship between the API parameter and the underlying algorithm.
+The response explains that solver='lbfgs' in scikit-learn corresponds to the L-BFGS-B algorithm, helping the user understand the connection between the API parameter and the underlying optimization method.
 
 ---
 
