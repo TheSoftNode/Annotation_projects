@@ -32,14 +32,16 @@ int main(void) {
 
 **Tool Type:** Code Executor
 
-**Query:** `cd /Users/apple/Desktop/Applyloop-project3/Tasks/task27/test_environment/R2 && gcc -O3 -fopenmp -o popcount_vector popcount_openmp.c`
+**Query:** `cd /workspaces/*/Tasks/task27/test_environment/R2 && gcc -O3 -fopenmp -o popcount_vector popcount_openmp.c`
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
-clang: error: unsupported option '-fopenmp'
+popcount_openmp.c:15:23: error: variable-sized object may not be initialized except with an empty initializer
+   15 |     uint32_t vec[n] = {1, 0, 1, 0, 1, 0, 0, 0};
+      |                       ^
 ```
 
 ---
@@ -64,17 +66,16 @@ gcc -O3 -fopenmp -o popcount_vector popcount_vector.c
 
 **Tool Type:** Code Executor
 
-**Query:** `cd /Users/apple/Desktop/Applyloop-project3/Tasks/task27/test_environment/R2 && bash test_R2_verbatim_compile.sh`
+**Query:** `cd /workspaces/*/Tasks/task27/test_environment/R2 && gcc -O3 -fopenmp -o popcount_vector popcount_openmp.c`
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
-Command: gcc -O3 -fopenmp -o popcount_vector popcount_openmp.c
-
-GCC exit code: 1
-Result: COMPILE FAILED AS EXPECTED (VLA initialization error)
+popcount_openmp.c:15:23: error: variable-sized object may not be initialized except with an empty initializer
+   15 |     uint32_t vec[n] = {1, 0, 1, 0, 1, 0, 0, 0};
+      |                       ^
 ```
 
 ---

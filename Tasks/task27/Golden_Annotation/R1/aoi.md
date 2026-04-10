@@ -22,20 +22,20 @@ And later:
 
 **Tool Type:** Code Executor
 
-**Query:** `cd /Users/apple/Desktop/Applyloop-project3/Tasks/task27/test_environment/R1 && bash test_A_verbatim_compile.sh`
+**Query:** `cd /workspaces/*/Tasks/task27/test_environment/R1 && clang -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector`
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
-popcount_vector.c:151:24: error: implicitly declaring library function 'malloc' with type 'void *(unsigned long)' [-Werror,-Wimplicit-function-declaration]
-    uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
-                       ^
+popcount_vector.c:151:24: error: call to undeclared library function 'malloc' with type 'void *(unsigned long)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  151 |     uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
+      |                        ^
 popcount_vector.c:151:24: note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
-popcount_vector.c:175:5: error: implicitly declaring library function 'free' with type 'void (void *)' [-Werror,-Wimplicit-function-declaration]
-    free(popcnt);
-    ^
+popcount_vector.c:175:5: error: call to undeclared library function 'free' with type 'void (void *)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  175 |     free(popcnt);
+      |     ^
 popcount_vector.c:175:5: note: include the header <stdlib.h> or explicitly provide a declaration for 'free'
 2 errors generated.
 ```
@@ -60,20 +60,20 @@ Build with:
 
 **Tool Type:** Code Executor
 
-**Query:** `cd /Users/apple/Desktop/Applyloop-project3/Tasks/task27/test_environment/R1 && bash test_A_verbatim_compile.sh`
+**Query:** `cd /workspaces/*/Tasks/task27/test_environment/R1 && clang -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector`
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
-popcount_vector.c:151:24: error: implicitly declaring library function 'malloc' with type 'void *(unsigned long)' [-Werror,-Wimplicit-function-declaration]
-    uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
-                       ^
+popcount_vector.c:151:24: error: call to undeclared library function 'malloc' with type 'void *(unsigned long)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  151 |     uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
+      |                        ^
 popcount_vector.c:151:24: note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
-popcount_vector.c:175:5: error: implicitly declaring library function 'free' with type 'void (void *)' [-Werror,-Wimplicit-function-declaration]
-    free(popcnt);
-    ^
+popcount_vector.c:175:5: error: call to undeclared library function 'free' with type 'void (void *)'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  175 |     free(popcnt);
+      |     ^
 popcount_vector.c:175:5: note: include the header <stdlib.h> or explicitly provide a declaration for 'free'
 2 errors generated.
 ```
@@ -97,17 +97,15 @@ gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42
 
 **Tool Type:** Code Executor
 
-**Query:** `cd /Users/apple/Desktop/Applyloop-project3/Tasks/task27/test_environment/R1 && bash test_B_intrinsics_verbatim.sh`
+**Query:** `cd /workspaces/*/Tasks/task27/test_environment/R1 && clang -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42`
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
-Undefined symbols for architecture x86_64:
-  "_main", referenced from:
-     implicit entry/start for main executable
-ld: symbol(s) not found for architecture x86_64
+/usr/bin/ld: /lib/x86_64-linux-gnu/Scrt1.o: in function `_start':
+(.text+0x1b): undefined reference to `main'
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
 
@@ -170,27 +168,30 @@ If the target provides a hardware POPCNT, GCC/Clang will often recognise the pat
 
 **Tool Type:** Google
 
-**Query:** Intel POPCNT instruction vector vs scalar
+**Query:** Intel Software Developer Manual POPCNT instruction
 
-**URL:** https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html
+**URL:** https://www.felixcloutier.com/x86/popcnt
 
 **Source Excerpt:**
 
 ```
-POPCNT - Return the count of number of bits set to 1 in unsigned 32-bit integer a.
-Operation: dst := PopCount(a)
+POPCNT — Return the Count of Number of Bits Set to 1
+Opcode: F3 0F B8 /r
+Description: POPCNT r32, r/m32
+Count of number of bits set to 1 in r/m32.
 ```
 
 **Tool Type:** Google
 
-**Query:** AVX-512 VPOPCNTDQ vector popcount
+**Query:** AVX-512 VPOPCNTDQ instruction set
 
-**URL:** https://www.intel.com/content/www/us/en/docs/intrinsics-guide/index.html
+**URL:** https://www.felixcloutier.com/x86/vpopcntd:vpopcntq
 
 **Source Excerpt:**
 
 ```
-AVX-512VPOPCNTDQ - Count the number of logical 1 bits in packed 64-bit integers
+VPOPCNTD/VPOPCNTQ — Return the Count of Number of Bits Set to 1
+Counts the number of bits set in each packed data element and stores result in the destination.
 ```
 
 ---
@@ -206,6 +207,26 @@ we apply it lane‑wise with a ternary‑style expression that the compiler can 
 **Description:** The response mentions using a "ternary-style expression" for lane-wise popcount, but the actual implementation uses a SWAR algorithm with bitwise operations and shifts, not a ternary expression.
 
 **Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** `grep -A 10 "popcnt_lane" /workspaces/*/Tasks/task27/extractions/RESPONSE_1.md`
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+v32x4 popcnt_lane(v32x4 x) {
+    x = x - ((x >> 1) & (v32x4){0x55555555,0x55555555,0x55555555,0x55555555});
+    x = (x & (v32x4){0x33333333,0x33333333,0x33333333,0x33333333})
+      + ((x >> 2) & (v32x4){0x33333333,0x33333333,0x33333333,0x33333333});
+    x = (x + (x >> 4)) & (v32x4){0x0F0F0F0F,0x0F0F0F0F,0x0F0F0F0F,0x0F0F0F0F};
+    return (x * (v32x4){0x01010101,0x01010101,0x01010101,0x01010101}) >> 24;
+}
+```
 
 ---
 
