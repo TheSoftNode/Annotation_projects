@@ -42,11 +42,6 @@ int main(void) {
 clang: error: unsupported option '-fopenmp'
 ```
 
-Note: Mac Clang error shown above. On Linux GCC, the expected error is:
-```
-error: variable-sized object may not be initialized
-```
-
 ---
 
 ## AOI #2 - SUBSTANTIAL

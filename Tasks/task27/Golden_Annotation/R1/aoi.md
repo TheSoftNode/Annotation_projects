@@ -52,7 +52,7 @@ Build with:
     (or clang with the same flags)
 ```
 
-**Description:** The response provides build commands claiming they work with the provided code, but these commands fail because the code is missing the stdlib.h include required for malloc and free functions.
+**Description:** The response provides build commands for popcount_vector.c claiming they work, but these commands fail because the code is missing the stdlib.h include required for malloc and free functions.
 
 **Severity:** Substantial
 
@@ -67,13 +67,15 @@ Build with:
 **Source Excerpt:**
 
 ```
---- GCC Test ---
-Command: gcc -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector
-
-popcount_vector.c:151:24: error: implicitly declaring library function 'malloc'
-[...]
-GCC exit code: 1
-Result: COMPILE FAILED AS EXPECTED (missing stdlib.h)
+popcount_vector.c:151:24: error: implicitly declaring library function 'malloc' with type 'void *(unsigned long)' [-Werror,-Wimplicit-function-declaration]
+    uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
+                       ^
+popcount_vector.c:151:24: note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
+popcount_vector.c:175:5: error: implicitly declaring library function 'free' with type 'void (void *)' [-Werror,-Wimplicit-function-declaration]
+    free(popcnt);
+    ^
+popcount_vector.c:175:5: note: include the header <stdlib.h> or explicitly provide a declaration for 'free'
+2 errors generated.
 ```
 
 ---
@@ -87,7 +89,7 @@ Compile with:
 gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42
 ```
 
-**Description:** The response provides a build command for the intrinsics version, but the code snippet ends with a comment placeholder instead of an actual main() function, causing the linker to fail with an undefined reference to main.
+**Description:** The response provides a build command for popcount_intrinsics.c, but the intrinsics code ends with a comment placeholder ("… same main() as before …") instead of an actual main() function, causing the linker to fail with an undefined reference to main.
 
 **Severity:** Substantial
 
@@ -102,15 +104,11 @@ gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42
 **Source Excerpt:**
 
 ```
-Command: gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42
-
 Undefined symbols for architecture x86_64:
   "_main", referenced from:
      implicit entry/start for main executable
 ld: symbol(s) not found for architecture x86_64
-
-Exit code: 1
-Result: LINK FAILED AS EXPECTED (missing main function)
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ```
 
 ---
