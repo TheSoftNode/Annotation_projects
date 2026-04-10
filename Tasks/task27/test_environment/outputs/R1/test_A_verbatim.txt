@@ -1,0 +1,39 @@
+==========================================
+Test A: Compile popcount_vector.c Verbatim
+==========================================
+
+This tests claims 1, 6, 9, 10:
+  - 'self-contained, portable example'
+  - 'works with GCC, Clang'
+  - 'Full program (C11)'
+  - Build commands work as shown
+
+Step 1: Confirm compiler availability
+--------------------------------------
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+Apple clang version 14.0.0 (clang-1400.0.29.202)
+
+Step 2: Run exact GCC command from response
+--------------------------------------
+Command: gcc -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector
+
+
+✗ UNEXPECTED: Compilation succeeded
+Expected: COMPILE FAILURE (missing <stdlib.h> for malloc/free)
+
+Step 3: Run exact Clang command from response
+--------------------------------------
+Command: clang -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector
+
+
+✗ UNEXPECTED: Compilation succeeded with Clang
+Expected: COMPILE FAILURE (missing <stdlib.h> for malloc/free)
+
+==========================================
+STOP POINT FOR EXACT TESTING
+==========================================
+Since the exact file fails to compile, running it
+after editing would no longer be a verbatim test.
+
+Reference: man7.org documents malloc/free in <stdlib.h>
+==========================================
