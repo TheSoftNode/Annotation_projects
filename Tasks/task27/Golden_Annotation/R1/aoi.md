@@ -183,15 +183,15 @@ Count of number of bits set to 1 in r/m32.
 
 **Tool Type:** Google
 
-**Query:** AVX-512 VPOPCNTDQ instruction set
+**Query:** AVX-512 VPOPCNTDQ instruction
 
-**URL:** https://www.felixcloutier.com/x86/vpopcntd:vpopcntq
+**URL:** https://en.wikichip.org/wiki/x86/avx-512
 
 **Source Excerpt:**
 
 ```
-VPOPCNTD/VPOPCNTQ — Return the Count of Number of Bits Set to 1
-Counts the number of bits set in each packed data element and stores result in the destination.
+AVX512_VPOPCNTDQ provides parallel population count in doublewords or quadwords.
+VPOPCNT[D,Q] - vector population count instruction to count one bits of either 16 32-bit double words (VPOPCNTD) or 8 64-bit quad words (VPOPCNTQ) in parallel.
 ```
 
 ---
