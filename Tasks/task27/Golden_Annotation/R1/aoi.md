@@ -185,13 +185,13 @@ Count of number of bits set to 1 in r/m32.
 
 **Query:** AVX-512 VPOPCNTDQ instruction
 
-**URL:** https://en.wikichip.org/wiki/x86/avx-512
+**URL:** https://en.wikipedia.org/wiki/AVX-512
 
 **Source Excerpt:**
 
 ```
-AVX512_VPOPCNTDQ provides parallel population count in doublewords or quadwords.
-VPOPCNT[D,Q] - vector population count instruction to count one bits of either 16 32-bit double words (VPOPCNTD) or 8 64-bit quad words (VPOPCNTQ) in parallel.
+AVX-512_VPOPCNTDQ (Vector Population Count Doubleword and Quadword)
+Adds vector population count instructions for 32-bit and 64-bit integers.
 ```
 
 ---
@@ -207,12 +207,13 @@ we apply it lane‑wise with a ternary‑style expression that the compiler can 
 But the actual implementation is:
 
 ```
-v32x4 popcnt_lane(v32x4 x) {
-    x = x - ((x >> 1) & (v32x4){0x55555555,0x55555555,0x55555555,0x55555555});
-    x = (x & (v32x4){0x33333333,0x33333333,0x33333333,0x33333333})
-      + ((x >> 2) & (v32x4){0x33333333,0x33333333,0x33333333,0x33333333});
-    x = (x + (x >> 4)) & (v32x4){0x0F0F0F0F,0x0F0F0F0F,0x0F0F0F0F,0x0F0F0F0F};
-    return (x * (v32x4){0x01010101,0x01010101,0x01010101,0x01010101}) >> 24;
+static inline v4ui vec_popcnt(v4ui v)
+{
+    v4ui x = v;
+    x = x - ((x >> 1) & 0x55555555u);
+    x = (x & 0x33333333u) + ((x >> 2) & 0x33333333u);
+    x = (x + (x >> 4)) & 0x0F0F0F0Fu;
+    return (x * 0x01010101u) >> 24;
 }
 ```
 
