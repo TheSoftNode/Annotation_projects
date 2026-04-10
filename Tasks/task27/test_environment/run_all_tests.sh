@@ -1,97 +1,81 @@
 #!/bin/bash
-# Master test runner for Task 27: Vectorized Popcount
-# Updated to use CORRECT factual file (Factual_Gpt_R1_Task27.md)
+# Master test runner for Task 27
+# Runs all factual verification tests for R1 and R2
 
-echo "=========================================="
-echo "Task 27: Vectorized Popcount Tests"
-echo "=========================================="
+echo "========================================"
+echo "Task 27: Factual Verification Test Suite"
+echo "========================================"
+echo ""
+echo "User Request: 'vectorize and solve for 0 through n'"
+echo "Testing RESPONSE 1 (SIMD vector extension) and RESPONSE 2 (OpenMP SIMD)"
+echo ""
+echo "Environment: $(uname -s) $(uname -m)"
+echo "GCC: $(gcc --version 2>&1 | head -1)"
+echo "Clang: $(clang --version 2>&1 | head -1)"
+echo ""
+echo "NOTE: Per factual files, tests are designed for GitHub Codespaces"
+echo "      Running on Mac may show different results due to compiler differences"
 echo ""
 
-# Get the directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-OUTPUT_DIR="$SCRIPT_DIR/outputs"
+# Create output directories
+mkdir -p outputs/R1
+mkdir -p outputs/R2
 
-mkdir -p "$OUTPUT_DIR/R1"
-mkdir -p "$OUTPUT_DIR/R2"
-
-echo "Environment check:"
-echo "- GCC version: $(gcc --version 2>&1 | head -1)"
-echo "- Clang version: $(clang --version 2>&1 | head -1 || echo 'Not installed')"
-echo "- Platform: $(uname -s) $(uname -m)"
-echo ""
-echo "=========================================="
-
-# Test R1 - Verbatim factual tests
-echo ""
-echo "=========================================="
-echo "Running R1 Factual Tests (Verbatim Testing)"
-echo "=========================================="
-echo "Based on: Factual_Gpt_R1_Task27.md"
+# Run R1 tests
+echo "========================================"
+echo "RESPONSE 1: SIMD Vector Extension Tests"
+echo "========================================"
 echo ""
 
-cd "$SCRIPT_DIR/R1"
+cd R1
 
-echo "[1/4] Test A: Compile popcount_vector.c verbatim..."
-echo "Expected: COMPILE FAILURE (missing <stdlib.h>)"
-bash test_A_verbatim_compile.sh | tee "$OUTPUT_DIR/R1/test_A_verbatim.txt"
+echo "Running Test A: Verbatim Compile Test..."
+bash test_A_verbatim_compile.sh | tee ../outputs/R1/test_A_output.txt
 echo ""
 
-echo "[2/4] Test B: Compile popcount_intrinsics.c verbatim..."
-echo "Expected: LINK ERROR (missing main)"
-bash test_B_intrinsics_verbatim.sh | tee "$OUTPUT_DIR/R1/test_B_intrinsics.txt"
+echo "Running Test B: Intrinsics Verbatim Link Test..."
+bash test_B_intrinsics_verbatim.sh | tee ../outputs/R1/test_B_output.txt
 echo ""
 
-echo "[3/4] Test C: Verify intrinsics without modifying source..."
-bash test_C_verify_intrinsics.sh | tee "$OUTPUT_DIR/R1/test_C_verify.txt"
+echo "Running Test C: Verify Intrinsics Assembly..."
+bash test_C_verify_intrinsics.sh | tee ../outputs/R1/test_C_output.txt
 echo ""
 
-echo "[4/4] Test D: Check compile-time error claim..."
-echo "Status: DISPUTED"
-bash test_D_compile_time_error.sh | tee "$OUTPUT_DIR/R1/test_D_disputed.txt"
+echo "Running Test D: Compile-Time Error Claim..."
+bash test_D_compile_time_error.sh | tee ../outputs/R1/test_D_output.txt
 echo ""
 
-# Test R2 - Basic functionality
-echo ""
-echo "=========================================="
-echo "Running R2 Basic Tests"
-echo "=========================================="
-echo "Note: R2 factual file tests conversation history,"
-echo "not the actual R2 OpenMP SIMD code."
-echo "Running basic compilation tests for R2 code:"
+cd ..
+
+# Run R2 tests
+echo "========================================"
+echo "RESPONSE 2: OpenMP SIMD Tests"
+echo "========================================"
 echo ""
 
-cd "$SCRIPT_DIR/R2"
+cd R2
 
-echo "[1/2] Basic OpenMP compilation..."
-bash test_r2_basic_compile.sh | tee "$OUTPUT_DIR/R2/test_basic.txt"
+echo "Running R2 Verbatim Compile Test..."
+bash test_R2_verbatim_compile.sh | tee ../outputs/R2/test_R2_output.txt
 echo ""
 
-echo "[2/2] Verify OpenMP SIMD directives..."
-bash test_r2_verify_openmp.sh | tee "$OUTPUT_DIR/R2/test_openmp_verify.txt"
-echo ""
+cd ..
 
 # Summary
+echo "========================================"
+echo "All Tests Complete"
+echo "========================================"
 echo ""
-echo "=========================================="
-echo "Test Summary"
-echo "=========================================="
+echo "Output files saved to:"
+echo "  - outputs/R1/test_A_output.txt"
+echo "  - outputs/R1/test_B_output.txt"
+echo "  - outputs/R1/test_C_output.txt"
+echo "  - outputs/R1/test_D_output.txt"
+echo "  - outputs/R2/test_R2_output.txt"
 echo ""
-echo "All test outputs saved to: $OUTPUT_DIR"
-echo ""
-echo "R1 Factual Tests (Verbatim):"
-echo "  - $OUTPUT_DIR/R1/test_A_verbatim.txt"
-echo "  - $OUTPUT_DIR/R1/test_B_intrinsics.txt"
-echo "  - $OUTPUT_DIR/R1/test_C_verify.txt"
-echo "  - $OUTPUT_DIR/R1/test_D_disputed.txt"
-echo ""
-echo "R2 Basic Tests:"
-echo "  - $OUTPUT_DIR/R2/test_basic.txt"
-echo "  - $OUTPUT_DIR/R2/test_openmp_verify.txt"
-echo ""
-echo "Key Findings from R1 Factual Tests:"
-echo "  - Test A: Expects compile failure (missing <stdlib.h>)"
-echo "  - Test B: Expects link failure (missing main)"
-echo "  - Test C: Verifies assembly instruction generation"
-echo "  - Test D: Disputes 'compile-time error' claim"
-echo ""
-echo "Test run complete!"
+echo "Key Findings:"
+echo "  R1 Test A: Expected compile failure (missing stdlib.h)"
+echo "  R1 Test B: Expected link failure (missing main)"
+echo "  R1 Test C: Assembly inspection for POPCNT instructions"
+echo "  R1 Test D: Analysis of compile-time error claim"
+echo "  R2 Test:   Expected compile failure (VLA initialization)"

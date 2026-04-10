@@ -1,71 +1,57 @@
 #!/bin/bash
-# Test A: Compile popcount_vector.c EXACTLY as written (verbatim)
-# From: Factual_Gpt_R1_Task27.md
-# Expected: COMPILE FAILURE due to missing <stdlib.h>
+# Test A: Compile popcount_vector.c exactly as written
+# Expected: COMPILE FAILURE due to missing <stdlib.h> (malloc/free undeclared)
 
-echo "=========================================="
-echo "Test A: Compile popcount_vector.c Verbatim"
-echo "=========================================="
+echo "========================================="
+echo "R1 Test A: Verbatim Compile Test"
+echo "========================================="
 echo ""
-echo "This tests claims 1, 6, 9, 10:"
-echo "  - 'self-contained, portable example'"
-echo "  - 'works with GCC, Clang'"
-echo "  - 'Full program (C11)'"
-echo "  - Build commands work as shown"
+echo "Testing claim: 'self-contained, portable example' and 'Full program (C11)'"
+echo "File: popcount_vector.c (EXACT verbatim from RESPONSE 1)"
 echo ""
 
-cd "$(dirname "$0")"
-
-echo "Step 1: Confirm compiler availability"
-echo "--------------------------------------"
-gcc --version | head -1
-clang --version | head -1 2>/dev/null || echo "Clang: not available"
-echo ""
-
-echo "Step 2: Run exact GCC command from response"
-echo "--------------------------------------"
+# Test with GCC
+echo "--- GCC Test ---"
 echo "Command: gcc -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector"
 echo ""
 gcc -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector 2>&1
-
-if [ $? -eq 0 ]; then
-    echo ""
-    echo "✗ UNEXPECTED: Compilation succeeded"
-    echo "Expected: COMPILE FAILURE (missing <stdlib.h> for malloc/free)"
+GCC_EXIT=$?
+echo ""
+echo "GCC exit code: $GCC_EXIT"
+if [ $GCC_EXIT -eq 0 ]; then
+    echo "Result: UNEXPECTED SUCCESS (expected compile failure)"
 else
-    echo ""
-    echo "✓ EXPECTED: Compilation failed"
-    echo "Reason: The exact response text uses malloc/free without including <stdlib.h>"
+    echo "Result: COMPILE FAILED AS EXPECTED (missing stdlib.h)"
 fi
 echo ""
 
-echo "Step 3: Run exact Clang command from response"
-echo "--------------------------------------"
+# Clean up if it somehow compiled
+rm -f popcount_vector
+
+# Test with Clang
+echo "--- Clang Test ---"
 echo "Command: clang -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector"
 echo ""
-
-if command -v clang &> /dev/null; then
-    clang -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector 2>&1
-
-    if [ $? -eq 0 ]; then
-        echo ""
-        echo "✗ UNEXPECTED: Compilation succeeded with Clang"
-        echo "Expected: COMPILE FAILURE (missing <stdlib.h> for malloc/free)"
-    else
-        echo ""
-        echo "✓ EXPECTED: Compilation failed with Clang"
-        echo "Reason: Same as GCC - missing <stdlib.h>"
-    fi
+clang -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector 2>&1
+CLANG_EXIT=$?
+echo ""
+echo "Clang exit code: $CLANG_EXIT"
+if [ $CLANG_EXIT -eq 0 ]; then
+    echo "Result: UNEXPECTED SUCCESS (expected compile failure)"
 else
-    echo "⚠ Clang not available, skipping"
+    echo "Result: COMPILE FAILED AS EXPECTED (missing stdlib.h)"
 fi
 echo ""
 
-echo "=========================================="
-echo "STOP POINT FOR EXACT TESTING"
-echo "=========================================="
-echo "Since the exact file fails to compile, running it"
-echo "after editing would no longer be a verbatim test."
+# Clean up
+rm -f popcount_vector
+
+echo "========================================="
+echo "Test A Complete"
+echo "========================================="
 echo ""
-echo "Reference: man7.org documents malloc/free in <stdlib.h>"
-echo "=========================================="
+echo "Verified claims:"
+echo "  - 'self-contained' - DISPUTED (missing stdlib.h)"
+echo "  - 'portable example' - DISPUTED (missing stdlib.h)"
+echo "  - 'Full program (C11)' - DISPUTED (not buildable as written)"
+echo "  - 'Build with gcc/clang' - DISPUTED (exact commands fail)"

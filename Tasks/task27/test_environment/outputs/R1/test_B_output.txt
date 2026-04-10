@@ -1,0 +1,24 @@
+=========================================
+R1 Test B: Intrinsics Verbatim Link Test
+=========================================
+
+Testing claim: 'Compile with: gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42'
+File: popcount_intrinsics.c (EXACT verbatim from RESPONSE 1)
+
+Command: gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42
+
+Undefined symbols for architecture x86_64:
+  "_main", referenced from:
+     implicit entry/start for main executable
+ld: symbol(s) not found for architecture x86_64
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+Exit code: 1
+Result: LINK FAILED AS EXPECTED (missing main function)
+
+=========================================
+Test B Complete
+=========================================
+
+Verified claim:
+  - Build command works - DISPUTED (snippet has no main, link fails)

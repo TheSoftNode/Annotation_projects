@@ -1,0 +1,48 @@
+=========================================
+R1 Test A: Verbatim Compile Test
+=========================================
+
+Testing claim: 'self-contained, portable example' and 'Full program (C11)'
+File: popcount_vector.c (EXACT verbatim from RESPONSE 1)
+
+--- GCC Test ---
+Command: gcc -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector
+
+popcount_vector.c:151:24: error: implicitly declaring library function 'malloc' with type 'void *(unsigned long)' [-Werror,-Wimplicit-function-declaration]
+    uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
+                       ^
+popcount_vector.c:151:24: note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
+popcount_vector.c:175:5: error: implicitly declaring library function 'free' with type 'void (void *)' [-Werror,-Wimplicit-function-declaration]
+    free(popcnt);
+    ^
+popcount_vector.c:175:5: note: include the header <stdlib.h> or explicitly provide a declaration for 'free'
+2 errors generated.
+
+GCC exit code: 1
+Result: COMPILE FAILED AS EXPECTED (missing stdlib.h)
+
+--- Clang Test ---
+Command: clang -O3 -march=native -Wall -Wextra popcount_vector.c -o popcount_vector
+
+popcount_vector.c:151:24: error: implicitly declaring library function 'malloc' with type 'void *(unsigned long)' [-Werror,-Wimplicit-function-declaration]
+    uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
+                       ^
+popcount_vector.c:151:24: note: include the header <stdlib.h> or explicitly provide a declaration for 'malloc'
+popcount_vector.c:175:5: error: implicitly declaring library function 'free' with type 'void (void *)' [-Werror,-Wimplicit-function-declaration]
+    free(popcnt);
+    ^
+popcount_vector.c:175:5: note: include the header <stdlib.h> or explicitly provide a declaration for 'free'
+2 errors generated.
+
+Clang exit code: 1
+Result: COMPILE FAILED AS EXPECTED (missing stdlib.h)
+
+=========================================
+Test A Complete
+=========================================
+
+Verified claims:
+  - 'self-contained' - DISPUTED (missing stdlib.h)
+  - 'portable example' - DISPUTED (missing stdlib.h)
+  - 'Full program (C11)' - DISPUTED (not buildable as written)
+  - 'Build with gcc/clang' - DISPUTED (exact commands fail)

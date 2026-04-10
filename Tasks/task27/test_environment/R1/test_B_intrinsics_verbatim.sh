@@ -1,39 +1,32 @@
 #!/bin/bash
-# Test B: Compile popcount_intrinsics.c EXACTLY as written (verbatim)
-# From: Factual_Gpt_R1_Task27.md
-# Expected: LINK ERROR due to missing main()
+# Test B: Compile popcount_intrinsics.c exactly as written
+# Expected: LINK ERROR due to missing main() function
 
-echo "=========================================="
-echo "Test B: Compile popcount_intrinsics.c Verbatim"
-echo "=========================================="
+echo "========================================="
+echo "R1 Test B: Intrinsics Verbatim Link Test"
+echo "========================================="
 echo ""
-echo "This tests claim 32:"
-echo "  - Build command validity for the exact snippet"
+echo "Testing claim: 'Compile with: gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42'"
+echo "File: popcount_intrinsics.c (EXACT verbatim from RESPONSE 1)"
 echo ""
 
-cd "$(dirname "$0")"
-
-echo "Step 1: Run exact compile command from response"
-echo "--------------------------------------"
 echo "Command: gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42"
 echo ""
 gcc -O3 -march=native -msse4.2 popcount_intrinsics.c -o popcount_sse42 2>&1
-
-if [ $? -eq 0 ]; then
-    echo ""
-    echo "✗ UNEXPECTED: Link succeeded"
-    echo "Expected: LINK ERROR (missing main function)"
+EXIT_CODE=$?
+echo ""
+echo "Exit code: $EXIT_CODE"
+if [ $EXIT_CODE -eq 0 ]; then
+    echo "Result: UNEXPECTED SUCCESS (expected link error)"
+    rm -f popcount_sse42
 else
-    echo ""
-    echo "✓ EXPECTED: Link failed"
-    echo "Reason: The snippet ends with '/* ... same main() as before ... */'"
-    echo "        so it is not a complete standalone program"
+    echo "Result: LINK FAILED AS EXPECTED (missing main function)"
 fi
 echo ""
 
-echo "=========================================="
-echo "Conclusion"
-echo "=========================================="
-echo "The exact build command is NOT valid for the exact snippet."
-echo "The snippet requires a main() function from elsewhere."
-echo "=========================================="
+echo "========================================="
+echo "Test B Complete"
+echo "========================================="
+echo ""
+echo "Verified claim:"
+echo "  - Build command works - DISPUTED (snippet has no main, link fails)"

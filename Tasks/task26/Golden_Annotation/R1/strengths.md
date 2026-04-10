@@ -8,6 +8,6 @@ The response correctly defines L-BFGS-B as a limited-memory quasi-Newton method 
 
 ## 2
 
-The response correctly distinguishes which scikit-learn estimators use L-BFGS-B (LogisticRegression, MLPClassifier/MLPRegressor) versus which do not (SVMs use LIBSVM/LIBLINEAR), helping the user avoid confusion about solver availability across different model types.
+The response correctly distinguishes that scikit-learn's lbfgs-based estimators, such as LogisticRegression and MLPClassifier, differ from SVM estimators, which rely on LIBSVM or LIBLINEAR instead, and this helps the user avoid solver confusion and reason more accurately about optimization behavior.
 
 ---

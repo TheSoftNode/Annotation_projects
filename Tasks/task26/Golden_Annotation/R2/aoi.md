@@ -5,15 +5,32 @@
 **Response Excerpt:**
 
 ```
+It appears there is still some confusion regarding the term "MLKR" in the context of scikit-learn.
+Fact: There is no estimator named "MLKR" in the core scikit-learn library.
 Likely Meaning 1 (Most Probable): You mean MLP (Multi-Layer Perceptron), specifically MLPClassifier or MLPRegressor. In this context, L-BFGS-B is the optimizer behind the solver='lbfgs' option.
 Likely Meaning 2: You mean Logistic Regression (LogisticRegression), where solver='lbfgs' is the default and most common choice.
+Likely Meaning 3 (Academic): You are referring to the specific algorithm Metric Learning for Kernel Regression (MLKR) (often found in libraries like metric-learn, not core scikit-learn).
 ```
 
-And the response dedicates the vast majority of its content to MLP and LogisticRegression usage.
-
-**Description:** The response assumes the user made a typo and dedicates the vast majority of its content to discussing Multi-Layer Perceptrons (MLP) and Logistic Regression instead of focusing on the actual MLKR algorithm that the user asked about. While MLKR is mentioned as "Likely Meaning 3," it receives only brief treatment compared to the extensive MLP/LogisticRegression discussion, reducing the direct usefulness for a user specifically asking about MLKR.
+**Description:** The response acknowledges the actual MLKR algorithm, but it prioritizes MLP and Logistic Regression as more likely meanings and spends most of its explanation on those alternatives. Because MLKR is a documented algorithm and the user explicitly asked about it, this reduces the answer's direct usefulness.
 
 **Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** metric_learn MLKR minimize L-BFGS-B
+
+**URL:** https://contrib.scikit-learn.org/metric-learn/_modules/metric_learn/mlkr.html
+
+**Source Excerpt:**
+
+```
+res = minimize(self._loss, A.ravel(), (X, y), method='L-BFGS-B',
+                     jac=True, tol=self.tol,
+                     options=dict(maxiter=self.max_iter))
+```
 
 ---
 
@@ -25,63 +42,45 @@ And the response dedicates the vast majority of its content to MLP and LogisticR
 *Exception:* If you have millions of rows, switch to `solver='saga'` or `solver='liblinear'`.
 ```
 
-**Description:** The response recommends "solver='saga' or 'solver='liblinear'" for millions of rows, but while saga is appropriate for large datasets, liblinear contradicts scikit-learn's official documentation which explicitly states liblinear is designed for small datasets and recommends sag or saga solvers for large datasets. This partial incorrect recommendation could mislead users into choosing a suboptimal solver for their large-scale problems.
+**Description:** The response recommends "solver='saga' or 'solver='liblinear'" for millions of rows, but while saga is appropriate for large datasets, liblinear contradicts scikit-learn's official documentation, which explicitly states liblinear is designed for small datasets and recommends sag or saga solvers for large datasets. This partially incorrect recommendation could mislead users into choosing a suboptimal solver for their large-scale problems.
 
 **Severity:** Substantial
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Google
 
-**Query:** `python3 R2/test7_liblinear_for_large_data_claim.py`
+**Query:** L-BFGS-B memory complexity limited memory
 
-**URL:**
+**URL:** https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
 
 **Source Excerpt:**
 
 ```
-Checking LogisticRegression documentation for solver guidance...
-------------------------------------------------------------
-Searching for solver recommendations in sklearn docs:
-
-✓ Docs mention 'saga' in context of large datasets
-✓ Docs mention 'sag' for large/faster scenarios
-! Docs mention 'liblinear' for SMALL datasets (contradicts R2)
-
-VERDICT: R2's claim to use 'liblinear' for millions of rows
-         CONTRADICTS sklearn docs which say liblinear is for SMALL data
-         and 'sag'/'saga' are for LARGE datasets
-
-This is an AOI - R2 gives incorrect solver recommendation
+Algorithm to use in the optimization problem. Default is 'lbfgs'. To choose a solver, you might want to consider the following aspects:
+'lbfgs' is a good default solver because it works reasonably well for a wide class of problems.
+(...)
+For small datasets, 'liblinear' is a good choice, whereas 'sag' and 'saga' are faster for large ones;
 ```
 
 ---
 
-## AOI #3 - SUBSTANTIAL
+## AOI #3 - MINOR
 
 **Response Excerpt:**
 
 ```
-| **Memory Usage** | High (stores history) | Low | Very Low |
+### 🟢 Is L-BFGS-B Good or Bad?
+#### ✅ When is it GOOD? (Use solver='lbfgs')
+#### ❌ When is it BAD? (Avoid solver='lbfgs')
+### ⚔️ Comparison: L-BFGS-B vs. Alternatives
+### 💡 Recommendation
+### 🔧 How to use it in Scikit-Learn
 ```
 
-**Description:** The response incorrectly lists L-BFGS-B's memory usage as "High (stores history)" in the comparison table, but the "L" in L-BFGS-B stands for "Limited-memory," meaning it is specifically designed to use less memory than full BFGS by storing only a limited history. This misrepresents the core design feature of the algorithm and could mislead users about its memory characteristics.
+**Description:** The response uses emojis (🟢, ✅, ❌, 💡, ⚔️, 🔧) decoratively in section headings, which is unnecessary for technical machine learning documentation and reduces the professional tone of the response.
 
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Web Search
-
-**Query:** L-BFGS-B memory complexity limited memory
-
-**URL:** https://en.wikipedia.org/wiki/Limited-memory_BFGS
-
-**Source Excerpt:**
-
-```
-Limited-memory BFGS (L-BFGS or LM-BFGS) is an optimization algorithm in the family of quasi-Newton methods that approximates the Broyden–Fletcher–Goldfarb–Shanno algorithm (BFGS) using a limited amount of computer memory.
-```
+**Severity:** Minor
 
 ---
 
@@ -90,57 +89,50 @@ Limited-memory BFGS (L-BFGS or LM-BFGS) is an optimization algorithm in the fami
 **Response Excerpt:**
 
 ```
-### 🟢 Is L-BFGS-B Good or Bad?
-#### ✅ When is it GOOD? (Use solver='lbfgs')
-#### ❌ When is it BAD? (Avoid solver='lbfgs')
-### 💡 Recommendation
+Yes, L-BFGS-B is the standard optimizer for MLKR loss functions because the problem involves optimizing a matrix with constraints, which L-BFGS-B handles well.
 ```
 
-**Description:** The response uses emojis (🟢, ✅, ❌, 💡) decoratively in section headings, which is unnecessary for technical machine learning documentation and reduces the professional tone of the response.
+**Description:** The response gives the wrong reason for MLKR's use of L-BFGS-B. The metric-learn MLKR implementation does use scipy.optimize.minimize(..., method='L-BFGS-B'), but it does so without passing bounds or constraints. SciPy documents L-BFGS-B as a method for bound-constrained minimization, so saying MLKR uses it because the problem "involves constraints" is misleading.
 
 **Severity:** Minor
 
----
+**Verification of Issue:**
 
-## AOI #5 - MINOR
+**Tool Type:** Google
 
-**Response Excerpt:**
+**Query:** metric_learn MLKR minimize L-BFGS-B
 
-```python
-from sklearn.neural_network import MLPClassifier
-
-# Good for small data
-model = MLPClassifier(solver='lbfgs', hidden_layer_sizes=(100,))
-
-# Better for large data
-# model = MLPClassifier(solver='adam', hidden_layer_sizes=(100,))
-
-model.fit(X_train, y_train)
-```
-
-**Description:** The response includes a code snippet that does not contain the initialization of X_train and y_train, resulting in a NameError if run as-is. While experienced users would understand these are placeholders for training data, the code is not executable without modification.
-
-**Severity:** Minor
-
-**Tool Type:** Code Executor
-
-**Query:** `python3 R2/test_r2_code_snippet2_mlp.py`
-
-**URL:**
+**URL:** https://contrib.scikit-learn.org/metric-learn/_modules/metric_learn/mlkr.html
 
 **Source Excerpt:**
 
 ```
-✓ MLPClassifier instantiation successful
-  Model: MLPClassifier(solver='lbfgs')
-  Solver: lbfgs
+res = minimize(self._loss, A.ravel(), (X, y), method='L-BFGS-B',
+                     jac=True, tol=self.tol,
+                     options=dict(maxiter=self.max_iter))
+```
 
-Attempting model.fit(X_train, y_train) as shown in R2...
-✗ NameError: name 'X_train' is not defined
+**Tool Type:** Google
 
-VERDICT: R2's code snippet is INCOMPLETE
-         X_train and y_train are never defined
-         This code cannot be run as-is
+**Query:** scipy optimize minimize L-BFGS-B constraints
+
+**URL:** https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html
+
+**Source Excerpt:**
+
+```
+bounds sequence or Bounds, optional
+Bounds on variables for Nelder-Mead, L-BFGS-B, TNC, SLSQP, Powell, trust-constr, COBYLA, and COBYQA methods. There are two ways to specify the bounds:
+Instance of Bounds class.
+Sequence of (min, max) pairs for each element in x. None is used to specify no bound.
+(..)
+Method L-BFGS-B uses the L-BFGS-B algorithm [6], [7] for bound constrained minimization.
+(...)
+constraints{Constraint, dict} or List of {Constraint, dict}, optional
+Constraints definition. Only for COBYLA, COBYQA, SLSQP and trust-constr.
+Constraints for 'trust-constr', 'cobyqa', and 'cobyla' are defined as a single object or a list of objects specifying constraints to the optimization problem.
+(...)
+Method SLSQP uses Sequential Least SQuares Programming to minimize a function of several variables with any combination of bounds, equality and inequality constraints.
 ```
 
 ---

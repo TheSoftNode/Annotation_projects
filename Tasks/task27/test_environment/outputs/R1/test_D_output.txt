@@ -1,0 +1,34 @@
+=========================================
+R1 Test D: Compile-Time Error Claim
+=========================================
+
+Testing claim: 'On CPUs lacking POPCNT the -msse4.2 flag will cause a compile-time error'
+
+ANALYSIS:
+---------
+
+Per GCC documentation:
+  - '-msse4.2' is a compiler target option that enables built-ins and codegen
+  - It does NOT check if the host CPU supports the instruction
+
+Per Intel documentation:
+  - Executing POPCNT when CPU lacks support causes #UD (illegal instruction)
+  - This is a RUNTIME error, not a compile-time error
+
+CONCLUSION: The claim is DISPUTED
+
+The response states: 'On CPUs lacking POPCNT the -msse4.2 flag will
+cause a compile-time error'
+
+Reality: -msse4.2 enables POPCNT codegen at compile time regardless of
+whether the host CPU supports it. If you run the binary on a CPU without
+POPCNT support, you get a RUNTIME illegal instruction fault (#UD), not a
+compile-time error.
+
+=========================================
+Test D Complete
+=========================================
+
+Verified claim:
+  - 'compile-time error on CPUs lacking POPCNT' - DISPUTED
+  - Reality: Runtime #UD error, not compile-time

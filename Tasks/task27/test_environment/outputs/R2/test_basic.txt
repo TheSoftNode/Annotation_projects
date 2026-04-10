@@ -1,7 +1,0 @@
-==========================================
-R2 Test: OpenMP SIMD Compilation
-==========================================
-
-Step 1: Compiling popcount_openmp.c with OpenMP support
-Command: gcc -O3 -fopenmp -o popcount_openmp popcount_openmp.c
-✗ Compilation failed
