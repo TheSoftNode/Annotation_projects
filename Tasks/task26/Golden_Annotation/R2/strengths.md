@@ -8,7 +8,7 @@ The response correctly identifies that MLKR uses L-BFGS-B as its underlying opti
 
 ## 2
 
-The response provides concrete code examples showing how to use LogisticRegression and MLPClassifier with the lbfgs solver, giving the user practical starting points for implementation.
+The response provides concrete code examples with the lbfgs solver, giving the user practical starting points for implementation.
 
 ---
 
@@ -20,12 +20,6 @@ The response explains that solver='lbfgs' in scikit-learn corresponds to the L-B
 
 ## 4
 
-The response considers multiple interpretations of the term MLKR (MLP, Logistic Regression, and the actual MLKR algorithm), ensuring the user gets relevant information regardless of which meaning they intended.
-
----
-
-## 5
-
-The response includes a comparison table showing L-BFGS-B versus alternative solvers across multiple dimensions such as best use cases, learning rate requirements, and speed characteristics, helping the user make informed solver choices.
+The response includes a comparison table that contrasts L-BFGS-B with alternative solvers, helping the user make informed solver choices based on their specific use case.
 
 ---
