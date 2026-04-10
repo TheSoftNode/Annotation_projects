@@ -119,7 +119,15 @@ clang: error: linker command failed with exit code 1 (use -v to see invocation)
 On CPUs lacking POPCNT the `-msse4.2` flag will cause a compile‑time error
 ```
 
-**Description:** The response incorrectly claims that `-msse4.2` causes a compile-time error on CPUs lacking POPCNT support, but -msse4.2 is a compiler target flag that generates POPCNT instructions regardless of the host CPU, resulting in a runtime illegal instruction fault (#UD) rather than a compile-time error.
+And throughout the response:
+
+```
+If your CPU supports POPCNT (SSE4.2 on x86‑64)
+SSE4.2 POPCNT version
+you can guard it with `#ifdef __SSE4_2__`
+```
+
+**Description:** The response incorrectly claims that `-msse4.2` causes a compile-time error on CPUs lacking POPCNT support, but -msse4.2 is a compiler target flag that generates POPCNT instructions regardless of the host CPU, resulting in a runtime illegal instruction fault (#UD) rather than a compile-time error. Additionally, the response repeatedly conflates POPCNT with SSE4.2, but GCC treats -mpopcnt and -msse4.2 as separate flags, making the SSE4.2 framing imprecise for feature detection.
 
 **Severity:** Substantial
 
@@ -136,6 +144,19 @@ On CPUs lacking POPCNT the `-msse4.2` flag will cause a compile‑time error
 ```
 -msse4.2
 Enable SSE4.2 instruction set support.
+```
+
+**Tool Type:** Google
+
+**Query:** GCC -mpopcnt flag documentation
+
+**URL:** https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
+
+**Source Excerpt:**
+
+```
+-mpopcnt
+Enable POPCNT instruction set support.
 ```
 
 **Tool Type:** Other
@@ -213,7 +234,9 @@ static inline v4ui vec_popcnt(v4ui v)
     x = x - ((x >> 1) & 0x55555555u);
     x = (x & 0x33333333u) + ((x >> 2) & 0x33333333u);
     x = (x + (x >> 4)) & 0x0F0F0F0Fu;
-    return (x * 0x01010101u) >> 24;
+    x = x + (x >> 8);
+    x = x + (x >> 16);
+    return x & 0x0000003Fu;
 }
 ```
 
@@ -270,5 +293,47 @@ That's it! You now have a **vectorised, portable popcount** that works for any r
 **Description:** The response concludes with conversational filler ("Happy coding!") that adds unnecessary informal language to the technical explanation.
 
 **Severity:** Minor
+
+---
+
+## AOI #9 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+explicit SIMD vectorisation so the compiler can emit packed‑popcnt instructions (or fall back to a scalar loop if the target lacks them)
+```
+
+**Description:** The response claims the compiler can emit "packed-popcnt instructions," but true vector popcount on x86 requires the VPOPCNT family of instructions (AVX-512 VPOPCNTDQ), which is distinct from scalar POPCNT and not available on standard SSE4.2 or earlier instruction sets, making this claim overly broad.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** GCC -mavx512vpopcntdq flag
+
+**URL:** https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
+
+**Source Excerpt:**
+
+```
+-mavx512vpopcntdq
+Enable AVX-512 VPOPCNTDQ instruction set support.
+```
+
+**Tool Type:** Google
+
+**Query:** AVX-512 VPOPCNTDQ vector popcount
+
+**URL:** https://en.wikipedia.org/wiki/AVX-512
+
+**Source Excerpt:**
+
+```
+AVX-512_VPOPCNTDQ (Vector Population Count Doubleword and Quadword)
+Adds vector population count instructions for 32-bit and 64-bit integers.
+```
 
 ---

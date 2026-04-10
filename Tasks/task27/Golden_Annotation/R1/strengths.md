@@ -14,12 +14,12 @@ The response implements a vectorized loop processing four uint32_t elements at a
 
 ## 3
 
-The response provides an intrinsics-based alternative using _mm_popcnt_u32, giving users a hardware-accelerated option when their platform supports POPCNT instructions.
+The response provides an intrinsics-based alternative using \_mm_popcnt_u32, giving users a hardware-accelerated option when their platform supports POPCNT instructions.
 
 ---
 
 ## 4
 
-The response includes verification instructions showing how to inspect assembly output with specific compiler flags, helping users confirm that the compiler generated expected SIMD instructions.
+The response includes verification instructions showing how to inspect assembly output with specific compiler flags, helping users see what instructions the compiler emits
 
 ---
