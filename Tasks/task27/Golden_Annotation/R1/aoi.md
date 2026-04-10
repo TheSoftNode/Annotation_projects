@@ -204,19 +204,7 @@ VPOPCNT[D,Q] - vector population count instruction to count one bits of either 1
 we apply it lane‑wise with a ternary‑style expression that the compiler can turn into a vectorized POPCNT if the target has the instruction.
 ```
 
-**Description:** The response mentions using a "ternary-style expression" for lane-wise popcount, but the actual implementation uses a SWAR algorithm with bitwise operations and shifts, not a ternary expression.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** `grep -A 10 "popcnt_lane" /workspaces/*/Tasks/task27/extractions/RESPONSE_1.md`
-
-**URL:**
-
-**Source Excerpt:**
+But the actual implementation is:
 
 ```
 v32x4 popcnt_lane(v32x4 x) {
@@ -227,6 +215,10 @@ v32x4 popcnt_lane(v32x4 x) {
     return (x * (v32x4){0x01010101,0x01010101,0x01010101,0x01010101}) >> 24;
 }
 ```
+
+**Description:** The response mentions using a "ternary-style expression" for lane-wise popcount, but the actual implementation uses a SWAR algorithm with bitwise operations and shifts, not a ternary expression.
+
+**Severity:** Minor
 
 ---
 
