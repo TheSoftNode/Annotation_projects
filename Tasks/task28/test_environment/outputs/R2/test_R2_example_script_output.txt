@@ -1,0 +1,20 @@
+========================================
+R2: Example Script Test
+========================================
+
+Test R2-013: R2's example script
+Running R2's exact example...
+✓ First systemd-cat command succeeded
+✓ Second systemd-cat command succeeded
+
+Test R2-014: journalctl -t myscript filtering
+✓ First message found in journal
+✓ Second message found in journal
+
+Test R2-015: journalctl -b (current boot)
+✓ journalctl -b filtering works
+  Found 2 entries
+
+========================================
+R2 Example Script Tests Complete
+========================================

@@ -1,0 +1,34 @@
+==========================================
+GPT Test 3: -u is Unit-Based, NOT User-Based
+==========================================
+
+Testing R1's claim that 'journalctl -u alice' shows alice's logs...
+
+Command 1: journalctl -u "$USER" -n 20 --no-pager
+Running: journalctl -u "uridev" -n 20 --no-pager
+-- No entries --
+
+✓ CONFIRMED: No unit named 'uridev' exists
+  This proves -u is a UNIT filter, not a USER filter
+
+---
+
+Command 2: journalctl --user-unit "$USER" -n 20 --no-pager
+Running: journalctl --user-unit "uridev" -n 20 --no-pager
+-- No entries --
+
+✓ CONFIRMED: No user-unit named 'uridev' exists
+  This proves --user-unit is also a UNIT filter
+
+Expected result: These commands only work if a unit is literally named $USER
+This DISPROVES R1's claims 15 & 16:
+  - 'journalctl -t group-log -u alice' (R1 claim 15)
+  - 'journalctl -t group-logger -u $USER' (R1 claim 16)
+
+The correct way to filter by user is: journalctl _UID=$UID
+
+==========================================
+GPT Test 3 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_03_unit_vs_user_output.txt

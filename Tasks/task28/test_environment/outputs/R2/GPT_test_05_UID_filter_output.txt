@@ -1,0 +1,35 @@
+==========================================
+GPT Test 5 (R2): _UID Filter Test
+==========================================
+
+Testing R2's claim about filtering by _UID
+
+Current user: uridev
+Current UID: 1000
+
+Sending test message...
+
+Running exact command from GPT Code Test 5:
+journalctl _UID=$(id -u) -t myscript --no-pager -n 20
+
+Apr 11 09:08:14 uri-dev-vm myscript[236985]: Script started by uridev
+Apr 11 09:08:14 uri-dev-vm myscript[236988]: Processing complete
+Apr 11 09:08:15 uri-dev-vm myscript[237000]: Test message from current boot at Sat Apr 11 09:08:15 UTC 2026
+Apr 11 09:08:16 uri-dev-vm myscript[237011]: Script started by uridev
+Apr 11 09:08:17 uri-dev-vm myscript[237021]: Metadata test from uridev
+Apr 11 09:08:18 uri-dev-vm myscript[237035]: UID filter test from uridev (UID=1000)
+
+---
+
+Expected result (from GPT document):
+  You should see only 'myscript' entries associated with your UID
+  This directly tests the 'journalctl _UID=1001' style claim
+
+Claim tested:
+  journalctl _UID=1001 (using actual UID: 1000)
+
+==========================================
+GPT Test 5 (R2) Complete
+==========================================
+
+✓ Output saved to: outputs/R2/GPT_test_05_UID_filter_output.txt

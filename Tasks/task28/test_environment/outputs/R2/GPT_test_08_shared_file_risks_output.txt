@@ -1,0 +1,98 @@
+==========================================
+GPT Test 8 (R2): Shared File Risk Test
+==========================================
+
+Testing R2's claims about shared writable file risks:
+  • Concurrent writes can interleave log lines
+  • Users can tamper/erase logs
+  • No built-in protections
+
+Creating test script from GPT Code Test 8...
+
+✓ Test script created: sharedfiletest.sh
+
+Test 1: Concurrent writes to shared file
+
+Running two concurrent loops (200 iterations each)...
+✓ Both writers finished
+
+Inspecting results: tail -n 20 /tmp/shared-group-log.txt
+
+[uridev] 239051 1775898506109761264
+[uridev] 239054 1775898506111769028
+[uridev] 239055 1775898506113129921
+[uridev] 239058 1775898506115034830
+[uridev] 239059 1775898506116520606
+[uridev] 239062 1775898506118344638
+[uridev] 239063 1775898506119844112
+[uridev] 239066 1775898506121700826
+[uridev] 239067 1775898506123305725
+[uridev] 239070 1775898506125017610
+[uridev] 239072 1775898506126585888
+[uridev] 239074 1775898506128324436
+[uridev] 239076 1775898506129950913
+[uridev] 239078 1775898506131658853
+[uridev] 239079 1775898506133731281
+[uridev] 239082 1775898506135114926
+[uridev] 239084 1775898506136951014
+[uridev] 239085 1775898506138487080
+[uridev] 239088 1775898506140209702
+[uridev] 239090 1775898506141644326
+
+Total lines written: 400
+Expected: ~400 (200 from each loop)
+
+---
+
+Test 2: Truncation/erase risk
+
+Current file size:
+15K /tmp/shared-group-log.txt
+
+Demonstrating truncation by any user with write permission:
+Running: : > /tmp/shared-group-log.txt
+
+File after truncation:
+0 /tmp/shared-group-log.txt
+
+✓ File successfully ERASED
+  Any user with write permission can do this
+  This is the 'tampering/erase' risk R2 mentions
+
+---
+
+Test 3: Overwrite risk
+
+Writing some data...
+Before overwrite:
+Important log entry 1
+Important log entry 2
+Important log entry 3
+
+Overwriting entire file with: echo 'HACKED' > /tmp/shared-group-log.txt
+
+After overwrite:
+HACKED
+
+✓ File completely OVERWRITTEN
+  All previous entries lost
+
+---
+
+Expected result (from GPT document):
+  Concurrent appends work, but without safety guarantees
+  : > file truncates immediately
+  Any writer can overwrite or erase the file
+  This supports R2's 'tampering/erase' concern
+
+Claims tested:
+  • Users can potentially overwrite or corrupt the log
+  • Concurrent writes can interleave log lines
+  • Users can potentially flood or erase logs
+  • No built-in limit on log size per user
+
+==========================================
+GPT Test 8 (R2) Complete
+==========================================
+
+✓ Output saved to: outputs/R2/GPT_test_08_shared_file_risks_output.txt

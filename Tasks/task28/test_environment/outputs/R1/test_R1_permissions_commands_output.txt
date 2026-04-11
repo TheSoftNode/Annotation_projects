@@ -1,0 +1,22 @@
+========================================
+R1: Permissions & Security Commands
+========================================
+
+Test R1-042: groupadd command
+✓ groupadd command works
+
+Test R1-043: chown root:groupname
+✓ chown command works
+
+Test R1-044: chmod 6640 (setuid+setgid)
+✗ chmod 6640 failed
+
+Test R1-045: chmod 2775 (setgid on directory)
+✓ chmod 2775 works (setgid+rwxrwxr-x)
+
+Test R1-046: chmod 1730 (sticky bit)
+⚠ chmod 1730 set permissions: 3730
+
+========================================
+R1 Permissions Tests Complete
+========================================

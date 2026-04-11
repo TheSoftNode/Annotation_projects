@@ -1,0 +1,89 @@
+==========================================
+GPT Test 10: chmod 6640 Comment Mismatch
+==========================================
+
+This test verifies R1's chmod 6640 command and checks if the comment matches
+Testing claim 21 about setuid/setgid bits
+
+Test 1: Apply R1's exact chmod command
+
+Command from R1 Section 3.2:
+  sudo chmod 6640 /var/log/myapp  # setuid + setgid + rw-r-----
+
+Applying: chmod 6640 /tmp/test-log-permissions.log
+✓ Command applied
+
+Test 2: Inspect actual permissions
+
+Permissions from ls -l: -rwSr-S---
+
+Test 3: Decode permissions in detail
+
+Octal 6640 breakdown:
+  6 = setuid (4) + setgid (2) = Special bits
+  6 = rw- (4+2+0) = Owner permissions
+  4 = r-- (4+0+0) = Group permissions
+  0 = --- (0+0+0) = Other permissions
+
+Expected symbolic: rwSr-S---
+  rw- : Owner can read and write
+  S   : Setuid bit set, but NOT executable (capital S)
+  r-- : Group can read only
+  S   : Setgid bit set, but NOT executable (capital S)
+  --- : Others have no permissions
+
+Actual symbolic: -rwSr-S---
+
+Test 4: Compare with R1's comment
+
+R1's comment says: '# setuid + setgid + rw-r-----'
+
+R1 claims: rw-r-----
+Actual:    rwSr-S---
+
+✗ MISMATCH DETECTED
+
+Why the mismatch?
+  R1's comment: rw-r-----
+    This shows: owner=rw-, group=r--, other=---
+
+  Actual result: rwSr-S---
+    This shows: owner=rwS, group=r-S, other=---
+
+The comment IGNORES the setuid/setgid bits in symbolic notation
+  • Capital 'S' in owner position = setuid bit (no execute)
+  • Capital 'S' in group position = setgid bit (no execute)
+
+The comment should say: 'rwSr-S---' to be accurate
+
+Test 5: Verify setuid/setgid bits with stat
+
+Using stat to show full permission details:
+Access: (6640/-rwSr-S---)
+
+---
+
+Security analysis of chmod 6640:
+
+What R1 intended:
+  • Owner and group can read the log file
+  • Owner can write to the log file
+  • setgid ensures new entries inherit the group
+
+Unexpected behavior:
+  • setuid bit (4) is SET
+  • setuid on a NON-EXECUTABLE log file is unusual
+  • Most log files only need setgid (2), not setuid (4)
+
+Correct command should probably be:
+  sudo chmod 2640 /var/log/myapp  # setgid + rw-r-----
+  (Using 2 instead of 6 to only set setgid)
+
+Expected result: R1's chmod 6640 works but comment is incomplete
+The comment doesn't show the 'S' bits in symbolic notation
+
+==========================================
+GPT Test 10 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_10_chmod_6640_output.txt

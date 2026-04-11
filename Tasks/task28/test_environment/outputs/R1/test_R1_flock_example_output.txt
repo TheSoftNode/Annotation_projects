@@ -1,0 +1,17 @@
+========================================
+R1: flock Example Test
+========================================
+
+Test R1-040, R1-041: flock usage for safe append
+Testing R1's exact flock example...
+✓ flock example executed successfully
+✓ Entry written to /tmp/flock-test-239943.log:
+2026-04-11_09:28:02 [uridev] Test log entry
+
+Testing flock prevents concurrent writes...
+✓ Second writer blocked as expected
+✓ flock correctly prevents concurrent writes
+
+========================================
+R1 flock Tests Complete
+========================================

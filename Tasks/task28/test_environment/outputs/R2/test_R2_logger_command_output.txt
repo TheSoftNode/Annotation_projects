@@ -1,0 +1,14 @@
+========================================
+R2: logger Command Test
+========================================
+
+Test R2-019: logger -t sends to system logger
+✓ logger command available
+✓ logger command executed successfully
+✓ logger message found in journald
+  Message: Apr 11 09:28:06 uri-dev-vm logger-test-240020[240023]: Logger test message at Sat Apr 11 09:28:06 UTC 2026
+✓ logger message found in /var/log/syslog
+
+========================================
+R2 logger Tests Complete
+========================================

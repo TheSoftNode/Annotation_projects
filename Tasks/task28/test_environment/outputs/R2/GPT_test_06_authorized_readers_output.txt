@@ -1,0 +1,70 @@
+==========================================
+GPT Test 6 (R2): Authorized Readers Test
+==========================================
+
+Testing R2's claim about access controls:
+  'Only authorized users (typically root or members of
+   systemd-journal group) can read logs'
+
+Test 1: Current user's access to journal
+
+Running as current user (uridev):
+journalctl -n 5 --no-pager
+
+Apr 11 09:08:16 uri-dev-vm myscript[237011]: Script started by uridev
+Apr 11 09:08:17 uri-dev-vm myscript[237021]: Metadata test from uridev
+Apr 11 09:08:18 uri-dev-vm myscript[237035]: UID filter test from uridev (UID=1000)
+Apr 11 09:08:18 uri-dev-vm sshd[237024]: Invalid user solana from 92.118.39.72 port 35262
+Apr 11 09:08:18 uri-dev-vm sshd[237024]: Connection closed by invalid user solana 92.118.39.72 port 35262 [preauth]
+
+✓ Current user CAN read journal entries
+  (May be limited to own entries or user has group membership)
+
+---
+
+Test 2: Root user's access to journal
+
+Running as root:
+sudo journalctl -n 5 --no-pager
+
+Apr 11 09:08:18 uri-dev-vm myscript[237035]: UID filter test from uridev (UID=1000)
+Apr 11 09:08:18 uri-dev-vm sshd[237024]: Invalid user solana from 92.118.39.72 port 35262
+Apr 11 09:08:18 uri-dev-vm sshd[237024]: Connection closed by invalid user solana 92.118.39.72 port 35262 [preauth]
+Apr 11 09:08:21 uri-dev-vm sudo[237047]:   uridev : PWD=/home/uridev/task28_tests ; USER=root ; COMMAND=/usr/bin/journalctl -n 5 --no-pager
+Apr 11 09:08:21 uri-dev-vm sudo[237047]: pam_unix(sudo:session): session opened for user root(uid=0) by uridev(uid=1000)
+
+✓ Root CAN read journal entries
+
+---
+
+Test 3: Check current user's group memberships
+
+Current user's groups:
+uridev adm cdrom sudo dip lxd docker
+
+✓ User is member of journal-reading group(s)
+  • adm
+
+---
+
+Expected result (from GPT document):
+  On many systems, normal user will NOT read full system journal
+  Root WILL be able to read it
+  Exact behavior depends on group membership and config
+
+Manual says: By default only root and members of
+  systemd-journal, adm, and wheel can read all journal files
+
+Claims tested:
+  • Only authorized users can read logs
+  • Typically root or members of systemd-journal group
+
+Note: R2's claim is MOSTLY CORRECT but incomplete
+  It mentions root and systemd-journal
+  But docs also include 'adm' and 'wheel' groups
+
+==========================================
+GPT Test 6 (R2) Complete
+==========================================
+
+✓ Output saved to: outputs/R2/GPT_test_06_authorized_readers_output.txt

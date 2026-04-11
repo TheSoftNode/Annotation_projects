@@ -1,0 +1,32 @@
+==========================================
+GPT Test 3 (R2): logger Alternative
+==========================================
+
+Testing R2's claim about logger as alternative to systemd-cat
+
+Running exact command from GPT Code Test 3:
+logger -t myscript "Script started by $USER"
+
+Querying journal: journalctl -t myscript --no-pager -n 20
+
+Apr 11 09:08:14 uri-dev-vm myscript[236985]: Script started by uridev
+Apr 11 09:08:14 uri-dev-vm myscript[236988]: Processing complete
+Apr 11 09:08:15 uri-dev-vm myscript[237000]: Test message from current boot at Sat Apr 11 09:08:15 UTC 2026
+Apr 11 09:08:16 uri-dev-vm myscript[237011]: Script started by uridev
+
+---
+
+Expected result (from GPT document):
+  You should see the new message in journal or system log view
+  This verifies that logger writes to system log and -t sets tag
+  On a systemd machine, it commonly shows up in journalctl
+
+Claims tested:
+  • logger -t myscript "Script started by $USER"
+  • logger sends logs to system logger (often journald on systemd)
+
+==========================================
+GPT Test 3 (R2) Complete
+==========================================
+
+✓ Output saved to: outputs/R2/GPT_test_03_logger_alternative_output.txt

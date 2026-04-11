@@ -1,0 +1,48 @@
+==========================================
+GPT Test 5: systemd-cat --flush is WRONG
+==========================================
+
+R1 claims: 'ExecStopPost=/usr/bin/systemd-cat --flush'
+Testing whether --flush belongs to systemd-cat or journalctl...
+
+Command 1: systemd-cat --help
+
+systemd-cat [OPTIONS...] COMMAND ...
+
+Execute process with stdout/stderr connected to the journal.
+
+  -h --help                      Show this help
+     --version                   Show package version
+  -t --identifier=STRING         Set syslog identifier
+  -p --priority=PRIORITY         Set priority value (0..7)
+     --stderr-priority=PRIORITY  Set priority value (0..7) used for stderr
+     --level-prefix=BOOL         Control whether level prefix shall be parsed
+
+See the systemd-cat(1) man page for details.
+
+✓ CONFIRMED: --flush NOT in systemd-cat help
+
+---
+
+Command 2: journalctl --help | grep flush
+
+     --flush                 Flush all journal data from /run into /var
+
+✓ CONFIRMED: --flush found in journalctl help
+  --flush belongs to JOURNALCTL, not systemd-cat
+
+---
+
+Test: systemd-cat --flush
+✓ CONFIRMED: systemd-cat rejects --flush option
+
+Expected result: --flush is under journalctl, NOT systemd-cat
+This DISPROVES R1's claim 17: 'ExecStopPost=/usr/bin/systemd-cat --flush'
+
+Correct command would be: journalctl --flush
+
+==========================================
+GPT Test 5 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_05_systemd_cat_flush_output.txt

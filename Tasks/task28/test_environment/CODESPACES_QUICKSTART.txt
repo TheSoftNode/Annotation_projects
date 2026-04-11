@@ -1,0 +1,57 @@
+============================================
+TASK 28: CODESPACES QUICK START
+============================================
+
+ONE-LINE COMMAND (Run this in GitHub Codespaces):
+
+cd /workspaces/*/Tasks/task28/test_environment && chmod +x *.sh R1/*.sh R2/*.sh && ./run_all_tests.sh
+
+============================================
+
+STEP-BY-STEP:
+
+1. Navigate:
+   cd /workspaces/*/Tasks/task28/test_environment
+
+2. Make executable:
+   chmod +x *.sh R1/*.sh R2/*.sh
+
+3. Run all tests:
+   ./run_all_tests.sh
+
+4. View results:
+   ls -lh outputs/**/*.txt
+
+============================================
+
+INDIVIDUAL TESTS:
+
+R1 tests:
+  bash R1/test_R1_service_file_claims.sh
+  bash R1/test_R1_flock_example.sh
+  bash R1/test_R1_permissions_commands.sh
+
+R2 tests:
+  bash R2/test_R2_logger_command.sh
+  bash R2/test_R2_example_script.sh
+
+Shared (CRITICAL):
+  bash test_shared_atomicity.sh
+
+============================================
+
+EXPECTED OUTPUT LOCATION:
+
+outputs/R1/test_R1_*_output.txt
+outputs/R2/test_R2_*_output.txt
+outputs/test_shared_*_output.txt
+
+============================================
+
+WHAT TO LOOK FOR:
+
+✓ = Claim verified
+✗ = Claim failed (potential AOI!)
+⚠ = Needs manual check
+
+============================================

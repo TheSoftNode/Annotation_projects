@@ -1,0 +1,40 @@
+==========================================
+GPT Test 1 (R2): systemd-cat Basic Example
+==========================================
+
+Creating R2's exact myscript.sh from Code Test 1...
+
+✓ Script created: myscript.sh
+
+Script contents:
+#!/bin/bash
+# myscript.sh
+echo "Script started by $USER" | systemd-cat -t myscript -p info
+# ... do work ...
+echo "Processing complete" | systemd-cat -t myscript -p info
+
+Executing: ./myscript.sh
+
+Querying journal: journalctl -t myscript --no-pager -n 20
+
+Apr 11 09:08:14 uri-dev-vm myscript[236985]: Script started by uridev
+Apr 11 09:08:14 uri-dev-vm myscript[236988]: Processing complete
+
+---
+
+Expected result (from GPT document):
+  You should see at least two entries tagged 'myscript':
+    • One containing 'Script started by ...'
+    • One containing 'Processing complete'
+
+Claims tested:
+  • systemd-cat writes to journal
+  • -t sets identifier (SYSLOG_IDENTIFIER)
+  • -p sets priority level
+  • journalctl -t retrieves by identifier
+
+==========================================
+GPT Test 1 (R2) Complete
+==========================================
+
+✓ Output saved to: outputs/R2/GPT_test_01_basic_systemd_cat_output.txt

@@ -1,0 +1,27 @@
+==========================================
+GPT Test 1: Basic systemd-cat One-liner
+==========================================
+
+Running EXACT commands from GPT Factual document...
+
+Command 1: echo 'Starting work at $(date)' | systemd-cat -p info -t group-script
+✓ Command 1 executed successfully
+
+Command 2: echo 'Finished work at $(date)' | systemd-cat -p info -t group-script
+✓ Command 2 executed successfully
+
+Command 3: journalctl -t group-script -n 20 --no-pager
+Apr 11 09:07:47 uri-dev-vm group-script[236751]: Starting work at Sat Apr 11 09:07:47 UTC 2026
+Apr 11 09:07:48 uri-dev-vm group-script[236756]: Finished work at Sat Apr 11 09:07:48 UTC 2026
+
+✓ First message found in journal
+✓ Second message found in journal
+
+Expected result: Two journal entries tagged with 'group-script'
+This tests: systemd-cat as pipeline filter, -p sets priority, -t sets identifier
+
+==========================================
+GPT Test 1 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_01_basic_systemd_cat_output.txt

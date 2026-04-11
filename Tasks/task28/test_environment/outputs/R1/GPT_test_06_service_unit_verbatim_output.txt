@@ -1,0 +1,55 @@
+==========================================
+GPT Test 6: Service Unit Verbatim Test
+==========================================
+
+Creating EXACT service file from R1 Section 2.2...
+
+✓ Service file created at: /tmp/group-log-test.service
+
+Service file contents:
+[Unit]
+Description=Collect logs from members of the "loggroup" group
+After=network.target
+
+[Service]
+User=%i
+Group=loggroup
+ExecStart=/usr/bin/systemd-cat -t group-log
+ExecStopPost=/usr/bin/systemd-cat --flush
+StandardOutput=journal
+StandardError=journal
+
+Test 1: systemd-analyze verify
+/tmp/group-log-test.service:6: Invalid user/group name or numeric ID: 
+group-log-test.service: Unit configuration has fatal error, unit will not be started.
+Unit group-log-test.service has a bad unit file setting.
+
+✗ Service file has ERRORS
+
+Suspicious points noted by GPT:
+  1. ExecStart=/usr/bin/systemd-cat -t group-log has NO piped input, NO wrapped command
+  2. ExecStopPost=/usr/bin/systemd-cat --flush is INVALID (--flush belongs to journalctl)
+
+---
+
+Known issues in this service file (from GPT analysis):
+
+Issue 1: ExecStart has no input
+  Command: /usr/bin/systemd-cat -t group-log
+  Problem: systemd-cat expects input to forward to journal
+  Result: Service will start but do nothing useful
+
+Issue 2: ExecStopPost uses wrong command
+  Command: /usr/bin/systemd-cat --flush
+  Problem: --flush belongs to 'journalctl', not 'systemd-cat'
+  Result: This line will likely fail
+
+rm: cannot remove '/tmp/group-log-test.service': Operation not permitted
+Expected result: Service design has fundamental issues
+This is a VERBATIM test - tests R1's exact code as-is
+
+==========================================
+GPT Test 6 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_06_service_unit_verbatim_output.txt

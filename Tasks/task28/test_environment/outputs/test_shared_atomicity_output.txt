@@ -1,0 +1,47 @@
+========================================
+SHARED: Atomicity & Race Conditions
+========================================
+
+Test Configuration:
+  Writers: 10
+  Messages per writer: 100
+  Total expected: 1000
+
+Part 1: Plain Text File (No Locking)
+Testing R1-001: 'two processes can truncate or interleave their text'
+Testing R2-020: 'Concurrent writes can interleave log lines'
+
+Plain file writes completed in 1 seconds
+Results:
+  Expected lines: 1000
+  Actual lines:   1000
+  Malformed:      0
+  ⚠ No corruption detected (race conditions are non-deterministic)
+
+Part 2: journald via systemd-cat
+Testing R1-002: 'Each systemd-cat invocation is a single write'
+Testing R1-003: 'daemon queues and serialises entries'
+Testing R2-011: 'journald ensures log entries are written atomically'
+Testing R2-012: 'avoids garbled output from concurrent writes'
+
+Journal writes completed in 4 seconds
+Results:
+  Expected entries: 1000
+  Actual entries:   1000
+  Malformed:        0
+  ✓ R1-002 CONFIRMED: All writes atomic
+  ✓ R1-003 CONFIRMED: Entries serialized correctly
+  ✓ R2-011 CONFIRMED: Atomic writes
+  ✓ R2-012 CONFIRMED: No garbled output
+
+========================================
+Summary
+========================================
+Plain file:  0 corrupted out of 1000 lines
+journald:    0 corrupted out of 1000 entries
+
+⚠ Results inconclusive (may need to re-run)
+
+========================================
+Atomicity Tests Complete
+========================================

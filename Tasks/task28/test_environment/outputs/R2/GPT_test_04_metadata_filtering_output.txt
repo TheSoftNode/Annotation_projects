@@ -1,0 +1,151 @@
+==========================================
+GPT Test 4 (R2): Metadata & Filtering
+==========================================
+
+Testing R2's claim about structured logs with metadata
+
+Running exact command from GPT Code Test 4:
+echo "Metadata test from $USER" | systemd-cat -t myscript -p info
+
+Querying with verbose output: journalctl -t myscript --no-pager -n 5 -o verbose
+
+Sat 2026-04-11 09:08:14.123456 UTC [s=e3ed1a50e0784ea0af226181780f3c2b;i=479448;b=ccaace5bab7e487e898cc3a02b524f5b;m=a4e440d3cd;t=64f2b96e63dc0;x=a8c697f4e6ad2dab]
+    _UID=1000
+    _GID=1000
+    _SELINUX_CONTEXT=unconfined
+    _AUDIT_LOGINUID=1000
+    _SYSTEMD_OWNER_UID=1000
+    _SYSTEMD_SLICE=user-1000.slice
+    _SYSTEMD_USER_SLICE=-.slice
+    _BOOT_ID=ccaace5bab7e487e898cc3a02b524f5b
+    _MACHINE_ID=2aec0ebbd17340d5b4a0433f028b4812
+    _HOSTNAME=uri-dev-vm
+    _RUNTIME_SCOPE=system
+    PRIORITY=6
+    _CAP_EFFECTIVE=0
+    _TRANSPORT=stdout
+    _COMM=cat
+    _AUDIT_SESSION=4463
+    _SYSTEMD_CGROUP=/user.slice/user-1000.slice/session-4463.scope
+    _SYSTEMD_SESSION=4463
+    _SYSTEMD_UNIT=session-4463.scope
+    _SYSTEMD_INVOCATION_ID=b2a029fd161e474b90d5360eb9b7221d
+    _EXE=/usr/bin/cat
+    _CMDLINE=/bin/cat
+    _STREAM_ID=774a659ed1054b9abbbd5e27f7eb46af
+    SYSLOG_IDENTIFIER=myscript
+    MESSAGE=Script started by uridev
+    _PID=236985
+Sat 2026-04-11 09:08:14.128815 UTC [s=e3ed1a50e0784ea0af226181780f3c2b;i=479449;b=ccaace5bab7e487e898cc3a02b524f5b;m=a4e440e8bc;t=64f2b96e652af;x=2a4b9ad333bca6cc]
+    _UID=1000
+    _GID=1000
+    _SELINUX_CONTEXT=unconfined
+    _AUDIT_LOGINUID=1000
+    _SYSTEMD_OWNER_UID=1000
+    _SYSTEMD_SLICE=user-1000.slice
+    _SYSTEMD_USER_SLICE=-.slice
+    _BOOT_ID=ccaace5bab7e487e898cc3a02b524f5b
+    _MACHINE_ID=2aec0ebbd17340d5b4a0433f028b4812
+    _HOSTNAME=uri-dev-vm
+    _RUNTIME_SCOPE=system
+    PRIORITY=6
+    _CAP_EFFECTIVE=0
+    _TRANSPORT=stdout
+    _COMM=cat
+    _AUDIT_SESSION=4463
+    _SYSTEMD_CGROUP=/user.slice/user-1000.slice/session-4463.scope
+    _SYSTEMD_SESSION=4463
+    _SYSTEMD_UNIT=session-4463.scope
+    _SYSTEMD_INVOCATION_ID=b2a029fd161e474b90d5360eb9b7221d
+    _EXE=/usr/bin/cat
+    SYSLOG_IDENTIFIER=myscript
+    _STREAM_ID=9ceadf0d5f914ce2a86659665b3086fa
+    MESSAGE=Processing complete
+    _PID=236988
+Sat 2026-04-11 09:08:15.268407 UTC [s=e3ed1a50e0784ea0af226181780f3c2b;i=47944a;b=ccaace5bab7e487e898cc3a02b524f5b;m=a4e4524c44;t=64f2b96f7b637;x=760b9e180fe585f2]
+    _UID=1000
+    _GID=1000
+    _SELINUX_CONTEXT=unconfined
+    _AUDIT_LOGINUID=1000
+    _SYSTEMD_OWNER_UID=1000
+    _SYSTEMD_SLICE=user-1000.slice
+    _SYSTEMD_USER_SLICE=-.slice
+    _BOOT_ID=ccaace5bab7e487e898cc3a02b524f5b
+    _MACHINE_ID=2aec0ebbd17340d5b4a0433f028b4812
+    _HOSTNAME=uri-dev-vm
+    _RUNTIME_SCOPE=system
+    PRIORITY=6
+    _CAP_EFFECTIVE=0
+    _TRANSPORT=stdout
+    _COMM=cat
+    _AUDIT_SESSION=4463
+    _SYSTEMD_CGROUP=/user.slice/user-1000.slice/session-4463.scope
+    _SYSTEMD_SESSION=4463
+    _SYSTEMD_UNIT=session-4463.scope
+    _SYSTEMD_INVOCATION_ID=b2a029fd161e474b90d5360eb9b7221d
+    SYSLOG_IDENTIFIER=myscript
+    _STREAM_ID=3aad53f55a8848729a1667d3eecb0f11
+    MESSAGE=Test message from current boot at Sat Apr 11 09:08:15 UTC 2026
+    _PID=237000
+Sat 2026-04-11 09:08:16.290272 UTC [s=e3ed1a50e0784ea0af226181780f3c2b;i=47944b;b=ccaace5bab7e487e898cc3a02b524f5b;m=a4e461e407;t=64f2b97074df9;x=df71ba72fd1bdf47]
+    _TRANSPORT=syslog
+    PRIORITY=5
+    _UID=1000
+    _GID=1000
+    _SELINUX_CONTEXT=unconfined
+    _AUDIT_LOGINUID=1000
+    _SYSTEMD_OWNER_UID=1000
+    _SYSTEMD_SLICE=user-1000.slice
+    _SYSTEMD_USER_SLICE=-.slice
+    _BOOT_ID=ccaace5bab7e487e898cc3a02b524f5b
+    _MACHINE_ID=2aec0ebbd17340d5b4a0433f028b4812
+    _HOSTNAME=uri-dev-vm
+    _RUNTIME_SCOPE=system
+    _CAP_EFFECTIVE=0
+    _AUDIT_SESSION=4463
+    _SYSTEMD_CGROUP=/user.slice/user-1000.slice/session-4463.scope
+    _SYSTEMD_SESSION=4463
+    _SYSTEMD_UNIT=session-4463.scope
+    _SYSTEMD_INVOCATION_ID=b2a029fd161e474b90d5360eb9b7221d
+    SYSLOG_IDENTIFIER=myscript
+    MESSAGE=Script started by uridev
+    SYSLOG_FACILITY=1
+    SYSLOG_TIMESTAMP=Apr 11 09:08:16 
+    _PID=237011
+    _COMM=logger
+    _SOURCE_REALTIME_TIMESTAMP=1775898496290272
+Sat 2026-04-11 09:08:17.312743 UTC [s=e3ed1a50e0784ea0af226181780f3c2b;i=47944c;b=ccaace5bab7e487e898cc3a02b524f5b;m=a4e4717df4;t=64f2b9716e7e7;x=53f8c1a97aaffe44]
+    _UID=1000
+    _GID=1000
+    _SELINUX_CONTEXT=unconfined
+    _BOOT_ID=ccaace5bab7e487e898cc3a02b524f5b
+    _MACHINE_ID=2aec0ebbd17340d5b4a0433f028b4812
+    _HOSTNAME=uri-dev-vm
+    _RUNTIME_SCOPE=system
+    PRIORITY=6
+    _CAP_EFFECTIVE=0
+    _TRANSPORT=stdout
+    _COMM=cat
+    SYSLOG_IDENTIFIER=myscript
+    _STREAM_ID=5610064585e140b693c8d54a6d1ee6d7
+    MESSAGE=Metadata test from uridev
+    _PID=237021
+
+---
+
+Expected result (from GPT document):
+  In verbose output you should inspect metadata fields
+  Look for fields such as:
+    • _UID= (user ID)
+    • _PID= (process ID)
+    • SYSLOG_IDENTIFIER=myscript
+
+Claim tested:
+  journald supports structured logs with metadata
+  (timestamp, user, PID, command, etc.)
+
+==========================================
+GPT Test 4 (R2) Complete
+==========================================
+
+✓ Output saved to: outputs/R2/GPT_test_04_metadata_filtering_output.txt

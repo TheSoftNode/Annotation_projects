@@ -1,0 +1,71 @@
+==========================================
+GPT Test 7: Per-User Setup Loop Test
+==========================================
+
+This test verifies R1's per-user setup loop exactly as written
+Testing claims about creating /var/log/myapp and setting up systemd units
+
+Test 1: Running R1's exact per-user setup loop
+
+Setting up test users: alice bob
+
+Creating test user: alice
+Creating test user: bob
+
+Running R1's exact commands for each user:
+
+--- Processing user: alice ---
+Command: sudo mkdir -p /var/log/myapp
+Command: sudo systemctl enable group-logger@alice.service
+Failed to enable unit: Unit file group-logger@alice.service does not exist.
+✗ systemctl enable FAILED for alice
+  Reason: Unit file group-logger@.service doesn't exist yet
+Command: sudo systemctl start group-logger@alice.service
+Failed to start group-logger@alice.service: Unit group-logger@alice.service not found.
+✗ systemctl start FAILED for alice
+  Reason: Unit file group-logger@.service doesn't exist yet
+
+--- Processing user: bob ---
+Command: sudo mkdir -p /var/log/myapp
+Command: sudo systemctl enable group-logger@bob.service
+Failed to enable unit: Unit file group-logger@bob.service does not exist.
+✗ systemctl enable FAILED for bob
+  Reason: Unit file group-logger@.service doesn't exist yet
+Command: sudo systemctl start group-logger@bob.service
+Failed to start group-logger@bob.service: Unit group-logger@bob.service not found.
+✗ systemctl start FAILED for bob
+  Reason: Unit file group-logger@.service doesn't exist yet
+
+
+---
+
+Issue identified in R1's instructions:
+
+Problem 1: Missing prerequisite
+  The loop tries to enable/start group-logger@USER.service
+  But the template unit group-logger@.service hasn't been created yet
+  This is mentioned in section 2.4, but the loop runs in section 2.3
+
+Problem 2: mkdir creates directory not file
+  Command: sudo mkdir -p /var/log/myapp
+  This creates a DIRECTORY at /var/log/myapp
+  But later sections expect /var/log/myapp to be a LOG FILE
+  Correct command should be: sudo touch /var/log/myapp/app.log
+
+Test 2: Verify /var/log/myapp is a directory (not a file)
+
+✓ /var/log/myapp exists and is a DIRECTORY
+drwxr-xr-x 2 root root 4096 Apr 11 09:08 /var/log/myapp
+
+✗ This is WRONG - it should be a log FILE, not a directory
+
+Cleaning up test artifacts...
+
+Expected result: The loop has ordering and semantic issues
+This is a VERBATIM test - tests R1's exact commands as-is
+
+==========================================
+GPT Test 7 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_07_user_unit_loop_output.txt

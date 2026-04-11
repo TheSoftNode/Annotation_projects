@@ -1,0 +1,36 @@
+==========================================
+GPT Test 4: flock Snippet Verification
+==========================================
+
+Creating EXACT flock test script from GPT Factual...
+✓ Test script created: /tmp/flock_test.sh
+
+Test 1: Normal append (no contention)
+✓ First write succeeded
+✓ Second write succeeded
+
+Log file contents:
+2026-04-11_09:08:00 [uridev] one
+2026-04-11_09:08:00 [uridev] two
+
+Creating lock-hold script for conflict test...
+✓ Lock-hold script created
+
+Test 2: Lock conflict (nonblocking behavior)
+Starting long-hold process in background...
+Attempting second write while lock is held...
+✓ CONFIRMED: Second process failed to acquire lock (exit code: 1)
+  This proves 'flock -n' is nonblocking as documented
+
+Final log file:
+2026-04-11_09:08:00 [uridev] one
+2026-04-11_09:08:00 [uridev] two
+
+Expected result: -n makes flock nonblocking, second process exits immediately
+This tests claim 20: flock manages locks, -n is nonblocking, exclusive is default
+
+==========================================
+GPT Test 4 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_04_flock_snippet_output.txt

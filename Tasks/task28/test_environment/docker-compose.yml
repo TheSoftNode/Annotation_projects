@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  task28-systemd:
+    build: .
+    container_name: task28_systemd_tests
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+      - ./outputs:/task28_tests/outputs
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
+    stop_signal: SIGRTMIN+3
+    tty: true

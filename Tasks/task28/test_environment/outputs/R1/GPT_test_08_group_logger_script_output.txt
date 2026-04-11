@@ -1,0 +1,63 @@
+==========================================
+GPT Test 8: Group Logger Script Test
+==========================================
+
+Creating R1's EXACT group-logger script from Section 2.4...
+
+✓ Script created at: /tmp/group-logger-test.sh
+
+Script contents:
+#!/bin/bash
+# /usr/local/bin/group-logger
+exec systemd-cat -p info -t group-logger
+
+Test 1: Script syntax verification
+✓ Script has valid bash syntax
+
+Test 2: Manual test of the script
+
+Running: echo 'Test message' | /tmp/group-logger-test.sh
+Expected: Message appears in journal with identifier 'group-logger'
+
+Checking journal for the message...
+Apr 11 09:08:11 uri-dev-vm group-logger[236918]: Test message from GPT Test 8 at Sat Apr 11 09:08:11 UTC 2026
+
+✓ Message successfully logged to journal
+✓ Identifier 'group-logger' works correctly
+
+Test 3: Multi-line input test
+
+Sending multiple lines to the script...
+Journal entries for group-logger (last 10):
+Apr 11 09:08:11 uri-dev-vm group-logger[236918]: Test message from GPT Test 8 at Sat Apr 11 09:08:11 UTC 2026
+Apr 11 09:08:12 uri-dev-vm group-logger[236926]: Line 1: Start of work
+Apr 11 09:08:12 uri-dev-vm group-logger[236926]: Line 2: Processing data
+Apr 11 09:08:12 uri-dev-vm group-logger[236926]: Line 3: End of work
+
+---
+
+Analysis of R1's group-logger script design:
+
+What it does:
+  1. Uses 'exec' to replace the shell with systemd-cat
+  2. Sets priority to 'info' (-p info)
+  3. Sets identifier to 'group-logger' (-t group-logger)
+  4. Reads from stdin and forwards to journal
+
+Design characteristics:
+  ✓ Simple wrapper that makes systemd-cat easier to use
+  ✓ 'exec' is efficient (no extra process)
+  ✓ Works well as a pipeline endpoint
+
+Usage pattern (from R1):
+  echo 'Starting work' | /usr/local/bin/group-logger
+  ./my-script.sh | /usr/local/bin/group-logger
+
+Expected result: Script works correctly as a systemd-cat wrapper
+This is a VERBATIM test - tests R1's exact script as-is
+
+==========================================
+GPT Test 8 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_08_group_logger_script_output.txt

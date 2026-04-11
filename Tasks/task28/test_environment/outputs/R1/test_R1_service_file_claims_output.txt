@@ -1,0 +1,17 @@
+========================================
+R1: systemd Service File Claims
+========================================
+
+Test R1-029-032: Service file directives
+Creating test service file...
+✓ Service file created at /tmp/test-group-logger-239989.service
+
+Verifying service file syntax...
+⚠ Service file validation failed (may need actual systemd context)
+
+Test R1-030: systemd-cat --flush command
+✓ systemd-cat --flush command exists
+
+========================================
+R1 Service File Tests Complete
+========================================

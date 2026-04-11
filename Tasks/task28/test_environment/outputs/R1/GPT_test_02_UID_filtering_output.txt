@@ -1,0 +1,23 @@
+==========================================
+GPT Test 2: _UID= Filtering
+==========================================
+
+Running EXACT command from GPT Factual document...
+
+Current UID: 1000
+
+Command: journalctl _UID=$(id -u) -t group-script -n 20 --no-pager
+Apr 11 09:07:47 uri-dev-vm group-script[236751]: Starting work at Sat Apr 11 09:07:47 UTC 2026
+Apr 11 09:07:48 uri-dev-vm group-script[236756]: Finished work at Sat Apr 11 09:07:48 UTC 2026
+
+✓ Entries found with _UID=1000 filtering
+  Entry count: 2
+
+Expected result: Should see entries filtered by UID plus tag
+This tests: _UID= field match is separate from -u/--unit
+
+==========================================
+GPT Test 2 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_02_UID_filtering_output.txt

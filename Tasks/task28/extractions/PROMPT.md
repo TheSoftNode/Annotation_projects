@@ -1,0 +1,1 @@
+I am writing a shell script to be used by members of a Linux group. What is better to save the logs efficiently and safely: a log file where all users can write to it or writing the logs to journald using "systemd-cat"?

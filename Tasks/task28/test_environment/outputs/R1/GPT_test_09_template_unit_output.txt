@@ -1,0 +1,94 @@
+==========================================
+GPT Test 9: Template Service Unit Test
+==========================================
+
+Creating R1's EXACT template unit from Section 2.4...
+
+✓ Template service file created at: /tmp/group-logger@.service
+
+Service file contents:
+[Unit]
+Description=Group logger for user %i
+After=network.target
+
+[Service]
+Type=simple
+User=%i
+Group=loggroup
+StandardInput=socket
+ExecStart=/usr/local/bin/group-logger
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+Test 1: systemd-analyze verify
+
+group-logger@i.service: Command /usr/local/bin/group-logger is not executable: No such file or directory
+
+
+Test 2: Template variable analysis
+
+Template variables used:
+  %i = instance name (the part after @)
+
+Example instantiation:
+  group-logger@alice.service → User=alice
+  group-logger@bob.service → User=bob
+
+Test 3: Dependency check
+
+✗ /usr/local/bin/group-logger NOT FOUND
+  This service unit depends on the script from Section 2.4
+  The script must be created first
+
+Test 4: Group dependency check
+
+✗ Group 'loggroup' NOT FOUND
+  This service requires: sudo groupadd loggroup
+
+Test 5: StandardInput=socket analysis
+
+The directive 'StandardInput=socket' is used
+
+What this means:
+  • The service expects input from a socket activation
+  • This requires a corresponding .socket unit
+  • Without a .socket unit, the service won't receive input
+
+Issue: R1 provides NO .socket unit file
+  Result: The service unit is INCOMPLETE
+  It won't work as intended without the socket unit
+
+Test 6: Test instantiation (dry run)
+
+Testing: sudo systemctl status group-logger@alice.service
+Unit group-logger@alice.service could not be found.
+
+---
+
+Critical issues in R1's template unit design:
+
+Issue 1: Missing .socket unit
+  Directive: StandardInput=socket
+  Problem: No corresponding group-logger@.socket file provided
+  Result: Service won't receive input properly
+
+Issue 2: Dependency ordering
+  Section 2.3 tries to enable/start this unit BEFORE it's created (Section 2.4)
+  This creates confusion about installation order
+
+Issue 3: No socket activation setup instructions
+  Template units with StandardInput=socket need:
+    • A .socket unit file
+    • Socket configuration (ListenStream, Accept=yes, etc.)
+  R1 provides none of this
+
+Expected result: Template unit is syntactically valid but functionally incomplete
+This is a VERBATIM test - tests R1's exact unit file as-is
+
+==========================================
+GPT Test 9 Complete
+==========================================
+
+✓ Output saved to: outputs/R1/GPT_test_09_template_unit_output.txt
