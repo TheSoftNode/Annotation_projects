@@ -1,0 +1,20 @@
+===== URL Verification for Task 29 =====
+
+=== R1 URLs ===
+✓ R1-1: GNU grep cgit: https://git.savannah.gnu.org/cgit/grep.git (HTTP 200)
+✗ R1-2: GNU grep FTP: https://ftp.gnu.org/gnu/grep/ (TIMEOUT or CONNECTION FAILED)
+✓ R1-3: FreeBSD grep: https://cgit.freebsd.org/src/tree/usr.bin/grep/ (HTTP 200)
+✓ R1-4: OpenBSD grep: https://github.com/openbsd/src/tree/master/usr.bin/grep (HTTP 200)
+✓ R1-5: NetBSD grep: https://cvsweb.netbsd.org/bsdweb.cgi/~checkout~/src/usr.bin/grep/ (HTTP 200)
+✓ R1-6: Apple opensource: https://opensource.apple.com/ (HTTP 200)
+✓ R1-7: Apple tarballs: https://opensource.apple.com/tarballs/ (HTTP 200)
+✗ R1-8: BusyBox grep: https://git.busybox.net/busybox/tree/ (HTTP 404 - FAILED)
+✓ R1-9: ripgrep: https://github.com/BurntSushi/ripgrep (HTTP 200)
+✓ R1-10: silver searcher: https://github.com/ggreer/the_silver_searcher (HTTP 200)
+
+=== R2 URLs ===
+✓ R2-1: GNU grep git: https://git.savannah.gnu.org/git/grep.git (HTTP 200)
+✗ R2-2: GNU grep web: https://git.savannah.gnu.org/git/grep.html (HTTP 404 - FAILED)
+✓ R2-3: GNU Coreutils: https://www.gnu.org/software/coreutils/ (HTTP 200)
+✗ R2-4: Coreutils FTP: https://ftp.gnu.org/gnu/coreutils/ (TIMEOUT or CONNECTION FAILED)
+✓ R2-5: Coreutils git: https://git.savannah.gnu.org/git/coreutils.git (HTTP 200)

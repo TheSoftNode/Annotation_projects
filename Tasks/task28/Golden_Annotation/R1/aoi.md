@@ -295,7 +295,7 @@ The fourth digit selects permissions for other users not in the file's group, wi
 
 **Tool Type:** Code Executor
 
-**Query:** `stat -c '%a %A' test_file` after `chmod 6640 test_file`
+**Query:** `chmod 6640 test_file && stat -c '%a %A' test_file`
 
 **URL:**
 
@@ -401,16 +401,67 @@ for u in $(getent group loggroup | cut \-d: \-f4); do
 **Response Excerpt:**
 
 ```
-2.2. Create a dedicated systemd service for the group
+/etc/systemd/system/group‑log.service
 
-Create a drop‑in unit that runs under each user's UID but is started by the system manager. This lets you centralise configuration without giving every user direct access to `journald` sockets.
-
-#### **/etc/systemd/system/group‑log.service**
-[Full systemd service unit configuration follows with extensive comments and multiple implementation approaches including user-level services, automation loops, and template units spanning 100+ lines]
+[Service]
+# Run as the invoking user (systemd will substitute %i with the user name)
+User=%i
 ```
 
-**Description:** The response over-engineers the solution by providing full systemd unit configurations, multiple deployment approaches, user-level service setup, and automation scripts spanning section 2.2, which buries the key recommendation (use systemd-cat) under excessive implementation detail making it harder to extract the main takeaway quickly.
+**Description:** The response defines the unit as group-log.service but then uses %i claiming systemd will substitute %i with the user name, but %i is the instance specifier that only works in template units (named with @ like group-log@.service), so using %i in a plain non-template service file will not perform substitution and breaks the claim that systemd will substitute it with the user name.
 
 **Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** systemd specifiers %i template units
+
+**URL:** https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+
+**Source Excerpt:**
+
+```
+%i
+    Instance name (for instantiated units: part between "@" and the suffix). For non-instantiated units, this is the empty string.
+```
+
+---
+
+## AOI #13 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+# As root, enable for every member of the group "loggroup"
+for u in $(getent group loggroup | cut \-d: \-f4); do
+    mkdir \-p /etc/systemd/user/alice.service
+    cat \> /etc/systemd/user/alice.service \<\<'EOF'
+...
+EOF
+    systemctl \--user enable alice.service
+    systemctl \--user start alice.service
+done
+```
+
+**Description:** The response instructs running systemctl --user enable and systemctl --user start as root inside a loop for other users, but --user operates on the service manager of the calling user not arbitrary users, so running systemctl --user as root will only affect root's user session and will not enable or start services for alice bob or other group members as the response claims.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** systemctl --user affects which user
+
+**URL:** https://www.freedesktop.org/software/systemd/man/systemctl.html
+
+**Source Excerpt:**
+
+```
+--user
+    Talk to the service manager of the calling user, rather than the service manager of the system.
+```
 
 ---

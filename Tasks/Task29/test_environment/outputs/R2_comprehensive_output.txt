@@ -1,0 +1,194 @@
+============================================
+R2 COMPREHENSIVE TEST SUITE - Task 29
+Testing environment: Darwin
+Date: Sat Apr 11 14:35:55 WAT 2026
+============================================
+
+=== TEST 1: Verify GNU grep primary repository ===
+Testing URL: https://git.savannah.gnu.org/git/grep.git
+Cloning into 'grep'...
+✓ Clone successful
+origin	https://git.savannah.gnu.org/git/grep.git (fetch)
+origin	https://git.savannah.gnu.org/git/grep.git (push)
+
+=== TEST 2: Check web browser URL ===
+✗ URL FAILED (DISPUTED): https://git.savannah.gnu.org/git/grep.html → HTTP 404
+
+=== TEST 3: CRITICAL - Is grep part of GNU Coreutils? ===
+Checking GNU grep official page...
+Fetching GNU grep page title:
+<title>Grep
+
+Checking if GNU lists grep as separate project:
+<a href="grep/">grep</a><span class="no-display">&nbsp;</span>
+
+Testing Coreutils grep directory URL:
+https://git.savannah.gnu.org/git/coreutils.git/tree/grep → HTTP 404
+→ DISPUTED: grep/ directory does NOT exist in Coreutils (404)
+
+=== TEST 4: Check source tarball location ===
+R2 claims tarballs are in: https://ftp.gnu.org/gnu/coreutils/
+Checking for grep-*.tar.xz in Coreutils FTP:
+
+Checking actual grep FTP directory:
+
+=== TEST 5: Verify version claim (grep-3.15) ===
+R2 claims: grep-3.15 released Aug 2024
+Checking actual latest version from FTP:
+
+Checking GNU grep homepage for latest version:
+<dd>Trying the latest test release (when available) is always
+     document.  For web pages, it is ok to list just the latest year the
+
+=== TEST 6: Verify maintainer (Jim Blandy vs Jim Meyering) ===
+R2 claims: Jim Blandy (jsb@lightyear.com)
+Checking GNU grep page for actual maintainer:
+sent directly to the maintainer.  If there is no response to an urgent
+issue, you can escalate to the general
+<a href="https://lists.gnu.org/mailman/listinfo/security">security</a>
+--
+<dt>Maintainer</dt>
+
+=== TEST 7: Verify file layout in repository ===
+R2 claims files are in repo root: grep.h, grep.c, regex.c
+
+Checking repo root:
+→ Files NOT in root (DISPUTED)
+
+Checking actual src/ directory:
+Makefile.am
+dfasearch.c
+die.h
+egrep.sh
+grep.c
+grep.h
+kwsearch.c
+pcresearch.c
+search.h
+searchutils.c
+system.h
+
+Looking for regex.c in src/:
+✗ NOT FOUND (DISPUTED)
+
+=== TEST 8: Verify code browsing URLs from R2 ===
+✗ BROKEN (HTTP 404): https://git.savannah.gnu.org/git/grep/tree/grep.c#L897
+✗ BROKEN (HTTP 404): https://git.savannah.gnu.org/git/grep/blob/master/x=malloc.c
+✗ BROKEN (HTTP 404): https://git.savannah.gnu.org/git/grep/blob/master/grep.c#L2694
+
+=== TEST 9: CRITICAL - PCRE vs Oniguruma claim ===
+R2 claims: 'GNU grep does not use PCRE' and 'uses Oniguruma'
+
+Checking for pcresearch.c in src/:
+src/pcresearch.c
+✓ pcresearch.c EXISTS (contradicts claim)
+
+Searching for PCRE references:
+src//Makefile.am:19:AM_CFLAGS = $(WARN_CFLAGS) $(WERROR_CFLAGS) $(PCRE_CFLAGS)
+src//Makefile.am:32:if USE_PCRE
+src//Makefile.am:49:grep_LDADD = $(LDADD) $(PCRE_LIBS) $(LIBCSTACK)
+src//pcresearch.c:1:/* pcresearch.c - searching subroutines using PCRE for grep.
+src//pcresearch.c:24:#define PCRE2_CODE_UNIT_WIDTH 8
+
+Searching for PCRE2 references:
+src//pcresearch.c:24:#define PCRE2_CODE_UNIT_WIDTH 8
+src//pcresearch.c:27:/* For older PCRE2.  */
+src//pcresearch.c:28:#ifndef PCRE2_SIZE_MAX
+src//pcresearch.c:29:# define PCRE2_SIZE_MAX SIZE_MAX
+src//pcresearch.c:31:#ifndef PCRE2_CONFIG_DEPTHLIMIT
+
+Searching for Oniguruma references:
+
+Checking Oniguruma URL from R2:
+https://github.com/OniguramaOniguruma → HTTP 404
+→ BROKEN URL (DISPUTED) - correct URL is https://github.com/kkos/oniguruma
+
+Checking correct Oniguruma URL:
+https://github.com/kkos/oniguruma → HTTP 200
+
+=== TEST 10: Check egrep/fgrep claim ===
+R2 claims: 'No egrep/fgrep as separate binaries'
+
+Searching for egrep/fgrep in source tree:
+./tests/fgrep-infloop
+./tests/fgrep-longest
+./doc/egrep.man
+./doc/fgrep.man
+./src/egrep.sh
+
+=== TEST 11: Test git log command for mmap ===
+Running: git log --oneline -p --grep='mmap' | head -20
+c28c90b maint: remove vestiges of support for long-disabled --mmap option
+diff --git a/NEWS b/NEWS
+index 589b2ac..a662960 100644
+--- a/NEWS
++++ b/NEWS
+@@ -16,6 +16,12 @@ GNU grep NEWS                                    -*- outline -*-
+   are not yet guaranteed to use the rational range interpretation even
+   in GNU systems.
+ 
++** Maintenance
++
++  grep's --mmap option was disabled in March of 2010, and began to
++  elicit a warning in January of 2012.  Now it is completely gone.
++
++
+ * Noteworthy changes in release 2.16 (2014-01-01) [stable]
+ 
+ ** Bug fixes
+diff --git a/doc/grep.in.1 b/doc/grep.in.1
+index d91de8c..58a6c0e 100644
+
+=== TEST 12: Check version tag (grep-3.14) ===
+Listing all grep-* tags:
+
+Attempting to checkout grep-3.14 as claimed in R2:
+→ Tag grep-3.14 NOT FOUND (DISPUTED)
+Your branch is up to date with 'origin/master'.
+
+=== TEST 13: Check Apple macOS source claim ===
+R2 claims: 'Apple's source is proprietary' / 'usually closed source'
+
+Checking Apple open source releases page:
+https://opensource.apple.com/releases → HTTP 302
+
+Checking Apple grep source mirror:
+https://github.com/apple-oss-distributions/grep → HTTP 200
+→ Apple grep source IS publicly available (DISPUTED claim)
+
+=== TEST 14: Verify CVE-2016-3253 claim ===
+R2 claims: CVE-2016-3253 (buffer overflow in grep prior to 2.24)
+Checking NVD entry:
+https://nvd.nist.gov/vuln/detail/CVE-2016-3253 → HTTP 403
+
+=== TEST 15: Verify ripgrep URL ===
+https://github.com/BurntSushi/ripgrep → HTTP 200
+
+============================================
+R2 COMPREHENSIVE TEST SUITE COMPLETE
+============================================
+
+CRITICAL FINDINGS TO VERIFY:
+
+1. SUBSTANTIAL: grep in Coreutils claim
+   - Check if grep/ exists in Coreutils repo
+   - Check if GNU lists grep as separate project
+
+2. SUBSTANTIAL: Oniguruma URL malformed
+   - https://github.com/OniguramaOniguruma (404)
+   - Correct: https://github.com/kkos/oniguruma
+
+3. SUBSTANTIAL: grep.html URL broken
+   - https://git.savannah.gnu.org/git/grep.html (404)
+
+4. SUBSTANTIAL: PCRE claim disputed
+   - R2 says 'does not use PCRE'
+   - But pcresearch.c exists in source
+
+5. MINOR: Version claim (grep-3.15 Aug 2024)
+   - Check actual latest version from FTP
+
+6. MINOR: Maintainer (Jim Blandy vs Jim Meyering)
+
+7. MINOR: CVE-2016-3253 status (Rejected?)
+
