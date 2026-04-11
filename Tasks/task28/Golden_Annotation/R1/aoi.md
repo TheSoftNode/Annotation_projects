@@ -42,12 +42,7 @@ $ journalctl \-t group-logger \-u $USER \-e   \# latest entries for this user
 **Source Excerpt:**
 
 ```
-Command 1: journalctl -u "$USER" -n 20 --no-pager
-Running: journalctl -u "uridev" -n 20 --no-pager
 -- No entries --
-
-✓ CONFIRMED: No unit named 'uridev' exists
-  This proves -u is a UNIT filter, not a USER filter
 ```
 
 ---
@@ -104,8 +99,6 @@ ExecStopPost=/usr/bin/systemd-cat --flush
 **Source Excerpt:**
 
 ```
-Command 1: systemd-cat --help
-
 systemd-cat [OPTIONS...] COMMAND ...
 
 Execute process with stdout/stderr connected to the journal.
@@ -118,8 +111,6 @@ Execute process with stdout/stderr connected to the journal.
      --level-prefix=BOOL         Control whether level prefix shall be parsed
 
 See the systemd-cat(1) man page for details.
-
-✓ CONFIRMED: --flush NOT in systemd-cat help
 ```
 
 ---
@@ -311,8 +302,7 @@ The fourth digit selects permissions for other users not in the file's group, wi
 **Source Excerpt:**
 
 ```
-6640 = setuid(4) + setgid(2) + owner(rw-) + group(r--) + others(---)
-This gives group READ-ONLY access, not write access
+6640 -rwSr-S---
 ```
 
 ---
@@ -399,12 +389,9 @@ Description=Group‑log collector for alice
 **Source Excerpt:**
 
 ```
-Line 98: for u in $(getent group loggroup | cut -d: -f4); do
-Line 100:     mkdir -p /etc/systemd/user/alice.service
-Line 102:     cat > /etc/systemd/user/alice.service <<'EOF'
-
-The variable 'u' is assigned in the loop but never used.
-Every iteration writes to alice.service regardless of the actual username.
+for u in $(getent group loggroup | cut \-d: \-f4); do
+    mkdir \-p /etc/systemd/user/alice.service
+    cat \> /etc/systemd/user/alice.service \<\<'EOF'
 ```
 
 ---

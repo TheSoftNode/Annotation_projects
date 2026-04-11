@@ -36,11 +36,12 @@ systemd-journald is a system service that collects and stores logging data. It c
 **Source Excerpt:**
 
 ```
-Analysis: Checking for garbled/interleaved lines...
-
-✓ No garbled lines detected
-  Each line appears as a separate complete record
-  T1 and T2 lines are NOT mixed within single entries
+Apr 11 09:08:22 uri-dev-vm concurtest[238116]: T2 line 180
+Apr 11 09:08:22 uri-dev-vm concurtest[238119]: T1 line 172
+Apr 11 09:08:22 uri-dev-vm concurtest[238122]: T2 line 181
+Apr 11 09:08:22 uri-dev-vm concurtest[238125]: T1 line 173
+Apr 11 09:08:22 uri-dev-vm concurtest[238129]: T2 line 182
+Apr 11 09:08:22 uri-dev-vm concurtest[238130]: T1 line 174
 ```
 
 ---
