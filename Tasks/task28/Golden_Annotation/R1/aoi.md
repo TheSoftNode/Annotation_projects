@@ -144,36 +144,7 @@ RateLimitIntervalSec=, RateLimitBurst=
 
 ---
 
-## AOI #4 - SUBSTANTIAL
-
-**Response Excerpt:**
-
-```
-* `-t <field>` sets the *SYSTEMD_IDENTIFIER* field, which makes it easy to filter (`journalctl -t group-script`).
-```
-
-**Description:** The response states -t sets the SYSTEMD_IDENTIFIER field, but systemd-cat -t sets the SYSLOG_IDENTIFIER field not SYSTEMD_IDENTIFIER, causing confusion about which journal field the -t flag sets.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** systemd-cat -t identifier field
-
-**URL:** https://www.freedesktop.org/software/systemd/man/systemd-cat.html
-
-**Source Excerpt:**
-
-```
--t, --identifier=
-    Specify a short string that is used to identify the logging tool. If not specified, no identification string is written to the journal. This corresponds to the SYSLOG_IDENTIFIER field in the journal.
-```
-
----
-
-## AOI #5 - MINOR
+## AOI #4 - MINOR
 
 **Response Excerpt:**
 
@@ -202,7 +173,7 @@ RateLimitIntervalSec=, RateLimitBurst=
 
 ---
 
-## AOI #6 - MINOR
+## AOI #5 - MINOR
 
 **Response Excerpt:**
 
@@ -231,7 +202,7 @@ ForwardToSyslog=, ForwardToKMsg=, ForwardToConsole=, ForwardToWall=
 
 ---
 
-## AOI #7 - MINOR
+## AOI #6 - MINOR
 
 **Response Excerpt:**
 
@@ -264,7 +235,7 @@ mkdir - make directories
 
 ---
 
-## AOI #8 - SUBSTANTIAL
+## AOI #7 - SUBSTANTIAL
 
 **Response Excerpt:**
 
@@ -307,48 +278,7 @@ The fourth digit selects permissions for other users not in the file's group, wi
 
 ---
 
-## AOI #9 - SUBSTANTIAL
-
-**Response Excerpt:**
-
-```
-4. **Enable `systemd` file‑system attributes** (`chmod 1730` + `sticky`) to prevent one user from deleting another's files.
-```
-
-**Description:** The response claims there are systemd file-system attributes configured with chmod 1730 and sticky bit, but the sticky bit (chmod 1xxx) is a standard Unix filesystem feature not a systemd-specific attribute, misattributing core filesystem functionality to systemd.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** sticky bit chmod 1730 unix filesystem
-
-**URL:** https://man7.org/linux/man-pages/man1/chmod.1.html
-
-**Source Excerpt:**
-
-```
-A  restricted deletion flag or sticky bit is a single bit, whose interpretation depends on the file type.  For directories, it prevents unprivileged users from removing or renaming a file in the directory unless they own the file or the directory.
-```
-
-**Tool Type:** Google
-
-**Query:** systemd file-system attributes
-
-**URL:** https://www.freedesktop.org/software/systemd/man/systemd.exec.html
-
-**Source Excerpt:**
-
-```
-ReadWritePaths=, ReadOnlyPaths=, InaccessiblePaths=
-These options take a list of file system paths.
-```
-
----
-
-## AOI #10 - MINOR
+## AOI #8 - MINOR
 
 **Response Excerpt:**
 
@@ -362,7 +292,7 @@ These options take a list of file system paths.
 
 ---
 
-## AOI #11 - SUBSTANTIAL
+## AOI #9 - SUBSTANTIAL
 
 **Response Excerpt:**
 
@@ -396,7 +326,7 @@ for u in $(getent group loggroup | cut \-d: \-f4); do
 
 ---
 
-## AOI #12 - SUBSTANTIAL
+## AOI #10 - SUBSTANTIAL
 
 **Response Excerpt:**
 
@@ -429,7 +359,7 @@ User=%i
 
 ---
 
-## AOI #13 - SUBSTANTIAL
+## AOI #11 - SUBSTANTIAL
 
 **Response Excerpt:**
 
@@ -462,6 +392,89 @@ done
 ```
 --user
     Talk to the service manager of the calling user, rather than the service manager of the system.
+```
+
+---
+
+## AOI #12 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+\[Unit\]
+Description=Group‑log collector for alice
+
+\[Service\]
+ExecStart=/usr/bin/systemd-cat \-t group-log
+StandardOutput=journal
+StandardError=journal
+EOF
+    systemctl \--user enable alice.service
+```
+
+**Description:** The response instructs running systemctl --user enable alice.service but the shown alice.service unit has no [Install] section, and systemctl enable creates symlinks from the instructions in [Install] section, so without an [Install] section the enable command will trigger a warning and be ineffective as written.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** systemd unit [Install] section systemctl enable
+
+**URL:** https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+
+**Source Excerpt:**
+
+```
+[Install]
+    Unit file installation information. This section is not interpreted by systemd during runtime; it is used by the enable and disable commands of systemctl during installation of a unit.
+```
+
+---
+
+## AOI #13 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+\[Service\]
+ExecStart=/usr/bin/systemd-cat \-t group-log
+StandardOutput=journal
+StandardError=journal
+```
+
+**Description:** The proposed collector service uses ExecStart=/usr/bin/systemd-cat -t group-log without specifying a command for systemd-cat to execute, which means systemd-cat will read from standard input, but systemd service stdin defaults to /dev/null causing immediate EOF, so this service would not operate as a shared log collector the way the response claims.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** systemd-cat command stdin behavior
+
+**URL:** https://www.freedesktop.org/software/systemd/man/systemd-cat.html
+
+**Source Excerpt:**
+
+```
+systemd-cat may be used to connect the standard input and output of a process to the journal, or as a filter tool in a shell pipeline to pass the output the previous pipeline element generates to the journal.
+```
+
+**Tool Type:** Google
+
+**Query:** systemd service StandardInput default
+
+**URL:** https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+
+**Source Excerpt:**
+
+```
+StandardInput=
+    Controls where file descriptor 0 (STDIN) of the executed processes is connected to. Takes one of null, tty, tty-force, tty-fail, data, file:path, socket or fd:name.
+
+    If set to null (the default), standard input is connected to /dev/null.
 ```
 
 ---

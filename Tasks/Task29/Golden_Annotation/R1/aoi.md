@@ -109,3 +109,33 @@ grep-3.14.tar.gz (Released March 2024)
 ```
 
 ---
+
+## AOI #5 - MINOR
+
+**Response Excerpt:**
+
+```
+- `src/mmap.c`: Memory-mapped I/O implementation (key for avoiding read() syscall overhead).
+- `src/bm.c`: Explicit Boyer-Moore implementation for fixed-string searches (used when `-F` or simple patterns are detected).
+```
+
+**Description:** The response claims src/mmap.c and src/bm.c contain memory-mapped I/O and Boyer-Moore implementations, but neither file exists in the current GNU grep source tree.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** `cd /tmp/grep && ls src/mmap.c src/bm.c`
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+ls: src/mmap.c: No such file or directory
+ls: src/bm.c: No such file or directory
+```
+
+---

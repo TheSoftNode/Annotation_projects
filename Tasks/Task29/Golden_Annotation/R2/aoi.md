@@ -200,3 +200,105 @@ grep-3.14.tar.gz (Latest stable version)
 ```
 
 ---
+
+## AOI #6 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+| **Maintainer** | Jim Blandy (`jsb@lightyear.com`) and other GNU coreutils contributors |
+```
+
+**Description:** The response claims Jim Blandy is the maintainer of GNU grep, but the official GNU grep homepage lists Jim Meyering as the maintainer, making this maintainer attribution incorrect.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** WebFetch
+
+**Query:** Who is the maintainer of GNU grep?
+
+**URL:** https://www.gnu.org/software/grep/
+
+**Source Excerpt:**
+
+```
+Maintainer
+Jim Meyering.
+```
+
+---
+
+## AOI #7 - MINOR
+
+**Response Excerpt:**
+
+```
+grep.h       # Header definitions
+grep.c       # Core implementation
+regex.c      # Regex engine (heavily optimized)
+```
+
+**Description:** The response implies grep.h grep.c and regex.c are in the repository root, but these files are located in src/ subdirectory, and regex.c does not exist in the current source tree.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** `cd /tmp/grep && ls grep.h grep.c regex.c`
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+ls: grep.h: No such file or directory
+ls: grep.c: No such file or directory
+ls: regex.c: No such file or directory
+```
+
+**Tool Type:** Code Executor
+
+**Query:** `cd /tmp/grep && ls src/ | grep -E "grep\.(c|h)|regex\.c"`
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+grep.c
+grep.h
+```
+
+---
+
+## AOI #8 - MINOR
+
+**Response Excerpt:**
+
+```
+| **BSD/macOS `grep`** (part of base system) | Usually closed source (Apple's source is proprietary) |
+```
+
+**Description:** The response claims Apple's grep source is proprietary and usually closed source, but Apple provides public access to grep source code through their open source releases at opensource.apple.com and GitHub repositories, contradicting the proprietary claim.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** `curl -s -o /dev/null -w "%{http_code}" "https://github.com/apple-oss-distributions/grep" --max-time 10`
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+200
+```
+
+---
