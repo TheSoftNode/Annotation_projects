@@ -444,7 +444,26 @@ StandardOutput=journal
 StandardError=journal
 ```
 
-**Description:** The proposed collector service uses ExecStart=/usr/bin/systemd-cat -t group-log without specifying a command for systemd-cat to execute, which means systemd-cat will read from standard input, but systemd service stdin defaults to /dev/null causing immediate EOF, so this service would not operate as a shared log collector the way the response claims.
+And later:
+
+```
+sudo tee /usr/local/bin/group-logger \<\<'EOS'
+\#\!/usr/bin/env bash
+PRIO=${LOG\_PRIORITY:-info}
+ID=${LOG\_ID:-group-logger}
+while read \-r line; do
+    systemd-cat \-p "$PRIO" \-t "$ID" \<\<\<"$line"
+done
+EOS
+...
+\[Service\]
+ExecStart=/usr/local/bin/group-logger
+StandardOutput=journal
+StandardError=journal
+User=%i
+```
+
+**Description:** The response provides two separate service examples that both fail due to the same stdin configuration error: the alice.service uses systemd-cat without a command argument which reads from stdin, and the group-logger@.service uses a custom script with while read -r line that reads from stdin, but neither service configuration sets StandardInput and systemd services default to StandardInput=null causing stdin to be connected to /dev/null with immediate EOF, so both services would start and exit without processing any log input as the response claims they would.
 
 **Severity:** Substantial
 
@@ -452,7 +471,7 @@ StandardError=journal
 
 **Tool Type:** Google
 
-**Query:** systemd-cat command stdin behavior
+**Query:** systemd-cat stdin behavior
 
 **URL:** https://www.freedesktop.org/software/systemd/man/systemd-cat.html
 
