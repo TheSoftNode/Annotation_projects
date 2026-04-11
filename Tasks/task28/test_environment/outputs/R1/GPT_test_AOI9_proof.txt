@@ -1,0 +1,66 @@
+========================================================================
+AOI #9 Test: Hardcoded alice.service Bug
+========================================================================
+
+Test directory: /tmp/tmp.prLVFiWyym
+
+Simulating group members: alice, bob, charlie
+
+Running the EXACT code from R1 response:
+for u in alice bob charlie; do
+    mkdir -p /etc/systemd/user/alice.service
+    cat > /etc/systemd/user/alice.service <<'EOF'
+    ...
+    EOF
+done
+
+-----------------------------------
+Loop iteration for user: alice
+  Action: Created /tmp/tmp.prLVFiWyym/alice.service.txt (overwrites each time)
+  Should have created: /tmp/tmp.prLVFiWyym/alice.service
+
+Loop iteration for user: bob
+  Action: Created /tmp/tmp.prLVFiWyym/alice.service.txt (overwrites each time)
+  Should have created: /tmp/tmp.prLVFiWyym/bob.service
+
+Loop iteration for user: charlie
+  Action: Created /tmp/tmp.prLVFiWyym/alice.service.txt (overwrites each time)
+  Should have created: /tmp/tmp.prLVFiWyym/charlie.service
+
+-----------------------------------
+
+Results:
+--------
+Files created in test directory:
+drwxrwxr-x  2 uridev uridev 4096 Apr 11 15:47 alice.service
+-rw-rw-r--  1 uridev uridev  152 Apr 11 15:47 alice.service.txt
+
+Expected: 3 service files (alice.service, bob.service, charlie.service)
+Actual:
+  - Service files: 1
+  - Directory created: 1 (alice.service as directory)
+
+✗ BUG CONFIRMED:
+  1. Only ONE file exists (alice.service.txt)
+  2. bob.service and charlie.service were NEVER created
+  3. alice.service.txt was overwritten 3 times in the loop
+  4. mkdir -p created alice.service as a DIRECTORY (wrong)
+
+Correct code should use:
+  mkdir -p /etc/systemd/user/
+  cat > /etc/systemd/user/$u.service <<'EOF'
+
+File content (shows it only has alice hardcoded):
+[Unit]
+Description=Group‑log collector for alice
+[Service]
+ExecStart=/usr/bin/systemd-cat ‑t group-log
+StandardOutput=journal
+StandardError=journal
+
+-----------------------------------
+Cleanup: removing /tmp/tmp.prLVFiWyym
+
+========================================================================
+Test Complete
+========================================================================

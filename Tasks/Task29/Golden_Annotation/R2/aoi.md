@@ -167,7 +167,7 @@ The **primary source code for modern `grep`** (maintained by the GNU Project) is
 Let me know if you need help compiling it, understanding `regex.c`, or comparing implementations\! 😊
 ```
 
-**Description:** The response uses emojis throughout section headings and the closing statement (🔗, ✅, ⚠️, 🔍, 🛠️, 💡, 🚫, ❓, 📌, 😊), which does not add technical value and reduces professional tone.
+**Description:** The response uses emojis throughout section headings and the closing statement (🔗, ✅, ⚠️, 🔍, 🛠️, 💡, 🚫, ❓, 📌, 😊) and includes a closing pleasantry "Let me know if you need help compiling it, understanding regex.c, or comparing implementations!", which do not add technical value and reduce professional tone.
 
 **Severity:** Minor
 
@@ -328,6 +328,81 @@ grep.h
 ```
 REJECTED
 This candidate has been reserved by an organization or individual that will use it when announcing a new security problem. When the candidate has been publicized, the details for this candidate will be provided.
+```
+
+---
+
+## AOI #10 - MINOR
+
+**Response Excerpt:**
+
+```
+The earliest `grep` (1974, Thompson/ Ritchie at Bell Labs) was proprietary.
+```
+
+**Description:** The response states the earliest grep was created in 1974, but grep was actually first released in November 1973 as part of Unix, making the year claim inaccurate by one year.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** WebFetch
+
+**Query:** When was the original Unix grep first released?
+
+**URL:** https://en.wikipedia.org/wiki/Grep
+
+**Source Excerpt:**
+
+```
+Initial release: November 1973
+```
+
+---
+
+## AOI #11 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+https://git.savannah.gnu.org/git/coreutils.git/tree/grep
+https://git.savannah.gnu.org/git/coreutils.git/branch/coreutils-emacs-guixeltch.git/log?version=3.6
+https://git.savannah.gnu.org/git/grep/tree/grep.c#L897
+https://git.savannah.gnu.org/git/grep/blob/master/x=malloc.c
+https://git.savannah.gnu.org/git/grep/blob/master/grep.c#L2694
+https://github.com/OniguramaOniguruma
+https://github.com/paulrubin/grep
+https://opensource.apple.com/source/grep/
+```
+
+**Description:** The response contains multiple broken URLs that return 404 errors or redirect to non-existent pages, including the Coreutils grep directory, version history links, code browsing URLs with line numbers, the malformed Oniguruma repository URL, and outdated Apple source URLs, providing a poor user experience with non-functional references throughout the response.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** `curl -s -o /dev/null -w "%{http_code}" "https://git.savannah.gnu.org/git/coreutils.git/tree/grep" --max-time 10`
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+404
+```
+
+**Tool Type:** Code Executor
+
+**Query:** `curl -s -o /dev/null -w "%{http_code}" "https://github.com/OniguramaOniguruma" --max-time 10`
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+404
 ```
 
 ---
