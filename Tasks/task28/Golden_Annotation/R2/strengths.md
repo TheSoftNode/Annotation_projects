@@ -7,7 +7,7 @@ The response provides a systemd-cat example with -t and -p flags, showing how to
 The response demonstrates journalctl filtering with -t and -b flags, showing identifier and boot-based queries.
 
 ## 3
-The response presents logger as a POSIX-compatible alternative to systemd-cat, providing a fallback for non-systemd systems.
+The response presents logger as a POSIX-compatible alternative to systemd-cat, providing a fallback when systemd-cat is unavailable.
 
 ## 4
 The response organizes advantages and risks into structured lists with checkmarks and X marks, making tradeoffs easy to compare.

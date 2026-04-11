@@ -5,16 +5,12 @@
 **Response Excerpt:**
 
 ```
-journalctl \-t group-logger \-u alice   \# view alice's entries
+journalctl -t group-logger -u alice   # view alice's entries
+(...)
+journalctl -t group-logger -u $USER -e   # latest entries for this user
 ```
 
-And later:
-
-```
-$ journalctl \-t group-logger \-u $USER \-e   \# latest entries for this user
-```
-
-**Description:** The response uses journalctl -u alice and journalctl -u $USER claiming these filter logs by username, but -u is the --unit flag for filtering by systemd unit names not usernames, causing the commands to return no entries unless a unit is literally named alice or matches $USER, when the syntax for user filtering is journalctl _UID=$(id -u).
+**Description:** The response uses journalctl -u alice and journalctl -u $USER, claiming these filter logs by username, but -u is the --unit flag for filtering by systemd unit names, not usernames, so these commands do not filter by user identity and only work when a matching unit name exists.
 
 **Severity:** Substantial
 
@@ -30,12 +26,14 @@ $ journalctl \-t group-logger \-u $USER \-e   \# latest entries for this user
 
 ```
 -u, --unit=UNIT|PATTERN
-    Show messages for the specified systemd unit UNIT (such as a service unit), or for any of the units matched by PATTERN.
+Show messages for the specified systemd unit UNIT (such as a service unit), or for any of the units matched by PATTERN. If a pattern is specified, a list of unit names found in the journal is compared with the specified pattern and all that match are used.
 ```
 
 **Tool Type:** Code Executor
 
-**Query:** `cd /home/uridev/task28_tests && bash R1/GPT_test_03_unit_vs_user.sh`
+**Query:** ```bash
+cd /home/uridev/task28_tests/R1 && ./GPT_test_03_unit_vs_user.sh
+```
 
 **URL:**
 
@@ -52,30 +50,15 @@ $ journalctl \-t group-logger \-u $USER \-e   \# latest entries for this user
 **Response Excerpt:**
 
 ```
+# When the service stops, flush any pending buffers
 ExecStopPost=/usr/bin/systemd-cat --flush
 ```
 
-**Description:** The response provides ExecStopPost=/usr/bin/systemd-cat --flush in the service file configuration, but --flush is a journalctl option for flushing journal data from /run to /var not a systemd-cat option, causing systemd to fail executing this directive.
+**Description:** The response provides ExecStopPost=/usr/bin/systemd-cat --flush in the service file configuration, but --flush is a journalctl option for flushing journal data from /run to /var, not a systemd-cat option, causing systemd to fail executing this directive.
 
 **Severity:** Substantial
 
 **Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** systemd-cat options documentation
-
-**URL:** https://www.freedesktop.org/software/systemd/man/systemd-cat.html
-
-**Source Excerpt:**
-
-```
--t, --identifier=
-    Specify a short string that is used to identify the logging tool.
-
--p, --priority=
-    Specify the default priority level for the logged messages.
-```
 
 **Tool Type:** Google
 
@@ -87,12 +70,14 @@ ExecStopPost=/usr/bin/systemd-cat --flush
 
 ```
 --flush
-    Asks the journal daemon to flush any log data stored in /run/log/journal/ into /var/log/journal/, if persistent storage is enabled.
+Asks the journal daemon to flush any log data stored in /run/log/journal/ into /var/log/journal/, if persistent storage is enabled. This call does not return until the operation is complete. Note that this call is idempotent: the data is only flushed from /run/log/journal/ into /var/log/journal/ once during system runtime (but see --relinquish-var below), and this command exits cleanly without executing any operation if this has already happened. This command effectively guarantees that all data is flushed to /var/log/journal/ at the time it returns.
 ```
 
 **Tool Type:** Code Executor
 
-**Query:** `cd /home/uridev/task28_tests && bash R1/GPT_test_05_systemd_cat_flush.sh`
+**Query:** ```bash
+cd /home/uridev/task28_tests/R1 && ./GPT_test_05_systemd_cat_flush.sh
+```
 
 **URL:**
 
@@ -100,7 +85,6 @@ ExecStopPost=/usr/bin/systemd-cat --flush
 
 ```
 systemd-cat [OPTIONS...] COMMAND ...
-
 Execute process with stdout/stderr connected to the journal.
 
   -h --help                      Show this help
@@ -120,10 +104,12 @@ See the systemd-cat(1) man page for details.
 **Response Excerpt:**
 
 ```
-**Per‑user rate limiting** | No built‑in limit – one misbehaving script can fill the disk instantly. | `journald` applies per‑UID rate limits & size caps (see `RateLimitIntervalSec=`/`RateLimitBurst=`).
+Per‑user rate limiting
+No built‑in limit – one misbehaving script can fill the disk instantly.
+journald applies per‑UID rate limits & size caps (see RateLimitIntervalSec=/RateLimitBurst=).
 ```
 
-**Description:** The response claims journald applies per-UID rate limits in the comparison table, but journald.conf documentation specifies rate limiting is applied per-service not per-UID, misrepresenting the scope of rate limiting.
+**Description:** The response claims journald applies per-UID rate limits in the comparison table, but journald.conf documentation specifies rate limiting is applied per-service, not per-UID, misrepresenting the scope of rate limiting.
 
 **Severity:** Substantial
 
@@ -139,111 +125,20 @@ See the systemd-cat(1) man page for details.
 
 ```
 RateLimitIntervalSec=, RateLimitBurst=
-    Configures the rate limiting that is applied to all messages generated on the system. If, in the time interval defined by RateLimitIntervalSec=, more messages than specified in RateLimitBurst= are logged by a service, all further messages within the interval are dropped until the interval is over.
+Configures the rate limiting that is applied to all messages generated on the system. If, in the time interval defined by RateLimitIntervalSec=, more messages than specified in RateLimitBurst= are logged by a service, all further messages within the interval are dropped until the interval is over. A message about the number of dropped messages is generated. This rate limiting is applied per-service, so that two services which log do not interfere with each other's limits. Defaults to 10000 messages in 30s. The time specification for RateLimitIntervalSec= may be specified in the following units: "s", "min", "h", "ms", "us". To turn off any kind of rate limiting, set either value to 0.
 ```
 
 ---
 
-## AOI #4 - MINOR
+## AOI #4 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
-**Auditability** | File permissions must be manually audited. | Journal entries are immutable once written; journalctl --verify can detect tampering.
+chmod 6640 /var/log/group-log.txt   # group can write, others read
 ```
 
-**Description:** The response claims journal entries are immutable once written without mentioning that full immutability requires Forward Secure Sealing to be enabled and even with sealing some fields remain unprotected, overstating the default immutability guarantees.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** journalctl --verify Forward Secure Sealing
-
-**URL:** https://www.freedesktop.org/software/systemd/man/journalctl.html
-
-**Source Excerpt:**
-
-```
---verify
-    Check the journal file for internal consistency. If the file has been generated with FSS enabled and the FSS verification key has been specified with --verify-key=, authenticity of the journal file is verified.
-```
-
----
-
-## AOI #5 - MINOR
-
-**Response Excerpt:**
-
-```
-journald can forward to remote collectors (via ForwardToSyslog=, ForwardToConsole=, ForwardToRemote=).
-```
-
-**Description:** The response mentions ForwardToRemote= as a journald forwarding option, but this option is not documented in journald.conf where the documented forwarding options are ForwardToSyslog=, ForwardToKMsg=, ForwardToConsole=, ForwardToWall=, and ForwardToSocket=.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** journald.conf forwarding options
-
-**URL:** https://www.freedesktop.org/software/systemd/man/journald.conf.html
-
-**Source Excerpt:**
-
-```
-ForwardToSyslog=, ForwardToKMsg=, ForwardToConsole=, ForwardToWall=
-    Control whether log messages received by the journal daemon shall be forwarded to a traditional syslog daemon, to the kernel log buffer (kmsg), to the system console, or sent as wall messages to all logged-in users.
-```
-
----
-
-## AOI #6 - MINOR
-
-**Response Excerpt:**
-
-```
-for u in $(getent group loggroup | cut \-d: \-f4); do
-    mkdir \-p /etc/systemd/user/alice.service
-    cat \> /etc/systemd/user/alice.service \<\<'EOF'
-```
-
-**Description:** The response shows mkdir -p /etc/systemd/user/alice.service to create a service file, but mkdir -p creates directories not files, causing this command to create a directory named alice.service instead of the service unit file.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** mkdir -p command creates directories
-
-**URL:** https://man7.org/linux/man-pages/man1/mkdir.1.html
-
-**Source Excerpt:**
-
-```
-mkdir - make directories
-
--p, --parents
-    no error if existing, make parent directories as needed
-```
-
----
-
-## AOI #7 - SUBSTANTIAL
-
-**Response Excerpt:**
-
-```
-chmod 6640 /var/log/group-log.txt   \# group can write, others read
-```
-
-**Description:** The response uses chmod 6640 claiming the comment group can write others read, but 6640 sets setuid and setgid bits with owner rw- group r-- and others no access, contradicting the comment which describes permissions requiring mode 0664 (owner rw- group rw- others r--).
+**Description:** The response uses chmod 6640, claiming the comment group can write others read, but 6640 sets setuid and setgid bits with owner rw- group r-- and others no access, contradicting the comment which describes permissions requiring mode 0664 (owner rw- group rw- others r--).
 
 **Severity:** Substantial
 
@@ -258,15 +153,40 @@ chmod 6640 /var/log/group-log.txt   \# group can write, others read
 **Source Excerpt:**
 
 ```
-The first digit selects the set user ID (4), set group ID (2), and restricted deletion or sticky (1) attributes.
-The second digit selects permissions for the user: read (4), write (2), and execute (1).
-The third digit selects permissions for other users in the file's group, with the same values.
-The fourth digit selects permissions for other users not in the file's group, with the same values.
+Numeric Modes
+As an alternative to giving a symbolic mode, you can give an octal (base 8) number that represents the mode.
+The permissions granted to the user, to other users in the file's group, and to other users not in the file's group each require three bits: one bit for read, one for write, and one for execute/search permission. These three bits are represented as one octal digit; for example, if all three are present, the resulting 111 (in binary) is represented as the digit 7 (in octal). The three special mode bits also require one bit each, and they are as a group represented as another octal digit. Here is how the bits are arranged, starting with the highest valued bit:
+
+Value in  Corresponding
+Mode      Mode Bit
+
+          Special mode bits:
+4000      Set user ID
+2000      Set group ID
+1000      Restricted deletion flag or sticky bit
+
+          The file's owner:
+ 400      Read
+ 200      Write
+ 100      Execute/search
+
+          Other users in the file's group:
+  40      Read
+  20      Write
+  10      Execute/search
+
+          Other users not in the file's group:
+   4      Read
+   2      Write
+   1      Execute/search
+For example, numeric mode '4751' corresponds to symbolic mode 'u=srwx,g=rx,o=x', and numeric mode '664' corresponds to symbolic mode 'ug=rw,o=r'. Numeric mode '0' corresponds to symbolic mode 'a='.
 ```
 
 **Tool Type:** Code Executor
 
-**Query:** `chmod 6640 test_file && stat -c '%a %A' test_file`
+**Query:** ```bash
+chmod 6640 test_file && stat -c '%a %A' test_file
+```
 
 **URL:**
 
@@ -278,33 +198,20 @@ The fourth digit selects permissions for other users not in the file's group, wi
 
 ---
 
-## AOI #8 - MINOR
+## AOI #5 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
-*Happy logging, and enjoy the richer visibility that journald brings\!* 🚀
-```
-
-**Description:** The response uses an emoji (🚀) in the closing statement, which does not add technical value and reduces professional tone.
-
-**Severity:** Minor
-
----
-
-## AOI #9 - SUBSTANTIAL
-
-**Response Excerpt:**
-
-```
-for u in $(getent group loggroup | cut \-d: \-f4); do
-    mkdir \-p /etc/systemd/user/alice.service
-    cat \> /etc/systemd/user/alice.service \<\<'EOF'
-\[Unit\]
+# As root, enable for every member of the group "loggroup"
+for u in $(getent group loggroup | cut -d: -f4); do
+    mkdir -p /etc/systemd/user/alice.service
+    cat > /etc/systemd/user/alice.service <<'EOF'
+[Unit]
 Description=Group‑log collector for alice
 ```
 
-**Description:** The response shows a loop iterating over group members assigning each to variable u, but then hardcodes the service file path as /etc/systemd/user/alice.service instead of using the loop variable (such as /etc/systemd/user/$u.service), causing the script to overwrite the same alice.service file for every user in the group rather than creating per-user service files.
+**Description:** The response shows a loop iterating over group members assigning each to a variable u, but then hardcodes the service file path (/etc/systemd/user/alice.service) instead of using the loop variable (such as /etc/systemd/user/$u.service), causing the script to overwrite the same alice.service file for every user in the group rather than creating per-user service files.
 
 **Severity:** Substantial
 
@@ -313,7 +220,7 @@ Description=Group‑log collector for alice
 **Tool Type:** Code Executor
 
 **Query:** ```bash
-cd /Users/apple/Desktop/Applyloop-project3/Tasks/task28/test_environment/R1 && ./GPT_test_AOI9_hardcoded_alice.sh
+cd /home/uridev/task28_tests/R1 && ./GPT_test_AOI9_hardcoded_alice.sh
 ```
 
 **URL:**
@@ -321,10 +228,6 @@ cd /Users/apple/Desktop/Applyloop-project3/Tasks/task28/test_environment/R1 && .
 **Source Excerpt:**
 
 ```
-========================================================================
-AOI #9 Test: Hardcoded alice.service Bug
-========================================================================
-
 Running the EXACT code from R1 response:
 for u in alice bob charlie; do
     mkdir -p /etc/systemd/user/alice.service
@@ -372,19 +275,25 @@ Correct code should use:
 
 ---
 
-## AOI #10 - SUBSTANTIAL
+## AOI #6 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
+Create a drop‑in unit that runs under each user's UID but is started by the system manager. This lets you centralise configuration without giving every user direct access to journald sockets.
 /etc/systemd/system/group‑log.service
+[Unit]
+Description=Collect logs from members of the "loggroup" group
+# Optional: only run after network or other services are up
+After=network.target
 
 [Service]
 # Run as the invoking user (systemd will substitute %i with the user name)
 User=%i
+Group=loggroup                # optional – may be omitted if you want only UID
 ```
 
-**Description:** The response defines the unit as group-log.service but then uses %i claiming systemd will substitute %i with the user name, but %i is the instance specifier that only works in template units (named with @ like group-log@.service), so using %i in a plain non-template service file will not perform substitution and breaks the claim that systemd will substitute it with the user name.
+**Description:** The response defines the unit as group-log.service but then uses %i claiming systemd will substitute %i with the user name, but %i is the instance specifier that only works in template units (named with @ like group-log@.service), so using %i in a plain non-template service file will not perform substitution.
 
 **Severity:** Substantial
 
@@ -399,25 +308,32 @@ User=%i
 **Source Excerpt:**
 
 ```
-%i
-    Instance name (for instantiated units: part between "@" and the suffix). For non-instantiated units, this is the empty string.
+"%i"
+Instance name
+For instantiated units this is the string between the first "@" character and the type suffix. Empty for non-instantiated units.
 ```
 
 ---
 
-## AOI #11 - SUBSTANTIAL
+## AOI #7 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
 # As root, enable for every member of the group "loggroup"
-for u in $(getent group loggroup | cut \-d: \-f4); do
-    mkdir \-p /etc/systemd/user/alice.service
-    cat \> /etc/systemd/user/alice.service \<\<'EOF'
-...
+for u in $(getent group loggroup | cut -d: -f4); do
+    mkdir -p /etc/systemd/user/alice.service
+    cat > /etc/systemd/user/alice.service <<'EOF'
+[Unit]
+Description=Group‑log collector for alice
+
+[Service]
+ExecStart=/usr/bin/systemd-cat -t group-log
+StandardOutput=journal
+StandardError=journal
 EOF
-    systemctl \--user enable alice.service
-    systemctl \--user start alice.service
+    systemctl --user enable alice.service
+    systemctl --user start alice.service
 done
 ```
 
@@ -437,28 +353,34 @@ done
 
 ```
 --user
-    Talk to the service manager of the calling user, rather than the service manager of the system.
+Talk to the service manager of the calling user, rather than the service manager of the system.
 ```
 
 ---
 
-## AOI #12 - SUBSTANTIAL
+## AOI #8 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
-\[Unit\]
+# As root, enable for every member of the group "loggroup"
+for u in $(getent group loggroup | cut -d: -f4); do
+    mkdir -p /etc/systemd/user/alice.service
+    cat > /etc/systemd/user/alice.service <<'EOF'
+[Unit]
 Description=Group‑log collector for alice
 
-\[Service\]
-ExecStart=/usr/bin/systemd-cat \-t group-log
+[Service]
+ExecStart=/usr/bin/systemd-cat -t group-log
 StandardOutput=journal
 StandardError=journal
 EOF
-    systemctl \--user enable alice.service
+    systemctl --user enable alice.service
+    systemctl --user start alice.service
+done
 ```
 
-**Description:** The response instructs running systemctl --user enable alice.service but the shown alice.service unit has no [Install] section, and systemctl enable creates symlinks from the instructions in [Install] section, so without an [Install] section the enable command will trigger a warning and be ineffective as written.
+**Description:** The response instructs running systemctl --user enable alice.service but the shown alice.service unit has no [Install] section, and systemctl enable creates symlinks from the instructions in [Install] section, so without an [Install] section, enable has no installation information to act on.
 
 **Severity:** Substantial
 
@@ -468,48 +390,51 @@ EOF
 
 **Query:** systemd unit [Install] section systemctl enable
 
-**URL:** https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+**URL:** https://www.freedesktop.org/software/systemd/man/systemctl.html
 
 **Source Excerpt:**
 
 ```
-[Install]
-    Unit file installation information. This section is not interpreted by systemd during runtime; it is used by the enable and disable commands of systemctl during installation of a unit.
+Enable one or more units or unit instances. This will create a set of symlinks, as encoded in the [Install] sections of the indicated unit files.
 ```
 
 ---
 
-## AOI #13 - SUBSTANTIAL
+## AOI #9 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
-\[Service\]
-ExecStart=/usr/bin/systemd-cat \-t group-log
+[Service]
+ExecStart=/usr/bin/systemd-cat -t group-log
 StandardOutput=journal
 StandardError=journal
-```
+(...)
 
-And later:
-
-```
-sudo tee /usr/local/bin/group-logger \<\<'EOS'
-\#\!/usr/bin/env bash
-PRIO=${LOG\_PRIORITY:-info}
-ID=${LOG\_ID:-group-logger}
-while read \-r line; do
-    systemd-cat \-p "$PRIO" \-t "$ID" \<\<\<"$line"
+6.2. Install a simple logger script
+sudo tee /usr/local/bin/group-logger <<'EOS'
+#!/usr/bin/env bash
+# This script will be executed by each user; it just logs a line.
+PRIO=${LOG_PRIORITY:-info}
+ID=${LOG_ID:-group-logger}
+while read -r line; do
+    systemd-cat -p "$PRIO" -t "$ID" <<<"$line"
 done
 EOS
-...
-\[Service\]
+sudo chmod +x /usr/local/bin/group-logger
+(...)
+
+[Service]
 ExecStart=/usr/local/bin/group-logger
+# Inherit the environment variables from the user (optional)
+EnvironmentFile=-/etc/default/group-logger   # optional static config
 StandardOutput=journal
 StandardError=journal
+# Allow the service to be started per‑user without needing root each time
 User=%i
 ```
 
-**Description:** The response provides two separate service examples that both fail due to the same stdin configuration error: the alice.service uses systemd-cat without a command argument which reads from stdin, and the group-logger@.service uses a custom script with while read -r line that reads from stdin, but neither service configuration sets StandardInput and systemd services default to StandardInput=null causing stdin to be connected to /dev/null with immediate EOF, so both services would start and exit without processing any log input as the response claims they would.
+**Description:** The response provides two separate service examples that both fail due to the same stdin configuration error: the alice.service uses systemd-cat without a command argument, which reads from stdin, and the group-logger@.service uses a custom script with while read -r line that reads from stdin, but neither service configuration sets StandardInput, and systemd services default to StandardInput=null causing stdin to be connected to /dev/null with immediate EOF, so both services would start and exit without processing any log input, as the response claims they would.
 
 **Severity:** Substantial
 
@@ -517,7 +442,7 @@ User=%i
 
 **Tool Type:** Google
 
-**Query:** systemd-cat stdin behavior
+**Query:** systemd-cat command stdin behavior
 
 **URL:** https://www.freedesktop.org/software/systemd/man/systemd-cat.html
 
@@ -537,9 +462,22 @@ systemd-cat may be used to connect the standard input and output of a process to
 
 ```
 StandardInput=
-    Controls where file descriptor 0 (STDIN) of the executed processes is connected to. Takes one of null, tty, tty-force, tty-fail, data, file:path, socket or fd:name.
-
-    If set to null (the default), standard input is connected to /dev/null.
+Controls where file descriptor 0 (STDIN) of the executed processes is connected to. Takes one of null, tty, tty-force, tty-fail, data, file:path, socket or fd:name.
+If null is selected, standard input will be connected to /dev/null, i.e. all read attempts by the process will result in immediate EOF.
 ```
+
+---
+
+## AOI #10 - MINOR
+
+**Response Excerpt:**
+
+```
+Happy logging, and enjoy the richer visibility that journald brings! 🚀
+```
+
+**Description:** The response uses an emoji (🚀) in the closing statement, which does not add technical value and reduces professional tone.
+
+**Severity:** Minor
 
 ---

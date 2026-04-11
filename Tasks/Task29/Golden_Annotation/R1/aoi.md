@@ -250,19 +250,28 @@ Initial release: November 1973
 
 **Verification of Issue:**
 
-**Tool Type:** Google
+**Tool Type:** Code Executor
 
-**Query:** apple opensource tarballs redirect
+**Query:** ```bash
+curl -I https://opensource.apple.com/tarballs/ 2>&1
+```
 
-**URL:** https://opensource.apple.com/tarballs/
+**URL:**
 
 **Source Excerpt:**
 
 ```
-The URL https://opensource.apple.com/tarballs/ now redirects to:
-https://github.com/apple-oss-distributions
-
-Apple has moved their open source distributions to GitHub.
+HTTP/1.1 302 Redirect
+Date: Sat, 11 Apr 2026 18:25:35 GMT
+Connection: keep-alive
+Via: http/1.1 nlams2-edge-bx-003.ts.apple.com (acdn/302.16436)
+Cache-Control: no-store
+Location: https://github.com/apple-oss-distributions/
+Content-Type: text/html
+Content-Language: en
+X-Cache: none
+CDNUUID: 8b8dfc79-1ee0-49e5-9f73-e173a23683a2-1901811618
+Content-Length: 257
 ```
 
 ---
@@ -310,5 +319,40 @@ Actual file traversal functions include grepfile() and related functions.
 **Description:** The response includes ripgrep and silver searcher as alternative tools that are explicitly not grep implementations, adding information not relevant to the user's question about where to find grep source code.
 
 **Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** ripgrep README what is ripgrep
+
+**URL:** https://github.com/BurntSushi/ripgrep/blob/master/README.md
+
+**Source Excerpt:**
+
+```
+ripgrep (rg)
+------------
+ripgrep is a line-oriented search tool that recursively searches the current
+directory for a regex pattern. By default, ripgrep will respect gitignore rules
+and automatically skip hidden files/directories and binary files. (To disable
+all automatic filtering by default, use `rg -uuu`.) ripgrep has first class
+support on Windows, macOS and Linux, with binary downloads available for every
+release. ripgrep is similar to other popular search tools like The Silver Searcher, ack and grep.
+```
+
+**Tool Type:** Google
+
+**Query:** silver searcher README what is ag
+
+**URL:** https://github.com/ggreer/the_silver_searcher/blob/master/README.md
+
+**Source Excerpt:**
+
+```
+# The Silver Searcher
+
+A code searching tool similar to `ack`, with a focus on speed.
+```
 
 ---
