@@ -312,9 +312,11 @@ Description=Group‑log collector for alice
 
 **Tool Type:** Code Executor
 
-**Query:** Executed the exact loop code from R1 response on Azure VM (uridev@20.164.0.168) with simulated users alice, bob, charlie to demonstrate that only alice.service gets created/overwritten, while bob.service and charlie.service are never created.
+**Query:** ```bash
+cd /Users/apple/Desktop/Applyloop-project3/Tasks/task28/test_environment/R1 && ./GPT_test_AOI9_hardcoded_alice.sh
+```
 
-**URL:** Test script: `/Users/apple/Desktop/Applyloop-project3/Tasks/task28/test_environment/R1/GPT_test_AOI9_hardcoded_alice.sh`
+**URL:**
 
 **Source Excerpt:**
 
