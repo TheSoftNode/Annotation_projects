@@ -5,13 +5,13 @@
 **Response Excerpt:**
 
 ```
-journalctl -t group-log -u alice   # view alice's entries
+journalctl \-t group-logger \-u alice   \# view alice's entries
 ```
 
 And later:
 
 ```
-journalctl -t group-logger -u $USER -e   # latest entries for this user
+$ journalctl \-t group-logger \-u $USER \-e   \# latest entries for this user
 ```
 
 **Description:** The response uses journalctl -u alice and journalctl -u $USER claiming these filter logs by username, but -u is the --unit flag for filtering by systemd unit names not usernames, causing the commands to return no entries unless a unit is literally named alice or matches $USER, when the syntax for user filtering is journalctl _UID=$(id -u).
@@ -129,7 +129,7 @@ See the systemd-cat(1) man page for details.
 **Response Excerpt:**
 
 ```
-**Per‑user rate limiting** | No built‑in limit – one misbehaving script can fill the disk instantly. | journald applies per‑UID rate limits & size caps (see RateLimitIntervalSec=/RateLimitBurst=).
+**Per‑user rate limiting** | No built‑in limit – one misbehaving script can fill the disk instantly. | `journald` applies per‑UID rate limits & size caps (see `RateLimitIntervalSec=`/`RateLimitBurst=`).
 ```
 
 **Description:** The response claims journald applies per-UID rate limits in the comparison table, but journald.conf documentation specifies rate limiting is applied per-service not per-UID, misrepresenting the scope of rate limiting.
@@ -245,9 +245,9 @@ ForwardToSyslog=, ForwardToKMsg=, ForwardToConsole=, ForwardToWall=
 **Response Excerpt:**
 
 ```
-for u in $(getent group loggroup | cut -d: -f4); do
-    mkdir -p /etc/systemd/user/alice.service
-    cat > /etc/systemd/user/alice.service <<'EOF'
+for u in $(getent group loggroup | cut \-d: \-f4); do
+    mkdir \-p /etc/systemd/user/alice.service
+    cat \> /etc/systemd/user/alice.service \<\<'EOF'
 ```
 
 **Description:** The response shows mkdir -p /etc/systemd/user/alice.service to create a service file, but mkdir -p creates directories not files, causing this command to create a directory named alice.service instead of the service unit file.
@@ -278,7 +278,7 @@ mkdir - make directories
 **Response Excerpt:**
 
 ```
-chmod 6640 /var/log/group-log.txt   # group can write, others read
+chmod 6640 /var/log/group-log.txt   \# group can write, others read
 ```
 
 **Description:** The response uses chmod 6640 claiming the comment group can write others read, but 6640 sets setuid and setgid bits with owner rw- group r-- and others no access, contradicting the comment which describes permissions requiring mode 0664 (owner rw- group rw- others r--).
@@ -363,7 +363,7 @@ These options take a list of file system paths.
 **Response Excerpt:**
 
 ```
-*Happy logging, and enjoy the richer visibility that journald brings!* 🚀
+*Happy logging, and enjoy the richer visibility that journald brings\!* 🚀
 ```
 
 **Description:** The response uses an emoji (🚀) in the closing statement, which does not add technical value and reduces professional tone.
@@ -377,10 +377,10 @@ These options take a list of file system paths.
 **Response Excerpt:**
 
 ```
-for u in $(getent group loggroup | cut -d: -f4); do
-    mkdir -p /etc/systemd/user/alice.service
-    cat > /etc/systemd/user/alice.service <<'EOF'
-[Unit]
+for u in $(getent group loggroup | cut \-d: \-f4); do
+    mkdir \-p /etc/systemd/user/alice.service
+    cat \> /etc/systemd/user/alice.service \<\<'EOF'
+\[Unit\]
 Description=Group‑log collector for alice
 ```
 
