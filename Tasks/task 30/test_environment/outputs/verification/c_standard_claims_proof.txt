@@ -1,0 +1,93 @@
+==========================================================================
+C Standard Claims Verification
+==========================================================================
+
+Testing claims about:
+  1. One-past-end pointers (C99 6.5.6/8)
+  2. Undefined behavior vs valid pointer arithmetic
+  3. Array-to-pointer decay
+
+==========================================================================
+Compiling C standard verification test...
+✓ Compilation successful
+
+Running verification...
+========================================================================
+========================================================================
+C STANDARD BEHAVIOR VERIFICATION
+========================================================================
+
+=== CLAIM: One-Past-End Pointer is VALID ===
+R1 Line 119-121: 'ptr1 and ptr2 point past the end...undefined behavior'
+R2 Line 100, 127: 'move to arr1[4] (one past end)'
+
+C99 Standard 6.5.6 paragraph 8:
+  'If both the pointer operand and the result point to elements of
+   the same array object, or one past the last element of the array
+   object, the evaluation shall not produce an overflow.'
+
+Creating pointer to arr[4] (one past end):
+  int* one_past = &arr[4];  // VALID
+  one_past address: 0x7ff7b74682d0
+  arr address: 0x7ff7b74682c0
+  Difference: 4 elements
+
+✓ Creating one-past-end pointer is VALID (not UB)
+✗ R1 is IMPRECISE - pointing is valid, dereferencing would be UB
+
+=== CLAIM: Dereferencing One-Past-End is UNDEFINED BEHAVIOR ===
+Attempting to dereference one_past would be UB:
+  // *one_past  <-- This WOULD be undefined behavior
+✓ CORRECT - The code never dereferences arr[4]
+
+=== CLAIM: Array-to-Pointer Decay ===
+R1 Line 15: Uses syntax 'ptr1 = &arr1[0]'
+Actual code: 'int* ptr1 = arr1;'
+
+Method 1 (array decay):     int* decay_ptr = test_arr;
+  decay_ptr = 0x7ff7b74682b4
+
+Method 2 (explicit &):      int* explicit_ptr = &test_arr[0];
+  explicit_ptr = 0x7ff7b74682b4
+
+Are they equal? Yes
+
+Conclusion:
+  - Runtime behavior: IDENTICAL
+  - Code representation: DIFFERENT
+  - R1 misrepresents the syntax used in actual code
+
+=== CLAIM: Post-Increment Order of Operations ===
+R1 Line 49-53: 'Value is read BEFORE pointer is incremented'
+R2 Line 67-72: 'Dereference current value, THEN increment pointer'
+
+Test code: int val = *(seq_ptr++);
+  val = 100 (should be 100)
+  *seq_ptr = 200 (should be 200)
+✓ BOTH R1 and R2 CORRECT
+
+=== CLAIM: Pre-Increment Would Skip First Element ===
+R1 Line 117: '*(++matrix[i]) → Increment first, then use'
+
+Post-increment: *(pre_ptr++) = 1 (returns 1)
+Pre-increment:  *(++pre_ptr) = 2 (returns 2, skips 1)
+✓ R1 CORRECT
+
+========================================================================
+SUMMARY OF C STANDARD CLAIMS
+========================================================================
+R1 Claims:
+  ✓ Post-increment order correct
+  ✓ Pre-increment skips first element
+  ⚠️  One-past-end 'undefined behavior' - IMPRECISE (pointing is valid)
+  ✗ Syntax misrepresentation '&arr1[0]' vs 'arr1'
+
+R2 Claims:
+  ✓ Post-increment order correct
+  ✓ One-past-end pointer handling correct
+  ✓ All pointer arithmetic claims correct
+========================================================================
+
+==========================================================================
+C STANDARD VERIFICATION COMPLETE
+==========================================================================

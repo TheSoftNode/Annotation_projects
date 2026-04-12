@@ -1,0 +1,22 @@
+==========================================================================
+R1 Test: Sanitizer Check - No Undefined Behavior
+==========================================================================
+
+Testing R1's claim: 'the loop ends before accessing one-past-end'
+
+Step 1: Compiling with AddressSanitizer and UndefinedBehaviorSanitizer...
+✓ Compilation successful
+
+Step 2: Running program with sanitizers...
+Output:
+1 2 3 4 
+5 6 7 8 
+
+✓ No sanitizer errors detected
+
+Verification: R1's claim is correct - the loop ends before dereferencing
+the one-past-end pointer (arr1[4] and arr2[4])
+
+==========================================================================
+R1 Sanitizer Test: PASSED
+==========================================================================

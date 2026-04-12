@@ -1,0 +1,52 @@
+==========================================================================
+R1 Test: Verify R1's claim about ptr1 variable modification
+==========================================================================
+
+R1 claims (line 65-71):
+  'j=0: *(matrix[0]++) → *ptr1 = 1, then ptr1 → arr1[1] = 2'
+  'j=3: *(matrix[0]++) → *ptr1 = 4, then ptr1 → arr1[4]'
+
+This implies ptr1 itself moves during the loop.
+Let's test if that's true...
+
+Compiling test program...
+✓ Compilation successful
+
+Running test...
+----------------------------------------------------------------------
+BEFORE loop:
+  ptr1 = 0x7ff7b48b12c0 (points to arr1[0])
+  ptr2 = 0x7ff7b48b12b0 (points to arr2[0])
+  matrix[0] = 0x7ff7b48b12c0
+  matrix[1] = 0x7ff7b48b12b0
+
+1 2 3 4 
+5 6 7 8 
+
+AFTER loop:
+  ptr1 = 0x7ff7b48b12c0 (should STILL point to arr1[0])
+  ptr2 = 0x7ff7b48b12b0 (should STILL point to arr2[0])
+  matrix[0] = 0x7ff7b48b12d0 (advanced to arr1[4])
+  matrix[1] = 0x7ff7b48b12c0 (advanced to arr2[4])
+
+Verification:
+  ✓ ptr1 STILL points to arr1[0] (UNCHANGED)
+  ✗ R1's claim is WRONG - ptr1 did NOT move to arr1[4]
+  ✓ ptr2 STILL points to arr2[0] (UNCHANGED)
+  ✗ R1's claim is WRONG - ptr2 did NOT move to arr2[4]
+
+Conclusion:
+  R1 confuses 'matrix[0]' (the array element) with 'ptr1' (the variable)
+  matrix[0]++ increments the COPY in the array, NOT the original ptr1
+  This is a fundamental error in understanding C pointer semantics
+----------------------------------------------------------------------
+
+==========================================================================
+R1 Factual Error CONFIRMED
+==========================================================================
+
+R1's claim (lines 65-71): 'ptr1 → arr1[1]', 'ptr1 → arr1[4]'
+Actual behavior: ptr1 remains at arr1[0] (unchanged)
+
+This is a SUBSTANTIAL factual error about C pointer semantics.
+==========================================================================

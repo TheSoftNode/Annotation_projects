@@ -1,0 +1,27 @@
+==========================================================================
+R1 Test: Matrix Indexing with Pointer Post-Increment
+==========================================================================
+
+Step 1: Compiling test_matrix_indexing.c...
+✓ Compilation successful
+
+Step 2: Running the program...
+Actual output:
+1 2 3 4 
+5 6 7 8 
+
+Expected output:
+1 2 3 4 
+5 6 7 8 
+
+✓ Output matches expected result
+
+Verification: The code correctly demonstrates:
+  - Array of pointers (matrix) pointing to separate arrays
+  - Post-increment pointer arithmetic: *(matrix[i]++)
+  - Sequential traversal of each row via pointer increment
+  - Output: First row (1 2 3 4), Second row (5 6 7 8)
+
+==========================================================================
+R1 Test: PASSED
+==========================================================================

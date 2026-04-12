@@ -1,0 +1,36 @@
+==========================================================================
+R2 Test: Side Effects Verification
+==========================================================================
+
+Testing R2's claim: 'matrix[i]++ modifies the pointer stored in matrix[i]'
+
+Step 1: Compiling side effects test...
+✓ Compilation successful
+
+Step 2: Running side effects test...
+----------------------------------------------------------------------
+Before loop:
+  matrix[0] points to: 0x7ff7bc8732b0 (arr1[0])
+  matrix[1] points to: 0x7ff7bc8732a0 (arr2[0])
+
+1 2 3 4 
+5 6 7 8 
+
+After loop:
+  matrix[0] points to: 0x7ff7bc8732c0 (arr1[4] - one past end)
+  matrix[1] points to: 0x7ff7bc8732b0 (arr2[4] - one past end)
+
+✓ matrix[0] was modified (side effect confirmed)
+✓ matrix[1] was modified (side effect confirmed)
+✓ matrix[0] points to &arr1[4] (one past end)
+✓ matrix[1] points to &arr2[4] (one past end)
+----------------------------------------------------------------------
+
+==========================================================================
+R2 Side Effects Test: PASSED
+==========================================================================
+
+Verified R2's claims:
+  ✓ matrix[i]++ modifies the stored pointer in matrix[i]
+  ✓ After loops, pointers no longer point to array start
+  ✓ Pointers end up at one-past-end positions

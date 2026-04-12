@@ -1,0 +1,32 @@
+==========================================================================
+R2 Test: Matrix Indexing - Original and Alternative Implementations
+==========================================================================
+
+Test 1: Original implementation with *(matrix[i]++)
+----------------------------------------------------------------------
+Output: 1 2 3 4 
+5 6 7 8 
+✓ Original implementation produces correct output
+
+Test 2: Alternative 1 - Using matrix[i][j] (no side effects)
+----------------------------------------------------------------------
+Output: 1 2 3 4 
+5 6 7 8 
+✓ Alternative 1 produces correct output
+
+Test 3: Alternative 2 - Using temporary pointer (no side effects)
+----------------------------------------------------------------------
+Output: 1 2 3 4 
+5 6 7 8 
+✓ Alternative 2 produces correct output
+
+==========================================================================
+Summary: All 3 implementations produce identical correct output
+==========================================================================
+
+✓ Original: *(matrix[i]++) - modifies matrix pointers (side effects)
+✓ Alternative 1: matrix[i][j] - no side effects, cleaner syntax
+✓ Alternative 2: temp pointer - no side effects on matrix array
+
+R2 Test: PASSED
+==========================================================================

@@ -1,0 +1,112 @@
+========================================================================
+VERIFYING ALL FACTUAL CLAIMS
+========================================================================
+
+=== CLAIM VERIFICATION 1: Initial Setup ===
+R1 Line 11-14: arr1 = {1,2,3,4}, arr2 = {5,6,7,8}
+  arr1[0]=1, arr1[1]=2, arr1[2]=3, arr1[3]=4
+  arr2[0]=5, arr2[1]=6, arr2[2]=7, arr2[3]=8
+  ✓ CORRECT
+
+=== CLAIM VERIFICATION 2: Initialization Syntax ===
+R1 Line 15: Claims 'ptr1 = &arr1[0]'
+Actual code: 'int* ptr1 = arr1;' (array decay, not &arr1[0])
+  Runtime addresses are equal: Yes
+  ✗ R1 SYNTAX DESCRIPTION ERROR - misrepresents code as written
+
+=== CLAIM VERIFICATION 3: Matrix Initialization ===
+R1 Line 21-23: matrix[0] = ptr1, matrix[1] = ptr2
+R2 Line 37-39: matrix[0] = ptr1, matrix[1] = ptr2
+  matrix[0] == ptr1? Yes
+  matrix[1] == ptr2? Yes
+  ✓ BOTH CORRECT
+
+=== CLAIM VERIFICATION 4: Post-Increment Behavior ===
+R1 Line 47-53: Post-increment description
+R2 Line 67-72: Post-increment description
+  Test: int val = *(test_ptr++)
+  Value returned: 10 (should be 10)
+  Pointer now at: 20 (should be 20)
+  ✓ BOTH CORRECT
+
+=== CLAIM VERIFICATION 5: Loop Output ===
+R1 Line 73, 89: Output '1 2 3 4' and '5 6 7 8'
+R2 Line 143-145: Output '1 2 3 4' and '5 6 7 8'
+  Actual output:
+  1 2 3 4 
+  5 6 7 8 
+  
+  ✓ BOTH CORRECT
+
+=== CLAIM VERIFICATION 6: ptr1 and ptr2 After Loop ===
+R1 Line 65-71: Claims 'ptr1 → arr1[1]', 'ptr1 → arr1[4]'
+R2: Does NOT claim ptr1/ptr2 change
+  orig_ptr1 address: 0x7ff7bfadb2c0
+  ptr1 after loop:   0x7ff7bfadb2c0
+  Are they equal? Yes
+  orig_ptr2 address: 0x7ff7bfadb2b0
+  ptr2 after loop:   0x7ff7bfadb2b0
+  Are they equal? Yes
+  ✗ R1 WRONG - ptr1 and ptr2 do NOT change
+  ✓ R2 CORRECT
+
+=== CLAIM VERIFICATION 7: matrix[0] and matrix[1] After Loop ===
+R1: Confuses matrix[i] with ptr1/ptr2
+R2 Line 104, 131: matrix[0] → arr1[4], matrix[1] → arr2[4]
+  orig_matrix[0]: 0x7ff7bfadb2c0 (arr1[0])
+  matrix[0] now:  0x7ff7bfadb2d0
+  Points to arr1[4]? Yes
+  orig_matrix[1]: 0x7ff7bfadb2b0 (arr2[0])
+  matrix[1] now:  0x7ff7bfadb2c0
+  Points to arr2[4]? Yes
+  ✗ R1 CONFUSES matrix[i] with ptr1/ptr2
+  ✓ R2 CORRECT
+
+=== CLAIM VERIFICATION 8: One-Past-End Pointer ===
+R1 Line 121: 'ptr1 and ptr2 point past the end... undefined behavior'
+R2 Line 104, 131: 'matrix[0] → arr1[4] (one past end)'
+  One-past-end pointers are VALID to create (not dereference)
+  C99 6.5.6/8: pointer past last element is valid
+  arr1[4] address: 0x7ff7bfadb2d0 (valid to point to)
+  matrix[0] == &arr1[4]? Yes
+  ✓ R1 CORRECT (pointing is valid, dereferencing would be UB)
+  ✓ R2 CORRECT
+
+=== CLAIM VERIFICATION 9: Side Effects ===
+R2 Line 165-169: 'matrix[0] and matrix[1] no longer point to start'
+R2 Line 169: 'This can cause bugs if you try to reuse matrix'
+  Can we reuse matrix for another iteration? NO
+  matrix[0] now points to: arr1[4]
+  matrix[1] now points to: arr2[4]
+  ✓ R2 CORRECT - Side effects exist
+
+=== CLAIM VERIFICATION 10: Memory Layout ===
+R1 Line 123-125: 'arr1 and arr2 are separate in memory'
+  arr1 address: 0x7ff7bfadb2c0
+  arr2 address: 0x7ff7bfadb2b0
+  Difference: -16 bytes
+  Are they contiguous? No
+  ✓ R1 CORRECT - They are logically separate
+
+=== CLAIM VERIFICATION 11: Pre-increment vs Post-increment ===
+R1 Line 113-117: Pre-increment 'would skip the first element'
+  Test: int val = *(++pre_ptr)
+  Value returned: 2 (should be 2, skipped 1)
+  ✓ R1 CORRECT
+
+=== CLAIM VERIFICATION 12: Alternative Syntax ===
+R2 Line 187: 'matrix[i][j]' or '*(matrix[i] + j)'
+  Testing matrix2[0][2]: 3 (should be 3)
+  Testing *(matrix2[1] + 3): 8 (should be 8)
+  ✓ R2 CORRECT - Alternative syntax works
+
+========================================================================
+SUMMARY OF FACTUAL ERRORS
+========================================================================
+Response 1 (R1) Errors:
+  1. SUBSTANTIAL: Lines 65-71 - Claims ptr1/ptr2 move (they don't)
+  2. MINOR: Line 15 - Misrepresents syntax as '&arr1[0]' not 'arr1'
+
+Response 2 (R2) Errors:
+  None found - all claims verified correct
+========================================================================
