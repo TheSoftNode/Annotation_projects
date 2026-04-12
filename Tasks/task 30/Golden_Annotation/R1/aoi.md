@@ -136,55 +136,6 @@ R1's description: ptr1 = &arr1[0]
 **Response Excerpt:**
 
 ```
-After j=3, ptr1 and ptr2 point past the end of arr1 and arr2 (e.g., arr1[4]). This is undefined behavior, but the loop ends before accessing it, so it's safe here.
-```
-
-**Description:** The response states that pointing one-past-end is "undefined behavior", which is imprecise. Per C99 standard 6.5.6/8, creating a pointer to one past the last element is explicitly allowed and well-defined. Only dereferencing such a pointer would be undefined behavior. The response correctly notes the loop doesn't dereference these pointers, but mislabels the act of pointing as UB.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** ./test_c_standard_claims.sh
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-=== CLAIM: One-Past-End Pointer is VALID ===
-R1 Line 119-121: 'ptr1 and ptr2 point past the end...undefined behavior'
-R2 Line 100, 127: 'move to arr1[4] (one past end)'
-
-C99 Standard 6.5.6 paragraph 8:
-  'If both the pointer operand and the result point to elements of
-   the same array object, or one past the last element of the array
-   object, the evaluation shall not produce an overflow.'
-
-Creating pointer to arr[4] (one past end):
-  int* one_past = &arr[4];  // VALID
-  one_past address: 0x7ff7b74682d0
-  arr address: 0x7ff7b74682c0
-  Difference: 4 elements
-
-✓ Creating one-past-end pointer is VALID (not UB)
-✗ R1 is IMPRECISE - pointing is valid, dereferencing would be UB
-
-=== CLAIM: Dereferencing One-Past-End is UNDEFINED BEHAVIOR ===
-Attempting to dereference one_past would be UB:
-  // *one_past  <-- This WOULD be undefined behavior
-✓ CORRECT - The code never dereferences arr[4]
-```
-
----
-
-## AOI #4 - MINOR
-
-**Response Excerpt:**
-
-```
 `arr1` and `arr2` are **separate in memory** (not contiguous like a true 2D array). The code relies on pointers to navigate each row independently.
 ```
 
@@ -213,3 +164,19 @@ Arrays are NOT contiguous (separated by -32 bytes)
 R1's claim matches this execution, but C doesn't GUARANTEE this
 
 ```
+
+---
+
+## AOI #4 - MINOR
+
+**Response Excerpt:**
+
+```
+After `j=3`, `ptr1` and `ptr2` point **past the end** of `arr1` and `arr2` (e.g., `arr1[4]`). This is **undefined behavior**, but the loop ends before accessing it, so it's safe here.
+```
+
+**Description:** The response correctly identifies that the matrix array pointers advance past the array ends but does not explain that this effectively consumes the matrix array, leaving it with invalid pointers that cannot be reused without reconstructing it from the original ptr1 and ptr2 variables.
+
+**Severity:** Minor
+
+---

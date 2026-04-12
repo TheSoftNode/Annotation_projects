@@ -12,3 +12,6 @@ The response compares post-increment and pre-increment operators, demonstrating 
 
 ## 5
 The response predicts the output as `1 2 3 4` and `5 6 7 8`, confirming what the code produces when executed.
+
+## 6
+The response explains that representing a 2D array by an array of pointers to 1D arrays is a common pattern for jagged rows, providing practical context on use cases for this technique.
