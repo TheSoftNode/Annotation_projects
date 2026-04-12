@@ -372,3 +372,38 @@ A code searching tool similar to ack, with a focus on speed.
 ```
 
 ---
+
+## AOI #12 - MINOR
+
+**Response Excerpt:**
+
+```
+* **Do not confuse with `egrep`/`fgrep`**: These are now symlinks or deprecated aliases for `grep -E`/`-F` in GNU grep (but separate binaries in some BSD systems).
+```
+
+**Description:** The response claims that egrep and fgrep are now symlinks or deprecated aliases in GNU grep, but the GNU grep manual only states they are deprecated commands that issue warnings and may be removed, without mentioning symlinks as the implementation method.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** WebFetch
+
+**Query:** GNU grep manual egrep fgrep deprecated
+
+**URL:** https://www.gnu.org/software/grep/manual/grep.html
+
+**Source Excerpt:**
+
+```
+From https://www.gnu.org/software/grep/manual/grep.html:
+
+7th Edition Unix had commands egrep and fgrep that were the counterparts of the modern 'grep -E' and 'grep -F'. Although breaking up grep into three programs was perhaps useful on the small computers of the 1970s, egrep and fgrep were deemed obsolescent by POSIX in 1992, removed from POSIX in 2001, deprecated by GNU Grep 2.5.3 in 2007, and changed to issue obsolescence warnings by GNU Grep 3.8 in 2022; eventually, they are planned to be removed entirely.
+
+If you prefer the old names, you can use your own substitutes, such as a shell script named egrep with the following contents:
+
+#!/bin/sh
+exec grep -E "$@"
+```
+
+---
