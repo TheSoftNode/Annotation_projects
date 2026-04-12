@@ -19,16 +19,13 @@ j=3: *(matrix[0]++) → *ptr1 = 4, then ptr1 → arr1[4] (invalid, but loop ends
 
 **Tool Type:** Code Executor
 
-**Query:** ```bash
-cd "/Users/apple/Desktop/Applyloop-project3/Tasks/task 30/test_environment/R1" && ./test_R1_ptr1_claim.sh
-```
+**Query:** ./test_R1_ptr1_claim.sh
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
-==========================================================================
 R1 Test: Verify R1's claim about ptr1 variable modification
 ==========================================================================
 
@@ -65,21 +62,6 @@ Verification:
   ✓ ptr2 STILL points to arr2[0] (UNCHANGED)
   ✗ R1's claim is WRONG - ptr2 did NOT move to arr2[4]
 
-Conclusion:
-  R1 confuses 'matrix[0]' (the array element) with 'ptr1' (the variable)
-  matrix[0]++ increments the COPY in the array, NOT the original ptr1
-  This is a fundamental error in understanding C pointer semantics
-----------------------------------------------------------------------
-
-==========================================================================
-R1 Factual Error CONFIRMED
-==========================================================================
-
-R1's claim (lines 65-71): 'ptr1 → arr1[1]', 'ptr1 → arr1[4]'
-Actual behavior: ptr1 remains at arr1[0] (unchanged)
-
-This is a SUBSTANTIAL factual error about C pointer semantics.
-==========================================================================
 ```
 
 ---
@@ -88,11 +70,9 @@ This is a SUBSTANTIAL factual error about C pointer semantics.
 
 **Response Excerpt:**
 
-```
 ptr1 = &arr1[0] (points to 1)
-```
 
-**Description:** The response describes the initialization as ptr1 = &arr1[0] when the actual code uses int* ptr1 = arr1. While runtime behavior is identical, arr1 uses array-to-pointer decay while &arr1[0] is an explicit address-of operation, misrepresenting the syntax present in the code.
+**Description:** The response describes the initialization as ptr1 = &arr1[0] when the actual code uses int\* ptr1 = arr1. While runtime behavior is identical, arr1 uses array-to-pointer decay while &arr1[0] is an explicit address-of operation, misrepresenting the syntax present in the code.
 
 **Severity:** Minor
 
@@ -100,9 +80,7 @@ ptr1 = &arr1[0] (points to 1)
 
 **Tool Type:** Code Executor
 
-**Query:** ```bash
-cd "/Users/apple/Desktop/Applyloop-project3/Tasks/task 30/test_environment/R1" && ./test_R1_syntax_description.sh
-```
+**Query:** ./test_R1_syntax_description.sh
 
 **URL:**
 
@@ -149,27 +127,6 @@ Original code:  int* ptr1 = arr1;
 R1's description: ptr1 = &arr1[0]
   ptr1_explicit = 0x7ff7b2fca2c0
 
-Are they equal? Yes
-
-==========================================================================
-Conclusion:
-==========================================================================
-While runtime addresses are identical, R1 misrepresents the syntax.
-The code uses 'arr1' (array decay), NOT '&arr1[0]' (explicit address).
-
-This is a FACTUAL ERROR in describing the code as written.
-==========================================================================
-----------------------------------------------------------------------
-
-==========================================================================
-R1 Syntax Description Error CONFIRMED
-==========================================================================
-
-R1 line 15 claims: 'ptr1 = &arr1[0]'
-Actual code line 12: 'int* ptr1 = arr1;'
-
-This is a MINOR factual error in describing the code's syntax.
-==========================================================================
 ```
 
 ---
@@ -190,9 +147,7 @@ After j=3, ptr1 and ptr2 point past the end of arr1 and arr2 (e.g., arr1[4]). Th
 
 **Tool Type:** Code Executor
 
-**Query:** ```bash
-cd "/Users/apple/Desktop/Applyloop-project3/Tasks/task 30/test_environment" && ./test_c_standard_claims.sh
-```
+**Query:** ./test_c_standard_claims.sh
 
 **URL:**
 
@@ -241,15 +196,14 @@ Attempting to dereference one_past would be UB:
 
 **Tool Type:** Code Executor
 
-**Query:** ```bash
-cd "/Users/apple/Desktop/Applyloop-project3/Tasks/task 30/test_verification" && ./test_contig
-```
+**Query:** ./test_contig
 
 **URL:**
 
 **Source Excerpt:**
 
 ```
+
 arr1 address: 0x7ff7b53e1240
 arr2 address: 0x7ff7b53e1230
 arr1 ends at: 0x7ff7b53e1250
@@ -258,17 +212,4 @@ Distance between arr1[4] and arr2: -32 bytes
 Arrays are NOT contiguous (separated by -32 bytes)
 R1's claim matches this execution, but C doesn't GUARANTEE this
 
-Conclusion: R1 claims arr1 and arr2 are 'not contiguous',
-but C standard does NOT guarantee separate arrays are non-contiguous.
-They could be adjacent - R1 makes an unprovable claim.
-
-C11 Standard (N1570) 6.2.4 Storage durations of objects, paragraph 6:
-"For such an object that does not have a variable length array type,
-its lifetime extends from entry into the block until execution of
-that block ends in any way."
-
-The standard specifies lifetimes but does NOT specify relative
-placement of separate array objects in memory.
 ```
-
----
