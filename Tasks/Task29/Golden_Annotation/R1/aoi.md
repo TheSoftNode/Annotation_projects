@@ -299,10 +299,8 @@ Content-Length: 257
 **Source Excerpt:**
 
 ```
-Searching GNU grep src/grep.c for "scan_directory":
-No matches found - this function does not exist in the current source code.
-
-Actual file traversal functions include grepfile() and related functions.
+No matches found for "scan_directory" in src/grep.c
+The function does not exist in the current GNU grep source code.
 ```
 
 ---
@@ -331,14 +329,7 @@ Actual file traversal functions include grepfile() and related functions.
 **Source Excerpt:**
 
 ```
-ripgrep (rg)
-------------
-ripgrep is a line-oriented search tool that recursively searches the current
-directory for a regex pattern. By default, ripgrep will respect gitignore rules
-and automatically skip hidden files/directories and binary files. (To disable
-all automatic filtering by default, use `rg -uuu`.) ripgrep has first class
-support on Windows, macOS and Linux, with binary downloads available for every
-release. ripgrep is similar to other popular search tools like The Silver Searcher, ack and grep.
+ripgrep is a line-oriented search tool that recursively searches the current directory for a regex pattern. ripgrep is similar to other popular search tools like The Silver Searcher, ack and grep.
 ```
 
 **Tool Type:** Google
@@ -350,9 +341,9 @@ release. ripgrep is similar to other popular search tools like The Silver Search
 **Source Excerpt:**
 
 ```
-# The Silver Searcher
+The Silver Searcher
 
-A code searching tool similar to `ack`, with a focus on speed.
+A code searching tool similar to ack, with a focus on speed.
 ```
 
 ---
