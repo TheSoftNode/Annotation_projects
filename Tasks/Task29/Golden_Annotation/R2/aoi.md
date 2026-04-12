@@ -118,7 +118,7 @@ The **primary source code for modern `grep`** (maintained by the GNU Project) is
   *(View branches, tags, and browse files online)*
 ```
 
-**Description:** The response provides a URL for browsing GNU grep source online that returns HTTP 404, making the web browser link inaccessible.
+**Description:** The response claims the URL allows users to view branches, tags, and browse files online, but the URL returns HTTP 404, making the web browser link non-functional.
 
 **Severity:** Substantial
 
@@ -126,16 +126,21 @@ The **primary source code for modern `grep`** (maintained by the GNU Project) is
 
 **Tool Type:** Google
 
-**Query:** GNU grep git repository web browser URL
+**Query:** test if grep.html URL returns 404
 
-**URL:** https://git.savannah.gnu.org/cgit/grep.git
+**URL:** https://git.savannah.gnu.org/git/grep.html
 
 **Source Excerpt:**
 
 ```
-From https://git.savannah.gnu.org/cgit/grep.git:
-grep.git - GNU grep
-summary | shortlog | log | commit | commitdiff | tree
+From https://git.savannah.gnu.org/git/grep.html:
+<html>
+<head><title>404 Not Found</title></head>
+<body bgcolor="white">
+<center><h1>404 Not Found</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
 ```
 
 ---
