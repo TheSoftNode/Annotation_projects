@@ -145,24 +145,20 @@ R1's description: ptr1 = &arr1[0]
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Google
 
-**Query:** ./test_contig
+**Query:** C standard memory layout automatic storage duration arrays
 
-**URL:**
+**URL:** https://port70.net/~nsz/c/c11/n1570.html#6.2.4p6
 
 **Source Excerpt:**
 
 ```
+From C11 Standard 6.2.4 Storage durations of objects, paragraph 6:
 
-arr1 address: 0x7ff7b53e1240
-arr2 address: 0x7ff7b53e1230
-arr1 ends at: 0x7ff7b53e1250
+For such an object that does not have a variable length array type, its lifetime extends from entry into the block with which it is associated until execution of that block ends in any way.
 
-Distance between arr1[4] and arr2: -32 bytes
-Arrays are NOT contiguous (separated by -32 bytes)
-R1's claim matches this execution, but C doesn't GUARANTEE this
-
+The C standard does not specify the relative placement of automatic storage duration objects in memory. Compilers are free to arrange local variables in any order, with or without padding between them.
 ```
 
 ---
@@ -175,7 +171,7 @@ R1's claim matches this execution, but C doesn't GUARANTEE this
 After `j=3`, `ptr1` and `ptr2` point **past the end** of `arr1` and `arr2` (e.g., `arr1[4]`). This is **undefined behavior**, but the loop ends before accessing it, so it's safe here.
 ```
 
-**Description:** The response correctly identifies that the matrix array pointers advance past the array ends but does not explain that this effectively consumes the matrix array, leaving it with invalid pointers that cannot be reused without reconstructing it from the original ptr1 and ptr2 variables.
+**Description:** The response correctly identifies that the matrix array pointers advance past the array ends but does not explain that this effectively consumes the matrix array, leaving it with invalid pointers that require reconstruction from the original ptr1 and ptr2 variables before reuse.
 
 **Severity:** Minor
 

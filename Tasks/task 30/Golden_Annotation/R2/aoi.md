@@ -40,9 +40,7 @@
 
 **Tool Type:** Code Executor
 
-**Query:** ```bash
-cd "/Users/apple/Desktop/Applyloop-project3/Tasks/task 30/test_verification" && ./test_contig
-```
+**Query:** ./test_contig
 
 **URL:**
 
