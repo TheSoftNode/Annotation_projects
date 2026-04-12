@@ -292,7 +292,7 @@ Content-Length: 257
 - `src/grep.c`: Main logic (file traversal via `scan_directory`, line numbering).
 ```
 
-**Description:** The response refers users to a scan_directory function in src/grep.c as handling file traversal, but this function does not exist in the current GNU grep source code.
+**Description:** The response claims that scan_directory is the file-traversal function in src/grep.c, but the cited grep.c excerpt does not support this claim as it shows functions like grepfile, grepdirent, fillbuf, nlscan, and others without showing scan_directory.
 
 **Severity:** Minor
 
