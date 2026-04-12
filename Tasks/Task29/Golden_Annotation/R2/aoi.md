@@ -118,7 +118,7 @@ The **primary source code for modern `grep`** (maintained by the GNU Project) is
   *(View branches, tags, and browse files online)*
 ```
 
-**Description:** The response claims the URL allows users to view branches, tags, and browse files online, but the URL returns HTTP 404, making the web browser link non-functional.
+**Description:** The response provides a web browser link claiming it allows viewing branches, tags, and browsing files online for the GNU grep repository, but this link returns HTTP 404 and is non-functional.
 
 **Severity:** Substantial
 
