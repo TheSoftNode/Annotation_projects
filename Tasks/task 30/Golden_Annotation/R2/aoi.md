@@ -32,7 +32,7 @@
 `matrix[0]` points to `&arr1[4]` (invalid/just past the array)
 ```
 
-**Description:** The response labels the one-past-end pointer as "invalid," but the C standard explicitly allows creating a pointer to one element past the last element of an array. Only dereferencing such a pointer constitutes undefined behavior, while merely forming the pointer is valid and commonly used in C programming for boundary checks and iteration patterns.
+**Description:** The response labels the one-past-end pointer as "invalid," but the C standard explicitly allows creating a pointer to one element past the last element of an array. Only dereferencing such a pointer constitutes undefined behavior, while merely forming the pointer is valid and common in C programming for boundary checks and iteration patterns.
 
 **Severity:** Minor
 
