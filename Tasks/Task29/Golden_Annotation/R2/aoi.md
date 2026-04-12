@@ -410,3 +410,48 @@ From https://git.savannah.gnu.org/cgit/coreutils.git/tree/src:
 ```
 
 ---
+
+## AOI #13 - MINOR
+
+**Response Excerpt:**
+
+```
+| **Source Tarballs** | [Download here](https://ftp.gnu.org/gnu/coreutils/) (look for `grep-*.tar.xz`) |
+```
+
+**Description:** The response directs users to the coreutils directory for downloading grep source tarballs, but GNU grep source releases are actually located in a separate grep directory on the GNU FTP server, providing incorrect download location guidance.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** WebSearch
+
+**Query:** GNU grep official download tarball location
+
+**URL:** https://ftp.gnu.org/gnu/grep/
+
+**Source Excerpt:**
+
+```
+From https://ftp.gnu.org/gnu/grep/:
+
+Index of /gnu/grep
+
+grep-2.5.1.tar.bz2
+grep-2.5.3.tar.bz2
+grep-2.5.4.tar.bz2
+grep-3.0.tar.xz
+grep-3.1.tar.xz
+grep-3.3.tar.xz
+grep-3.4.tar.xz
+grep-3.6.tar.xz
+grep-3.7.tar.xz
+grep-3.8.tar.xz
+grep-3.11.tar.xz
+
+GNU grep tarballs are located at https://ftp.gnu.org/gnu/grep/
+NOT at https://ftp.gnu.org/gnu/coreutils/
+```
+
+---

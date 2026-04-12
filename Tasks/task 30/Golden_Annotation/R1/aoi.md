@@ -224,3 +224,51 @@ Attempting to dereference one_past would be UB:
 ```
 
 ---
+
+## AOI #4 - MINOR
+
+**Response Excerpt:**
+
+```
+`arr1` and `arr2` are **separate in memory** (not contiguous like a true 2D array). The code relies on pointers to navigate each row independently.
+```
+
+**Description:** The response claims arr1 and arr2 are "not contiguous like a true 2D array," but the C standard does not guarantee that separate automatic-storage-duration arrays are non-contiguous. They could be placed adjacently by the compiler, making this an unprovable claim about memory layout.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Code Executor
+
+**Query:** ```bash
+cd "/Users/apple/Desktop/Applyloop-project3/Tasks/task 30/test_verification" && ./test_contig
+```
+
+**URL:**
+
+**Source Excerpt:**
+
+```
+arr1 address: 0x7ff7b53e1240
+arr2 address: 0x7ff7b53e1230
+arr1 ends at: 0x7ff7b53e1250
+
+Distance between arr1[4] and arr2: -32 bytes
+Arrays are NOT contiguous (separated by -32 bytes)
+R1's claim matches this execution, but C doesn't GUARANTEE this
+
+Conclusion: R1 claims arr1 and arr2 are 'not contiguous',
+but C standard does NOT guarantee separate arrays are non-contiguous.
+They could be adjacent - R1 makes an unprovable claim.
+
+C11 Standard (N1570) 6.2.4 Storage durations of objects, paragraph 6:
+"For such an object that does not have a variable length array type,
+its lifetime extends from entry into the block until execution of
+that block ends in any way."
+
+The standard specifies lifetimes but does NOT specify relative
+placement of separate array objects in memory.
+```
+
+---
