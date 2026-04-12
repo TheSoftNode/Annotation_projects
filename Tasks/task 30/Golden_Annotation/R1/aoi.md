@@ -163,7 +163,7 @@ The C standard does not specify the relative placement of automatic storage dura
 
 ---
 
-## AOI #4 - MINOR
+## AOI #4 - SUBSTANTIAL
 
 **Response Excerpt:**
 
@@ -171,38 +171,26 @@ The C standard does not specify the relative placement of automatic storage dura
 After `j=3`, `ptr1` and `ptr2` point **past the end** of `arr1` and `arr2` (e.g., `arr1[4]`). This is **undefined behavior**, but the loop ends before accessing it, so it's safe here.
 ```
 
-**Description:** The response correctly identifies that the matrix array pointers advance past the array ends but does not explain that this effectively consumes the matrix array, leaving it with invalid pointers that require reconstruction from the original ptr1 and ptr2 variables before reuse.
+**Description:** The response incorrectly states that advancing a pointer one past the end of an array is undefined behavior, which misrepresents a core C pointer rule. The C standard explicitly allows a pointer to point one past the last element of an array, and only dereferencing that one-past-end pointer constitutes undefined behavior.
 
-**Severity:** Minor
+**Severity:** Substantial
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Google
 
-**Query:** Test matrix consumption after loop
+**Query:** C11 standard one past end pointer valid
 
-**URL:**
+**URL:** https://port70.net/~nsz/c/c11/n1570.html#6.5.6p8
 
 **Source Excerpt:**
 
 ```
-Testing matrix array state after loop execution:
+From C11 Standard 6.5.6 Additive operators, paragraph 8:
 
-BEFORE loop:
-  matrix[0] = 0x7ff7b52292c0 (points to arr1[0])
-  matrix[1] = 0x7ff7b52292b0 (points to arr2[0])
+If both the pointer operand and the result point to elements of the same array object, or one past the last element of the array object, the evaluation shall not produce an overflow.
 
-Loop executes...
-
-AFTER loop:
-  matrix[0] = 0x7ff7b52292d0 (points to arr1[4] - one past end)
-  matrix[1] = 0x7ff7b52292c0 (points to arr2[4] - one past end)
-
-Attempting to reuse matrix without reinitialization:
-  Dereferencing matrix[0] would access invalid memory
-  Dereferencing matrix[1] would access invalid memory
-
-Matrix array is consumed and cannot be reused without reconstruction.
+This confirms that forming a one-past-end pointer is explicitly allowed by the C standard. Only dereferencing it would be undefined behavior.
 ```
 
 ---
