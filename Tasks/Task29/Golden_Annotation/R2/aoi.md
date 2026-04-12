@@ -8,9 +8,11 @@
 * **`grep` lives inside GNU Coreutils**:
   Modern `grep` (with `-R`, `-E`, etc.) is **not** a standalone project—it's one of many tools under the Coreutils umbrella ([coreutils.git](https://git.savannah.gnu.org/git/coreutils.git)).
   → Check the [`grep/` directory in coreutils](https://git.savannah.gnu.org/git/coreutils.git/tree/grep).
+
+| **Source Tarballs** | [Download here](https://ftp.gnu.org/gnu/coreutils/) (look for `grep-*.tar.xz`) |
 ```
 
-**Description:** The response claims modern grep is not a standalone project and lives inside GNU Coreutils as one of many tools under the Coreutils umbrella, but GNU grep is maintained as a separate standalone project at git.savannah.gnu.org/git/grep.git and is not part of the GNU Coreutils package, which contains tools like ls, cat, and chmod but not grep.
+**Description:** The response claims modern grep is not a standalone project and lives inside GNU Coreutils, directing users to coreutils directories for both source browsing and tarball downloads, but GNU grep is maintained as a separate standalone project with its own repository and release location, not part of the GNU Coreutils package which contains tools like ls, cat, and chmod.
 
 **Severity:** Substantial
 
@@ -26,19 +28,22 @@
 
 ```
 From https://www.gnu.org/software/grep/:
-GNU grep
+
+GNU Grep
+
+Grep searches one or more input files for lines containing a match to a specified pattern. By default, Grep outputs the matching lines.
+
+Downloads
+Stable source releases are available on the main GNU download server.
+
+From https://ftp.gnu.org/gnu/grep/:
+grep-3.0.tar.xz
+grep-3.1.tar.xz
+grep-3.11.tar.xz
 
 From https://www.gnu.org/software/coreutils/:
+Coreutils - GNU core utilities
 The GNU Core Utilities are the basic file, shell and text manipulation utilities of the GNU operating system.
-
-Fileutils
-chgrp chown chmod cp dd df dir dircolors du install ln ls mkdir mkfifo mknod mv rm rmdir shred sync touch vdir
-
-Textutils
-cat cksum comm csplit cut expand fmt fold head join md5sum nl od paste pr ptx sha1sum sha224sum sha256sum sha384sum sha512sum shuf sort split sum tac tail tr tsort unexpand uniq wc
-
-Shellutils
-basename chroot date dirname echo env expr factor false groups hostid hostname id link logname nice nohup nproc pathchk pinky printenv printf pwd readlink runcon seq sleep stat stdbuf stty tee test timeout true tty uname unlink uptime users whoami yes
 ```
 
 ---
@@ -48,7 +53,7 @@ basename chroot date dirname echo env expr factor false groups hostid hostname i
 **Response Excerpt:**
 
 ```
-* **GNU `grep` does not use PCRE** (unlike `ripgrep`/`ag`). It uses its **own regex engine** (based on [Oniguruma](https://github.com/OniguramaOniguruma)).
+GNU grep does not use PCRE (unlike ripgrep/ag). It uses its own regex engine (based on Oniguruma).
 ```
 
 **Description:** The response claims GNU grep does not use PCRE and uses its own regex engine based on Oniguruma, but GNU grep source code contains pcresearch.c with PCRE2 implementation and the GNU grep manual documents the -P flag for Perl-compatible regular expressions using PCRE.
@@ -67,9 +72,15 @@ basename chroot date dirname echo env expr factor false groups hostid hostname i
 
 ```
 From https://git.savannah.gnu.org/cgit/grep.git/tree/src/pcresearch.c:
-/* pcresearch.c - searching subroutines using PCRE for grep.
 
+/* pcresearch.c - searching subroutines using PCRE for grep.
    Copyright 2000, 2007, 2009-2024 Free Software Foundation, Inc.
+
+From https://www.gnu.org/software/grep/manual/grep.html:
+
+-P
+--perl-regexp
+Interpret patterns as Perl-compatible regular expressions (PCREs).
 ```
 
 ---
@@ -79,69 +90,56 @@ From https://git.savannah.gnu.org/cgit/grep.git/tree/src/pcresearch.c:
 **Response Excerpt:**
 
 ```
-It uses its **own regex engine** (based on [Oniguruma](https://github.com/OniguramaOniguruma)).
+It uses its own regex engine (based on Oniguruma).
+🔗 https://github.com/OniguramaOniguruma
+
+Web Browser: 🔗 https://git.savannah.gnu.org/git/grep.html (View branches, tags, and browse files online)
 ```
 
-**Description:** The response provides a URL to the Oniguruma repository that returns HTTP 404, making the reference inaccessible.
+**Description:** The response provides two URLs that both return 404 errors - the Oniguruma repository link and the grep.html web browser link claiming to allow viewing branches and browsing files online, making both references inaccessible and non-functional.
 
 **Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** Google
+**Tool Type:** Other
 
-**Query:** Oniguruma GitHub repository correct URL
+**Query:** Verify broken URLs
 
-**URL:** https://github.com/kkos/oniguruma
+**URL:** https://github.com/OniguramaOniguruma
 
 **Source Excerpt:**
 
 ```
-From https://github.com/kkos/oniguruma:
-Oniguruma
+From https://github.com/OniguramaOniguruma:
+404 - This is not the web page you are looking for
 
-README.md
+From https://git.savannah.gnu.org/git/grep.html:
+404 Not Found
 ```
 
 ---
 
-## AOI #4 - SUBSTANTIAL
+## AOI #4 - MINOR
 
 **Response Excerpt:**
 
 ```
-The **primary source code for modern `grep`** (maintained by the GNU Project) is hosted at:
-🔗 [**https://git.savannah.gnu.org/git/grep.git**](https://git.savannah.gnu.org/git/grep.git)
-
-* **Web Browser**:
-  🔗 [https://git.savannah.gnu.org/git/grep.html](https://git.savannah.gnu.org/git/grep.html)
-  *(View branches, tags, and browse files online)*
+🔗 https://git.savannah.gnu.org/git/grep.git
+✅ 1. Official GNU grep Source
+⚠️ Important Context
+🔍 2. Other Common grep Implementations
+🛠️ How to Explore the Source Code
+💡 Pro Tips for Exploring
+🚫 What You Won't Find
+❓ "But I want the original grep source!"
+📌 Summary
+Let me know if you need help compiling it, understanding regex.c, or comparing implementations! 😊
 ```
 
-**Description:** The response provides a web browser link claiming it allows viewing branches, tags, and browsing files online for the GNU grep repository, but this link returns HTTP 404 and is non-functional.
+**Description:** The response uses emojis throughout section headings and the closing statement, which do not add technical value and reduce professional tone in a technical explanation.
 
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** test if grep.html URL returns 404
-
-**URL:** https://git.savannah.gnu.org/git/grep.html
-
-**Source Excerpt:**
-
-```
-From https://git.savannah.gnu.org/git/grep.html:
-<html>
-<head><title>404 Not Found</title></head>
-<body bgcolor="white">
-<center><h1>404 Not Found</h1></center>
-<hr><center>nginx</center>
-</body>
-</html>
-```
+**Severity:** Minor
 
 ---
 
@@ -150,23 +148,37 @@ From https://git.savannah.gnu.org/git/grep.html:
 **Response Excerpt:**
 
 ```
-🔗 [**https://git.savannah.gnu.org/git/grep.git**](https://git.savannah.gnu.org/git/grep.git)
-
-### **✅ 1\. Official GNU `grep` Source**
-### **⚠️ Important Context**
-### **🔍 2\. Other Common `grep` Implementations**
-### **🛠️ How to Explore the Source Code**
-### **💡 Pro Tips for Exploring**
-### **🚫 What You *Won't* Find**
-### **❓ "But I want the *original* `grep` source\!"**
-### **📌 Summary**
-
-Let me know if you need help compiling it, understanding `regex.c`, or comparing implementations\! 😊
+| **Latest Stable Version** | `grep-3.15` (Released Aug 2024) |
+| **Maintainer** | Jim Blandy (`jsb@lightyear.com`) and other GNU coreutils contributors |
 ```
 
-**Description:** The response uses emojis throughout section headings and the closing statement, and includes a closing pleasantry which do not add technical value and reduce professional tone.
+**Description:** The response provides incorrect project metadata, stating the latest stable version is grep-3.15 released in August 2024 when it is actually 3.12 released in April 2025, and claiming Jim Blandy is the maintainer when the official GNU grep homepage lists Jim Meyering as the current maintainer.
 
 **Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** GNU grep latest version and maintainer
+
+**URL:** https://ftp.gnu.org/gnu/grep/
+
+**Source Excerpt:**
+
+```
+From https://ftp.gnu.org/gnu/grep/:
+
+grep-3.12.tar.xz
+2025-04-10 12:06
+1.8M
+
+From https://www.gnu.org/software/grep/:
+
+Maintainer
+
+Grep is currently being maintained by Jim Meyering. Please use the mailing lists for contact.
+```
 
 ---
 
@@ -175,73 +187,15 @@ Let me know if you need help compiling it, understanding `regex.c`, or comparing
 **Response Excerpt:**
 
 ```
-| **Latest Stable Version** | `grep-3.15` (Released Aug 2024\) |
-```
-
-**Description:** The response states grep-3.15 was released in August 2024, but as of April 2025 the latest stable version is 3.14 released in March 2024, making the version claim inaccurate.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** WebFetch
-
-**Query:** What is the latest version of GNU grep as of April 2025?
-
-**URL:** https://ftp.gnu.org/gnu/grep/
-
-**Source Excerpt:**
-
-```
-From https://ftp.gnu.org/gnu/grep/:
-grep-3.14.tar.gz                           21-Mar-2024 02:18              2091602
-grep-3.14.tar.gz.sig                       21-Mar-2024 02:18                  833
-```
-
----
-
-## AOI #7 - SUBSTANTIAL
-
-**Response Excerpt:**
-
-```
-| **Maintainer** | Jim Blandy (`jsb@lightyear.com`) and other GNU coreutils contributors |
-```
-
-**Description:** The response claims Jim Blandy is the maintainer of GNU grep, but the official GNU grep homepage lists Jim Meyering as the maintainer, making this maintainer attribution incorrect.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** WebFetch
-
-**Query:** Who is the maintainer of GNU grep?
-
-**URL:** https://www.gnu.org/software/grep/
-
-**Source Excerpt:**
-
-```
-From https://www.gnu.org/software/grep/:
-Maintainer
-
-Grep is currently being maintained by Jim Meyering. Please use the mailing lists for contact.
-```
-
----
-
-## AOI #8 - MINOR
-
-**Response Excerpt:**
-
-```
+git clone https://git.savannah.gnu.org/git/grep.git
+cd grep
+# Key files:
 grep.h       # Header definitions
 grep.c       # Core implementation
 regex.c      # Regex engine (heavily optimized)
 ```
 
-**Description:** The response implies grep.h grep.c and regex.c are in the repository root, but these files are located in src/ subdirectory, and regex.c does not exist in the current source tree.
+**Description:** The response implies grep.h, grep.c and regex.c are in the repository root, but these files are located in src/ subdirectory, and regex.c does not exist in the current source tree.
 
 **Severity:** Minor
 
@@ -251,33 +205,31 @@ regex.c      # Regex engine (heavily optimized)
 
 **Query:** GNU grep source code file structure where are grep.c grep.h
 
-**URL:** https://git.savannah.gnu.org/cgit/grep.git/tree/
+**URL:** https://git.savannah.gnu.org/cgit/grep.git/tree/src
 
 **Source Excerpt:**
 
 ```
-From https://git.savannah.gnu.org/cgit/grep.git/tree/:
-drwxr-xr-x	-	bootstrap.conf
-drwxr-xr-x	-	lib
-drwxr-xr-x	-	src
-drwxr-xr-x	-	tests
-
 From https://git.savannah.gnu.org/cgit/grep.git/tree/src:
--rw-r--r--	grep.c
--rw-r--r--	grep.h
 
-From https://git.savannah.gnu.org/cgit/grep.git/tree/lib:
--rw-r--r--	regex.c
+-rw-r--r--  dfasearch.c
+-rw-r--r--  grep.c
+-rw-r--r--  grep.h
+-rw-r--r--  kwsearch.c
+-rw-r--r--  pcresearch.c
+-rw-r--r--  searchutils.c
 ```
 
 ---
 
-## AOI #9 - MINOR
+## AOI #7 - MINOR
 
 **Response Excerpt:**
 
 ```
-| **BSD/macOS `grep`** (part of base system) | Usually closed source (Apple's source is proprietary) |
+BSD/macOS grep (part of base system)
+Usually closed source (Apple's source is proprietary)
+OpenBSD has a GPL-compatible fork
 ```
 
 **Description:** The response claims Apple's grep source is proprietary and usually closed source, but Apple provides public access to grep source code through their open source releases, contradicting the proprietary claim.
@@ -290,25 +242,30 @@ From https://git.savannah.gnu.org/cgit/grep.git/tree/lib:
 
 **Query:** Apple macOS grep source code open source
 
-**URL:** https://github.com/apple-oss-distributions/grep
+**URL:** https://github.com/apple-oss-distributions/grep/tree/main/grep
 
 **Source Excerpt:**
 
 ```
-From https://github.com/apple-oss-distributions/grep:
-apple-oss-distributions / grep Public
+From https://github.com/apple-oss-distributions/grep/tree/main/grep:
 
-Code
+This is GNU grep, the "fastest grep in the west" (we hope).  All
+bugs reported in previous releases have been fixed.  Many exciting new
+bugs have probably been introduced in this revision.
+
+GNU grep is provided "as is" with no warranty.  The exact terms
+under which you may use and (re)distribute this program are detailed
+in the GNU General Public License, in the file COPYING.
 ```
 
 ---
 
-## AOI #10 - MINOR
+## AOI #8 - MINOR
 
 **Response Excerpt:**
 
 ```
-💡 **Security Note**: If using `grep` in security contexts, **always patch to the latest version**—e.g., [CVE-2016-3253](https://nvd.nist.gov/vuln/detail/CVE-2016-3253) (buffer overflow in `grep` prior to 2.24).
+💡 Security Note: If using grep in security contexts, always patch to the latest version—e.g., CVE-2016-3253 (buffer overflow in grep prior to 2.24).
 ```
 
 **Description:** The response cites CVE-2016-3253 as an example of a grep buffer overflow vulnerability requiring patching, but the National Vulnerability Database marks this CVE as REJECTED, making it an invalid example to cite for security guidance.
@@ -317,7 +274,7 @@ Code
 
 **Verification of Issue:**
 
-**Tool Type:** WebFetch
+**Tool Type:** Google
 
 **Query:** What is the status of CVE-2016-3253?
 
@@ -327,131 +284,71 @@ Code
 
 ```
 From https://nvd.nist.gov/vuln/detail/CVE-2016-3253:
-CVE-2016-3253
-REJECTED
 
-This candidate has been reserved by an organization or individual that will use it when announcing a new security problem. When the candidate has been publicized, the details for this candidate will be provided.
+CVE-2016-3253 Detail
+Rejected
+This CVE has been marked Rejected in the CVE List.
+
+Description
+Rejected reason: DO NOT USE THIS CANDIDATE NUMBER. ConsultIDs: none. Reason: The CNA or individual who requested this candidate did not associate it with any vulnerability during 2016.
 ```
 
 ---
 
-## AOI #11 - MINOR
+## AOI #9 - MINOR
 
 **Response Excerpt:**
 
 ```
-The earliest `grep` (1974, Thompson/ Ritchie at Bell Labs) was proprietary.
+The earliest grep (1974, Thompson/ Ritchie at Bell Labs) was proprietary.
 ```
 
-**Description:** The response states the earliest grep was created in 1974, but grep was first released in November 1973, making the year claim inaccurate.
+**Description:** The response states the earliest grep was created in 1974, but grep first appeared in 1973, making the year claim inaccurate by one year.
 
 **Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** WebFetch
-
-**Query:** When was the original Unix grep first released?
-
-**URL:** https://en.wikipedia.org/wiki/Grep
-
-**Source Excerpt:**
-
-```
-From https://en.wikipedia.org/wiki/Grep:
-grep
-Initial release	November 1973
-```
-
----
-
-## AOI #12 - SUBSTANTIAL
-
-**Response Excerpt:**
-
-```
-https://git.savannah.gnu.org/git/coreutils.git/tree/grep
-https://git.savannah.gnu.org/git/coreutils.git/branch/coreutils-emacs-guixeltch.git/log?version=3.6
-https://git.savannah.gnu.org/git/grep/tree/grep.c#L897
-https://git.savannah.gnu.org/git/grep/blob/master/x=malloc.c
-https://git.savannah.gnu.org/git/grep/blob/master/grep.c#L2694
-https://github.com/OniguramaOniguruma
-https://github.com/paulrubin/grep
-https://opensource.apple.com/source/grep/
-```
-
-**Description:** The response contains multiple broken URLs that return 404 errors or redirect to non-existent pages, providing non-functional references throughout the response.
-
-**Severity:** Substantial
 
 **Verification of Issue:**
 
 **Tool Type:** Google
 
-**Query:** verify broken URLs coreutils grep oniguruma
+**Query:** grep first appeared Edition 1973
 
-**URL:** https://git.savannah.gnu.org/cgit/coreutils.git/tree/
+**URL:** https://swtch.com/~rsc/regexp/regexp1.html
 
 **Source Excerpt:**
 
 ```
-From https://git.savannah.gnu.org/cgit/coreutils.git/tree/:
-coreutils.git - GNU coreutils
-drwxr-xr-x	-	lib
-drwxr-xr-x	-	src
-drwxr-xr-x	-	tests
+From https://swtch.com/~rsc/regexp/regexp1.html:
 
-From https://git.savannah.gnu.org/cgit/coreutils.git/tree/src:
--rw-r--r--	cat.c
--rw-r--r--	chmod.c
--rw-r--r--	cp.c
--rw-r--r--	ls.c
--rw-r--r--	mv.c
+Thompson's paper marked the beginning of a long line of regular expression implementations. Thompson chose not to use his algorithm when implementing the text editor ed, which appeared in First Edition Unix (1971), or in its descendant grep, which first appeared in the Fourth Edition (1973).
 ```
 
 ---
 
-## AOI #13 - MINOR
+## AOI #10 - MINOR
 
 **Response Excerpt:**
 
 ```
-| **Source Tarballs** | [Download here](https://ftp.gnu.org/gnu/coreutils/) (look for `grep-*.tar.xz`) |
+🔗 [https://opensource.apple.com/source/grep/](https://opensource.apple.com/source/grep/)
 ```
 
-**Description:** The response directs users to the coreutils directory for downloading grep source tarballs, but GNU grep source releases are actually located in a separate grep directory on the GNU FTP server, providing incorrect download location guidance.
+**Description:** The response provides a URL to Apple's open source grep that returns a 404 error, making the reference inaccessible.
 
 **Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** WebSearch
+**Tool Type:** Other
 
-**Query:** GNU grep official download tarball location
+**Query:** https://opensource.apple.com/source/grep/
 
-**URL:** https://ftp.gnu.org/gnu/grep/
+**URL:** https://opensource.apple.com/source/grep/
 
 **Source Excerpt:**
 
 ```
-From https://ftp.gnu.org/gnu/grep/:
-
-Index of /gnu/grep
-
-grep-2.5.1.tar.bz2
-grep-2.5.3.tar.bz2
-grep-2.5.4.tar.bz2
-grep-3.0.tar.xz
-grep-3.1.tar.xz
-grep-3.3.tar.xz
-grep-3.4.tar.xz
-grep-3.6.tar.xz
-grep-3.7.tar.xz
-grep-3.8.tar.xz
-grep-3.11.tar.xz
-
-GNU grep tarballs are located at https://ftp.gnu.org/gnu/grep/
-NOT at https://ftp.gnu.org/gnu/coreutils/
+404 Not Found
 ```
 
 ---

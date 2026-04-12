@@ -5,10 +5,10 @@
 **Response Excerpt:**
 
 ```
-* **BusyBox grep**:   For embedded systems. Source: [https://git.busybox.net/busybox/tree/](https://git.busybox.net/busybox/tree/) (look in `src/`).\
+* **BusyBox grep**:   For embedded systems. Source: [https://git.busybox.net/busybox/tree/](https://git.busybox.net/busybox/tree/) (look in `src/`).
 ```
 
-**Description:** The response directs users to look in src/ for BusyBox grep source code, but this path guidance is incorrect as BusyBox grep is actually located at findutils/grep.c in the repository structure.
+**Description:** The response directs the user to look in src/ for BusyBox grep source code, but this path guidance is incorrect for the actual repository structure.
 
 **Severity:** Minor
 
@@ -34,8 +34,30 @@ From https://github.com/mirror/busybox/blob/master/findutils/grep.c:
  *
  * Licensed under GPLv2 or later, see file LICENSE in this source tree.
  */
+/* BB_AUDIT SUSv3 defects - unsupported option -x "match whole line only". */
+/* BB_AUDIT GNU defects - always acts as -a.  */
+/* http://www.opengroup.org/onlinepubs/007904975/utilities/grep.html */
+/*
+ * 2004,2006 (C) Vladimir Oleynik <dzo@simtreas.ru> -
+ * correction "-e pattern1 -e pattern2" logic and more optimizations.
+ * precompiled regex
+ *
+ * (C) 2006 Jac Goudsmit added -o option
+ */
+```
 
-[BusyBox grep source is located at findutils/grep.c, not src/]
+**Tool Type:** Other
+
+**Query:** https://git.busybox.net/busybox/tree/
+
+**URL:** https://git.busybox.net/busybox/tree/
+
+**Source Excerpt:**
+
+```
+Not Found
+The requested URL was not found on this server.
+Apache Server at git.busybox.net Port 443
 ```
 
 ---
@@ -59,10 +81,13 @@ For 95% of users (especially on Linux), **GNU grep at [git.savannah.gnu.org/cgit
 **Response Excerpt:**
 
 ```
-- `src/dfa.c`/`src/xmalloc.c`: Optimized regex engines (Boyer-Moore, Aho-Corasick, DFA/NFA hybrids).
+* `src/dfa.c`/`src/xmalloc.c`: Optimized regex engines (Boyer-Moore, Aho-Corasick, DFA/NFA hybrids).
+(...)
+* `src/mmap.c`: Memory-mapped I/O implementation (key for avoiding read() syscall overhead).
+* `src/bm.c`: Explicit Boyer-Moore implementation for fixed-string searches (used when `-F` or simple patterns are detected).
 ```
 
-**Description:** The response claims src/dfa.c contains optimized regex engines, but the actual file in the GNU grep source tree is src/dfasearch.c not src/dfa.c, and src/xmalloc.c does not exist in the current source tree.
+**Description:** The response provides file paths for GNU grep source code, including src/dfa.c, src/xmalloc.c, src/mmap.c, and src/bm.c, but these files do not exist in the current browsable GNU grep source tree, making the file-level guidance unreliable for the user trying to locate these implementations.
 
 **Severity:** Minor
 
@@ -77,98 +102,59 @@ For 95% of users (especially on Linux), **GNU grep at [git.savannah.gnu.org/cgit
 **Source Excerpt:**
 
 ```
-GNU grep src/ directory contains:
-- dfasearch.c (not dfa.c)
-- kwset.c
-- searchutils.c
-- grep.c
-(src/dfa.c and src/xmalloc.c do not exist)
+From https://git.savannah.gnu.org/cgit/grep.git/tree/src:
+
+Mode	Name
+-rw-r--r--	.gitignore
+-rw-r--r--	Makefile.am
+-rw-r--r--	dfasearch.c
+-rw-r--r--	die.h
+-rw-r--r--	egrep.sh
+-rw-r--r--	grep.c
+-rw-r--r--	grep.h
+-rw-r--r--	kwsearch.c
+-rw-r--r--	pcresearch.c
+-rw-r--r--	search.h
+-rw-r--r--	searchutils.c
+-rw-r--r--	system.h
 ```
 
 ---
 
-## AOI #4 - MINOR
-
-**Response Excerpt:**
-
-```
-* ## **Release Tarballs**:   [https://ftp.gnu.org/gnu/grep/](https://ftp.gnu.org/gnu/grep/)   (e.g., `grep-3.11.tar.xz` for the latest stable version as of 2024\)
-```
-
-**Description:** The response states grep-3.11 is the latest stable version as of 2024, but GNU grep 3.11 was released in May 2023 and newer versions exist in 2024, making this version claim outdated.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** WebFetch
-
-**Query:** What is the latest version of GNU grep and when was it released?
-
-**URL:** https://ftp.gnu.org/gnu/grep/
-
-**Source Excerpt:**
-
-```
-grep-3.14.tar.gz (Released March 2024)
-```
-
----
-
-## AOI #5 - MINOR
-
-**Response Excerpt:**
-
-```
-- `src/mmap.c`: Memory-mapped I/O implementation (key for avoiding read() syscall overhead).
-- `src/bm.c`: Explicit Boyer-Moore implementation for fixed-string searches (used when `-F` or simple patterns are detected).
-```
-
-**Description:** The response claims src/mmap.c and src/bm.c contain memory-mapped I/O and Boyer-Moore implementations, but neither file exists in the current GNU grep source tree.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** GNU grep source code files src directory
-
-**URL:** https://git.savannah.gnu.org/cgit/grep.git/tree/src
-
-**Source Excerpt:**
-
-```
-Files in GNU grep src/ directory:
-- grep.c
-- dfasearch.c
-- kwset.c
-- searchutils.c
-- pcresearch.c
-(src/mmap.c and src/bm.c do not exist)
-```
-
----
-
-## AOI #6 - SUBSTANTIAL
+## AOI #4 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
 Then check its source path (if installed via package manager):
 
-\# Debian/Ubuntu
-dpkg \-L grep | grep \-E '\\.(c|h|cc|cpp)$' | head
+# Debian/Ubuntu
+dpkg -L grep | grep -E '\.(c|h|cc|cpp)$' | head
 
-\# Fedora/RHEL
-rpm \-ql grep | grep \-E '\\.(c|h|cc|cpp)$' | head
+# Fedora/RHEL
+rpm -ql grep | grep -E '\.(c|h|cc|cpp)$' | head
 ```
 
-**Description:** The response provides dpkg -L and rpm -ql commands claiming they will show source code paths, but these commands list files from installed binary packages which contain executables and documentation not source code files, misleading users about how to locate grep source code on their systems.
+**Description:** The response provides dpkg -L and rpm -ql commands claiming they will show source code paths, but these commands list files from installed binary packages which contain executables and documentation, not source code files, misleading the user about how to locate grep source code on their systems.
 
 **Severity:** Substantial
 
 **Verification of Issue:**
+
+**Tool Type:** Google
+
+**Query:** rpm -ql list files in package
+
+**URL:** https://rpm.org/docs/6.0.x/man/rpm.8
+
+**Source Excerpt:**
+
+```
+From https://rpm.org/docs/6.0.x/man/rpm.8:
+
+-l, --list
+List files in package.
+```
 
 **Tool Type:** Google
 
@@ -179,6 +165,8 @@ rpm \-ql grep | grep \-E '\\.(c|h|cc|cpp)$' | head
 **Source Excerpt:**
 
 ```
+From https://man7.org/linux/man-pages/man1/dpkg.1.html:
+
 -L, --listfiles package-name...
     List files installed to your system from package-name.
 
@@ -189,107 +177,42 @@ Source code files (.c, .h) are NOT included in binary packages.
 
 ---
 
-## AOI #7 - SUBSTANTIAL
+## AOI #5 - MINOR
 
 **Response Excerpt:**
 
 ```
-* **BusyBox grep**:   For embedded systems. Source: [https://git.busybox.net/busybox/tree/](https://git.busybox.net/busybox/tree/) (look in `src/`).
+* **Origin**: Derived from the original Unix `grep` (Ken Thompson, 1974), modernized by BSD projects.
 ```
 
-**Description:** The response directs users to look for BusyBox grep source in a src/ directory, but the BusyBox grep implementation is actually located in findutils/grep.c within the BusyBox source tree, providing incorrect navigation guidance for finding the source code.
+**Description:** The response states the original Unix grep was released in 1974, but grep was actually first released in 1973 as part of Unix, making the year claim inaccurate by one year.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 **Verification of Issue:**
 
 **Tool Type:** Google
 
-**Query:** BusyBox grep source code location
+**Query:** grep first appeared Fourth Edition 1973
 
-**URL:** https://git.busybox.net/busybox/tree/findutils/grep.c
-
-**Source Excerpt:**
-
-```
-findutils/grep.c
-```
-
----
-
-## AOI #8 - MINOR
-
-**Response Excerpt:**
-
-```
-**Origin**: Derived from the original Unix `grep` (Ken Thompson, 1974), modernized by BSD projects.
-```
-
-**Description:** The response states the original Unix grep was released in 1974, but grep was actually first released in November 1973 as part of Unix, making the year claim inaccurate by one year.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** WebFetch
-
-**Query:** When was the original Unix grep released?
-
-**URL:** https://en.wikipedia.org/wiki/Grep
+**URL:** https://swtch.com/~rsc/regexp/regexp1.html
 
 **Source Excerpt:**
 
 ```
-Initial release: November 1973
+From https://swtch.com/~rsc/regexp/regexp1.html:
+
+Thompson's paper marked the beginning of a long line of regular expression implementations. Thompson chose not to use his algorithm when implementing the text editor ed, which appeared in First Edition Unix (1971), or in its descendant grep, which first appeared in the Fourth Edition (1973).
 ```
 
 ---
 
-## AOI #9 - MINOR
+## AOI #6 - MINOR
 
 **Response Excerpt:**
 
 ```
-**macOS/Apple**: Part of [Apple's open-source releases](https://opensource.apple.com/) (search for `grep` in tarballs like `grep-XXX.tar.gz` under [Release Notes](https://opensource.apple.com/tarballs/)).
-```
-
-**Description:** The response directs users to look for grep tarballs under Release Notes at opensource.apple.com/tarballs/, but this URL now redirects to Apple's OSS Distributions GitHub page with a different structure, making the navigation guidance outdated.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:** bash
-curl -I https://opensource.apple.com/tarballs/ 2>&1
-
-**URL:**
-
-**Source Excerpt:**
-
-```
-HTTP/1.1 302 Redirect
-Date: Sat, 11 Apr 2026 18:25:35 GMT
-Connection: keep-alive
-Via: http/1.1 nlams2-edge-bx-003.ts.apple.com (acdn/302.16436)
-Cache-Control: no-store
-Location: https://github.com/apple-oss-distributions/
-Content-Type: text/html
-Content-Language: en
-X-Cache: none
-CDNUUID: 8b8dfc79-1ee0-49e5-9f73-e173a23683a2-1901811618
-Content-Length: 257
-```
-
----
-
-## AOI #10 - MINOR
-
-**Response Excerpt:**
-
-```
-- `src/grep.c`: Main logic (file traversal via `scan_directory`, line numbering).
+* `src/grep.c`: Main logic (file traversal via `scan_directory`, line numbering).
 ```
 
 **Description:** The response claims that scan_directory is the file-traversal function in src/grep.c, but the cited grep.c excerpt does not support this claim as it shows functions like grepfile, grepdirent, fillbuf, nlscan, and others without showing scan_directory.
@@ -300,7 +223,7 @@ Content-Length: 257
 
 **Tool Type:** Google
 
-**Query:** GNU grep source code scan_directory function
+**Query:** GNU grep source code files src directory
 
 **URL:** https://git.savannah.gnu.org/cgit/grep.git/tree/src/grep.c
 
@@ -330,16 +253,15 @@ grep_command_line_arg(char const *arg)
 
 ---
 
-## AOI #11 - MINOR
+## AOI #7 - MINOR
 
 **Response Excerpt:**
 
 ```
-* **ripgrep (`rg`)**:   A modern, faster alternative (Rust-based). Source: [https://github.com/BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)   *(Not a `grep` clone, but often compared for performance)*
-* **The Silver Searcher (`ag`)**:   Another alternative (C-based). Source: [https://github.com/ggreer/the\_silver\_searcher](https://github.com/ggreer/the_silver_searcher)
+* **Release Tarballs**:   [https://ftp.gnu.org/gnu/grep/](https://ftp.gnu.org/gnu/grep/)   (e.g., `grep-3.11.tar.xz` for the latest stable version as of 2024)
 ```
 
-**Description:** The response includes ripgrep and silver searcher as alternative tools that are explicitly not grep implementations, adding information not relevant to the user's question about where to find grep source code.
+**Description:** The response uses an outdated release example for the latest stable GNU grep version, which may mislead the user into looking for the current release tarball.
 
 **Severity:** Minor
 
@@ -347,105 +269,18 @@ grep_command_line_arg(char const *arg)
 
 **Tool Type:** Google
 
-**Query:** ripgrep README what is ripgrep
+**Query:** What is the latest stable version of GNU grep?
 
-**URL:** https://github.com/BurntSushi/ripgrep/blob/master/README.md
-
-**Source Excerpt:**
-
-```
-ripgrep is a line-oriented search tool that recursively searches the current directory for a regex pattern. ripgrep is similar to other popular search tools like The Silver Searcher, ack and grep.
-```
-
-**Tool Type:** Google
-
-**Query:** silver searcher README what is ag
-
-**URL:** https://github.com/ggreer/the_silver_searcher/blob/master/README.md
+**URL:** https://ftp.gnu.org/gnu/grep/
 
 **Source Excerpt:**
 
 ```
-The Silver Searcher
+From https://ftp.gnu.org/gnu/grep/:
 
-A code searching tool similar to ack, with a focus on speed.
-```
-
----
-
-## AOI #12 - MINOR
-
-**Response Excerpt:**
-
-```
-* **Do not confuse with `egrep`/`fgrep`**: These are now symlinks or deprecated aliases for `grep -E`/`-F` in GNU grep (but separate binaries in some BSD systems).
-```
-
-**Description:** The response claims that egrep and fgrep are now symlinks or deprecated aliases in GNU grep, but the GNU grep manual only states they are deprecated commands that issue warnings and may be removed, without mentioning symlinks as the implementation method.
-
-**Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** WebFetch
-
-**Query:** GNU grep manual egrep fgrep deprecated
-
-**URL:** https://www.gnu.org/software/grep/manual/grep.html
-
-**Source Excerpt:**
-
-```
-From https://www.gnu.org/software/grep/manual/grep.html:
-
-7th Edition Unix had commands egrep and fgrep that were the counterparts of the modern 'grep -E' and 'grep -F'. Although breaking up grep into three programs was perhaps useful on the small computers of the 1970s, egrep and fgrep were deemed obsolescent by POSIX in 1992, removed from POSIX in 2001, deprecated by GNU Grep 2.5.3 in 2007, and changed to issue obsolescence warnings by GNU Grep 3.8 in 2022; eventually, they are planned to be removed entirely.
-
-If you prefer the old names, you can use your own substitutes, such as a shell script named egrep with the following contents:
-
-#!/bin/sh
-exec grep -E "$@"
-```
-
----
-
-## AOI #13 - SUBSTANTIAL
-
-**Response Excerpt:**
-
-```
-- `src/dfa.c`/`src/xmalloc.c`: Optimized regex engines (Boyer-Moore, Aho-Corasick, DFA/NFA hybrids).
-```
-
-**Description:** The response incorrectly identifies xmalloc.c as an "Optimized regex engine," when it is actually a standard GNU utility file for safe memory allocation that has no involvement in regex matching logic.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Google
-
-**Query:** what is xmalloc.c in GNU source code
-
-**URL:** https://github.com/gcc-mirror/gcc/blob/master/libiberty/xmalloc.c
-
-**Source Excerpt:**
-
-```
-From https://github.com/gcc-mirror/gcc/blob/master/libiberty/xmalloc.c:
-
-/* memory allocation routines with error checking.
-   Copyright (C) 1989-2026 Free Software Foundation, Inc.
-
-@deftypefn Replacement void* xmalloc (size_t)
-
-Allocate memory without fail.  If @code{malloc} fails, this will print
-a message to @code{stderr} (using the name set by
-@code{xmalloc_set_program_name},
-if any) and then call @code{xexit}.
-
-@deftypefn Replacement void* xrealloc (void *@var{ptr}, size_t @var{size})
-Reallocate memory without fail. This routine functions like @code{realloc},
-but will behave the same as @code{xmalloc} if memory cannot be found.
+grep-3.12.tar.xz
+2025-04-10 12:06
+1.8M
 ```
 
 ---
