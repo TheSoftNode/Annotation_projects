@@ -252,9 +252,8 @@ Initial release: November 1973
 
 **Tool Type:** Code Executor
 
-**Query:** ```bash
+**Query:** bash
 curl -I https://opensource.apple.com/tarballs/ 2>&1
-```
 
 **URL:**
 
