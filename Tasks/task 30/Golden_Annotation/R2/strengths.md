@@ -8,7 +8,7 @@ The response explains that `matrix[0]` and `matrix[1]` advance to one-past-end p
 The response clarifies that the original variables ptr1 and ptr2 remain unchanged throughout execution, addressing a common source of confusion.
 
 ## 4
-The response warns that the matrix array cannot be reused without reinitialization, helping users avoid bugs when working with modified pointers.
+The response warns that the matrix array requires reinitialization before reuse, helping users avoid bugs when working with modified pointers.
 
 ## 5
 The response provides alternative implementations without side effects, giving users safer approaches to achieve the same result.
