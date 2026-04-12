@@ -32,38 +32,24 @@
 `matrix[0]` points to `&arr1[4]` (invalid/just past the array)
 ```
 
-**Description:** The response labels the one-past-end pointer as "invalid," but per C11 standard 6.5.6/8, creating a pointer to one element past the last element of an array is explicitly allowed. Only dereferencing such a pointer would be undefined behavior, not merely pointing to it.
+**Description:** The response labels the one-past-end pointer as "invalid," but the C standard explicitly allows creating a pointer to one element past the last element of an array. Only dereferencing such a pointer constitutes undefined behavior, while merely forming the pointer is valid and commonly used in C programming for boundary checks and iteration patterns.
 
 **Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Google
 
-**Query:** ./test_contig
+**Query:** C11 standard pointer one past end valid
 
-**URL:**
+**URL:** https://port70.net/~nsz/c/c11/n1570.html#6.5.6p8
 
 **Source Excerpt:**
 
 ```
-=== CLAIM: One-Past-End Pointer is VALID ===
+From C11 Standard 6.5.6 Additive operators, paragraph 8:
 
-C99 Standard 6.5.6 paragraph 8:
-  'If both the pointer operand and the result point to elements of
-   the same array object, or one past the last element of the array
-   object, the evaluation shall not produce an overflow.'
-
-Creating pointer to arr[4] (one past end):
-  int* one_past = &arr[4];  // VALID
-  one_past address: 0x7ff7b74682d0
-  arr address: 0x7ff7b74682c0
-  Difference: 4 elements
-
-✓ Creating one-past-end pointer is VALID (not UB)
-✗ R2 is IMPRECISE - calling it "invalid" is wrong; only dereferencing would be UB
-
-The standard explicitly permits forming one-past-end pointers.
+If both the pointer operand and the result point to elements of the same array object, or one past the last element of the array object, the evaluation shall not produce an overflow.
 ```
 
 ---
