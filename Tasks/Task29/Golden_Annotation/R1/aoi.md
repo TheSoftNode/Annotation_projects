@@ -8,7 +8,7 @@
 * **BusyBox grep**:   For embedded systems. Source: [https://git.busybox.net/busybox/tree/](https://git.busybox.net/busybox/tree/) (look in `src/`).\
 ```
 
-**Description:** The response provides the URL https://git.busybox.net/busybox/tree/ for BusyBox grep source code, but this URL returns HTTP 404 indicating the resource is not accessible at this location.
+**Description:** The response directs users to look in src/ for BusyBox grep source code, but this path guidance is incorrect as BusyBox grep is actually located at findutils/grep.c in the repository structure.
 
 **Severity:** Minor
 
@@ -16,17 +16,26 @@
 
 **Tool Type:** Google
 
-**Query:** busybox git repository official URL
+**Query:** BusyBox grep source code location path
 
-**URL:** https://busybox.net/source.html
+**URL:** https://github.com/mirror/busybox/blob/master/findutils/grep.c
 
 **Source Excerpt:**
 
 ```
-The official BusyBox git repository is at:
-https://git.busybox.net/busybox/
+From https://github.com/mirror/busybox/blob/master/findutils/grep.c:
 
-(Note: The URL https://git.busybox.net/busybox/tree/ returns 404)
+/* vi: set sw=4 ts=4: */
+/*
+ * Mini grep implementation for busybox using libc regex.
+ *
+ * Copyright (C) 1999,2000,2001 by Lineo, inc. and Mark Whitley
+ * Copyright (C) 1999,2000,2001 by Mark Whitley <markw@codepoet.org>
+ *
+ * Licensed under GPLv2 or later, see file LICENSE in this source tree.
+ */
+
+[BusyBox grep source is located at findutils/grep.c, not src/]
 ```
 
 ---
@@ -298,8 +307,25 @@ Content-Length: 257
 **Source Excerpt:**
 
 ```
-No matches found for "scan_directory" in src/grep.c
-The function does not exist in the current GNU grep source code.
+From https://git.savannah.gnu.org/cgit/grep.git/tree/src/grep.c:
+
+grepfile(int, char const *, bool, bool)
+grepdesc(int, bool)
+hash_pattern(void const *pat, size_t n_buckets)
+compare_patterns(void const *a, void const *b)
+update_patterns(char *keys, idx_t dupfree_size, idx_t size, char const *filename)
+pattern_file_name(idx_t lineno, idx_t *new_lineno)
+is_device_mode(mode_t m)
+skip_devices(bool command_line)
+usable_st_size(struct stat const *st)
+suppressible_error(int errnum)
+clean_up_stdout(void)
+fillbuf(idx_t save, struct stat const *st)
+nlscan(char const *lim)
+grepbuf(char *beg, char const *lim)
+grep(int fd, struct stat const *st, bool *ineof)
+grepdirent(FTS *fts, FTSENT *ent, bool command_line)
+grep_command_line_arg(char const *arg)
 ```
 
 ---
