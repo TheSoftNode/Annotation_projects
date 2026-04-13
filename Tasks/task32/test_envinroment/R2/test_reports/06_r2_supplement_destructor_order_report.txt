@@ -1,0 +1,26 @@
+FILE:
+06_r2_supplement_destructor_order.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 "06_r2_supplement_destructor_order.cpp" -o "test_bins/06_r2_supplement_destructor_order"
+
+Compiler output:
+
+Run command:
+./test_bins/06_r2_supplement_destructor_order
+
+Run output:
+Derived::~Derived
+
+Sanitizer command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 -fsanitize=address,undefined -fno-omit-frame-pointer -g "06_r2_supplement_destructor_order.cpp" -o "test_bins/06_r2_supplement_destructor_order_asan"
+
+Sanitizer output:
+
+----- SANITIZER RUN OUTPUT -----
+Derived::~Derived
+
+----- SANITIZER EXIT CODE: 0 -----
+
+Observation:
+Normal compilation, normal run, and sanitizer run all completed without reported errors.

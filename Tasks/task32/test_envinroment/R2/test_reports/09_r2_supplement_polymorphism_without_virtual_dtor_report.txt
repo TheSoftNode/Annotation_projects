@@ -1,0 +1,50 @@
+FILE:
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 "09_r2_supplement_polymorphism_without_virtual_dtor.cpp" -o "test_bins/09_r2_supplement_polymorphism_without_virtual_dtor"
+
+Compiler output:
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp:3:7: warning: ‘class Base’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+    3 | class Base {
+      |       ^~~~
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp:9:7: warning: base class ‘class Base’ has accessible non-virtual destructor [-Wnon-virtual-dtor]
+    9 | class Derived : public Base {
+      |       ^~~~~~~
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp:9:7: warning: ‘class Derived’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp: In function ‘int main()’:
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp:18:5: warning: deleting object of polymorphic class type ‘Base’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   18 |     delete ptr;   // But this is UB
+      |     ^~~~~~~~~~
+
+Run command:
+./test_bins/09_r2_supplement_polymorphism_without_virtual_dtor
+
+Run output:
+Derived::show
+Base::~Base
+
+Sanitizer command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 -fsanitize=address,undefined -fno-omit-frame-pointer -g "09_r2_supplement_polymorphism_without_virtual_dtor.cpp" -o "test_bins/09_r2_supplement_polymorphism_without_virtual_dtor_asan"
+
+Sanitizer output:
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp:3:7: warning: ‘class Base’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+    3 | class Base {
+      |       ^~~~
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp:9:7: warning: base class ‘class Base’ has accessible non-virtual destructor [-Wnon-virtual-dtor]
+    9 | class Derived : public Base {
+      |       ^~~~~~~
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp:9:7: warning: ‘class Derived’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp: In function ‘int main()’:
+09_r2_supplement_polymorphism_without_virtual_dtor.cpp:18:5: warning: deleting object of polymorphic class type ‘Base’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   18 |     delete ptr;   // But this is UB
+      |     ^~~~~~~~~~
+
+----- SANITIZER RUN OUTPUT -----
+Derived::show
+Base::~Base
+
+----- SANITIZER EXIT CODE: 0 -----
+
+Observation:
+Compilation and execution succeeded, but the compiler emitted warnings or notes.

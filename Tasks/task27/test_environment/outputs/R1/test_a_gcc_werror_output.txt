@@ -1,0 +1,19 @@
+popcount_vector.c: In function ‘main’:
+popcount_vector.c:151:24: error: implicit declaration of function ‘malloc’ [-Werror=implicit-function-declaration]
+  151 |     uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
+      |                        ^~~~~~
+popcount_vector.c:20:1: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+   19 | #include <stddef.h>   /* for size_t */
+  +++ |+#include <stdlib.h>
+   20 | 
+popcount_vector.c:151:24: error: incompatible implicit declaration of built-in function ‘malloc’ [-Werror=builtin-declaration-mismatch]
+  151 |     uint32_t *popcnt = malloc((n+1) * sizeof(*popcnt));
+      |                        ^~~~~~
+popcount_vector.c:151:24: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+popcount_vector.c:175:5: error: implicit declaration of function ‘free’ [-Werror=implicit-function-declaration]
+  175 |     free(popcnt);
+      |     ^~~~
+popcount_vector.c:175:5: note: include ‘<stdlib.h>’ or provide a declaration of ‘free’
+popcount_vector.c:175:5: error: incompatible implicit declaration of built-in function ‘free’ [-Werror=builtin-declaration-mismatch]
+popcount_vector.c:175:5: note: include ‘<stdlib.h>’ or provide a declaration of ‘free’
+cc1: all warnings being treated as errors

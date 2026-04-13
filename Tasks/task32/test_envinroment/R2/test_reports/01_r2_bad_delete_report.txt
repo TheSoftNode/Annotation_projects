@@ -1,0 +1,68 @@
+FILE:
+01_r2_bad_delete.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 "01_r2_bad_delete.cpp" -o "test_bins/01_r2_bad_delete"
+
+Compiler output:
+01_r2_bad_delete.cpp:1:7: warning: ‘class Base’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+    1 | class Base {
+      |       ^~~~
+01_r2_bad_delete.cpp:11:7: warning: base class ‘class Base’ has accessible non-virtual destructor [-Wnon-virtual-dtor]
+   11 | class Derived : public Base {
+      |       ^~~~~~~
+01_r2_bad_delete.cpp:11:7: warning: ‘class Derived’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+01_r2_bad_delete.cpp: In function ‘int main()’:
+01_r2_bad_delete.cpp:25:5: warning: deleting object of polymorphic class type ‘Base’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   25 |     delete ptr; // 🚨 UNDEFINED BEHAVIOR!
+      |     ^~~~~~~~~~
+
+Run command:
+./test_bins/01_r2_bad_delete
+
+Run output:
+
+Sanitizer command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 -fsanitize=address,undefined -fno-omit-frame-pointer -g "01_r2_bad_delete.cpp" -o "test_bins/01_r2_bad_delete_asan"
+
+Sanitizer output:
+01_r2_bad_delete.cpp:1:7: warning: ‘class Base’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+    1 | class Base {
+      |       ^~~~
+01_r2_bad_delete.cpp:11:7: warning: base class ‘class Base’ has accessible non-virtual destructor [-Wnon-virtual-dtor]
+   11 | class Derived : public Base {
+      |       ^~~~~~~
+01_r2_bad_delete.cpp:11:7: warning: ‘class Derived’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+01_r2_bad_delete.cpp: In function ‘int main()’:
+01_r2_bad_delete.cpp:25:5: warning: deleting object of polymorphic class type ‘Base’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   25 |     delete ptr; // 🚨 UNDEFINED BEHAVIOR!
+      |     ^~~~~~~~~~
+
+----- SANITIZER RUN OUTPUT -----
+=================================================================
+==11796==ERROR: AddressSanitizer: new-delete-type-mismatch on 0x502000000010 in thread T0:
+  object passed to delete has wrong type:
+  size of the allocated type:   16 bytes;
+  size of the deallocated type: 8 bytes.
+    #0 0x7d9f0673a5e8 in operator delete(void*, unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:164
+    #1 0x61d029889353 in main /workspaces/Annotation_projects/Tasks/task32/test_envinroment/R2/01_r2_bad_delete.cpp:25
+    #2 0x7d9f05aa61c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x7d9f05aa628a in __libc_start_main_impl ../csu/libc-start.c:360
+    #4 0x61d029889224 in _start (/workspaces/Annotation_projects/Tasks/task32/test_envinroment/R2/test_bins/01_r2_bad_delete_asan+0x2224) (BuildId: bc4d390f5f4f349bd57686907a11da9b349f5652)
+
+0x502000000010 is located 0 bytes inside of 16-byte region [0x502000000010,0x502000000020)
+allocated by thread T0 here:
+    #0 0x7d9f06739548 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:95
+    #1 0x61d029889303 in main /workspaces/Annotation_projects/Tasks/task32/test_envinroment/R2/01_r2_bad_delete.cpp:23
+    #2 0x7d9f05aa61c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x7d9f05aa628a in __libc_start_main_impl ../csu/libc-start.c:360
+    #4 0x61d029889224 in _start (/workspaces/Annotation_projects/Tasks/task32/test_envinroment/R2/test_bins/01_r2_bad_delete_asan+0x2224) (BuildId: bc4d390f5f4f349bd57686907a11da9b349f5652)
+
+SUMMARY: AddressSanitizer: new-delete-type-mismatch ../../../../src/libsanitizer/asan/asan_new_delete.cpp:164 in operator delete(void*, unsigned long)
+==11796==HINT: if you don't care about these errors you may set ASAN_OPTIONS=new_delete_type_mismatch=0
+==11796==ABORTING
+
+----- SANITIZER EXIT CODE: 0 -----
+
+Observation:
+Normal compilation and run succeeded, but the sanitizer output shows a problem or undefined-behavior signal.

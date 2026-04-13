@@ -1,0 +1,22 @@
+FILE:
+03_r2_base_safe.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -c "03_r2_base_safe.cpp" -o "test_objs/03_r2_base_safe.o"
+
+Compiler output:
+
+Run command:
+Skipped because this is a compile-only test.
+
+Run output:
+Skipped because this is a compile-only test.
+
+Sanitizer command:
+Skipped because this is a compile-only test.
+
+Sanitizer output:
+Skipped because this is a compile-only test.
+
+Observation:
+Compilation succeeded with no compiler diagnostics.

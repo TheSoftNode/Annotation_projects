@@ -1,0 +1,22 @@
+FILE:
+05_r2_nonpoly.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -c "05_r2_nonpoly.cpp" -o "test_objs/05_r2_nonpoly.o"
+
+Compiler output:
+
+Run command:
+Skipped because this is a compile-only test.
+
+Run output:
+Skipped because this is a compile-only test.
+
+Sanitizer command:
+Skipped because this is a compile-only test.
+
+Sanitizer output:
+Skipped because this is a compile-only test.
+
+Observation:
+Compilation succeeded with no compiler diagnostics.

@@ -1,0 +1,24 @@
+FILE:
+08_r2_supplement_abstract_not_needing_pure_dtor.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 "08_r2_supplement_abstract_not_needing_pure_dtor.cpp" -o "test_bins/08_r2_supplement_abstract_not_needing_pure_dtor"
+
+Compiler output:
+
+Run command:
+./test_bins/08_r2_supplement_abstract_not_needing_pure_dtor
+
+Run output:
+
+Sanitizer command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 -fsanitize=address,undefined -fno-omit-frame-pointer -g "08_r2_supplement_abstract_not_needing_pure_dtor.cpp" -o "test_bins/08_r2_supplement_abstract_not_needing_pure_dtor_asan"
+
+Sanitizer output:
+
+----- SANITIZER RUN OUTPUT -----
+
+----- SANITIZER EXIT CODE: 0 -----
+
+Observation:
+Normal compilation, normal run, and sanitizer run all completed without reported errors.

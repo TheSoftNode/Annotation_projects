@@ -1,0 +1,22 @@
+FILE:
+04_r2_pure_virtual_dtor.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -c "04_r2_pure_virtual_dtor.cpp" -o "test_objs/04_r2_pure_virtual_dtor.o"
+
+Compiler output:
+
+Run command:
+Skipped because this is a compile-only test.
+
+Run output:
+Skipped because this is a compile-only test.
+
+Sanitizer command:
+Skipped because this is a compile-only test.
+
+Sanitizer output:
+Skipped because this is a compile-only test.
+
+Observation:
+Compilation succeeded with no compiler diagnostics.
