@@ -145,20 +145,22 @@ R1's description: ptr1 = &arr1[0]
 
 **Verification of Issue:**
 
-**Tool Type:** Google
+**Tool Type:** Code Executor
 
-**Query:** C standard memory layout automatic storage duration arrays
+**Query:** ./test_contiguity
 
-**URL:** https://port70.net/~nsz/c/c11/n1570.html#6.2.4p6
+**URL:**
 
 **Source Excerpt:**
 
 ```
-From C11 Standard 6.2.4 Storage durations of objects, paragraph 6:
-
-For such an object that does not have a variable length array type, its lifetime extends from entry into the block with which it is associated until execution of that block ends in any way.
-
-The C standard does not specify the relative placement of automatic storage duration objects in memory. Compilers are free to arrange local variables in any order, with or without padding between them.
+&arr1[0] = 0x7ff7b8813240
+&arr1[1] = 0x7ff7b8813244
+&arr1[2] = 0x7ff7b8813248
+&arr1[3] = 0x7ff7b881324c
+&arr2[0] = 0x7ff7b8813230
+&arr2[1] = 0x7ff7b8813234
+byte gap from &arr1[4] to &arr2[0] = -32
 ```
 
 ---
