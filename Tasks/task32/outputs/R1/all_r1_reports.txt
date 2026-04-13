@@ -1,0 +1,329 @@
+==================================================
+01_r1_verbatim_correct_example_report.txt
+==================================================
+FILE:
+01_r1_verbatim_correct_example.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -c "01_r1_verbatim_correct_example.cpp" -o "test_objs/01_r1_verbatim_correct_example.o"
+
+Compiler output:
+01_r1_verbatim_correct_example.cpp:13:1: error: expected unqualified-id before ‘delete’
+   13 | delete ptr; // ✅ Calls ~Derived() then ~Base()
+      | ^~~~~~
+
+Run command:
+Skipped because this is a compile-only test.
+
+Run output:
+Skipped because this is a compile-only test.
+
+Sanitizer command:
+Skipped because this is a compile-only test.
+
+Sanitizer output:
+Skipped because this is a compile-only test.
+
+Observation:
+Compilation failed. Check the compiler output for the exact error.
+
+==================================================
+02_r1_verbatim_avoid_example_report.txt
+==================================================
+FILE:
+02_r1_verbatim_avoid_example.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -c "02_r1_verbatim_avoid_example.cpp" -o "test_objs/02_r1_verbatim_avoid_example.o"
+
+Compiler output:
+
+Run command:
+Skipped because this is a compile-only test.
+
+Run output:
+Skipped because this is a compile-only test.
+
+Sanitizer command:
+Skipped because this is a compile-only test.
+
+Sanitizer output:
+Skipped because this is a compile-only test.
+
+Observation:
+Compilation succeeded with no compiler diagnostics.
+
+==================================================
+03_r1_verbatim_replacement_line_report.txt
+==================================================
+FILE:
+03_r1_verbatim_replacement_line.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -c "03_r1_verbatim_replacement_line.cpp" -o "test_objs/03_r1_verbatim_replacement_line.o"
+
+Compiler output:
+03_r1_verbatim_replacement_line.cpp:1:7: error: expected class-name before ‘(’ token
+    1 | ~Point() = default; // Non-virtual, empty
+      |       ^
+
+Run command:
+Skipped because this is a compile-only test.
+
+Run output:
+Skipped because this is a compile-only test.
+
+Sanitizer command:
+Skipped because this is a compile-only test.
+
+Sanitizer output:
+Skipped because this is a compile-only test.
+
+Observation:
+Compilation failed. Check the compiler output for the exact error.
+
+==================================================
+04_r1_verbatim_final_example_report.txt
+==================================================
+FILE:
+04_r1_verbatim_final_example.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -c "04_r1_verbatim_final_example.cpp" -o "test_objs/04_r1_verbatim_final_example.o"
+
+Compiler output:
+
+Run command:
+Skipped because this is a compile-only test.
+
+Run output:
+Skipped because this is a compile-only test.
+
+Sanitizer command:
+Skipped because this is a compile-only test.
+
+Sanitizer output:
+Skipped because this is a compile-only test.
+
+Observation:
+Compilation succeeded with no compiler diagnostics.
+
+==================================================
+05_r1_supplement_virtual_delete_order_report.txt
+==================================================
+FILE:
+05_r1_supplement_virtual_delete_order.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 "05_r1_supplement_virtual_delete_order.cpp" -o "test_bins/05_r1_supplement_virtual_delete_order"
+
+Compiler output:
+
+Run command:
+./test_bins/05_r1_supplement_virtual_delete_order
+
+Run output:
+Derived::~Derived
+Base::~Base
+
+Sanitizer command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 -fsanitize=address,undefined -fno-omit-frame-pointer -g "05_r1_supplement_virtual_delete_order.cpp" -o "test_bins/05_r1_supplement_virtual_delete_order_asan"
+
+Sanitizer output:
+
+----- SANITIZER RUN OUTPUT -----
+Derived::~Derived
+Base::~Base
+
+----- SANITIZER EXIT CODE: 0 -----
+
+Observation:
+Normal compilation, normal run, and sanitizer run all completed without reported errors.
+
+==================================================
+06_r1_supplement_nonvirtual_delete_ub_report.txt
+==================================================
+FILE:
+06_r1_supplement_nonvirtual_delete_ub.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 "06_r1_supplement_nonvirtual_delete_ub.cpp" -o "test_bins/06_r1_supplement_nonvirtual_delete_ub"
+
+Compiler output:
+06_r1_supplement_nonvirtual_delete_ub.cpp:3:7: warning: ‘class Base’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+    3 | class Base {
+      |       ^~~~
+06_r1_supplement_nonvirtual_delete_ub.cpp:9:7: warning: base class ‘class Base’ has accessible non-virtual destructor [-Wnon-virtual-dtor]
+    9 | class Derived : public Base {
+      |       ^~~~~~~
+06_r1_supplement_nonvirtual_delete_ub.cpp:9:7: warning: ‘class Derived’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+06_r1_supplement_nonvirtual_delete_ub.cpp: In function ‘int main()’:
+06_r1_supplement_nonvirtual_delete_ub.cpp:20:5: warning: deleting object of polymorphic class type ‘Base’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   20 |     delete ptr;
+      |     ^~~~~~~~~~
+
+Run command:
+./test_bins/06_r1_supplement_nonvirtual_delete_ub
+
+Run output:
+Base::~Base
+
+Sanitizer command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 -fsanitize=address,undefined -fno-omit-frame-pointer -g "06_r1_supplement_nonvirtual_delete_ub.cpp" -o "test_bins/06_r1_supplement_nonvirtual_delete_ub_asan"
+
+Sanitizer output:
+06_r1_supplement_nonvirtual_delete_ub.cpp:3:7: warning: ‘class Base’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+    3 | class Base {
+      |       ^~~~
+06_r1_supplement_nonvirtual_delete_ub.cpp:9:7: warning: base class ‘class Base’ has accessible non-virtual destructor [-Wnon-virtual-dtor]
+    9 | class Derived : public Base {
+      |       ^~~~~~~
+06_r1_supplement_nonvirtual_delete_ub.cpp:9:7: warning: ‘class Derived’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+06_r1_supplement_nonvirtual_delete_ub.cpp: In function ‘int main()’:
+06_r1_supplement_nonvirtual_delete_ub.cpp:20:5: warning: deleting object of polymorphic class type ‘Base’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   20 |     delete ptr;
+      |     ^~~~~~~~~~
+
+----- SANITIZER RUN OUTPUT -----
+=================================================================
+==4773==ERROR: AddressSanitizer: new-delete-type-mismatch on 0x502000000010 in thread T0:
+  object passed to delete has wrong type:
+  size of the allocated type:   16 bytes;
+  size of the deallocated type: 8 bytes.
+    #0 0x7c2b169185e8 in operator delete(void*, unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:164
+    #1 0x5a740caf750d in main /home/codespace/r1_virtual_dtor_verification/06_r1_supplement_nonvirtual_delete_ub.cpp:20
+    #2 0x7c2b15c841c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x7c2b15c8428a in __libc_start_main_impl ../csu/libc-start.c:360
+    #4 0x5a740caf7244 in _start (/home/codespace/r1_virtual_dtor_verification/test_bins/06_r1_supplement_nonvirtual_delete_ub_asan+0x2244) (BuildId: f9fa08afbf4c2f7969f3c2b3f630b2f3b1e72ed0)
+
+0x502000000010 is located 0 bytes inside of 16-byte region [0x502000000010,0x502000000020)
+allocated by thread T0 here:
+    #0 0x7c2b16917548 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cpp:95
+    #1 0x5a740caf7323 in main /home/codespace/r1_virtual_dtor_verification/06_r1_supplement_nonvirtual_delete_ub.cpp:19
+    #2 0x7c2b15c841c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x7c2b15c8428a in __libc_start_main_impl ../csu/libc-start.c:360
+    #4 0x5a740caf7244 in _start (/home/codespace/r1_virtual_dtor_verification/test_bins/06_r1_supplement_nonvirtual_delete_ub_asan+0x2244) (BuildId: f9fa08afbf4c2f7969f3c2b3f630b2f3b1e72ed0)
+
+SUMMARY: AddressSanitizer: new-delete-type-mismatch ../../../../src/libsanitizer/asan/asan_new_delete.cpp:164 in operator delete(void*, unsigned long)
+==4773==HINT: if you don't care about these errors you may set ASAN_OPTIONS=new_delete_type_mismatch=0
+==4773==ABORTING
+
+----- SANITIZER EXIT CODE: 0 -----
+
+Observation:
+Normal compilation and run succeeded, but the sanitizer output shows a problem or undefined-behavior signal.
+
+==================================================
+07_r1_supplement_size_compare_report.txt
+==================================================
+FILE:
+07_r1_supplement_size_compare.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 "07_r1_supplement_size_compare.cpp" -o "test_bins/07_r1_supplement_size_compare"
+
+Compiler output:
+
+Run command:
+./test_bins/07_r1_supplement_size_compare
+
+Run output:
+std::is_polymorphic_v<Point>=true
+std::has_virtual_destructor_v<Point>=true
+std::is_polymorphic_v<PlainPoint>=false
+std::has_virtual_destructor_v<PlainPoint>=false
+sizeof(Point)=24
+sizeof(PlainPoint)=16
+
+Sanitizer command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 -fsanitize=address,undefined -fno-omit-frame-pointer -g "07_r1_supplement_size_compare.cpp" -o "test_bins/07_r1_supplement_size_compare_asan"
+
+Sanitizer output:
+
+----- SANITIZER RUN OUTPUT -----
+std::is_polymorphic_v<Point>=true
+std::has_virtual_destructor_v<Point>=true
+std::is_polymorphic_v<PlainPoint>=false
+std::has_virtual_destructor_v<PlainPoint>=false
+sizeof(Point)=24
+sizeof(PlainPoint)=16
+
+----- SANITIZER EXIT CODE: 0 -----
+
+Observation:
+Normal compilation, normal run, and sanitizer run all completed without reported errors.
+
+==================================================
+08_r1_supplement_protected_nonvirtual_delete_report.txt
+==================================================
+FILE:
+08_r1_supplement_protected_nonvirtual_delete.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -c "08_r1_supplement_protected_nonvirtual_delete.cpp" -o "test_objs/08_r1_supplement_protected_nonvirtual_delete.o"
+
+Compiler output:
+08_r1_supplement_protected_nonvirtual_delete.cpp:8:7: warning: ‘class Derived’ has virtual functions and accessible non-virtual destructor [-Wnon-virtual-dtor]
+    8 | class Derived : public Base {
+      |       ^~~~~~~
+08_r1_supplement_protected_nonvirtual_delete.cpp: In function ‘int main()’:
+08_r1_supplement_protected_nonvirtual_delete.cpp:15:5: warning: deleting object of polymorphic class type ‘Base’ which has non-virtual destructor might cause undefined behavior [-Wdelete-non-virtual-dtor]
+   15 |     delete ptr;
+      |     ^~~~~~~~~~
+08_r1_supplement_protected_nonvirtual_delete.cpp:15:12: error: ‘constexpr Base::~Base()’ is protected within this context
+   15 |     delete ptr;
+      |            ^~~
+08_r1_supplement_protected_nonvirtual_delete.cpp:5:5: note: declared protected here
+    5 |     ~Base() = default;
+      |     ^
+
+Run command:
+Skipped because this is a compile-only test.
+
+Run output:
+Skipped because this is a compile-only test.
+
+Sanitizer command:
+Skipped because this is a compile-only test.
+
+Sanitizer output:
+Skipped because this is a compile-only test.
+
+Observation:
+Compilation failed. Check the compiler output for the exact error.
+
+==================================================
+09_r1_supplement_slicing_still_happens_report.txt
+==================================================
+FILE:
+09_r1_supplement_slicing_still_happens.cpp
+
+Compile command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 "09_r1_supplement_slicing_still_happens.cpp" -o "test_bins/09_r1_supplement_slicing_still_happens"
+
+Compiler output:
+
+Run command:
+./test_bins/09_r1_supplement_slicing_still_happens
+
+Run output:
+sizeof(Base)=16
+sizeof(Derived)=16
+sliced.b=1
+take_by_value(Base): x.b=1
+
+Sanitizer command:
+g++ -std=c++20 -Wall -Wextra -Wdelete-non-virtual-dtor -Wnon-virtual-dtor -pedantic -O0 -fsanitize=address,undefined -fno-omit-frame-pointer -g "09_r1_supplement_slicing_still_happens.cpp" -o "test_bins/09_r1_supplement_slicing_still_happens_asan"
+
+Sanitizer output:
+
+----- SANITIZER RUN OUTPUT -----
+sizeof(Base)=16
+sizeof(Derived)=16
+sliced.b=1
+take_by_value(Base): x.b=1
+
+----- SANITIZER EXIT CODE: 0 -----
+
+Observation:
+Normal compilation, normal run, and sanitizer run all completed without reported errors.

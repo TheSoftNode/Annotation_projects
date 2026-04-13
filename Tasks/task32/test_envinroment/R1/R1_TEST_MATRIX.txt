@@ -1,0 +1,47 @@
+R1 TEST MATRIX
+
+Verbatim compile-only tests
+1) 01_r1_verbatim_correct_example.cpp
+   Purpose: Check the exact "Example (Correct)" snippet exactly as written.
+   Key point: It contains executable statements at namespace scope, so this is a standalone-snippet fairness check.
+
+2) 02_r1_verbatim_avoid_example.cpp
+   Purpose: Check that the exact "Example (Avoid)" snippet is accepted as syntax.
+   Key point: Compile success does not prove the design comment is correct.
+
+3) 03_r1_verbatim_replacement_line.cpp
+   Purpose: Check the exact standalone replacement line exactly as written.
+   Key point: It is expected to fail because the line is not inside a class definition.
+
+4) 04_r1_verbatim_final_example.cpp
+   Purpose: Check that the exact final class snippet is accepted as syntax.
+   Key point: Compile success does not prove the design guidance in the comment.
+
+Supplemental language-rule and design-pattern tests
+5) 05_r1_supplement_virtual_delete_order.cpp
+   Purpose: Show observable derived-then-base destruction order when deletion goes through a base pointer with a virtual destructor.
+
+6) 06_r1_supplement_nonvirtual_delete_ub.cpp
+   Purpose: Probe compiler warnings and sanitizer behavior for deleting through a base pointer with a non-virtual destructor.
+   Key point: A single normal run does not prove safety because the language rule is undefined behavior.
+
+7) 07_r1_supplement_size_compare.cpp
+   Purpose: Compare size and polymorphism traits for a class with a virtual destructor and one without.
+   Key point: This is an implementation probe, not a standard guarantee.
+
+8) 08_r1_supplement_protected_nonvirtual_delete.cpp
+   Purpose: Show the protected non-virtual base-destructor pattern from the guidelines by making delete through base pointer fail to compile.
+   Key point: This directly checks the claim that virtual is "necessary in base classes."
+
+9) 09_r1_supplement_slicing_still_happens.cpp
+   Purpose: Show that a virtual destructor does not prevent object slicing.
+   Key point: This checks the mixed claim about "prevent slicing or enable polymorphic deletion."
+
+Claims that remain documentation-heavy even after tests
+- "often useful"
+- "clear"
+- "efficient"
+- "adds a vtable entry"
+- "slight performance cost"
+
+These are not all hard language rules. Some are guidelines, and some are implementation-dependent.
