@@ -197,10 +197,21 @@ take_by_value(Base): x.b=1
 **Response Excerpt:**
 
 ```
+### **✅ When You *Should* Have a Virtual Destructor**
+delete ptr; // ✅ Calls ~Derived() then ~Base()
+✅ Without the `virtual` keyword, **only `Base`'s destructor would be called**, leading to **undefined behavior** (resource leaks, etc.).
 🔥 So even if the destructor is empty, making it `virtual` is critical.
+### **❌ When You Should *Not* Make It Virtual**
+    virtual ~Point() {} // ❌ Unnecessary if not polymorphic
+👉 Just use:
+| Base class, intended for inheritance | ✅ Yes, even if empty |
+| No inheritance, value type | ❌ No |
+| Has other virtual functions | ✅ Likely yes |
+| Want to prevent slicing or enable polymorphic deletion | ✅ Yes |
+✅ **Yes, an empty virtual destructor is useful—and necessary—in base classes.** It does nothing at runtime but ensures correct cleanup of derived objects.
 ```
 
-**Description:** The response includes an emoji that does not add technical value to the explanation.
+**Description:** The response uses emojis throughout section headings and code comments, which do not add technical value and reduce professional tone in a technical explanation.
 
 **Severity:** Minor
 
