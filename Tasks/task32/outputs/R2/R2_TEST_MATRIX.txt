@@ -1,0 +1,54 @@
+R2 TEST MATRIX
+
+Verbatim compile tests from RESPONSE 2
+
+1) 01_r2_bad_delete.cpp
+   Purpose: Test the bad polymorphic-deletion example exactly as written
+   Key claims tested: Claims 6, 7, 8, 9, 10
+   Expected: Should compile with warnings, runtime UB possible, sanitizer may detect error
+
+2) 02_r2_fixed_base.cpp
+   Purpose: Test the fixed base-class declaration exactly as written
+   Key claims tested: Claim 11
+   Expected: Clean compile (compile-only test)
+
+3) 03_r2_base_safe.cpp
+   Purpose: Test the "safe if no resources" example exactly as written
+   Key claims tested: Claim 21
+   Expected: Clean compile (compile-only test)
+   Note: Does not prove "Default copy/move are fine here" comment
+
+4) 04_r2_pure_virtual_dtor.cpp
+   Purpose: Test the pure virtual destructor example exactly as written
+   Key claims tested: Claims 22, 23
+   Expected: Clean compile (compile-only test)
+
+5) 05_r2_nonpoly.cpp
+   Purpose: Test the non-polymorphic example exactly as written
+   Key claims tested: Claim 25
+   Expected: Clean compile (compile-only test)
+   Note: Does not prove "wastes memory/performance" claim
+
+Supplemental tests to verify additional claims
+
+6) 06_r2_supplement_destructor_order.cpp
+   Purpose: Show observable destructor call order with virtual destructor
+   Key claims tested: Claims 3, 4, 12
+
+7) 07_r2_supplement_rule_of_five.cpp
+   Purpose: Check what special member functions are generated with virtual destructor
+   Key claims tested: Claim 20 about default copy/move operations
+
+8) 08_r2_supplement_abstract_not_needing_pure_dtor.cpp
+   Purpose: Show abstract class does not require pure virtual destructor
+   Key claims tested: Claim 28 is overbroad
+
+9) 09_r2_supplement_polymorphism_without_virtual_dtor.cpp
+   Purpose: Show polymorphism still works even without virtual destructor
+   Key claims tested: Claim 31 that omitting virtual destructor "breaks polymorphism"
+
+Claims that remain untestable from code alone:
+- Claim 15: "trivial vtable entry" (implementation-dependent)
+- Claim 17: "vtable overhead" (implementation-dependent)
+- Claim 24: "wastes memory/performance" (implementation-dependent)
+- Claim 5, 10: Exact UB outcome (undefined behavior has no guaranteed manifestation)
