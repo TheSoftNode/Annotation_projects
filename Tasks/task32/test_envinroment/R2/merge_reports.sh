@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -u
 
-OUTFILE="all_r1_reports.txt"
+OUTFILE="all_r2_reports.txt"
 : > "$OUTFILE"
 
 if [ ! -d "test_reports" ]; then
