@@ -1,0 +1,1 @@
+hey there i have experience in react and next js of almost 1.5 years how much time it would take to learn native ?
