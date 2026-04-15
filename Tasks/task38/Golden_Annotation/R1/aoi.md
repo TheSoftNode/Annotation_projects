@@ -130,3 +130,127 @@ Publishable on npm: Yes – already structured with `package.json`, `dist/`, and
 **URL:** N/A
 
 **Source Excerpt:** N/A
+
+---
+
+## AOI #5 - MINOR
+
+**Response Excerpt:**
+
+```
+📦 Package Proposal – tiny-indexeddb-orm
+```
+
+**Description:** The response uses emojis in section headers, which adds no technical value and reduces the professional tone of the package proposal.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** N/A
+
+**Query:** N/A
+
+**URL:** N/A
+
+**Source Excerpt:** N/A
+
+---
+
+## AOI #6 - MINOR
+
+**Response Excerpt:**
+
+```
+Happy coding, and may your npm publish be swift and your bundle tiny! 🚀
+```
+
+**Description:** The response includes an emoji and informal pleasantry at the end, which is not consistent with the technical writing style used throughout the rest of the response.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** N/A
+
+**Query:** N/A
+
+**URL:** N/A
+
+**Source Excerpt:** N/A
+
+---
+
+## AOI #7 - MINOR
+
+**Response Excerpt:**
+
+```
+A tiny (< 5 KB gzipped) wrapper that feels like an ORM, typed and migration-aware, with zero run-time dependencies.
+```
+
+**Description:** The response claims a specific bundle size limit of less than 5 KB gzipped but does not include a size-tracking tool like size-limit in the package.json scripts to enforce or verify this constraint.
+
+**Severity:** Minor
+
+**Verification of Issue:**
+
+**Tool Type:** N/A
+
+**Query:** N/A
+
+**URL:** N/A
+
+**Source Excerpt:** N/A
+
+---
+
+## AOI #8 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+await db.enableWasm({ path: '/wasm/fast-index.wasm' });
+```
+
+**Description:** The response suggests lazy-loading a WebAssembly file from a static path, which can be difficult for npm consumers to configure in modern build tools without manual asset copying and may lead to runtime errors when the path is not accessible.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** N/A
+
+**Query:** N/A
+
+**URL:** N/A
+
+**Source Excerpt:** N/A
+
+---
+
+## AOI #9 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+Transaction manager – run<T>(storeName, mode, fn) opens a transaction and auto-commits/rolls back. Handles onabort/onerror and maps them to rejected promises.
+```
+
+**Description:** The response suggests that the transaction manager handles auto-commits and rollbacks, but IndexedDB transactions automatically commit when the event loop turns and no requests are pending, which makes the phrasing misleading about what the transaction manager actually controls.
+
+**Severity:** Substantial
+
+**Verification of Issue:**
+
+**Tool Type:** Documentation
+
+**Query:** N/A
+
+**URL:** https://developer.mozilla.org/en-US/docs/Web/API/IDBTransaction
+
+**Source Excerpt:**
+
+```
+Transactions auto-commit when all outstanding requests have been satisfied and no new requests have been made. Transactions auto-abort when the transaction is aborted.
+```
