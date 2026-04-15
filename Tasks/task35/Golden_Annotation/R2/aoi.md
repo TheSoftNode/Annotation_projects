@@ -25,7 +25,42 @@ def print_gradients(model, x):
 
 **Tool Type:** Code Executor
 
-**Query:** run_response2_code.py output
+**Query:**
+```python
+# response2_code.py
+def print_gradients(model, x):
+    # 1. Forward pass: Run input x through the neural network model
+    output = model(x)  # Calculates the model's prediction for input x
+
+    # Create a target tensor (ground truth) for loss calculation
+    # Typically this would come from your training data
+    target = torch.tensor([[0.]])  # Creates a tensor with value 0
+
+    # Instantiate the Mean Squared Error loss function
+    loss = nn.MSELoss()  # Initializes MSE loss: (prediction - target)^2
+
+    # 2. Calculate the loss between model output and target
+    loss = loss(output, target)  # Computes MSE: (output - 0)^2
+
+    # 3. Backward pass: Compute gradients via backpropagation
+    loss.backward()  # This computes gradients for ALL trainable parameters
+
+    # Iterate through all named parameters in the model
+    for name, param in model.named_parameters():
+        # Filter to only look at weight parameters (not biases)
+        if 'weight' in name:
+            # Print gradient statistics for each weight parameter
+            print(f"{name} has gradient mean of {param.grad.abs().mean().item()}")
+
+# run_response2_code.py
+import torch
+import torch.nn as nn
+from response2_code import print_gradients
+
+model = nn.Sequential(nn.Linear(3, 1))
+x = torch.randn(1, 3)
+print_gradients(model, x)
+```
 
 **URL:** N/A
 
@@ -59,7 +94,31 @@ loss.backward()  # This computes gradients for ALL trainable parameters
 
 **Tool Type:** Code Executor
 
-**Query:** test_all_trainable_parameters_claim.py output
+**Query:**
+```python
+import torch
+import torch.nn as nn
+
+class TwoLayerModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.used = nn.Linear(3, 1)
+        self.unused = nn.Linear(3, 1)
+
+    def forward(self, x):
+        return self.used(x)
+
+model = TwoLayerModel()
+x = torch.randn(1, 3)
+target = torch.tensor([[0.]])
+loss_fn = nn.MSELoss()
+output = model(x)
+loss = loss_fn(output, target)
+loss.backward()
+
+for name, param in model.named_parameters():
+    print(name, "grad is None ->", param.grad is None)
+```
 
 **URL:** N/A
 
@@ -90,7 +149,21 @@ loss = loss(output, target)  # Computes MSE: (output - 0)^2
 
 **Tool Type:** Code Executor
 
-**Query:** test_mse_claim.py output
+**Query:**
+```python
+import torch
+import torch.nn as nn
+
+output = torch.tensor([[2.0]])
+target = torch.tensor([[0.0]])
+loss_fn = nn.MSELoss()
+loss = loss_fn(output, target)
+manual = (output - target) ** 2
+
+print("loss =", loss)
+print("manual =", manual)
+print("equal =", torch.equal(loss, manual))
+```
 
 **URL:** N/A
 
@@ -120,15 +193,32 @@ target = torch.tensor([[0.]])  # Creates a tensor with value 0
 
 **Tool Type:** Code Executor
 
-**Query:** test with output shape (4, 2)
+**Query:**
+```python
+import torch
+import torch.nn as nn
+
+# Test shape mismatch warning with hard-coded (1,1) target
+model = nn.Sequential(nn.Linear(3, 8), nn.Linear(8, 4), nn.Linear(4, 2))
+x = torch.randn(4, 3)  # batch of 4, outputs (4, 2)
+
+output = model(x)
+print(output.shape)
+
+# Hard-coded (1, 1) target
+target = torch.tensor([[0.]])
+loss_fn = nn.MSELoss()
+loss = loss_fn(output, target)
+print(loss)
+```
 
 **URL:** N/A
 
 **Source Excerpt:**
 
 ```
-torch.Size([])
-UserWarning Using a target size (torch.Size([1, 1])) that is different to the input size (torch.Size([4, 2])). This will likely lead to incorrect results due to broadcasting.
+torch.Size([4, 2])
+UserWarning: Using a target size (torch.Size([1, 1])) that is different to the input size (torch.Size([4, 2])). This will likely lead to incorrect results due to broadcasting. Please ensure they have the same size.
 ```
 
 ---
@@ -157,15 +247,40 @@ UserWarning Using a target size (torch.Size([1, 1])) that is different to the in
 
 **Tool Type:** Code Executor
 
-**Query:** test repeated calls without zero_grad()
+**Query:**
+```python
+import torch
+import torch.nn as nn
+
+# Test gradient accumulation when calling the function multiple times without zero_grad()
+def print_gradients_no_zero(model, x):
+    output = model(x)
+    target = torch.tensor([[0.]])
+    loss = nn.MSELoss()
+    loss = loss(output, target)
+    loss.backward()
+
+    for name, param in model.named_parameters():
+        if 'weight' in name:
+            print(f"{name} has gradient mean of {param.grad.abs().mean().item()}")
+
+model = nn.Linear(3, 1)
+x = torch.randn(1, 3)
+
+# First call
+print_gradients_no_zero(model, x)
+
+# Second call without zero_grad() - gradients should accumulate
+print_gradients_no_zero(model, x)
+```
 
 **URL:** N/A
 
 **Source Excerpt:**
 
 ```
-linear.weight has gradient mean of 0.4314808249473572
-linear.weight has gradient mean of 0.8629616498947144
+weight has gradient mean of 0.19403183460235596
+weight has gradient mean of 0.3880636692047119
 ```
 
 ---
