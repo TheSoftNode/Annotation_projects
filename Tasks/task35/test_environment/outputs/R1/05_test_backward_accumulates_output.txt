@@ -1,0 +1,8 @@
+/Users/apple/Desktop/Applyloop-project3/Tasks/task35/test_environment/venv/lib/python3.12/site-packages/torch/nn/modules/transformer.py:20: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+  device: torch.device = torch.device(torch._C._get_default_device()),  # torch.device('cpu'),
+first grad:
+tensor([[-0.2925,  0.2837,  0.0721]])
+second grad:
+tensor([[-0.5851,  0.5674,  0.1443]])
+same as doubled first (approximately):
+True
