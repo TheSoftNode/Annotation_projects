@@ -1,0 +1,1 @@
+sum=inf isinf=1
