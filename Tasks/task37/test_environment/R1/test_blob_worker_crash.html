@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blob Worker + importScripts + Module Type Crash Test</title>
+</head>
+<body>
+    <h1>Blob Worker Crash Test</h1>
+    <p>Open the browser console to see the error.</p>
+    <button id="testBtn">Click to Run Test</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('testBtn').addEventListener('click', () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing... Check console for error.</p>';
+
+            try {
+                // This is the exact pattern from Response 1
+                const worker = new Worker(
+                    URL.createObjectURL(
+                        new Blob(
+                            [`importScripts('${new URL('./flight.worker', location.href)}');`],
+                            { type: 'application/javascript' }
+                        )
+                    ),
+                    { type: 'module' }  // <-- This causes the crash
+                );
+
+                worker.onerror = (error) => {
+                    console.error('Worker error:', error);
+                    resultDiv.innerHTML = `
+                        <p style="color: red;"><strong>❌ CRASH CONFIRMED</strong></p>
+                        <p>Error: ${error.message}</p>
+                        <p>The worker failed because importScripts() cannot be used in module workers.</p>
+                    `;
+                };
+
+                worker.onmessage = (e) => {
+                    console.log('Worker message:', e.data);
+                    resultDiv.innerHTML = `<p style="color: green;">Worker succeeded: ${e.data}</p>`;
+                };
+
+                // Send a test message
+                worker.postMessage('test');
+
+            } catch (e) {
+                console.error('Caught exception:', e);
+                resultDiv.innerHTML = `
+                    <p style="color: red;"><strong>❌ EXCEPTION CAUGHT</strong></p>
+                    <p>${e.message}</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

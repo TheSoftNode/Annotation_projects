@@ -1,0 +1,25 @@
+=== Testing Response 2's include path mismatch issue ===
+
+User's actual error is in: libs/common/src/lib/services/flight.service.ts
+Response 2 recommends: "include": ["src"]
+
+1. Created user's actual file at: libs/common/src/lib/services/flight.service.ts
+
+2. Testing with Response 2's config: "include": ["src"]
+
+3. Running tsc with Response 2's config...
+  Visit https://aka.ms/ts6 for migration information.
+
+✓ No errors reported
+
+❌ ISSUE CONFIRMED: The error disappeared because libs/common/src is NOT
+   included in the "include": ["src"] path. The file is excluded from
+   compilation, not actually fixed.
+
+4. Now testing with correct include path...
+
+5. Testing with corrected config: "include": ["src", "libs"]
+
+  Visit https://aka.ms/ts6 for migration information.
+
+✓ No errors (file is now included and compiles successfully)

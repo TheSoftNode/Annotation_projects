@@ -1,2 +1,1 @@
-// @ts-ignore
-console.log(import.meta.url)
+const worker = new Worker(new URL('./flight.worker', import.meta.url), { type: 'module' })
