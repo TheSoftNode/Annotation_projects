@@ -83,6 +83,73 @@ background-blend-mode: screen;
 
 **Severity:** Minor
 
+---
+
+## AOI #4 - MINOR
+
+**Response Excerpt:**
+
+```
+html
+<template>
+  ...
+<script setup lang="ts">
+```
+
+**Description:** The response labels its code block as `html` rather than `vue`, despite the code containing Vue-specific syntax such as `<template>`, `<script setup lang="ts">`, and `<style scoped>`. This incorrectly categorizes the framework-specific single-file component as standard HTML.
+
+**Severity:** Minor
+
+---
+
+## AOI #5 - MINOR
+
+**Response Excerpt:**
+
+```css
+/* Apply the animation: duration | timing-function | iteration */
+animation: wire-glow-move 8s linear infinite;
+```
+
+**Description:** The inline comment lists the animation shorthand properties as "duration | timing-function | iteration" but omits the animation name (`wire-glow-move`) that is the first value in the declaration. This gives an incomplete explanation of the shorthand syntax being used.
+
+**Severity:** Minor
+
+---
+
+## AOI #6 - MINOR
+
+**Response Excerpt:**
+
+```html
+<!-- Floating orbs overlay -->
+<div class="floating-orbs absolute top-0 h-full w-full">
+  <span v-for="_ in 1"></span>
+</div>
+```
+
+**Description:** The HTML comment describes "Floating orbs" (plural), but the `v-for="_ in 1"` loop renders only a single `<span>` element. This inconsistency between the comment and the code could mislead the user about the expected number of orbs and how `v-for` cardinality works.
+
+**Severity:** Minor
+
+---
+
+## AOI #7 - MINOR
+
+**Response Excerpt:**
+
+```html
+<common-custom-scrollbar />
+...
+<script setup lang="ts">
+  // No script changes needed
+</script>
+```
+
+**Description:** The response retains `<common-custom-scrollbar />` in the template and explicitly states "No script changes needed," but the `<script setup>` block contains no import for this custom component. In a standard Vue setup, unimported components in `<script setup>` will fail to resolve, and the response misses the opportunity to flag this issue in the user's original code.
+
+**Severity:** Minor
+
 **Verification of Issue:**
 
 **Tool Type:** Web Documentation
