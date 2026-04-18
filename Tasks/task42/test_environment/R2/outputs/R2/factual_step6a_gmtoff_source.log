@@ -1,0 +1,5 @@
+5:#define _POSIX_C_SOURCE 200809L /* for localtime_r */
+59:    /* copy to a local object so we can safely read tm_gmtoff */
+63:    /* 4  Preferred method: use tm_gmtoff if the libc provides it.
+67:    offset = tm.tm_gmtoff; /* seconds east of UTC */
+69:    /* 5  Fallback for very old libc that lacks tm_gmtoff.

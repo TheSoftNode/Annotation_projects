@@ -1,0 +1,77 @@
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c: In function ‘main’:
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:9:5: warning: implicit declaration of function ‘setlocale’ [-Wimplicit-function-declaration]
+    9 |     setlocale(LC_TIME, "");
+      |     ^~~~~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:9:15: error: ‘LC_TIME’ undeclared (first use in this function)
+    9 |     setlocale(LC_TIME, "");
+      |               ^~~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:9:15: note: each undeclared identifier is reported only once for each function it appears in
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:11:5: error: unknown type name ‘time_t’
+   11 |     time_t rawtime;
+      |     ^~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:1:1: note: ‘time_t’ is defined in header ‘<time.h>’; did you forget to ‘#include <time.h>’?
+  +++ |+#include <time.h>
+    1 | /* r1_original.c — Response 1 code AS-WRITTEN (incomplete, won't compile)
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:14:5: warning: implicit declaration of function ‘time’ [-Wimplicit-function-declaration]
+   14 |     time(&rawtime);
+      |     ^~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:14:5: note: ‘time’ is defined in header ‘<time.h>’; did you forget to ‘#include <time.h>’?
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:15:17: warning: implicit declaration of function ‘localtime’ [-Wimplicit-function-declaration]
+   15 |     localTime = localtime(&rawtime);
+      |                 ^~~~~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:15:17: note: ‘localtime’ is defined in header ‘<time.h>’; did you forget to ‘#include <time.h>’?
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:15:15: warning: assignment to ‘struct tm *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+   15 |     localTime = localtime(&rawtime);
+      |               ^
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:17:22: error: ‘NULL’ undeclared (first use in this function)
+   17 |     if (localTime == NULL)
+      |                      ^~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:1:1: note: ‘NULL’ is defined in header ‘<stddef.h>’; did you forget to ‘#include <stddef.h>’?
+  +++ |+#include <stddef.h>
+    1 | /* r1_original.c — Response 1 code AS-WRITTEN (incomplete, won't compile)
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:19:9: warning: implicit declaration of function ‘fprintf’ [-Wimplicit-function-declaration]
+   19 |         fprintf(stderr, "Error: localtime failed\n");
+      |         ^~~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:1:1: note: include ‘<stdio.h>’ or provide a declaration of ‘fprintf’
+  +++ |+#include <stdio.h>
+    1 | /* r1_original.c — Response 1 code AS-WRITTEN (incomplete, won't compile)
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:19:9: warning: incompatible implicit declaration of built-in function ‘fprintf’ [-Wbuiltin-declaration-mismatch]
+   19 |         fprintf(stderr, "Error: localtime failed\n");
+      |         ^~~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:19:9: note: include ‘<stdio.h>’ or provide a declaration of ‘fprintf’
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:19:17: error: ‘stderr’ undeclared (first use in this function)
+   19 |         fprintf(stderr, "Error: localtime failed\n");
+      |                 ^~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:19:17: note: ‘stderr’ is defined in header ‘<stdio.h>’; did you forget to ‘#include <stdio.h>’?
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:24:5: error: unknown type name ‘time_t’
+   24 |     time_t gmtimeOffset = mktime(gmtime(&rawtime));
+      |     ^~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:24:5: note: ‘time_t’ is defined in header ‘<time.h>’; did you forget to ‘#include <time.h>’?
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:24:27: warning: implicit declaration of function ‘mktime’ [-Wimplicit-function-declaration]
+   24 |     time_t gmtimeOffset = mktime(gmtime(&rawtime));
+      |                           ^~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:24:27: note: ‘mktime’ is defined in header ‘<time.h>’; did you forget to ‘#include <time.h>’?
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:24:34: warning: implicit declaration of function ‘gmtime’ [-Wimplicit-function-declaration]
+   24 |     time_t gmtimeOffset = mktime(gmtime(&rawtime));
+      |                                  ^~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:24:34: note: ‘gmtime’ is defined in header ‘<time.h>’; did you forget to ‘#include <time.h>’?
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:25:5: error: unknown type name ‘time_t’
+   25 |     time_t localTimeOffset = mktime(localTime);
+      |     ^~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:25:5: note: ‘time_t’ is defined in header ‘<time.h>’; did you forget to ‘#include <time.h>’?
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:29:9: warning: implicit declaration of function ‘strftime’ [-Wimplicit-function-declaration]
+   29 |     if (strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", localTime) == 0)
+      |         ^~~~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:29:9: note: include ‘<time.h>’ or provide a declaration of ‘strftime’
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:29:9: warning: incompatible implicit declaration of built-in function ‘strftime’ [-Wbuiltin-declaration-mismatch]
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:29:9: note: include ‘<time.h>’ or provide a declaration of ‘strftime’
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:31:9: warning: incompatible implicit declaration of built-in function ‘fprintf’ [-Wbuiltin-declaration-mismatch]
+   31 |         fprintf(stderr, "Error: strftime failed\n");
+      |         ^~~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:31:9: note: include ‘<stdio.h>’ or provide a declaration of ‘fprintf’
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:35:5: warning: implicit declaration of function ‘printf’ [-Wimplicit-function-declaration]
+   35 |     printf("Local time: %s\n", formattedTime);
+      |     ^~~~~~
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:35:5: note: include ‘<stdio.h>’ or provide a declaration of ‘printf’
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:35:5: warning: incompatible implicit declaration of built-in function ‘printf’ [-Wbuiltin-declaration-mismatch]
+/workspaces/Annotation_projects/Tasks/task42/test_environment/R1/r1_original.c:35:5: note: include ‘<stdio.h>’ or provide a declaration of ‘printf’

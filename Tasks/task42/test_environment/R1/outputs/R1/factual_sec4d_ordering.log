@@ -1,0 +1,39 @@
+     1	/* r1_original.c — Response 1 code AS-WRITTEN (incomplete, won't compile)
+     2	 * This file preserves the original exactly. The "// ... [previous includes
+     3	 * and definitions]" comment shows R1 expects prior context. */
+     4	
+     5	// ... [previous includes and definitions]
+     6	
+     7	int main()
+     8	{
+     9	    setlocale(LC_TIME, "");
+    10	    struct tm *localTime;
+    11	    time_t rawtime;
+    12	    char formattedTime[100];
+    13	
+    14	    time(&rawtime);
+    15	    localTime = localtime(&rawtime);
+    16	
+    17	    if (localTime == NULL)
+    18	    {
+    19	        fprintf(stderr, "Error: localtime failed\n");
+    20	        return 1;
+    21	    }
+    22	
+    23	    // Get the time offset
+    24	    time_t gmtimeOffset = mktime(gmtime(&rawtime));
+    25	    time_t localTimeOffset = mktime(localTime);
+    26	    int timeOffset = (int)(localTimeOffset - gmtimeOffset);
+    27	
+    28	    // Format the time using strftime
+    29	    if (strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", localTime) == 0)
+    30	    {
+    31	        fprintf(stderr, "Error: strftime failed\n");
+    32	        return 1;
+    33	    }
+    34	
+    35	    printf("Local time: %s\n", formattedTime);
+    36	    printf("Time offset to GMT: %d seconds\n", timeOffset);
+    37	
+    38	    return 0;
+    39	}

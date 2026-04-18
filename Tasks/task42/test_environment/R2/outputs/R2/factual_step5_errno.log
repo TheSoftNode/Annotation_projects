@@ -1,0 +1,7 @@
+2: *  Note: uses errno without #include <errno.h>.
+6:#include <time.h>
+7:#include <stdio.h>
+8:#include <stdlib.h>
+32:        err = errno;
+45:        err = errno;
+54:        err = errno;

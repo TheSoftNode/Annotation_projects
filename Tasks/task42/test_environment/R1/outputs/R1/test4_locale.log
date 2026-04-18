@@ -1,0 +1,5 @@
+Without setlocale: tm_gmtoff = -14400
+With setlocale(LC_TIME, ""): tm_gmtoff = -14400
+With setlocale(LC_TIME, "C"): tm_gmtoff = -14400
+
+All offsets equal? YES — locale does NOT affect offset

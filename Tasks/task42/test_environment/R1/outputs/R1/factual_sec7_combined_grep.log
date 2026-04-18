@@ -1,0 +1,5 @@
+14:    time(&rawtime);
+15:    localTime = localtime(&rawtime);
+17:    if (localTime == NULL)
+24:    time_t gmtimeOffset = mktime(gmtime(&rawtime));
+29:    if (strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", localTime) == 0)

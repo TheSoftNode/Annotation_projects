@@ -1,0 +1,1 @@
+Linux man-pages document TZ and /etc/localtime but NOT /etc/timezone as standard.

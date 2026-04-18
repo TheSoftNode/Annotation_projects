@@ -1,0 +1,5 @@
+/tmp/test_tmgmtoff.c: In function ‘main’:
+/tmp/test_tmgmtoff.c:7:37: error: ‘struct tm’ has no member named ‘tm_gmtoff’; did you mean ‘__tm_gmtoff’?
+    7 |     printf("tm_gmtoff = %ld\n", lt->tm_gmtoff);
+      |                                     ^~~~~~~~~
+      |                                     __tm_gmtoff

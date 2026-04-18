@@ -1,0 +1,14 @@
+Format '%Y-%m-%d %H:%M:%S': ret=19, buf='2025-04-18 12:00:00'
+Format '' (empty): ret=0, buf=''
+Buffer size 5 (too small): ret=0
+
+POSIX man page says: 'If the total number of resulting bytes
+including the terminating null byte is not more than maxsize,
+strftime() shall return the number of bytes placed into the
+array pointed to by s, not including the terminating null byte.
+Otherwise, 0 shall be returned and the contents of the array
+are unspecified.'
+
+Return value 0 with an empty format string is NOT an error.
+R1 treats strftime()==0 as unconditional failure. That is not
+universally accurate per POSIX.

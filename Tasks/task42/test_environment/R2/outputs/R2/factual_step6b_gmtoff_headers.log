@@ -1,0 +1,2 @@
+/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:20:  long int tm_gmtoff;		/* Seconds east of UTC.  */
+/usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:23:  long int __tm_gmtoff;		/* Seconds east of UTC.  */
