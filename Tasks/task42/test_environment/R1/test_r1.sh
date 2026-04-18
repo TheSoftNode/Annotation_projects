@@ -2,7 +2,7 @@
 # test_r1.sh — All tests for Response 1
 # Run from: task42/test_environment/
 
-set -euo pipefail
+set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUT_DIR="$SCRIPT_DIR/outputs/R1"
 mkdir -p "$OUT_DIR"
@@ -19,7 +19,7 @@ FAIL=0
 # TEST 1: Does R1 code compile as-written (without includes)?
 # ----------------------------------------------------------
 echo "--- TEST 1: Compilation of r1_original.c (no includes) ---"
-if gcc -std=c99 -Wall -Wextra -o /tmp/r1_orig "$SCRIPT_DIR/R1/r1_original.c" 2>"$OUT_DIR/test1_compile_original.log"; then
+if gcc -std=c99 -Wall -Wextra -o /tmp/r1_orig "$SCRIPT_DIR/r1_original.c" 2>"$OUT_DIR/test1_compile_original.log"; then
     echo "RESULT: Compiles WITHOUT includes (unexpected)"
     cat "$OUT_DIR/test1_compile_original.log"
 else
@@ -33,7 +33,7 @@ echo ""
 # TEST 2: Does R1 code compile with includes added?
 # ----------------------------------------------------------
 echo "--- TEST 2: Compilation of r1_completable.c (includes added) ---"
-if gcc -std=c99 -Wall -Wextra -o /tmp/r1_comp "$SCRIPT_DIR/R1/r1_completable.c" 2>"$OUT_DIR/test2_compile.log"; then
+if gcc -std=c99 -Wall -Wextra -o /tmp/r1_comp "$SCRIPT_DIR/r1_completable.c" 2>"$OUT_DIR/test2_compile.log"; then
     echo "RESULT: Compiles successfully with added includes"
     PASS=$((PASS + 1))
 else
@@ -53,6 +53,7 @@ echo ""
 # ----------------------------------------------------------
 echo "--- TEST 3: Static buffer clobber (gmtime clobbers localtime result) ---"
 cat > /tmp/test_r1_clobber.c << 'EOF'
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
@@ -119,7 +120,7 @@ int main() {
 EOF
 gcc -std=c99 -Wall -Wextra -o /tmp/test_r1_clobber /tmp/test_r1_clobber.c 2>&1
 
-echo "Running in current TZ ($TZ or system default):"
+echo "Running in current TZ (${TZ:-system default}):"
 /tmp/test_r1_clobber | tee "$OUT_DIR/test3_clobber_default.log"
 echo ""
 
@@ -142,6 +143,7 @@ echo ""
 # ----------------------------------------------------------
 echo "--- TEST 4: setlocale(LC_TIME) relevance to time offset ---"
 cat > /tmp/test_r1_locale.c << 'EOF'
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <time.h>
 #include <locale.h>

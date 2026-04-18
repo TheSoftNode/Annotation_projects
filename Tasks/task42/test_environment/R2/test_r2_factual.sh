@@ -3,7 +3,7 @@
 # Follows EVERY step from that document. Nothing skipped.
 # Run from: task42/test_environment/
 
-set -euo pipefail
+set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUT_DIR="$SCRIPT_DIR/outputs/R2"
 mkdir -p "$OUT_DIR"
@@ -41,7 +41,7 @@ locale 2>&1 | tee "$OUT_DIR/factual_step2_locale.log"
 echo ""
 
 echo "--- echo \$TZ ---"
-echo "TZ=$TZ" 2>/dev/null || echo "TZ=(unset)"
+echo "TZ=${TZ:-<unset>}"
 echo ""
 
 echo "--- date ---"
@@ -70,7 +70,7 @@ echo "  STEP 3: SOURCE CODE"
 echo "=========================================="
 echo ""
 echo "Code already saved as r2_original.c"
-echo "Lines: $(wc -l < "$SCRIPT_DIR/R2/r2_original.c")"
+echo "Lines: $(wc -l < "$SCRIPT_DIR/r2_original.c")"
 echo ""
 
 ###############################################################################
@@ -87,7 +87,7 @@ echo ""
 echo "--- 4A: Response's compile style ---"
 echo "Command: gcc -std=c99 -Wall -Wextra -o /tmp/r2_verbatim r2_original.c"
 echo ""
-gcc -std=c99 -Wall -Wextra -o /tmp/r2_verbatim "$SCRIPT_DIR/R2/r2_original.c" 2>"$OUT_DIR/factual_step4a_compile.log"
+gcc -std=c99 -Wall -Wextra -o /tmp/r2_verbatim "$SCRIPT_DIR/r2_original.c" 2>"$OUT_DIR/factual_step4a_compile.log"
 COMPILE_A_EXIT=$?
 if [ $COMPILE_A_EXIT -eq 0 ]; then
     echo "RESULT: Compilation SUCCEEDED"
@@ -101,7 +101,7 @@ echo ""
 echo "--- 4B: Strict pedantic compile ---"
 echo "Command: cc -std=c99 -Wall -Wextra -pedantic -o /tmp/r2_strict r2_original.c"
 echo ""
-cc -std=c99 -Wall -Wextra -pedantic -o /tmp/r2_strict "$SCRIPT_DIR/R2/r2_original.c" 2>"$OUT_DIR/factual_step4b_compile.log"
+cc -std=c99 -Wall -Wextra -pedantic -o /tmp/r2_strict "$SCRIPT_DIR/r2_original.c" 2>"$OUT_DIR/factual_step4b_compile.log"
 COMPILE_B_EXIT=$?
 if [ $COMPILE_B_EXIT -eq 0 ]; then
     echo "RESULT: Compilation SUCCEEDED"
@@ -127,11 +127,11 @@ echo ""
 
 echo "Command: grep -n 'errno\|#include' r2_original.c"
 echo ""
-grep -n 'errno\|#include' "$SCRIPT_DIR/R2/r2_original.c" | tee "$OUT_DIR/factual_step5_errno.log"
+grep -n 'errno\|#include' "$SCRIPT_DIR/r2_original.c" | tee "$OUT_DIR/factual_step5_errno.log"
 echo ""
 
-USES_ERRNO=$(grep -c 'errno' "$SCRIPT_DIR/R2/r2_original.c" || true)
-HAS_ERRNO_H=$(grep -c '<errno.h>' "$SCRIPT_DIR/R2/r2_original.c" || true)
+USES_ERRNO=$(grep -c 'errno' "$SCRIPT_DIR/r2_original.c" || true)
+HAS_ERRNO_H=$(grep -c '<errno.h>' "$SCRIPT_DIR/r2_original.c" || true)
 echo "errno used: $USES_ERRNO times"
 echo "<errno.h> included: $HAS_ERRNO_H times"
 echo ""
@@ -157,7 +157,7 @@ echo ""
 echo "--- 6A: Source code references ---"
 echo "Command: grep -n 'tm_gmtoff\|_POSIX_C_SOURCE' r2_original.c"
 echo ""
-grep -n 'tm_gmtoff\|_POSIX_C_SOURCE' "$SCRIPT_DIR/R2/r2_original.c" | tee "$OUT_DIR/factual_step6a_gmtoff_source.log"
+grep -n 'tm_gmtoff\|_POSIX_C_SOURCE' "$SCRIPT_DIR/r2_original.c" | tee "$OUT_DIR/factual_step6a_gmtoff_source.log"
 echo ""
 
 echo "--- 6B: System header search ---"
@@ -183,7 +183,7 @@ echo ""
 
 echo "Command: cc -std=c99 -dM -E r2_original.c | grep -E '_POSIX_C_SOURCE|_DEFAULT_SOURCE|_GNU_SOURCE|__USE_MISC|__GLIBC__'"
 echo ""
-cc -std=c99 -dM -E "$SCRIPT_DIR/R2/r2_original.c" 2>/dev/null | grep -E '_POSIX_C_SOURCE|_DEFAULT_SOURCE|_GNU_SOURCE|__USE_MISC|__GLIBC__' | tee "$OUT_DIR/factual_step7_macros.log" || echo "(no matching macros found)"
+cc -std=c99 -dM -E "$SCRIPT_DIR/r2_original.c" 2>/dev/null | grep -E '_POSIX_C_SOURCE|_DEFAULT_SOURCE|_GNU_SOURCE|__USE_MISC|__GLIBC__' | tee "$OUT_DIR/factual_step7_macros.log" || echo "(no matching macros found)"
 echo ""
 
 echo "Expected:"

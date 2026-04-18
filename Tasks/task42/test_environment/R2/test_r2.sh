@@ -2,7 +2,7 @@
 # test_r2.sh — All tests for Response 2
 # Run from: task42/test_environment/
 
-set -euo pipefail
+set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUT_DIR="$SCRIPT_DIR/outputs/R2"
 mkdir -p "$OUT_DIR"
@@ -18,7 +18,7 @@ echo ""
 # But R2 uses errno without #include <errno.h>.
 # ----------------------------------------------------------
 echo "--- TEST 1: Compilation as-written (gcc -std=c99 -Wall -Wextra) ---"
-gcc -std=c99 -Wall -Wextra -o /tmp/r2_orig "$SCRIPT_DIR/R2/r2_original.c" 2>"$OUT_DIR/test1_compile.log"
+gcc -std=c99 -Wall -Wextra -o /tmp/r2_orig "$SCRIPT_DIR/r2_original.c" 2>"$OUT_DIR/test1_compile.log"
 COMPILE_EXIT=$?
 if [ $COMPILE_EXIT -eq 0 ]; then
     echo "RESULT: Compiles successfully (exit $COMPILE_EXIT)"
@@ -37,7 +37,7 @@ echo ""
 # Test with -Werror to see if it's clean.
 # ----------------------------------------------------------
 echo "--- TEST 2: Strict compilation (-Werror -pedantic) ---"
-gcc -std=c99 -Wall -Wextra -Werror -pedantic -o /tmp/r2_strict "$SCRIPT_DIR/R2/r2_original.c" 2>"$OUT_DIR/test2_strict.log"
+gcc -std=c99 -Wall -Wextra -Werror -pedantic -o /tmp/r2_strict "$SCRIPT_DIR/r2_original.c" 2>"$OUT_DIR/test2_strict.log"
 STRICT_EXIT=$?
 if [ $STRICT_EXIT -eq 0 ]; then
     echo "RESULT: Passes strict compilation"
@@ -179,7 +179,7 @@ echo "" | tee "$OUT_DIR/test6_posix.log"
 # ----------------------------------------------------------
 echo "--- TEST 7: DST handling verification ---"
 cat > /tmp/test_dst.c << 'EOF'
-#define _POSIX_C_SOURCE 200809L
+#define _GNU_SOURCE
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -283,7 +283,7 @@ echo "" | tee "$OUT_DIR/test9_timestamp.log"
 # ----------------------------------------------------------
 echo "--- TEST 10: R2 fallback path (timezone/daylight globals) ---"
 cat > /tmp/test_r2_fallback.c << 'EOF'
-#define _POSIX_C_SOURCE 200809L
+#define _GNU_SOURCE
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -349,7 +349,7 @@ echo "" | tee "$OUT_DIR/test10_fallback_note.log"
 # TEST 11: Sanitizer run — check for undefined behavior
 # ----------------------------------------------------------
 echo "--- TEST 11: AddressSanitizer + UndefinedBehaviorSanitizer ---"
-if gcc -std=c99 -Wall -Wextra -fsanitize=address,undefined -o /tmp/r2_asan "$SCRIPT_DIR/R2/r2_original.c" 2>"$OUT_DIR/test11_asan_compile.log"; then
+if gcc -std=c99 -Wall -Wextra -fsanitize=address,undefined -o /tmp/r2_asan "$SCRIPT_DIR/r2_original.c" 2>"$OUT_DIR/test11_asan_compile.log"; then
     echo "Compiled with sanitizers. Running:"
     TZ=America/New_York /tmp/r2_asan 2>&1 | tee "$OUT_DIR/test11_asan_run.log"
     echo ""

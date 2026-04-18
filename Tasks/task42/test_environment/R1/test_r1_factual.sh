@@ -3,7 +3,7 @@
 # Follows EVERY step from that document. Nothing skipped.
 # Run from: task42/test_environment/
 
-set -euo pipefail
+set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUT_DIR="$SCRIPT_DIR/outputs/R1"
 mkdir -p "$OUT_DIR"
@@ -48,7 +48,7 @@ echo ""
 echo "--- Compile r1_original.c exactly as written ---"
 echo "Command: cc -std=c99 -Wall -Wextra -pedantic r1_original.c"
 echo ""
-cc -std=c99 -Wall -Wextra -pedantic "$SCRIPT_DIR/R1/r1_original.c" -o /tmp/r1_verbatim 2>"$OUT_DIR/factual_sec3_verbatim_compile.log"
+cc -std=c99 -Wall -Wextra -pedantic "$SCRIPT_DIR/r1_original.c" -o /tmp/r1_verbatim 2>"$OUT_DIR/factual_sec3_verbatim_compile.log"
 VERBATIM_EXIT=$?
 if [ $VERBATIM_EXIT -eq 0 ]; then
     echo "RESULT: Compilation SUCCEEDED (unexpected per factual doc)"
@@ -76,7 +76,7 @@ echo ""
 echo "--- 4A: localtime null check and strftime check present? ---"
 echo "Command: grep -n 'localTime == NULL\|strftime(formattedTime' r1_original.c"
 echo ""
-grep -n 'localTime == NULL\|strftime(formattedTime' "$SCRIPT_DIR/R1/r1_original.c" | tee "$OUT_DIR/factual_sec4a_checks.log"
+grep -n 'localTime == NULL\|strftime(formattedTime' "$SCRIPT_DIR/r1_original.c" | tee "$OUT_DIR/factual_sec4a_checks.log"
 echo ""
 echo "Expected: One line showing the localtime null check."
 echo "          One line showing the strftime(...) == 0 check."
@@ -87,7 +87,7 @@ echo ""
 echo "--- 4B: Format string '%Y-%m-%d %H:%M:%S' present? ---"
 echo "Command: grep -n '%Y-%m-%d %H:%M:%S' r1_original.c"
 echo ""
-grep -n '%Y-%m-%d %H:%M:%S' "$SCRIPT_DIR/R1/r1_original.c" | tee "$OUT_DIR/factual_sec4b_format.log"
+grep -n '%Y-%m-%d %H:%M:%S' "$SCRIPT_DIR/r1_original.c" | tee "$OUT_DIR/factual_sec4b_format.log"
 echo ""
 echo "Expected: One line showing the exact format string."
 echo "This tests Claim 3: 'Format the time using strftime'."
@@ -97,7 +97,7 @@ echo ""
 echo "--- 4C: Does R1 use timestamps? ---"
 echo "Command: grep -n 'time(&rawtime)\|localtime(&rawtime)\|gmtime(&rawtime)' r1_original.c"
 echo ""
-grep -n 'time(&rawtime)\|localtime(&rawtime)\|gmtime(&rawtime)' "$SCRIPT_DIR/R1/r1_original.c" | tee "$OUT_DIR/factual_sec4c_timestamp.log"
+grep -n 'time(&rawtime)\|localtime(&rawtime)\|gmtime(&rawtime)' "$SCRIPT_DIR/r1_original.c" | tee "$OUT_DIR/factual_sec4c_timestamp.log"
 echo ""
 echo "Expected: Lines showing all three calls (time, localtime, gmtime)."
 echo "The prompt says 'without using timestamp' — R1 uses time() to get one."
@@ -110,7 +110,7 @@ echo ""
 echo "--- 4D: Call ordering (static buffer overwrite) ---"
 echo "Command: nl -ba r1_original.c | sed -n '1,40p'"
 echo ""
-nl -ba "$SCRIPT_DIR/R1/r1_original.c" | sed -n '1,40p' | tee "$OUT_DIR/factual_sec4d_ordering.log"
+nl -ba "$SCRIPT_DIR/r1_original.c" | sed -n '1,40p' | tee "$OUT_DIR/factual_sec4d_ordering.log"
 echo ""
 echo "Expected order (critical for the clobber bug):"
 echo "  1. localTime = localtime(&rawtime);"
@@ -131,7 +131,7 @@ echo ""
 echo "--- 4E: Missing error checks for time(), gmtime(), mktime() ---"
 echo ""
 echo "Checking for time() error handling:"
-if grep -q 'time(&rawtime).*==.*-1\|time(&rawtime).*< 0\|if.*time(' "$SCRIPT_DIR/R1/r1_original.c"; then
+if grep -q 'time(&rawtime).*==.*-1\|time(&rawtime).*< 0\|if.*time(' "$SCRIPT_DIR/r1_original.c"; then
     echo "  FOUND: time() error check exists"
 else
     echo "  NOT FOUND: No error check for time()"
@@ -140,7 +140,7 @@ fi
 echo ""
 
 echo "Checking for gmtime() error handling:"
-if grep -q 'gmtime.*==.*NULL\|if.*gmtime(' "$SCRIPT_DIR/R1/r1_original.c"; then
+if grep -q 'gmtime.*==.*NULL\|if.*gmtime(' "$SCRIPT_DIR/r1_original.c"; then
     echo "  FOUND: gmtime() null check exists"
 else
     echo "  NOT FOUND: No null check for gmtime()"
@@ -149,7 +149,7 @@ fi
 echo ""
 
 echo "Checking for mktime() error handling:"
-if grep -q 'mktime.*==.*-1\|if.*mktime(' "$SCRIPT_DIR/R1/r1_original.c"; then
+if grep -q 'mktime.*==.*-1\|if.*mktime(' "$SCRIPT_DIR/r1_original.c"; then
     echo "  FOUND: mktime() error check exists"
 else
     echo "  NOT FOUND: No error check for mktime()"
@@ -226,7 +226,7 @@ echo "=========================================="
 echo ""
 
 echo "--- Compile r1_completable.c ---"
-if gcc -std=c99 -Wall -Wextra -pedantic -o /tmp/r1_factual_run "$SCRIPT_DIR/R1/r1_completable.c" 2>"$OUT_DIR/factual_sec5_compile.log"; then
+if gcc -std=c99 -Wall -Wextra -pedantic -o /tmp/r1_factual_run "$SCRIPT_DIR/r1_completable.c" 2>"$OUT_DIR/factual_sec5_compile.log"; then
     echo "Compilation succeeded."
     echo "Compiler warnings (if any):"
     cat "$OUT_DIR/factual_sec5_compile.log"
@@ -448,7 +448,7 @@ echo ""
 
 echo "=== 3. Combined grep: all claims in one pass ==="
 echo "Command: grep -n 'localTime == NULL\|strftime(formattedTime\|%Y-%m-%d %H:%M:%S\|time(&rawtime)\|localtime(&rawtime)\|gmtime(&rawtime)' r1_original.c"
-grep -n 'localTime == NULL\|strftime(formattedTime\|%Y-%m-%d %H:%M:%S\|time(&rawtime)\|localtime(&rawtime)\|gmtime(&rawtime)' "$SCRIPT_DIR/R1/r1_original.c" | tee "$OUT_DIR/factual_sec7_combined_grep.log"
+grep -n 'localTime == NULL\|strftime(formattedTime\|%Y-%m-%d %H:%M:%S\|time(&rawtime)\|localtime(&rawtime)\|gmtime(&rawtime)' "$SCRIPT_DIR/r1_original.c" | tee "$OUT_DIR/factual_sec7_combined_grep.log"
 echo ""
 
 echo "=== 4. Runtime output (if available) ==="
