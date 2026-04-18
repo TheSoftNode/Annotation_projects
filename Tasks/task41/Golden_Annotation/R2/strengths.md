@@ -6,6 +6,6 @@
 
 3. The response provides a comparison table mapping parent type to allowed child types and their rendering behavior, which lets the user look up boundary rules by scenario.
 
-4. The response includes a six-item checklist covering provider setup, context consumer requirements, and server component constraints, which gives the user a reusable reference to verify their own implementation.
+4. The response includes a six-item implementation checklist, which gives the user a step-by-step reference to verify their own provider setup.
 
 5. The response distinguishes between components that consume context (must be client) and components that only receive props (can stay server), which helps the user decide per component whether the client directive is needed.
