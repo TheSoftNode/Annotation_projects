@@ -51,7 +51,31 @@ Exit code: 1
 **Query:**
 
 ```bash
-cc -std=c99 -dM -E r2_original.c | grep -E '_DEFAULT_SOURCE|__USE_MISC|_GNU_SOURCE'
+cat <<'EOF' > /tmp/r2_macrocheck.c
+#define _POSIX_C_SOURCE 200809L
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+#ifdef _DEFAULT_SOURCE
+    printf("_DEFAULT_SOURCE is defined\n");
+#else
+    printf("_DEFAULT_SOURCE is NOT defined\n");
+#endif
+#ifdef _GNU_SOURCE
+    printf("_GNU_SOURCE is defined\n");
+#else
+    printf("_GNU_SOURCE is NOT defined\n");
+#endif
+#ifdef __USE_MISC
+    printf("__USE_MISC is defined\n");
+#else
+    printf("__USE_MISC is NOT defined\n");
+#endif
+    return 0;
+}
+EOF
+cc -std=c99 /tmp/r2_macrocheck.c -o /tmp/r2_macrocheck && /tmp/r2_macrocheck
 ```
 
 **URL:** N/A
@@ -59,7 +83,9 @@ cc -std=c99 -dM -E r2_original.c | grep -E '_DEFAULT_SOURCE|__USE_MISC|_GNU_SOUR
 **Source Excerpt:**
 
 ```
-(no output — none of _DEFAULT_SOURCE, __USE_MISC, or _GNU_SOURCE are defined)
+_DEFAULT_SOURCE is NOT defined
+_GNU_SOURCE is NOT defined
+__USE_MISC is NOT defined
 Only _POSIX_C_SOURCE 200809L is active, which is insufficient for tm_gmtoff.
 ```
 
@@ -100,33 +126,6 @@ Pure C99 – only standard headers (<time.h>, <stdio.h>, <stdlib.h>) and POSIX�
 **Severity:** Substantial
 
 **Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:**
-
-```bash
-grep -n 'tzset\|timezone\|daylight\|tm_gmtoff\|localtime_r\|timegm\|errno' r2_original.c
-```
-
-**URL:** N/A
-
-**Source Excerpt:**
-
-```
-5:#define _POSIX_C_SOURCE 200809L   /* for localtime_r */
-22:    tzset();
-32:        err = errno;
-45:        err = errno;
-54:        err = errno;
-67:    offset = tm.tm_gmtoff;
-72:    long std_offset = -timezone;
-73:    if (tm.tm_isdst > 0) {
-```
-
-`tzset()`, `timezone`, `daylight` = POSIX/XSI. `tm_gmtoff` = BSD/GNU extension. `localtime_r` = POSIX. `errno` without `<errno.h>` = missing C99 header.
-
----
 
 **Tool Type:** Google
 
@@ -288,15 +287,11 @@ Note: In the current test (April 2026), Lord_Howe is not in DST, so the methods 
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Google
 
-**Query:**
+**Query:** Linux man page tzset FILES section
 
-```bash
-man 3 tzset | grep -A5 FILES
-```
-
-**URL:** N/A
+**URL:** https://man7.org/linux/man-pages/man3/tzset.3.html
 
 **Source Excerpt:**
 
@@ -342,20 +337,16 @@ time_t now = time((time_t *)0);
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Google
 
-**Query:**
+**Query:** POSIX time() function returns timestamp
 
-```bash
-grep -n 'time(' r2_original.c
-```
-
-**URL:** N/A
+**URL:** https://man7.org/linux/man-pages/man3/time.3p.html
 
 **Source Excerpt:**
 
 ```
-28:    time_t now = time((time_t *)0);
+The time() function shall return the value of time in seconds since the Epoch.
 ```
 
 ---
