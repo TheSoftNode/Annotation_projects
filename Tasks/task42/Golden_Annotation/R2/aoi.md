@@ -12,11 +12,13 @@ Verify that the `server_url` in the Promtail configuration points to the correct
 
 **Severity:** Substantial
 
-**Verification of Issue:**
+**Source:**
 
 **Tool Type:** Documentation
 
 **Query:** Promtail configuration structure
+
+**URL:** https://grafana.com/docs/loki/latest/send-data/promtail/configuration/
 
 **Source Excerpt:**
 
@@ -40,11 +42,13 @@ Check the Loki configuration file for the `auth_enabled` and `auth_peers` settin
 
 **Severity:** Substantial
 
-**Verification of Issue:**
+**Source:**
 
 **Tool Type:** Documentation
 
 **Query:** Loki authentication parameters
+
+**URL:** https://grafana.com/docs/loki/latest/configure/
 
 **Source Excerpt:**
 
@@ -68,11 +72,13 @@ curl -v http://<loki-server-ip>:<loki-server-port>/label
 
 **Severity:** Substantial
 
-**Verification of Issue:**
+**Source:**
 
 **Tool Type:** Documentation
 
 **Query:** Loki label endpoints
+
+**URL:** https://grafana.com/docs/loki/latest/reference/loki-http-api/
 
 **Source Excerpt:**
 
@@ -97,6 +103,26 @@ curl -X GET "http://<loki-server-ip>:<loki-server-port>/label/__name__!='' statu
 **Description:** The response provides a curl command with a URL that combines an API path with query filter syntax in an invalid way, mixing the endpoint path with LogQL filter expressions that belong in a query parameter, and the LogQL syntax is missing required braces and proper formatting.
 
 **Severity:** Substantial
+
+**Source:**
+
+**Tool Type:** Documentation
+
+**Query:** Loki query API parameters
+
+**URL:** https://grafana.com/docs/loki/latest/reference/loki-http-api/
+
+**Source Excerpt:**
+
+```
+GET /loki/api/v1/query
+query: The LogQL query to perform
+limit: The max number of entries to return
+time: The evaluation time for the query as a nanosecond Unix epoch or another supported format
+direction: Determines the sort order of logs. Supported values are forward or backward
+
+Note: Query parameters must be URL-encoded. LogQL expressions require proper syntax with braces, e.g., {job="mysql"}
+```
 
 ---
 
@@ -125,3 +151,20 @@ Also, check if the data source is in a healthy state by clicking on the "Data so
 **Description:** The response describes checking the data source status by looking for a Status field showing OK in a Data source tab, but current documentation describes using the Save & test button to test the connection rather than this specific navigation and wording.
 
 **Severity:** Minor
+
+**Source:**
+
+**Tool Type:** Documentation
+
+**Query:** Grafana data source configuration test
+
+**URL:** https://grafana.com/docs/grafana/latest/datasources/loki/configure-loki-data-source/
+
+**Source Excerpt:**
+
+```
+To test your data source configuration:
+1. Click Save & test
+2. Grafana will attempt to connect to the Loki data source
+3. If successful, you'll see a confirmation message
+```

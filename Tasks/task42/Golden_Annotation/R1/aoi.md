@@ -12,11 +12,13 @@ curl -s "http://localhost:3100/loki/api/v1/query?query={job=\"test\"}" | jq .
 
 **Severity:** Substantial
 
-**Verification of Issue:**
+**Source:**
 
 **Tool Type:** Documentation
 
 **Query:** Loki instant query endpoint
+
+**URL:** https://grafana.com/docs/loki/latest/query/
 
 **Source Excerpt:**
 
@@ -38,6 +40,24 @@ cat /var/log/promtail.log   # Default log location
 
 **Severity:** Minor
 
+**Source:**
+
+**Tool Type:** Documentation
+
+**Query:** Promtail log location configuration
+
+**URL:** https://grafana.com/docs/loki/latest/send-data/promtail/configuration/
+
+**Source Excerpt:**
+
+```
+The server block configures Promtail's behavior as an HTTP server:
+log_level: debug
+log_format: logfmt
+
+Note: The documentation does not specify /var/log/promtail.log as a universal default path. Log location depends on how Promtail was installed and configured.
+```
+
 ---
 
 ## AOI #3 - MINOR
@@ -52,11 +72,13 @@ If `inactive`, install NTP: `sudo apt install ntp` (Debian) or `sudo yum install
 
 **Severity:** Minor
 
-**Verification of Issue:**
+**Source:**
 
 **Tool Type:** Documentation
 
 **Query:** Ubuntu time synchronization
+
+**URL:** https://ubuntu.com/server/docs/about-time-synchronisation
 
 **Source Excerpt:**
 
@@ -94,19 +116,6 @@ If you follow these steps, **95% of cases are resolved by fixing the Promtail `c
 
 **Severity:** Minor
 
-**Verification of Issue:**
-
-**Tool Type:** Manual Testing
-
-**Query:** SuperAnnotate URL accessibility
-
-**Source Excerpt:**
-
-```
-https://app.superannotate.com/editor/custom-llm/#-phase-4-check-network--firewall
-(This URL requires authentication and is not a public troubleshooting resource)
-```
-
 ---
 
 ## AOI #6 - MINOR
@@ -141,6 +150,21 @@ Replace `job="test"` with your Promtail `job_name` (from Promtail config).
 
 **Severity:** Minor
 
+**Source:**
+
+**Tool Type:** Documentation
+
+**Query:** Promtail relabel_configs
+
+**URL:** https://grafana.com/docs/loki/latest/send-data/promtail/configuration/
+
+**Source Excerpt:**
+
+```
+relabel_configs:
+Relabeling is a powerful tool to dynamically rewrite the label set of a target before it gets scraped. Multiple relabeling steps can be configured per scrape configuration. They are applied to the label set of each target in order of their appearance in the configuration file.
+```
+
 ---
 
 ## AOI #8 - MINOR
@@ -155,11 +179,13 @@ Check the **XHR request** to `/loki/api/v1/query`.
 
 **Severity:** Minor
 
-**Verification of Issue:**
+**Source:**
 
 **Tool Type:** Documentation
 
 **Query:** Grafana data source proxy
+
+**URL:** https://grafana.com/docs/grafana/latest/developers/http_api/data_source/
 
 **Source Excerpt:**
 
