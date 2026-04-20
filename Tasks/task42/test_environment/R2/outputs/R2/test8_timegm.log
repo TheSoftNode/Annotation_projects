@@ -1,6 +1,0 @@
-/tmp/test_timegm.c: In function ‘main’:
-/tmp/test_timegm.c:12:16: warning: implicit declaration of function ‘timegm’; did you mean ‘time’? [-Wimplicit-function-declaration]
-   12 |     time_t t = timegm(&gm);
-      |                ^~~~~~
-      |                time
-

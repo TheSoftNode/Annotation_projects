@@ -1,3 +1,0 @@
-#define __GLIBC_PREREQ(maj,min) ((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min))
-#define __GLIBC__ 2
-#define _POSIX_C_SOURCE 200809L

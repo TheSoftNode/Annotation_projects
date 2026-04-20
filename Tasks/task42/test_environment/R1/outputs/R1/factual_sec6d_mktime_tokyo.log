@@ -1,9 +1,0 @@
-rawtime (original):         1776533378
-mktime(gmtime_copy):        1776500978  (UTC values treated as local)
-mktime(localtime_copy):     1776533378  (local values treated as local = original)
-Difference (local - gm):    32400 seconds
-
-Note: mktime(gmtime_copy) converts UTC broken-down time back to
-time_t but treats it as local time. The difference between the
-two mktime results gives the UTC offset — but ONLY if the struct tm
-values are preserved correctly (R1 does not preserve them).

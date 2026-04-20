@@ -1,3 +1,0 @@
-14:    time(&rawtime);
-15:    localTime = localtime(&rawtime);
-24:    time_t gmtimeOffset = mktime(gmtime(&rawtime));

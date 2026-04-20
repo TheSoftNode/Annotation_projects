@@ -4,264 +4,81 @@
 
 **Response Excerpt:**
 
-```c
-// ... [previous includes and definitions]
-
-int main() {
-    setlocale(LC_TIME, "");
+```
+curl -s "http://localhost:3100/loki/api/v1/query?query={job=\"test\"}" | jq .
 ```
 
-**Description:** The response is missing all four necessary headers (stdio, stdlib, time, locale) and references "previous includes" that do not exist in any prior conversation turn, making the code unable to compile with 6 errors and 11 warnings.
+**Description:** The response uses the query endpoint with a log stream selector expecting it to return log entries, but this endpoint only accepts metric-type queries and returns 400 Bad Request for log queries, so the command fails for its intended purpose of retrieving logs.
 
 **Severity:** Substantial
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Documentation
 
-**Query:**
-
-```bash
-cat <<'EOF' > /tmp/r1_original.c
-// ... [previous includes and definitions]
-
-int main() {
-    setlocale(LC_TIME, "");
-    struct tm *localTime;
-    time_t rawtime;
-    char formattedTime[100];
-
-    time(&rawtime);
-    localTime = localtime(&rawtime);
-
-    if (localTime == NULL) {
-        fprintf(stderr, "Error: localtime failed\n");
-        return 1;
-    }
-
-    time_t gmtimeOffset = mktime(gmtime(&rawtime));
-    time_t localTimeOffset = mktime(localTime);
-    int timeOffset = (int)(localTimeOffset - gmtimeOffset);
-
-    if (strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", localTime) == 0) {
-        fprintf(stderr, "Error: strftime failed\n");
-        return 1;
-    }
-
-    printf("Local time: %s\n", formattedTime);
-    printf("Time offset to GMT: %d seconds\n", timeOffset);
-
-    return 0;
-}
-EOF
-cc -std=c99 -Wall -Wextra -pedantic /tmp/r1_original.c -o /tmp/r1_original
-```
-
-**URL:** N/A
+**Query:** Loki instant query endpoint
 
 **Source Excerpt:**
 
 ```
-r1_original.c:3:15: error: 'LC_TIME' undeclared (first use in this function)
-r1_original.c:5:5: error: unknown type name 'time_t'
-r1_original.c:11:22: error: 'NULL' undeclared (first use in this function)
-r1_original.c:13:17: error: 'stderr' undeclared (first use in this function)
-r1_original.c:17:5: error: unknown type name 'time_t'   [× 2]
-Exit code: 1
+Instant queries are only used for metric type LogQL queries and will return a 400 (Bad Request) in case a log type query is provided.
 ```
 
 ---
 
-## AOI #2 - SUBSTANTIAL
+## AOI #2 - MINOR
 
 **Response Excerpt:**
 
-```c
-time_t gmtimeOffset = mktime(gmtime(&rawtime));
-time_t localTimeOffset = mktime(localTime);
-int timeOffset = (int)(localTimeOffset - gmtimeOffset);
+```
+cat /var/log/promtail.log   # Default log location
 ```
 
-**Description:** The response stores the localtime pointer and then calls gmtime, which overwrites the same static buffer, causing both mktime calls to operate on identical data and producing an offset of 0 regardless of timezone instead of the actual values.
+**Description:** The response states this path is the default log location for Promtail, but official documentation does not specify this as a universal default and the actual location varies by installation method.
 
-**Severity:** Substantial
+**Severity:** Minor
+
+---
+
+## AOI #3 - MINOR
+
+**Response Excerpt:**
+
+```
+If `inactive`, install NTP: `sudo apt install ntp` (Debian) or `sudo yum install ntp` (RHEL).
+```
+
+**Description:** The response recommends installing the ntp package for time synchronization, but current Ubuntu and Red Hat documentation recommend chrony or systemd-timesyncd as the modern solutions, making this recommendation outdated.
+
+**Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Documentation
 
-**Query:**
-
-```bash
-cat <<'EOF' > /tmp/r1_completable.c
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <locale.h>
-
-int main() {
-    setlocale(LC_TIME, "");
-    struct tm *localTime;
-    time_t rawtime;
-    char formattedTime[100];
-
-    time(&rawtime);
-    localTime = localtime(&rawtime);
-
-    if (localTime == NULL) {
-        fprintf(stderr, "Error: localtime failed\n");
-        return 1;
-    }
-
-    time_t gmtimeOffset = mktime(gmtime(&rawtime));
-    time_t localTimeOffset = mktime(localTime);
-    int timeOffset = (int)(localTimeOffset - gmtimeOffset);
-
-    if (strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", localTime) == 0) {
-        fprintf(stderr, "Error: strftime failed\n");
-        return 1;
-    }
-
-    printf("Local time: %s\n", formattedTime);
-    printf("Time offset to GMT: %d seconds\n", timeOffset);
-
-    return 0;
-}
-EOF
-cc -std=c99 -Wall -Wextra /tmp/r1_completable.c -o /tmp/r1_completable
-TZ=America/New_York /tmp/r1_completable
-TZ=Asia/Tokyo /tmp/r1_completable
-TZ=Australia/Adelaide /tmp/r1_completable
-TZ=Asia/Kathmandu /tmp/r1_completable
-TZ=UTC /tmp/r1_completable
-```
-
-**URL:** N/A
+**Query:** Ubuntu time synchronization
 
 **Source Excerpt:**
 
 ```
-TZ=America/New_York:  Time offset to GMT: 0 seconds  (system says: -14400)
-TZ=Asia/Tokyo:        Time offset to GMT: 0 seconds  (system says: 32400)
-TZ=Australia/Adelaide: Time offset to GMT: 0 seconds (system says: 34200)
-TZ=Asia/Kathmandu:    Time offset to GMT: 0 seconds  (system says: 20700)
-TZ=UTC:               Time offset to GMT: 0 seconds  (system says: 0)
+systemd-timesyncd is a simple NTP client that is part of systemd. It is the default time synchronization tool on Ubuntu systems.
+
+For more complex requirements, you may want to use chrony instead.
 ```
 
 ---
 
-**Tool Type:** Code Executor
-
-**Query:**
-
-```bash
-cat <<'EOF' > /tmp/r1_ptrcheck.c
-#define _GNU_SOURCE
-#include <time.h>
-#include <stdio.h>
-int main() {
-    time_t rawtime;
-    time(&rawtime);
-    struct tm *lt = localtime(&rawtime);
-    struct tm *gt = gmtime(&rawtime);
-    printf("localtime ptr: %p  gmtime ptr: %p\n", (void*)lt, (void*)gt);
-    printf("localtime ptr == gmtime ptr? %s\n", (lt == gt) ? "YES" : "NO");
-    return 0;
-}
-EOF
-cc -std=c99 /tmp/r1_ptrcheck.c -o /tmp/r1_ptrcheck && /tmp/r1_ptrcheck
-```
-
-**URL:** N/A
-
-**Source Excerpt:**
-
-```
-localtime ptr: 0x7f...  gmtime ptr: 0x7f...
-localtime ptr == gmtime ptr? YES
-```
-
----
-
-**Tool Type:** Google
-
-**Query:** POSIX localtime gmtime static buffer shared
-
-**URL:** https://man7.org/linux/man-pages/man3/ctime.3.html
-
-**Source Excerpt:**
-
-```
-The return value points to a statically allocated struct which might be
-overwritten by subsequent calls to any of the date and time functions.
-```
-
----
-
-## AOI #3 - SUBSTANTIAL
-
-**Response Excerpt:**
-
-```c
-time_t gmtimeOffset = mktime(gmtime(&rawtime));
-time_t localTimeOffset = mktime(localTime);
-int timeOffset = (int)(localTimeOffset - gmtimeOffset);
-```
-
-**Description:** The response uses gmtime which sets tm_isdst to 0, causing mktime to interpret the result as standard local time rather than UTC, so even if the code fixes the static-buffer overwrite the offset is still wrong during daylight saving time — returning -18000 (EST) instead of -14400 (EDT) for New York in April.
-
-**Severity:** Substantial
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:**
-
-```bash
-cat <<'EOF' > /tmp/r1_dst_test.c
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-int main() {
-    time_t rawtime;
-    time(&rawtime);
-    struct tm local_copy = *localtime(&rawtime);
-    struct tm gmt_copy = *gmtime(&rawtime);
-    time_t local_t = mktime(&local_copy);
-    time_t gmt_t = mktime(&gmt_copy);
-    printf("local tm_isdst=%d  gmt tm_isdst=%d\n", local_copy.tm_isdst, gmt_copy.tm_isdst);
-    printf("offset = %ld seconds\n", (long)(local_t - gmt_t));
-    return 0;
-}
-EOF
-cc -std=c99 /tmp/r1_dst_test.c -o /tmp/r1_dst_test
-TZ=America/New_York /tmp/r1_dst_test
-```
-
-**URL:** N/A
-
-**Source Excerpt:**
-
-```
-TZ=America/New_York (April, DST active):
-  local tm_isdst=1  gmt tm_isdst=0
-  offset = -18000 seconds   (EST, wrong — should be -14400 EDT)
-```
-
----
-
-## AOI #4 - SUBSTANTIAL
+## AOI #4 - MINOR
 
 **Response Excerpt:**
 
 ```
-Certainly! Here's an example of how you could modify the code to include error checking
+If you follow these steps, **95% of cases are resolved by fixing the Promtail `clients.url` or firewall rules**.
 ```
 
-**Description:** The response opens with "Certainly! Here's an example of how you could modify the code" as if continuing a prior exchange. No earlier conversation exists — the user asks for a GMT offset retrieval method, not a code modification. This imaginary context explains the fictitious "previous includes" comment.
+**Description:** The response claims a specific percentage for how often the issue gets resolved by fixing configuration or firewall rules but provides no source or data to support this statistic.
 
-**Severity:** Substantial
+**Severity:** Minor
 
 ---
 
@@ -269,26 +86,25 @@ Certainly! Here's an example of how you could modify the code to include error c
 
 **Response Excerpt:**
 
-```c
-time(&rawtime);
+```
+(see [Phase 4](https://app.superannotate.com/editor/custom-llm/#-phase-4-check-network--firewall)).
 ```
 
-**Description:** The response calls time() to obtain the current epoch timestamp and passes it to localtime and gmtime, which does not clearly address the user's constraint of working "without using timestamp," though this constraint is ambiguous and could reasonably mean "without a timestamp the user supplies."
+**Description:** The response includes a link to a SuperAnnotate editor URL that is not a valid troubleshooting resource and will not help the user navigate to the referenced section.
 
 **Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** Google
+**Tool Type:** Manual Testing
 
-**Query:** POSIX time() function returns timestamp
-
-**URL:** https://man7.org/linux/man-pages/man3/time.3p.html
+**Query:** SuperAnnotate URL accessibility
 
 **Source Excerpt:**
 
 ```
-The time() function shall return the value of time in seconds since the Epoch.
+https://app.superannotate.com/editor/custom-llm/#-phase-4-check-network--firewall
+(This URL requires authentication and is not a public troubleshooting resource)
 ```
 
 ---
@@ -297,12 +113,17 @@ The time() function shall return the value of time in seconds since the Epoch.
 
 **Response Excerpt:**
 
-```c
-time_t gmtimeOffset = mktime(gmtime(&rawtime));
-time_t localTimeOffset = mktime(localTime);
+```
+### **🔍 Phase 1: Verify Promtail → Loki Connection**
+### **🕵️ Phase 2: Verify Loki is Receiving Logs**
+### **🖥️ Phase 3: Verify Grafana → Loki Connection**
+### **🔥 Phase 4: Check Network & Firewall**
+### **⏱️ Phase 5: Check Time Synchronization**
+### **✅ Final Checklist**
+### **💡 Pro Tips**
 ```
 
-**Description:** The response checks return values for localtime and strftime but does not check time, gmtime, or mktime, all of which can fail, making the error handling inconsistent across the code.
+**Description:** The response uses emojis in section headers and throughout the technical content, which is unconventional for professional DevOps documentation.
 
 **Severity:** Minor
 
@@ -312,64 +133,13 @@ time_t localTimeOffset = mktime(localTime);
 
 **Response Excerpt:**
 
-```c
-setlocale(LC_TIME, "");
+```
+Replace `job="test"` with your Promtail `job_name` (from Promtail config).
 ```
 
-(...)
-
-```c
-if (strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", localTime) == 0)
-```
-
-**Description:** The response includes locale setup and strftime date formatting that do not contribute to retrieving the GMT offset, since the prompt asks for the numeric offset rather than a date string, and changing the locale has no effect on the offset value.
+**Description:** The response suggests the label name in Loki queries will always match the job_name from Promtail's scrape config, but Promtail can apply relabeling rules that change or add labels, so the relationship is not guaranteed.
 
 **Severity:** Minor
-
-**Verification of Issue:**
-
-**Tool Type:** Code Executor
-
-**Query:**
-
-```bash
-cat <<'EOF' > /tmp/r1_locale_test.c
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <locale.h>
-
-int main() {
-    setlocale(LC_TIME, "");
-    struct tm *localTime;
-    time_t rawtime;
-
-    time(&rawtime);
-    localTime = localtime(&rawtime);
-    if (localTime == NULL) { return 1; }
-
-    time_t gmtimeOffset = mktime(gmtime(&rawtime));
-    time_t localTimeOffset = mktime(localTime);
-    int timeOffset = (int)(localTimeOffset - gmtimeOffset);
-
-    printf("Time offset to GMT: %d seconds\n", timeOffset);
-    return 0;
-}
-EOF
-cc -std=c99 /tmp/r1_locale_test.c -o /tmp/r1_locale_test
-TZ=America/New_York LC_ALL=C /tmp/r1_locale_test
-TZ=America/New_York LC_ALL=en_US.UTF-8 /tmp/r1_locale_test
-```
-
-**URL:** N/A
-
-**Source Excerpt:**
-
-```
-TZ=America/New_York LC_ALL=C:           timeOffset=0
-TZ=America/New_York LC_ALL=en_US.UTF-8: timeOffset=0
-Locale does NOT affect timezone offset.
-```
 
 ---
 
@@ -377,63 +147,42 @@ Locale does NOT affect timezone offset.
 
 **Response Excerpt:**
 
-```c
-if (strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", localTime) == 0) {
-    fprintf(stderr, "Error: strftime failed\n");
-    return 1;
-}
+```
+Check the **XHR request** to `/loki/api/v1/query`.
 ```
 
-**Description:** The response treats a strftime return value of 0 as an error, but POSIX allows strftime to return 0 for legitimate cases such as an empty format string, and the 100-byte buffer is large enough that the check never triggers in practice, making the "strftime failed" message misleading.
+**Description:** The response states that browser developer tools will show XHR requests to the Loki API endpoint, but Grafana routes all data source queries through its own backend proxy endpoint instead, so the user will see requests to a different path in the network tab.
 
 **Severity:** Minor
 
 **Verification of Issue:**
 
-**Tool Type:** Code Executor
+**Tool Type:** Documentation
 
-**Query:**
-
-```bash
-cat <<'EOF' > /tmp/r1_strftime_test.c
-#include <time.h>
-#include <stdio.h>
-int main() {
-    struct tm tm = {0};
-    char buf[100];
-    size_t ret = strftime(buf, sizeof(buf), "", &tm);
-    printf("strftime with empty format string returns: %zu\n", ret);
-    if (ret == 0)
-        printf("This is NOT an error — it writes 0 characters for an empty format.\n");
-    return 0;
-}
-EOF
-cc -std=c99 /tmp/r1_strftime_test.c -o /tmp/r1_strftime_test && /tmp/r1_strftime_test
-```
-
-**URL:** N/A
+**Query:** Grafana data source proxy
 
 **Source Excerpt:**
 
 ```
-strftime with empty format string returns: 0
-This is NOT an error — it writes 0 characters for an empty format.
+POST /api/ds/query
+
+The /api/ds/query endpoint accepts POST requests to query data sources with backend implementations. To better understand how to form a query for a certain data source, use the Developer Tools in your browser and inspect the HTTP requests being made to /api/ds/query.
 ```
 
 ---
 
-**Tool Type:** Google
+## AOI #9 - MINOR
 
-**Query:** POSIX strftime return value 0 error
-
-**URL:** https://man7.org/linux/man-pages/man3/strftime.3p.html
-
-**Source Excerpt:**
+**Response Excerpt:**
 
 ```
-If the total number of resulting bytes including the terminating null byte
-is not more than maxsize, strftime() shall return the number of bytes
-placed into the array pointed to by s, not including the terminating NUL
-character. Otherwise, 0 shall be returned and the contents of the array
-are unspecified.
+Ensure `server.http_listen_address` is **not** `127.0.0.1` (binds to localhost only!). Should be:
+```yaml
+server:
+  http_listen_address: 0.0.0.0  # Listens on all interfaces
 ```
+```
+
+**Description:** The response states the configuration should be set to a specific value as if this is the only valid approach, but Loki can be deployed with reverse proxies or different binding strategies where other values are appropriate.
+
+**Severity:** Minor

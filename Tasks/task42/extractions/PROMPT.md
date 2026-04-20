@@ -1,3 +1,3 @@
 # Prompt
 
-linux c99 way to retrieve locale info about time offset to aplly to gmt. without using timestamp.
+my grafana is on one server and loki and promtail on another , promtail is scraping data but not visible on grafana what to do to check and resolve

@@ -1,2 +1,0 @@
-17:    if (localTime == NULL)
-29:    if (strftime(formattedTime, sizeof(formattedTime), "%Y-%m-%d %H:%M:%S", localTime) == 0)

@@ -1,6 +1,0 @@
-TZ=UTC                        system=    +0  r1=     0  MATCH
-TZ=America/New_York           system=-14400  r1=     0  MISMATCH
-TZ=Asia/Tokyo                 system=+32400  r1=     0  MISMATCH
-TZ=Europe/London              system= +3600  r1=     0  MISMATCH
-TZ=Australia/Adelaide         system=+34200  r1=     0  MISMATCH
-TZ=Asia/Kathmandu             system=+20700  r1=     0  MISMATCH
