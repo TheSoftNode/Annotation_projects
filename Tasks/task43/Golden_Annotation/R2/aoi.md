@@ -8,7 +8,19 @@
 Absolutely! 🎉
 ```
 
-**Description:** The response uses an emoji in the opening, which adds an informal tone that may not be appropriate for professional or technical contexts.
+and
+
+```
+1️⃣ Quick-Start Checklist
+```
+
+and
+
+```
+3️⃣ What to Do Next – Your Turn 🎯
+```
+
+**Description:** The response uses decorative emojis throughout the opening, section headers, and closing, which adds an informal tone that may not be appropriate for professional or technical contexts.
 
 **Severity:** Minor
 
@@ -19,43 +31,79 @@ Absolutely! 🎉
 **Response Excerpt:**
 
 ```
-Let me know which one matches your situation, or share more details (e.g., "I have a React app built with Vite" or "I only have index.html and style.css") and I can tailor the instructions even further.
+Click "New site from Git" → connect your repo.
 ```
 
-**Description:** The response asks the user to provide more information to tailor the instructions, but the user's question specifically asks about making a website run, so providing immediately actionable steps for the simplest case would address the question more directly.
+**Description:** The response uses outdated Netlify UI terminology, as current Netlify documentation refers to this workflow as "Add new site" followed by "Import an existing project" rather than "New site from Git".
 
 **Severity:** Minor
 
+**Source:**
+
+**Tool Type:** Google
+
+**Query:** Netlify add new site 2024
+
+**URL:** https://docs.netlify.com/start/add-new-project/
+
+**Source Excerpt:**
+```
+In the Netlify dashboard, click "Add new site" → "Import an existing project" to start the deployment process.
+```
+
 ---
 
-## AOI #3 - MINOR
+## AOI #3 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
-**GitHub Pages (if you already have a GitHub repo)**
-1. Push your site to a repository.
-2. In the repo → Settings → Pages → source: main branch.
-3. Save → GitHub builds the site.
+include requirements.txt and a Procfile (web: gunicorn myproject.wsgi).
 ```
 
-**Description:** The response instructs the user to set the source to the main branch in GitHub Pages settings, but does not specify that the HTML files must be in the repository root or a docs folder, which is required for GitHub Pages to serve the site correctly.
+**Description:** The response instructs users to include a Procfile for Django deployment on Render, but current Render documentation does not use Procfile and instead uses render.yaml or dashboard configuration with explicit build and start commands.
 
-**Severity:** Minor
+**Severity:** Substantial
+
+**Source:**
+
+**Tool Type:** Google
+
+**Query:** Render Django deployment documentation
+
+**URL:** https://render.com/docs/deploy-django
+
+**Source Excerpt:**
+```
+Render offers two ways to deploy Django projects: either by declaring services in a render.yaml file in your repository or by manually setting up services using the dashboard.
+```
 
 ---
 
-## AOI #4 - MINOR
+## AOI #4 - SUBSTANTIAL
 
 **Response Excerpt:**
 
 ```
-| **Plain HTML/CSS/JS** | Double-click file or `open index.html` |
+Run migrations via a Render "Shell" or a one-off job (python manage.py migrate).
 ```
 
-**Description:** The response suggests using the open command to run an HTML file, but does not specify that this command is specific to macOS and will not work on Windows or Linux systems.
+**Description:** The response suggests using Render Shell or one-off jobs to run migrations, but Render's free tier does not support shell access or one-off jobs, which makes this instruction incompatible with the free tier deployment scenario.
 
-**Severity:** Minor
+**Severity:** Substantial
+
+**Source:**
+
+**Tool Type:** Google
+
+**Query:** Render free tier limitations
+
+**URL:** https://render.com/docs/free
+
+**Source Excerpt:**
+```
+Free web services don't support running one-off jobs or shell access via SSH or the Render Dashboard. These features are only available on paid instance types.
+```
 
 ---
 
@@ -64,9 +112,42 @@ Let me know which one matches your situation, or share more details (e.g., "I ha
 **Response Excerpt:**
 
 ```
-Once I know the exact context, I can give you the exact commands, configuration files, and even a minimal Dockerfile if you want container-based deployment.
+Deploy—Render handles gunicorn + nginx automatically.
 ```
 
-**Description:** The response offers to provide Docker configuration for deployment, but the user's question asks about making a website run without mentioning containers or advanced deployment requirements, so this suggestion may introduce unnecessary complexity.
+**Description:** The response states that Render handles both gunicorn and nginx automatically, but Render documentation shows that gunicorn is configured by the user via the start command while Render provides the reverse proxy infrastructure, which makes the claim about automatic handling misleading.
+
+**Severity:** Minor
+
+**Source:**
+
+**Tool Type:** Google
+
+**Query:** Render Django gunicorn deployment
+
+**URL:** https://render.com/docs/deploy-django
+
+**Source Excerpt:**
+```
+The gunicorn command assumes your Django project is named mysite and needs to be updated for your specific project.
+```
+
+---
+
+## AOI #6 - MINOR
+
+**Response Excerpt:**
+
+```
+Absolutely! 🎉 Getting a website up and running can be broken down into a few clear steps
+```
+
+and
+
+```
+Looking forward to helping you get your site live! 🚀
+```
+
+**Description:** The response includes unnecessary pleasantries at the beginning and end, which add no technical value to the deployment instructions.
 
 **Severity:** Minor
