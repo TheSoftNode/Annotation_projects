@@ -1,0 +1,2 @@
+**PROMPT:**  
+teach me typescript
