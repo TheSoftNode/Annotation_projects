@@ -1,7 +1,7 @@
 # Response 1 Strengths
 
 ## 1
-The response includes a complete practice project with interface and function implementations, which lets the user apply concepts in a realistic scenario.
+The response includes a complete practice project that combines multiple TypeScript concepts, which lets the user apply learning in a realistic scenario.
 
 ## 2
 The response provides executable code examples for each TypeScript feature, which allows the user to compile and run programs to see results.
