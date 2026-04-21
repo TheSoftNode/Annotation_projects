@@ -156,13 +156,14 @@ Replace `job="test"` with your Promtail `job_name` (from Promtail config).
 
 **Query:** Promtail relabel_configs
 
-**URL:** https://grafana.com/docs/loki/latest/send-data/promtail/configuration/
+**URL:** https://grafana.com/docs/alloy/latest/reference/components/loki/loki.relabel/
 
 **Source Excerpt:**
 
 ```
-relabel_configs:
-Relabeling is a powerful tool to dynamically rewrite the label set of a target before it gets scraped. Multiple relabeling steps can be configured per scrape configuration. They are applied to the label set of each target in order of their appearance in the configuration file.
+loki.relabel rewrites the label set of each log entry passed to its receiver by applying one or more relabeling rules and forwards the results to the list of receivers in the component's arguments.
+
+The rule blocks are applied to the label set of each log entry in order of their appearance in the configuration file.
 ```
 
 ---
@@ -185,14 +186,14 @@ Check the **XHR request** to `/loki/api/v1/query`.
 
 **Query:** Grafana data source proxy
 
-**URL:** https://grafana.com/docs/grafana/latest/developers/http_api/data_source/
+**URL:** https://grafana.com/docs/grafana/latest/developer-resources/api-reference/http-api/data_source/
 
 **Source Excerpt:**
 
 ```
 POST /api/ds/query
 
-The /api/ds/query endpoint accepts POST requests to query data sources with backend implementations. To better understand how to form a query for a certain data source, use the Developer Tools in your browser and inspect the HTTP requests being made to /api/ds/query.
+To better understand how to form a query for a certain data source, use the Developer Tools in your browser of choice and inspect the HTTP requests being made to /api/ds/query.
 ```
 
 ---
