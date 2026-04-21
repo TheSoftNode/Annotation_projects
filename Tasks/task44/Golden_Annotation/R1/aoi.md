@@ -16,7 +16,34 @@ TypeScript classes compile to standard JS classes (ES6+).
 
 **Tool Type:** Code Executor
 
-**Query:** tsc Animal.ts --target es5 --ignoreDeprecations 6.0 2>&1 && cat Animal.js 2>&1
+**Query:** cat > Animal.ts << 'EOF'
+class Animal {
+  private name: string;
+  protected species: string;
+  public age: number;
+
+  constructor(name: string, species: string, age: number) {
+    this.name = name;
+    this.species = species;
+    this.age = age;
+  }
+
+  public describe(): string {
+    return `${this.name} is a ${this.species}, aged ${this.age}`;
+  }
+}
+
+class Dog extends Animal {
+  constructor(name: string, age: number) {
+    super(name, "Dog", age);
+  }
+
+  public bark(): void {
+    console.log(`${this.species} barks!`);
+  }
+}
+EOF
+tsc Animal.ts --target es5 --ignoreDeprecations 6.0 2>&1 && cat Animal.js 2>&1
 
 **URL:** N/A
 
@@ -123,7 +150,12 @@ data.toUpperCase(); // no error
 
 **Tool Type:** Code Executor
 
-**Query:** tsc test_any_type.ts 2>&1 && node test_any_type.js 2>&1
+**Query:** cat > test_any_type.ts << 'EOF'
+let data: any = "hello";
+data = 42;
+data.toUpperCase(); // no error
+EOF
+tsc test_any_type.ts 2>&1 && node test_any_type.js 2>&1
 
 **URL:** N/A
 
@@ -148,20 +180,6 @@ Node.js v22.13.1
 ---
 
 ## AOI #6 - MINOR
-
-**Response Excerpt:**
-
-```
-90% of the time, either works—pick one and be consistent in your project. Official guidance
-```
-
-**Description:** The response includes a hyperlink labeled "Official guidance" that links to external documentation.
-
-**Severity:** Minor
-
----
-
-## AOI #7 - MINOR
 
 **Response Excerpt:**
 
@@ -191,7 +209,7 @@ That's the hook. 😄
 
 ---
 
-## AOI #8 - MINOR
+## AOI #7 - MINOR
 
 **Response Excerpt:**
 
@@ -222,7 +240,7 @@ Version 6.0.3
 
 ---
 
-## AOI #9 - MINOR
+## AOI #8 - MINOR
 
 **Response Excerpt:**
 

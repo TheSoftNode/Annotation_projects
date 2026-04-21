@@ -71,3 +71,36 @@ let mixed: (string | number)[] = [1, "hello", 2];
 **Description:** The response introduces mixed-type union arrays without explaining tradeoffs or when this pattern should be used carefully, which could lead beginners to overuse it instead of homogeneous arrays.
 
 **Severity:** Minor
+
+---
+
+## AOI #5 - MINOR
+
+**Response Excerpt:**
+
+```
+Step 7: How to Run It
+
+1. Install TypeScript globally: npm install -g typescript
+2. Create a file: hello.ts
+3. Compile it: tsc hello.ts
+4. Run the JS file: node hello.js
+```
+
+**Description:** The response does not mention tsconfig.json or compiler configuration options like strict mode, which are important for configuring TypeScript projects properly.
+
+**Severity:** Minor
+
+---
+
+## AOI #6 - MINOR
+
+**Response Excerpt:**
+
+```
+TypeScript is a superset of JavaScript that adds static typing.
+```
+
+**Description:** The response states TypeScript is a superset but does not explain what this means, which misses the important point that all valid JavaScript code is also valid TypeScript code.
+
+**Severity:** Minor

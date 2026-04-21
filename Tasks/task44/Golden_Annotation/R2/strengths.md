@@ -10,7 +10,7 @@ The response includes a dedicated step with the complete workflow from compilati
 The response demonstrates type inference with an example of TypeScript determining types automatically, which helps the user understand when type annotations are optional.
 
 ## 4
-The response uses consistent example data across multiple sections, which shows the user how TypeScript features connect in realistic code.
+The response explicitly warns against using the any type by labeling it with "Avoid this!", which helps the user develop good type safety habits from the start.
 
 ## 5
 The response ends with a summary checklist of key concepts, which gives the user a review of fundamental TypeScript features.
