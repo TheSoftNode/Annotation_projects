@@ -1,0 +1,19 @@
+{
+  "name": "test_environment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@angular/core": "^21.2.9",
+    "@angular/elements": "^21.2.9",
+    "@angular/platform-browser": "^21.2.9",
+    "typescript": "^6.0.3"
+  }
+}

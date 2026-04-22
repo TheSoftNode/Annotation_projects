@@ -1,0 +1,31 @@
+---
+// Frontmatter - server-side JavaScript
+const props = {
+  componentName: 'my-component',
+  value: 'test'
+};
+
+const attrs = Object.entries({ alpha: 2, beta: 2 })
+  .map(([k, v]) => `${k}="${v}"`)
+  .join(' ');
+---
+
+<!-- Test 1: Correct Astro syntax with curly braces -->
+<div class="correct-syntax">
+  {`<${props.componentName} ${attrs}></${props.componentName}>`}
+</div>
+
+<!-- Test 2: INCORRECT syntax from R2 line 534 - this will NOT work -->
+<!-- <%=`<${props.componentName} ${attrs}></${props.componentName}>`%> -->
+
+<!-- Test 3: Correct way to render dynamic component -->
+<props.componentName {...Object.fromEntries(Object.entries({ alpha: 2, beta: 2 }))}>
+</props.componentName>
+
+<!-- Test 4: Standard variable interpolation -->
+<div>
+  {props.value}
+</div>
+
+<!-- This file tests whether Astro uses <%= %> syntax (incorrect, from R2)
+     or {} syntax (correct) -->
