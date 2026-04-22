@@ -1,0 +1,54 @@
+=== TEST 1: Verify udevil libudev dependency ===
+/usr/bin/udevil
+	libudev.so.1 => /lib/x86_64-linux-gnu/libudev.so.1 (0x00007fda597ca000)
+
+=== TEST 2: Verify devtmpfs claim ===
+tmpfs on /dev type tmpfs (rw,nosuid,size=65536k,mode=755)
+
+No /dev/input or /dev/sd* devices in container
+
+=== TEST 3: Verify udevil monitor and automounting separation ===
+Mounts and unmounts devices without password, shows device info, monitors
+device changes.  Emulates udisks1/2 command line usage and udisks1 output.
+Usage: udevil [OPTIONS] COMMAND [COMMAND-OPTIONS] [COMMAND-ARGUMENTS]
+--
+    udevil monitor|--monitor
+For automounting with udevil run 'devmon --help'
+
+=== TEST 4: Check if udevil monitor command exists ===
+udevil: error 141: invalid option '--help'
+
+=== TEST 5: Check libudev-zero availability ===
+
+Attempting to clone libudev-zero repo:
+Cloning into '/tmp/libudev-zero'...
+Repository cloned successfully
+
+=== TEST 6: Verify udevil mount command syntax ===
+udevil: error 141: invalid option '--help'
+
+=== TEST 7: Verify evdev device nodes ===
+No /dev/input/event* nodes found (expected in container)
+No /dev/input/ directory found (expected in container)
+
+=== ADDITIONAL: Check udevil build dependencies ===
+2.72.4
+249
+
+=== ADDITIONAL: Verify libudev-zero hotplug documentation ===
+```
+
+## Hotplugging
+
+Note that hotplugging support is fully optional. You can skip
+this step if you don't have a need for the hotplugging capability.
+
+If you're using an mdev-like device manager, refer to [mdev.conf](contrib/mdev.conf)
+for a config example.
+
+If you're using another device manager, you need to configure it to rebroadcast
+kernel uevents. You can do this by either patching(see below) the device manager
+or simply executing [helper.c](contrib/helper.c) for each uevent.
+
+If you're developing your own device manager, you need to rebroadcast kernel
+uevents to the `0x4` netlink group of `NETLINK_KOBJECT_UEVENT`. This is required

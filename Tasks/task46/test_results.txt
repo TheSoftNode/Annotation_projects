@@ -1,0 +1,87 @@
+=== TEST 1: Is udev kernel-level or userspace? ===
+
+=== TEST 2: udevadm commands (can it create/remove device nodes?) ===
+udevadm [--help] [--version] [--debug] COMMAND [COMMAND OPTIONS]
+
+Send control commands or test the device manager.
+
+Commands:
+  info          Query sysfs or the udev database
+  trigger       Request events from the kernel
+  settle        Wait for pending udev events
+  control       Control the udev daemon
+  monitor       Listen to kernel and udev events
+  test          Test an event run
+  test-builtin  Test a built-in command
+
+See the udevadm(8) man page for details.
+
+=== TEST 3: Try R1 WRONG command: udevil -a ===
+udevil: error 141: invalid option '-a'
+[Command failed as expected]
+
+=== TEST 3b: Show correct udevil syntax ===
+udevil version 0.4.4
+Mounts and unmounts devices without password, shows device info, monitors
+device changes.  Emulates udisks1/2 command line usage and udisks1 output.
+Usage: udevil [OPTIONS] COMMAND [COMMAND-OPTIONS] [COMMAND-ARGUMENTS]
+OPTIONS:
+    --verbose                                   print details
+    --quiet                                     minimal output
+MOUNT  -  Mounts DEVICE to mount point DIR with MOUNT-OPTIONS:
+    udevil mount|--mount [MOUNT-OPTIONS] [[-b|--block-device] DEVICE] [DIR]
+    MOUNT-OPTIONS:
+    -t|--types|--filesystem-type|--mount-fstype TYPE    (see man mount)
+    -o|--options|--mount-options OPT,...                (see man mount)
+    --no-user-interaction                       ignored (for compatibility)
+    EXAMPLES:
+    udevil mount /dev/sdd1
+    udevil mount -o ro,noatime /dev/sdd1
+    udevil mount -o ro,noatime /dev/sdd1 /media/custom
+    udevil mount /tmp/example.iso                    # ISO file
+    udevil mount ftp://sys.domain                    # ftp site - requires
+                                                       curlftpfs or ftpfs
+    udevil mount ftp://user:pass@sys.domain/share    # ftp share with
+                                                       user and password
+    udevil mount ftp://user:pass@sys.domain:21/share # ftp share with
+                                                       port, user and password
+    udevil mount -t ftpfs sys.domain                 # ftp site with ftpfs
+    udevil mount -t curlftpfs sys.domain             # ftp site with curl
+    udevil mount -t curlftpfs user:pass@sys.domain   # ftp site with curl u/p
+    udevil mount nfs://sys.domain:/share             # nfs share
+    udevil mount sys.domain:/share                   # nfs share
+    udevil mount smb://sys.domain/share              # samba share w/ cifs
+    udevil mount smb://user:pass@10.0.0.1:50/share   # samba share w/ u/p/port
+    udevil mount smb://WORKGROUP/user@sys.domain     # samba share w/ workgroup
+    udevil mount //sys.domain/share                  # samba share w/ cifs
+    udevil mount //sys.domain/share -t smbfs         # samba share w/ smbfs
+    udevil mount ssh://user@sys.domain               # sshfs with user - 
+
+=== TEST 4: udevil permissions and config ===
+-rwsr-xr-x 1 root root 121088 Nov  1  2020 /usr/bin/udevil
+
+
+
+# allowed_users is a list of users permitted to mount and unmount with udevil.
+# Wildcards (* or ?) may be used in the usernames.  To allow all users,
+# specify "allowed_users=*".  UIDs may be included using the form UID=1000.
+# For example:  allowed_users = carl, UID=1000, pre*
+# Also note that permission to execute udevil may be limited to users belonging
+# to the group that owns /usr/bin/udevil, such as 'plugdev' or 'storage',
+# depending on installation.
+# allowed_users_FSTYPE, if present, is used to override allowed_users when
+# mounting or unmounting a specific fstype (eg nfs, ext3, file).
+# Note that when mounting a file, fstype will always be 'file' regardless of
+# the internal fstype of the file.
+# For example, to allow only user 'bob' to mount nfs shares, add:
+# allowed_users_nfs = bob
+# The root user is NOT automatically allowed to use udevil in some cases unless
+# listed here (except for unmounting anything or mounting fstab devices).
+allowed_users = *
+
+
+
+=== TEST 5: runit service directory ===
+ls: cannot access '/etc/sv/': No such file or directory
+
+=== TEST 6: devtmpfs mounted? ===
