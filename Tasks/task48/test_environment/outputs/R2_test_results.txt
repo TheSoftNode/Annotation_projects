@@ -1,0 +1,68 @@
+=================================================================
+RESPONSE 2 TESTS
+=================================================================
+
+=== TEST A: ORIGINAL SCRIPT (R2 Claims) ===
+
+--- Test A1: Addition (3 + 4) ---
+7
+Exit code: 0
+
+--- Test A2: Integer division (5 / 2) ---
+R2 claims: result=2 gives 2, not 2.5
+2
+Exit code: 0
+
+--- Test A3: Invalid input 'abc' - CRITICAL TEST ---
+R2 claims: number1=abc causes 'error: invalid number'
+5
+Exit code: 0
+
+--- Test A4: Blank input - CRITICAL TEST ---
+R2 claims: blank input causes syntax error
+5
+Exit code: 0
+
+--- Test A5: Decimal input '3.5' - CRITICAL TEST ---
+R2 claims: 3.5 causes syntax error
+original.sh: line 11: 3.5: syntax error: invalid arithmetic operator (error token is ".5")
+Exit code: 1
+
+=== TEST I: IMPROVED VERSION ===
+
+--- Test I1: Addition (5 + 3) ---
+Result: 8
+Exit code: 0
+
+--- Test I2: Multiplication (8 * 2) ---
+Result: 16
+Exit code: 0
+
+--- Test I3: Divide by zero (10 / 0) - CRITICAL TEST ---
+Testing if script exits with error code (R2 summary table claims it should)
+Error: Cannot divide by zero.
+Exit code: 0
+Expected: Should exit with code 1 per summary table
+Actual: 0
+
+--- Test I4: Invalid input 'abc' ---
+Error: Both numbers must be integers.
+Exit code: 1
+
+--- Test I5: Invalid operator (5 % 3) - CRITICAL TEST ---
+Testing if invalid operator is properly rejected
+Invalid operation. Use +, -, *, or /
+Exit code: 0
+
+--- Test I6: Division (10 / 2) ---
+Result: 5
+Exit code: 0
+
+=== TEST BC: FLOATING-POINT WITH BC ===
+
+--- Test BC: Floating-point division (5 / 2) with bc ---
+Testing the bonus bc example from R2
+Command: echo "scale=2; 5 / 2" | bc -l
+Result: 2.50
+Exit code: 0
+
