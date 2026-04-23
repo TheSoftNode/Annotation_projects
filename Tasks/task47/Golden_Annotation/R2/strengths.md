@@ -19,7 +19,7 @@ The response organizes latency targets into a decision cheat sheet with quick-de
 The response recommends measuring P50, P95, and P99 with production-like load, which aligns the decision with observed latency percentiles rather than architecture assumptions.
 
 ## 7
-The response correctly recommends Lambda Function URLs or ALB target groups over Classic API Gateway, which helps the user avoid 10-30ms of hidden architectural overhead that directly competes with the latency reduction target.
+The response recommends Lambda Function URLs or ALB target groups over Classic API Gateway, which helps the user avoid 10-30ms of hidden architectural overhead that competes with the latency reduction target.
 
 ## 8
 The response suggests a partial migration path that keeps Aurora for complex writes while offloading simple reads, which gives the user a less risky way to test latency gains.

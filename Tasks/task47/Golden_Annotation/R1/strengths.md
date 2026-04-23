@@ -1,7 +1,7 @@
 # ✅ Response 1 Strengths
 
 ## 1
-The response directly answers that a 40% latency decrease is possible only under favorable current-state and target-architecture conditions, which frames the decision as a benchmarked architecture question instead of a guaranteed migration benefit.
+The response answers that a 40% latency decrease is possible only under favorable current-state and target-architecture conditions, which frames the decision as a benchmarked architecture question instead of a guaranteed migration benefit.
 
 ## 2
 The response identifies Aurora Serverless v1 cold starts as a specific scenario where migration produces improvement, which gives the user a targeted use case for the 40% goal.

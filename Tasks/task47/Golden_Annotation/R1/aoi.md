@@ -8,7 +8,7 @@
 Use Provisioned Concurrency for Lambda ($$$) to eliminate cold starts, or use Lambda SnapStart (Java only, not .NET yet—so Provisioned Concurrency is your only option for .NET).
 ```
 
-**Description:** The response states that Lambda SnapStart is Java only and not available for .NET yet, but AWS Lambda SnapStart became generally available for .NET 8 and later managed runtimes in November 2024, which means the response provides incorrect information about available optimization options.
+**Description:** The response states that Lambda SnapStart is Java only and not available for .NET yet, but AWS Lambda SnapStart is available for .NET 8 and later managed runtimes, which means the response provides incorrect information about available optimization options.
 
 **Severity:** Substantial
 
@@ -54,7 +54,7 @@ SnapStart is available for Java 11 (Corretto), Java 17 (Corretto), Java 21 (Corr
 Avoid VPC for Lambda if possible, or use VPC Endpoints (not NAT Gateway) to eliminate ENI cold start penalties
 ```
 
-**Description:** The response advises avoiding VPC to eliminate ENI cold-start penalties, but AWS Hyperplane improvements introduced in 2019 have largely eliminated ENI cold starts for Lambda functions in a VPC, which means the response references outdated architecture behavior.
+**Description:** The response advises avoiding VPC to eliminate ENI cold-start penalties, but AWS Hyperplane improvements eliminate ENI cold starts for Lambda functions in a VPC, which means the response references outdated architecture behavior.
 
 **Severity:** Substantial
 

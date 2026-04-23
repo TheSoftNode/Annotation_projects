@@ -98,7 +98,7 @@ Concurrency
 | VPC attachment (ENI creation) | 5–15 s (when Lambda in VPC) | Avoid VPC entirely (public DynamoDB endpoint or VPC endpoint without ENI creation). |
 ```
 
-**Description:** The response advises avoiding VPC entirely to eliminate ENI cold-start penalties, but AWS Hyperplane improvements introduced in 2019 have largely eliminated ENI cold starts for Lambda functions in a VPC, which means the response references outdated architecture behavior.
+**Description:** The response advises avoiding VPC entirely to eliminate ENI cold-start penalties, but AWS Hyperplane improvements eliminate ENI cold starts for Lambda functions in a VPC, which means the response references outdated architecture behavior.
 
 **Severity:** Substantial
 
@@ -179,7 +179,7 @@ Amazon EFS is a network file system (NFS) that uses the NFSv4.1 protocol.
 budget a 2-week migration window
 ```
 
-**Description:** The response recommends budgeting a 2-week migration window without grounding this estimate in any aspect of the user's system such as team size, data volume, schema complexity, or traffic requirements, which means presenting an arbitrary timeline as a concrete recommendation provides false precision and could cause the user to misallocate migration effort.
+**Description:** The response recommends budgeting a 2-week migration window without grounding this estimate in any aspect of the user's system such as team size, data volume, schema complexity, or traffic requirements, which means presenting an arbitrary timeline as a specific recommendation provides false precision and could cause the user to misallocate migration effort.
 
 **Severity:** Substantial
 
