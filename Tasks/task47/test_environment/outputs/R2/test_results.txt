@@ -1,0 +1,84 @@
+=== Task 47 R2 Verification Tests ===
+Date: Thu Apr 23 13:43:49 WAT 2026
+
+TEST 1: Lambda SnapStart for .NET
+Claim: 'SnapStart for Java + .NET (if available)'
+Checking AWS documentation...
+Expected: Available for .NET 8+ since Nov 2024
+Result: VAGUE but TECHNICALLY CORRECT - Says 'if available' which is true
+Note: Could be clearer that it IS available for .NET 8+ as of Nov 2024
+Source: https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html
+
+TEST 2: Lambda Concurrency Limit
+Claim: '< 50 k concurrent invocations per account'
+Checking AWS documentation...
+Expected: Default is 1,000 per region
+Result: MISLEADING - Presents 50k as if it's standard when default is 1,000
+Note: 50k requires quota increase; not the baseline
+Source: https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html
+
+TEST 3: VPC Endpoint with PrivateLink (No ENI)
+Claim: 'VPC endpoint that uses PrivateLink with no ENI creation'
+Checking AWS documentation...
+Expected: Gateway endpoints don't use PrivateLink; Interface endpoints DO use ENIs
+Result: INCORRECT - DynamoDB gateway endpoints don't use PrivateLink
+Note: Interface endpoints use PrivateLink AND have ENIs
+Source: https://docs.aws.amazon.com/vpc/latest/privatelink/gateway-endpoints.html
+
+TEST 4: Lambda Cold Start Duration
+Claim: 'Cold-start: 1-3s (Lambda), 0-10ms (container)'
+Checking AWS documentation...
+Expected: Lambda cold starts vary, 100ms to 2s typical
+Result: PARTIALLY SUPPORTED - 1-3s is reasonable for .NET
+Note: Container '0-10ms' claim not found in AWS docs
+Source: https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtime-environment.html
+
+TEST 5: VPC ENI Creation Time for Lambda
+Claim: 'VPC attachment (ENI creation): 5-15s'
+Checking AWS documentation...
+Expected: Modern Lambda uses Hyperplane ENIs (different architecture)
+Result: OUTDATED - Pre-2019 architecture had 10s delays; modern Hyperplane different
+Note: One-time 60-90s setup, not per-invocation
+Source: https://aws.amazon.com/blogs/compute/announcing-improved-vpc-networking-for-aws-lambda-functions/
+
+TEST 6: DAX Latency Improvement
+Claim: 'Cuts per-item latency from ~5 ms to 0.1-0.9 ms'
+Checking AWS documentation...
+Expected: Microsecond latency (order of magnitude improvement)
+Result: DIRECTION CORRECT - 0.1-0.9ms = 100-900 microseconds is accurate
+Note: More precise than R1's '~1ms' claim
+Source: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.html
+
+TEST 7: Lambda Payload Limits
+Claim: 'Low payload, <= 6 MB' and '> 6 MB' for large payloads
+Checking AWS documentation...
+Expected: Sync 6MB, Async 1MB
+Result: CORRECT for synchronous (6MB)
+Note: Async limit increased to 1MB in Oct 2025
+Source: https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html
+
+TEST 8: DynamoDB Single-Row Lookup Latency
+Claim: 'DB access (single-row lookup): 20-50 ms (Aurora) | 5-10 ms (DynamoDB)'
+Checking AWS documentation...
+Expected: DynamoDB delivers single-digit millisecond latency
+Result: SUPPORTED - 5-10ms is within single-digit to low-double-digit range
+Source: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html
+
+=== SUMMARY OF R2 VERIFICATION ===
+
+INCORRECT CLAIMS:
+1. VPC endpoint with PrivateLink (no ENI) - INCORRECT architecture description
+
+MISLEADING CLAIMS:
+1. '< 50k concurrent invocations' - MISLEADING (default is 1k, not 50k)
+
+OUTDATED/VAGUE CLAIMS:
+1. VPC ENI creation '5-15s' - OUTDATED (refers to pre-2019 architecture)
+2. SnapStart 'if available' for .NET - VAGUE (IS available since Nov 2024)
+
+SUPPORTED CLAIMS:
+1. DAX latency: 0.1-0.9ms - CORRECT (microsecond range)
+2. DynamoDB latency: 5-10ms - SUPPORTED
+3. Lambda payload: 6MB sync - CORRECT
+4. Lambda cold start: 1-3s - REASONABLE for .NET
+
