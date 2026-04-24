@@ -1,0 +1,165 @@
+=================================================================
+TASK 48 - BASH CALCULATOR SCRIPT TESTING
+=================================================================
+
+Environment:
+GNU bash, version 3.2.57(1)-release (x86_64-apple-darwin21)
+bc: installed
+
+=================================================================
+RESPONSE 1 TESTS
+=================================================================
+
+=== TEST O: ORIGINAL SCRIPT ===
+
+--- Test O1: Normal addition (3 + 4) ---
+7
+Exit code: 0
+
+--- Test O2: Integer division (2 / 4) ---
+0
+Exit code: 0
+
+--- Test O3: Divide by zero (8 / 0) ---
+Error: Cannot divide by zero.
+Exit code: 0
+
+--- Test O4: Invalid operator (8 % 3) ---
+Invalid choice
+Exit code: 0
+
+--- Test O5: Non-numeric input (ten + 4) ---
+4
+Exit code: 0
+CRITICAL TEST: Does 'ten' cause arithmetic failure as claimed?
+
+=== TEST M: MINIMAL VERSION ===
+
+--- Test M1: Valid multiplication (6 * 7) ---
+42
+Exit code: 0
+
+--- Test M2: Invalid first number (ten + 7) ---
+First value must be an integer.
+Exit code: 1
+
+--- Test M3: Divide by zero (8 / 0) ---
+Error: Cannot divide by zero.
+Exit code: 1
+
+--- Test M4: Invalid operator (8 % 3) ---
+Invalid choice
+Exit code: 1
+
+=== TEST C: CLEANED VERSION ===
+
+--- Test C1: Valid addition (3 + 4) ---
+7
+Exit code: 0
+
+--- Test C2: Integer division (2 / 4) ---
+0
+Exit code: 0
+
+--- Test C3: Multiplication (6 * 7) - CRITICAL TEST ---
+Response claims multiplication is supported but case statement may have bug
+Error: Invalid operation: *
+Exit code: 1
+
+--- Test C4: Operator validation with 'foo' - CRITICAL TEST ---
+Testing if read_operator accepts invalid input due to * wildcard
+./run_all_tests.sh: line 146: timeout: command not found
+Exit code: 127
+
+=================================================================
+RESPONSE 2 TESTS
+=================================================================
+
+=== TEST A: ORIGINAL SCRIPT (R2 Claims) ===
+
+--- Test A1: Addition (3 + 4) ---
+7
+Exit code: 0
+
+--- Test A2: Integer division (5 / 2) ---
+R2 claims: result=2 gives 2, not 2.5
+2
+Exit code: 0
+
+--- Test A3: Invalid input 'abc' - CRITICAL TEST ---
+R2 claims: number1=abc causes 'error: invalid number'
+5
+Exit code: 0
+
+--- Test A4: Blank input - CRITICAL TEST ---
+R2 claims: blank input causes syntax error
+5
+Exit code: 0
+
+--- Test A5: Decimal input '3.5' - CRITICAL TEST ---
+R2 claims: 3.5 causes syntax error
+original.sh: line 11: 3.5: syntax error: invalid arithmetic operator (error token is ".5")
+Exit code: 1
+
+=== TEST I: IMPROVED VERSION ===
+
+--- Test I1: Addition (5 + 3) ---
+Result: 8
+Exit code: 0
+
+--- Test I2: Multiplication (8 * 2) ---
+Result: 16
+Exit code: 0
+
+--- Test I3: Divide by zero (10 / 0) - CRITICAL TEST ---
+Testing if script exits with error code (R2 summary table claims it should)
+Error: Cannot divide by zero.
+Exit code: 0
+Expected: Should exit with code 1 per summary table
+Actual: 0
+
+--- Test I4: Invalid input 'abc' ---
+Error: Both numbers must be integers.
+Exit code: 1
+
+--- Test I5: Invalid operator (5 % 3) - CRITICAL TEST ---
+Testing if invalid operator is properly rejected
+Invalid operation. Use +, -, *, or /
+Exit code: 0
+
+--- Test I6: Division (10 / 2) ---
+Result: 5
+Exit code: 0
+
+=== TEST BC: FLOATING-POINT WITH BC ===
+
+--- Test BC: Floating-point division (5 / 2) with bc ---
+Testing the bonus bc example from R2
+Command: echo "scale=2; 5 / 2" | bc -l
+Result: 2.50
+Exit code: 0
+
+
+=================================================================
+TEST EXECUTION COMPLETE
+=================================================================
+
+Results saved to:
+  - outputs/R1_test_results.txt
+  - outputs/R2_test_results.txt
+
+Test Summary:
+  R1 Tests: O1-O5 (original), M1-M4 (minimal), C1-C4 (cleaned) = 13 tests
+  R2 Tests: A1-A5 (original), I1-I6 (improved), BC (bonus) = 12 tests
+  Total: 25 tests
+
+Critical tests to review:
+  R1 Test O5: Non-numeric input behavior (does 'ten' cause arithmetic error?)
+  R1 Test C3: Multiplication in cleaned version (wildcard bug in case statement)
+  R1 Test C4: Operator validation (does * wildcard accept invalid input?)
+  R2 Test A3: 'abc' input error claim (does it cause 'invalid number' error?)
+  R2 Test A4: Blank input error claim (does it cause syntax error?)
+  R2 Test A5: Decimal input '3.5' error claim (does it cause syntax error?)
+  R2 Test I3: Division by zero exit code (does it exit with code 1?)
+  R2 Test I5: Invalid operator handling in improved version
+
