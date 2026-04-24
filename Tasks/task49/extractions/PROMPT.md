@@ -1,0 +1,1 @@
+create a prompt for llm taking the user question into context. The prompt talks about generating the description for a jira story
