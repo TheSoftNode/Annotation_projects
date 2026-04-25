@@ -8,3 +8,6 @@ The response correctly explains that grep -v grep filters out lines containing t
 
 ## 3
 The response provides the command ps aux | grep '[Z]' | grep -v grep which successfully excludes the grep process from the results, giving the user a functional solution to their problem.
+
+## 4
+The response provides a concise and readable explanation of the proposed command, which makes it easy for the user to quickly understand the suggested approach.

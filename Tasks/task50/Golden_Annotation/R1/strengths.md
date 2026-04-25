@@ -17,3 +17,6 @@ The response recognizes the common use case of searching for zombie processes wh
 
 ## 6
 The response acknowledges potential ambiguity by offering to clarify if the user wants to find zombie processes or processes with 'Z' in the name, which shows attentiveness to the user's actual intent.
+
+## 7
+The response uses effective visual formatting with bolding and bullet points to break down the logic behind the awk command, which helps the user easily understand how each part of the solution works.

@@ -34,7 +34,21 @@ apple            44466   0.0  0.0        0      0   ??  Z     8:28AM   0:00.00 (
 
 ---
 
-## AOI #2 - MINOR
+## AOI #2 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
+ps aux | grep '[Z]' | grep -v grep
+```
+
+**Description:** The response provides a simplistic grep command that matches any process with a Z anywhere in its output line, rather than specifically targeting the STAT column to reliably find zombie processes.
+
+**Severity:** Substantial
+
+---
+
+## AOI #3 - MINOR
 
 **Response Excerpt:**
 
@@ -43,5 +57,39 @@ ps aux | grep '[Z]' | grep -v grep
 ```
 
 **Description:** The response presents the bracket notation as an improvement over the original command when it still requires the same grep -v grep filter, making the bracket notation provide no actual benefit for this specific use case.
+
+**Severity:** Minor
+
+---
+
+## AOI #4 - MINOR
+
+**Response Excerpt:**
+
+```
+`grep '[Z]'` matches lines containing the letter 'Z' (the square brackets prevent matching the word 'grep').
+```
+
+And:
+
+```
+ps aux | grep '[Z]' | grep -v grep
+```
+
+**Description:** The response is logically inconsistent because it appends grep -v grep to the command while simultaneously claiming that grep '[Z]' already prevents the grep process from being matched.
+
+**Severity:** Minor
+
+---
+
+## AOI #5 - MINOR
+
+**Response Excerpt:**
+
+```
+ps aux | grep '[Z]' | grep -v grep
+```
+
+**Description:** The response fails to recognize the likely intent of finding zombie processes and does not offer a more robust, field-based solution using tools like awk.
 
 **Severity:** Minor

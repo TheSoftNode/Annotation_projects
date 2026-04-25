@@ -41,6 +41,20 @@ apple            43368   0.0  0.0        0      0   ??  Z     8:07AM   0:00.00 (
 **Response Excerpt:**
 
 ```
+it might be because the process name or command line includes something like `grep 'Z'`, but the `'Z'` part doesn't appear in the same line as `grep`, so `grep 'Z'` matches the process, but `grep -v grep` doesn't remove it — because the `grep` command may not be clearly visible in the output depending on the system.
+```
+
+**Description:** The response provides a false technical explanation about why grep -v grep might fail, incorrectly suggesting that the 'Z' part and 'grep' being on different parts of the line affects filtering, when grep -v grep filters entire lines regardless of field position.
+
+**Severity:** Substantial
+
+---
+
+## AOI #3 - SUBSTANTIAL
+
+**Response Excerpt:**
+
+```
 But more likely, you're seeing a **zombie process**, which is actually what `grep 'Z'` is often used for — to find processes with status `Z` (zombie). In that case, the command **is working correctly**, and you're not seeing the `grep` command itself — you're seeing real zombie processes.
 ```
 
@@ -50,7 +64,7 @@ But more likely, you're seeing a **zombie process**, which is actually what `gre
 
 ---
 
-## AOI #3 - MINOR
+## AOI #4 - MINOR
 
 **Response Excerpt:**
 
@@ -76,7 +90,7 @@ And:
 
 ---
 
-## AOI #4 - MINOR
+## AOI #5 - MINOR
 
 **Response Excerpt:**
 
